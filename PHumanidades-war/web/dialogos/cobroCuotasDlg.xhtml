@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <!--INICIO DIALOGO ABM COBROS CUOTAS ALUMNOS -->     
+
+    <p:dialog id="dCobroCuotasAlumnos"
+              widgetVar="dlgCobroAlumnos"
+              closable="true" position="top" maximizable="true">
+
+        <h3><h:outputText value="Gestion de Ingresos"/></h3>
+
+
+        <p:panel id="pPriCobroCuota">
+
+            <h:panelGrid columns="2"
+                         width="600px"
+                         >
+                <p:panel id="pnFechaPago" 
+                         header="Fecha de Pago"
+                         style="height: 100px;width: 300px">
+
+                    <p:calendar id="fechaCobro" 
+                                required="false"
+                                value="#{cobroCuotasAlumnosLstBean.fechaPago}"
+                                mode="popup"
+                                showOn="button"
+                                navigator="true" style="width: 100px"/>
+                </p:panel>
+
+
+                <p:panel id="pnAlumno" 
+                         header="Seleccionar Alumno"
+                         style="height: 100px;width: 500px">
+
+                    <div style="padding: 5px 5px 5px 10px;">
+                        <h:outputText value="*Alumno: "/>
+                        <p:commandButton id="cbBuscarAlumnoCobro" 
+                                         icon="ui-icon-search"
+                                         actionListener="#{alumnoBean.abrirDlgFindAlumno()}"
+                                         update="dFindAlumno"
+                                         process="@this"/>
+
+
+                        <h:outputText id="otAlumno2"
+                                      value="#{alumnoLstBean.alumnoSelect.dni} - #{alumnoLstBean.alumnoSelect.apellido} - #{alumnoLstBean.alumnoSelect.nombre}"/>
+
+                    </div>
+                </p:panel>
+
+            </h:panelGrid>
+
+            <p:panel id="pnCohortes" 
+                     style="height: 150px;width: 800px; overflow: auto">
+
+
+
+                <p:dataTable  id="dtCortesCobros"
+                              value="#{cohorteLstBean.lstCohortesAlumnos}"
+                              var="cort"  
+                              rowKey="#{cort.id}">
+                    <p:column width="10%">
+                        <p:commandButton id="btnBuscar"
+                                         actionListener="#{cohorteLstBean.obtenerDatos(cort)}"
+                                         icon="ui-icon-search"
+                                         styleClass="boton"/>
+
+                        <!--update=":frmPri:dCobroCuotasAlumnos, :frmPri:dtCobroCuotas"-->
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Carrera"/>
+                        </f:facet>
+                        <h:outputText value="#{cort.carrera.descripcion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Cohorte"/>
+                        </f:facet>
+                        <h:outputText value="#{cort.descripcion}"/>
+                    </p:column>
+
+
+                </p:dataTable>
+                <h:outputText value="Haga Click en la lupa para seleccionar Cohorte y cargar los datos del ingreso - De lo contrario la operacion no se llevara a cabo"/>
+
+
+            </p:panel>
+
+            <p:panel id="pnDatosCuota" 
+                     style="height: 125px;width: 800px; overflow: auto">
+                <h:panelGrid columns="4">
+                    <h:outputText value="Importe $:"/>
+
+                    <p:inputText id="itImporte" 
+                                 value="#{cohorteLstBean.cohorteSeleccionada.importeCuota!=null?cohorteLstBean.cohorteSeleccionada.importeCuota:0}"
+                                 />
+                    <h:outputText id="soFormaPago"
+                                  value="Forma de Pago:" />
+                    <p:selectOneMenu id="formaPago" 
+                                     value="#{cobroCuotasAlumnosBean.ingreso.formaPago}"
+                                     required="false">
+                        <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="Nro Cuota:"/>
+
+                    <p:inputText id="itCuota" 
+                                 value="#{cohorteLstBean.ultimaCuota}"
+                                 disabled="true"/>
+
+
+
+                    <h:outputText id="soCuentas"
+                                  value="Cuenta:"/>
+
+
+                    <h:outputText id="otCuenta"
+                                  value="#{cohorteLstBean.cohorteSeleccionada.carrera.cuenta}" style="font-weight: bold"/>
+                    <h:outputText id="soRecibo"
+                                  value="Nro. Recibo:" />
+
+                    <p:inputText id="itNumeroCuenta" 
+                                 value="#{cohorteLstBean.numeroRecibo}"
+                                 />
+
+
+
+
+                </h:panelGrid>
+
+            </p:panel>
+
+            <!--  <p:panel id="pnCohortesConceptoAlumno"   style="height: 90px;width: 800px; overflow: auto">                          
+                  <h:panelGrid columns="2"
+                               width="100%">                          
+                      <h:outputText value="Concepto"/>
+                      <p:inputTextarea id="conceptoCobroAlumno" 
+                                       value="#{cobroCuotasAlumnosBean.ingreso.concepto}"
+                                       style="width: 500px; "/>
+                  </h:panelGrid>
+              </p:panel> -->
+            <!--FIN PANEL CUENTA-->
+
+            <div style="clear: both;"/>
+
+            <p:commandButton 
+                id="btnActionCobroCuota"
+                value="#{cobroCuotasAlumnosBean.definirActionBoton(e)}" 
+                actionListener="#{cobroCuotasAlumnosBean.actionBtn}" 
+                binding="#{cobroCuotasAlumnosBean.cbAction}"                    styleClass="boton"
+                update=":frmPri:dCobroCuotasAlumnos,:frmPri:dtCobroCuotas"
+                />
+
+
+
+            <p:commandButton id="btnSalirCobroCuotas"
+                             value="Salir"  
+                             actionListener="#{cobroCuotasAlumnosBean.limpiar()}"
+                             oncomplete="PF('dlgCobroAlumnos').hide()"
+                             icon="ui-icon-cancel"
+                             update=":frmPri:dCobroCuotasAlumnos,:frmPri:dtCobroCuotas"
+                             styleClass="boton"/>
+
+
+            <p:messages autoUpdate="true"/>
+
+
+        </p:panel>
+
+    </p:dialog>   
+</html>
+

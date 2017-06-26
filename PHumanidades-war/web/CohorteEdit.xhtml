@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./Templates/adminTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top"> Datos Personales </ui:define>    
+
+    <ui:define name="content">
+
+        <h:inputHidden value="#{cohorteLstBean.cohorte.id }" />
+
+        <h1>
+            <h:outputText value="Modificar Cohorte"/>
+        </h1>
+
+        <h:panelGrid id="prCohorte" columns="2">
+            <h:outputText value="Carrera"/>
+
+
+            <p:selectOneMenu id="service" value="#{cohorteLstBean.cohorte.carrera}" converter="ConversorGenerico" >  
+                            <f:selectItem itemLabel="Seleccionar" noSelectionOption="true"/>
+                            <f:selectItems value="#{carreraLstBean.lstCarrera}" />
+            </p:selectOneMenu>       
+
+            <h:outputText value="Descripcion"/>
+            <p:inputText id="itDescripcionCohorte" 
+                         value="#{cohorteLstBean.cohorte.descripcion}"/>
+
+
+            <h:outputText value="Cantidad Cuotas"/>
+            <p:inputText id="itCantidadCuotas" 
+                         value="#{cohorteLstBean.cohorte.cantidadCuotas}"/> 
+
+            <h:outputText value="Importe Cuota $"/>
+            <p:inputText id="itImporteCuota" 
+                         value="#{cohorteLstBean.cohorte.importeCuota}"/>
+
+            <h:outputText value="Año"/>
+            <p:selectOneMenu id="soAnio" 
+                             value="#{anioLstBean.anio}"
+                             converter="ConversorAnios"
+                             required="false">
+                <f:selectItems value="#{anioLstBean.lstAnios}"/>
+            </p:selectOneMenu>
+
+        </h:panelGrid>
+
+        <br></br>
+
+        <h:panelGroup style="display:block; text-align:center">
+            <div style=" float: left;">
+                <p:messages autoUpdate="true"/>
+            </div>
+            <br></br>
+            <p:commandButton id="btnAltaCohorte"
+                             value="Modificar" 
+                             action="#{cohorteBean.modificar(cohorteLstBean.cohorte)}" 
+                             styleClass="boton"
+                             update="@this"
+                             disabled="#{cohorteLstBean.cohorte == null}"
+                             />
+            <p:commandButton id="btnSalir"
+                             value="Salir"  
+                             action="Cohorte.xhtml"
+                             ajax="false"
+                             icon="ui-icon-cancel"
+                             styleClass="boton"/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!--Inicio Dialogo Cargar Materias-->
+    <p:dialog id="dCuentas" 
+              widgetVar="dlgCuentas" 
+              modal="true"
+              width="500">
+
+        <f:facet name="header">  
+            <h:outputText value="Cuentas"/>
+        </f:facet>  
+        <p:panel id="pCuentas">
+            <div>
+                <div class="left">
+                    <h:outputText value="descripcion"/>
+                </div>
+                <div class="contenidopanel">
+                    <p:inputText id="itCuenta"
+                                 value="#{cuentaBean.cuenta.descripcion}"
+                                 required="false"
+                                 >
+
+
+                    </p:inputText>
+
+                </div>
+
+                <div class="left">
+                    <h:outputText value="codigo"/>
+                </div>
+                <div class="contenidopanel">
+                    <p:inputText id="itCodigoCuenta"
+                                 value="#{cuentaBean.cuenta.codigo}"
+                                 required="false"
+                                 >
+
+
+                    </p:inputText>
+
+                </div>
+
+            </div>
+        </p:panel>
+
+
+        <center>
+            <table cellpadding="5" cellspacing="5">
+                <tr>
+                    <td align="center">
+                        <p:commandButton id="btnGuardarCuenta"
+                                         value="Guardar" 
+                                         action="#{cuentaBean.guardarCuenta()}"
+                                         icon="ui-icon-disk"
+                                         />
+                    </td>
+                    <td align="center">
+                        <p:commandButton value="Salir" 
+                                         oncomplete="PF('dlgCuentas').hide();"
+                                         update="soCuentas"/>
+                    </td>
+                </tr>
+            </table>
+        </center> 
+    </p:dialog>
+    <!--Fin Dialogo Cargar Materias-->  
+
+
+</html>

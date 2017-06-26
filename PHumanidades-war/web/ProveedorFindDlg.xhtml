@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      template="./Templates/adminTemplate.xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!--Inicio Dialogo buscar Proveedor-->
+    <p:dialog id="dFindProveedor" 
+              widgetVar="dlgFindProveedor" 
+              modal="true" position="top"
+              width="700">
+
+        <h:inputHidden value="#{proveedorBean.tipoBusqueda}" />
+
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto" style="width: 500px;">
+
+            <f:facet name="header">  
+                <h:outputText value="Busqueda de Proveedores"/>
+            </f:facet>  
+            <h:panelGrid columns="2"  cellpadding="5">
+                <h:outputText value="Tipo de Busqueda"/>
+                <p:selectOneMenu id="tipoBusquedaP" 
+                                 value="#{proveedorBean.tipoBusqueda}"
+                                 required="false">
+                    <f:selectItems value="#{proveedorBean.lstTipoBusqueda}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>    
+
+            <h:panelGrid columns="2"  cellpadding="5">
+                <p:inputText id="itBusquedaP" 
+                             value="#{proveedorBean.busqueda}"/> 
+
+
+
+                <p:commandButton id="btnCuitRazon" 
+                                 icon="ui-icon-search"
+                                 actionListener="#{proveedorBean.buscarCuitRazon()}"
+                                 update="dtBusquedaProveedor"
+                                 process="@this, itBusquedaP, tipoBusquedaP"/>
+            </h:panelGrid>
+
+            <div style="width: 650px">
+                <p:dataTable id="dtBusquedaProveedor"
+                             value="#{proveedorLstBean.lstProveedor}"
+                             var="te"
+                             paginator="true"
+                             rows="10"
+                             rowKey="#{te.id}"
+                             selection="#{proveedorLstBean.proveedorSelect}"
+                             selectionMode="single"
+                             >
+
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Cuit"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.cuit}"/>
+
+                    </p:column>
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Razon Social"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.razonSocial}"/>
+
+                    </p:column>
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="cbSelectProveedor"
+                                         value="Seleccionar"
+                                         action="#{proveedorBean.actualizarProveedor()}"
+                                         icon="ui-icon-search"  
+                                         process="dtBusquedaProveedor,@this"
+                                         oncomplete="PF('dlgFindProveedor').hide();"/>  
+                    </f:facet>
+
+
+                </p:dataTable>                 
+            </div>
+
+
+        </div>
+    </p:dialog> 
+</html>

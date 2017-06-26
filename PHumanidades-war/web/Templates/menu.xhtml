@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <b:navBar brandAlign="left" brand="Facultad de Humanidades" brandHref="index.xhtml" inverse="true" >
+            <b:navbarLinks >
+                <p:menubar>
+                    <p:submenu label="Gestiones" icon="ui-icon-plus" >
+                        <p:menuitem value="Usuarios" action="#{navegarBean.frmUsuario()}"></p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="Docentes" action="#{navegarBean.frmDocente()}"></p:menuitem>
+                        <p:menuitem value="Alumnos" action="#{navegarBean.frmAlumno()}"></p:menuitem>
+                        <p:menuitem value="Carreras/Materias" action="#{navegarBean.frmCarrera()}"></p:menuitem>
+                        <p:menuitem value="Proveedores" action="#{navegarBean.frmProveedor()}"></p:menuitem>
+                        <p:menuitem value="Cohortes" action="#{navegarBean.frmCohorte()}"></p:menuitem>
+                        <p:menuitem value="Inscripcion Alumnos" action="#{navegarBean.frmInscripcionAlumnos()}"></p:menuitem>
+                    </p:submenu>
+                    <p:menuitem value="Egresos"  action="#{navegarBean.frmPagosDocentes()}" icon="ui-icon-arrowreturnthick-1-n"></p:menuitem>                             
+                    <p:submenu label="Ingresos" icon="ui-icon-arrowreturnthick-1-s">
+                        <p:menuitem value="Todos" action="#{navegarBean.frmIngresos()}"></p:menuitem>
+                        <p:menuitem value="025 - Carreras a Distancia" action="#{navegarBean.frmIngresos(025)}"></p:menuitem>  
+                        <p:menuitem value="005 - Gastos Generales" action="#{navegarBean.frmIngresos(005)}"></p:menuitem>    
+                        <p:menuitem value="Tipos de Ingreso" ajax="false" action="/paginas/tipoIngreso/List.xhtml?faces-redirect=true"></p:menuitem>    
+
+                    </p:submenu> 
+                    <p:submenu label="Consultas" icon="ui-icon-search" >
+                        <p:menuitem value="Egresos por Pagos Docentes" action="#{navegarBean.frmConsultaPagosDocentes()}"></p:menuitem>
+                        <p:menuitem value="Egresos Generales" action="#{navegarBean.frmConsultaPagosGenerales()}"></p:menuitem>
+                        <p:menuitem value="Ingresos por Cuotas Alumnos" action="#{navegarBean.frmConsultaCobrosAlumnos()}"></p:menuitem>
+                        <p:menuitem value="Ingresos Generales" action="#{navegarBean.frmConsultaCobrosGenerales()}"></p:menuitem>
+                        <p:menuitem value="Ingresos por Alumno" action="#{navegarBean.frmConsultaIngresoAlumnos()}"></p:menuitem>                               
+                        <p:menuitem value="Alumnos por Cohorte" action="#{navegarBean.frmConsultaAlumnosPorCohorte()}"></p:menuitem>                               
+                        <p:menuitem value="Última Cuota Alumnos" action="/ConsultaUltimaCuota.xhtml"></p:menuitem>                               
+
+                    </p:submenu>         
+                </p:menubar>                              
+            </b:navbarLinks>
+            <b:navbarLinks pull="right"> <b:dropMenu  value="Bienvenido #{usuarioLogerBean.usuario.nombre}">  
+                    <b:navLink  value="Cerrar Sesión" href="logout.xhtml"></b:navLink>                               
+                </b:dropMenu> 
+            </b:navbarLinks>
+
+        </b:navBar> 
+    </ui:composition></html>

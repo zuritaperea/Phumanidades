@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+    <ui:define name="content">
+
+        <p:growl id="grConsultaCobroCuotasAlumnos" showDetail="true" sticky="true" />
+        <h1>
+
+            <h:outputText value="Consultas Ingresos Alumnos"
+                          class="Bienvenido"/>  
+        </h1>
+
+        <table>
+            <tr>
+                <td>
+                    <h:outputText value="Desde"/><br/>
+                    <p:calendar id="cIniTab1"
+                                label="Desde" locale="es_ES"
+                                pattern="dd/MM/yyyy"
+                                value="#{consultaCobrosAlumnosBean.fechaIni}">
+                    </p:calendar>
+                </td>
+
+                <td>
+                    <h:outputText value="Hasta"/><br/>
+                    <p:calendar id="cFinTab1" locale="es_ES"
+                                label="Hasta"
+                                pattern="dd/MM/yyyy"
+                                value="#{consultaCobrosAlumnosBean.fechaFin}">
+                    </p:calendar>
+                </td>
+
+                <td>
+
+                    <h:outputText value="Cohorte"/><br/>
+                    <p:selectOneMenu id="somCohorte" 
+                                     value="#{cohorteLstBean.cohorteSelect}"
+                                     converter="ConversorCohorte"
+                                     >
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItems value="#{cohorteLstBean.lstSICohorte}"/>
+                    </p:selectOneMenu>
+
+                </td>
+                <td>
+                    <br/>
+                    <p:commandButton id="cbConsultar"
+                                     value="Buscar" 
+                                     icon="ui-icon-search" 
+                                     update=":frmPri:dtCobrosAlumnos, :frmPri:dtCobrosAlumnos:otTotalCohorte"
+                                     actionListener="#{consultaCobrosAlumnosBean.buscarFechaCohortes()}"
+                                     /> 
+
+                </td>
+            </tr>
+        </table>
+
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtCobrosAlumnos" /></p:commandButton>
+        <p:dataTable id="dtCobrosAlumnos"
+                     value="#{consultaCobrosAlumnosBean.lstIngresos}" 
+                     var="item"
+                     filterEvent="enter"
+                     paginator="true"
+                     rows="20">
+            <f:facet name="header">  
+                <h:outputText value="Ingresos Generales: "/>  
+                <h:outputText value="Desde: "/>  
+                <h:outputText value="#{consultaCobrosAlumnosBean.fechaIni}">  
+                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
+                </h:outputText>  
+                <h:outputText value=" Hasta: "/>  
+                <h:outputText value="#{consultaCobrosAlumnosBean.fechaFin}">  
+                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
+                </h:outputText>  
+                <h:outputText value=" Cohorte: "/>  
+                <h:outputText value="#{cohorteLstBean.cohorteSelect}"/>  
+
+            </f:facet> 
+            <p:column sortBy="#{item.numeroRecibo}"
+                      style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Nro. Recibo"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroRecibo}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.alumno.dni}">
+                <f:facet name="header">
+                    <h:outputText value="DNI"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.dni}"/>
+            </p:column>
+            <p:column
+                style="word-wrap:break-word;"
+                filterBy="#{item.alumno.apellido}"
+                sortBy="#{item.alumno.apellido}"
+                >
+                <f:facet name="header">
+                    <h:outputText value="Apellido"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.apellido}"/>
+            </p:column>
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.alumno.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.nombre}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.cohorte.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="Cohorte"/>
+                </f:facet>
+                <h:outputText value="#{item.cohorte.descripcion}"/>
+            </p:column>
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.cohorte.carrera.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="Carrera"/>
+                </f:facet>
+                <h:outputText value="#{item.cohorte.carrera.descripcion}"/>
+            </p:column>
+            <p:column width="50"
+                      style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Cuota"/>
+                </f:facet>
+                <h:outputText value="#{item.cuota}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Importe"/>
+                </f:facet>
+                <h:outputText value="#{item.importe}"/>
+            </p:column>
+
+            <p:column width="80"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.fechaPago}">
+                <f:facet name="header">
+                    <h:outputText value="Fecha Pago"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaPago}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>    
+            </p:column>
+            <f:facet name="footer" id="pnTotalCohorte">
+                <h:outputLabel value="Importe Total: $ " />
+                <h:outputText id="otTotalCohorte"
+                              value="#{consultaCobrosAlumnosBean.totalXCohorte}"/>  
+                <h:outputLabel value=", Emision de Reporte: " />
+                <h:outputText  value="#{consultaCobrosAlumnosBean.now}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES"/>
+                </h:outputText>
+
+            </f:facet>
+        </p:dataTable>
+
+        <h3>Exportar</h3>
+
+
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Ingresos Filtrados"/>
+            <p:dataExporter type="xls" postProcessor="#{consultaCobrosGeneralesBean.postProcessXLS}" 
+                            target="dtCobrosAlumnos" fileName="ingresosconsulta"   pageOnly="false"/>
+        </h:commandLink>
+
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ingresos Filtrados"/>
+            <pe:exporter type="pdf" target="dtCobrosAlumnos" orientation="Landscape"
+                         fileName="ingresosconsulta" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
+
+
+        </h:commandLink>
+
+
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:define name="content">
+        <h3><h:outputText value="Gestion de Cobros Generales"/></h3>
+        <h:inputHidden value="#{cobroCuotasAlumnosLstBean.ingreso.id }" />
+
+        <h:inputHidden value="#{cobroCuotasAlumnosLstBean.ingreso.anulado }" />
+        <h:inputHidden value="#{cobroCuotasAlumnosLstBean.ingreso.borrado }" />
+
+        <ui:include src="AlumnoFindDlg.xhtml"/>
+
+        <p:panel id="pPriCobroGeneral">
+
+            <p:panel id="pnDatosCobroGeneral" 
+                     header="Datos del Ingreso"
+                     style="height: 310px;width: 100%">
+
+                <h:panelGrid columns="2"
+                             width="600px"
+                             >
+
+                    <h:outputText value="Fecha de Cobro"/>
+                    <p:calendar id="fechaCobroGeneral" 
+                                required="false"
+                                value="#{cobroCuotasAlumnosLstBean.ingreso.fechaPago}"
+                                mode="popup"
+                                showOn="button"
+                                navigator="true"/>
+
+
+                    <h:outputText value="Concepto"/>
+                    <p:inputTextarea id="conceptoCobroGeneral" 
+                                     value="#{cobroCuotasAlumnosLstBean.ingreso.concepto}"
+                                     style="width: 500px; "/>
+                    <h:outputText id="soTipo"
+                                  value="Tipo de Ingreso:" />
+                    <p:selectOneMenu id="tipoIngreso" 
+                                     value="#{cobroCuotasAlumnosLstBean.ingreso.tipoIngreso}"
+                                     required="false">
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="Importe $"/>
+                    <p:inputText id="importeCobroGeneral" 
+                                 value="#{cobroCuotasAlumnosLstBean.ingreso.importe}" />
+                    <h:outputText id="soFormaPago"
+                                  value="Forma de Pago:" />
+                    <p:selectOneMenu id="formaPago" 
+                                     value="#{cobroCuotasAlumnosLstBean.ingreso.formaPago}"
+                                     required="false">
+                        <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
+                    </p:selectOneMenu>
+
+
+                    <h:outputText value="Cuentas"/>
+                    <p:selectOneMenu id="soCuentasCobroGeneral" 
+                                     value="#{cobroCuotasAlumnosLstBean.ingreso.cuenta}"        
+                                     converter="ConversorCuenta"
+                                     required="false">
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
+
+                        <p:ajax listener="#{numeroCuentaBean.cargarNumero()}" 
+                                update="itNumeroCuentaCobroGeneral"/>
+
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Numero"/>
+
+                    <p:inputText id="itNumeroCuentaCobroGeneral" 
+                                 value="#{cobroCuotasAlumnosLstBean.ingreso.numeroRecibo}"
+                                 />
+
+
+
+
+                </h:panelGrid>
+            </p:panel>
+
+            <!--FIN PANEL CUENTA-->
+            <p:panel id="pnAlumnoCobroGeneral" 
+                     header="Seleccionar Alumno"
+                     style="height: 140px;width: 600px">
+
+                <div style="padding: 5px 5px 5px 10px;">
+                    <h:outputText value="Alumno (Opcional): "/>
+                    <p:commandButton id="cbBuscarAlumnoGeneral" 
+                                     icon="ui-icon-search"
+                                     actionListener="#{alumnoBean.abrirDlgFindAlumno()}"
+                                     update="dFindAlumno"
+                                     process="@this"/>
+
+
+                    <h:outputText id="otAlumno3"
+                                  value="#{cobroCuotasAlumnosLstBean.ingreso.alumno.dni} - #{cobroCuotasAlumnosLstBean.ingreso.alumno.apellido} - #{cobroCuotasAlumnosLstBean.ingreso.alumno.nombre}"/>
+
+
+                </div>
+                <div style="padding: 5px 5px 5px 10px;">
+                    <h:outputText value="Nombre (Opcional): "/>                     
+
+
+                    <p:inputText id="nombreid"
+                                 value="#{cobroCuotasAlumnosLstBean.ingreso.nombre}" />
+
+
+                </div>
+            </p:panel>
+            <div style="clear: both;"/>
+
+            <div class="divboton">
+
+                <p:commandButton 
+                    id="btnActionCobroGeneral"
+                    value="Guardar" 
+                    actionListener="#{cobroCuotasAlumnosBean.modificarGeneral(cobroCuotasAlumnosLstBean.ingreso)}" 
+                    styleClass="boton"
+                    update="@this"
+                    disabled="#{cobroCuotasAlumnosLstBean.ingreso == null}"
+
+                    />
+
+
+                <p:commandButton id="btnSalirCobroGeneral"
+                                 value="Salir"  
+                                 action="#{cobroCuotasAlumnosBean.salir()}"
+                                 ajax="false"
+                                 icon="ui-icon-cancel"
+                                 styleClass="boton"/>
+
+
+
+
+            </div>
+            <p:messages autoUpdate="true"/>
+
+        </p:panel>    
+        <!--FIN PANTALLA PRINCIAPAL TABLA COBROS ALUMNOS-->
+    </ui:define>
+</ui:composition>

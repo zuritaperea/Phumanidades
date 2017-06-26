@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./Templates/adminTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top"> Datos Personales </ui:define>    
+
+    <ui:define name="content">
+
+        <ui:include src="AlumnoFindDlg.xhtml"/>
+        <ui:include src="CohorteFindDlg.xhtml"/>
+
+
+        <h1>
+
+            <h:outputText value="Inscripcion de Alumnos"
+                          class="Bienvenido"/>
+
+        </h1>
+        <p:dialog id="dInscripcion"
+                  widgetVar="dlgInscripcion"
+                  closable="true" position="top" header="Inscripciones"
+                  >      
+            <h:panelGrid columns="3">
+                <h:outputText value="Fecha de Inscripcion"/>
+
+                <p:calendar id="fechaInscripcion" 
+                            required="false"
+                            value="#{inscripcionAlumnosBean.inscripcion.fechaInscripcion}"
+                            mode="popup"
+                            showOn="button"
+                            navigator="true" locale="es_AR"/>
+                <h:outputText value=""/>
+
+                <h:outputText value="Matricula"/>
+
+                <p:inputText id="matricula" 
+
+                             value="#{inscripcionAlumnosBean.inscripcion.matricula}"/>
+
+                <h:outputText value=""/>
+
+
+                <h:outputText value="Alumno: "/>
+                <p:commandButton id="cbBuscarAlumnoIns" 
+                                 icon="ui-icon-search"
+                                 actionListener="#{alumnoBean.abrirDlgFindAlumno()}"
+                                 update="dFindAlumno"
+                                 process="@this"/>
+
+
+                <h:outputText id="otAlumno1"
+                              value="#{alumnoLstBean.alumnoSelect.dni} - #{alumnoLstBean.alumnoSelect.apellido} - #{alumnoLstBean.alumnoSelect.nombre}"/>
+
+
+                <h:outputText value="Cohorte: "/>
+                <p:commandButton id="cbBuscarCohorte" 
+                                 icon="ui-icon-search"
+                                 actionListener="#{cohorteBean.abrirDlgFindCohorte()}"
+                                 update="dFindCohorte"
+                                 process="@this"/>
+
+
+                <h:outputText id="otCohorte"
+                              value="#{cohorteLstBean.cohorteSelect.descripcion} - #{cohorteLstBean.cohorteSelect.cantidadCuotas} - #{cohorteLstBean.cohorteSelect.importeCuota}"/>
+
+
+
+
+            </h:panelGrid>
+            <p:messages autoUpdate="true"/>
+
+            <p:commandButton id="btnAltaInscripcion"
+                             value=" Guardar " 
+                             actionListener="#{inscripcionAlumnosBean.alta()}" 
+                             styleClass="boton"
+                             oncomplete="PF('dlgInscripcion').hide();"
+
+                             />
+        </p:dialog>
+        <p>
+            <p:commandButton id="cbCreate"
+                             value="Nuevo" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgInscripcion').show();"
+                             update=":frmPri:dtInscripciones,dInscripcion"
+                             />
+
+
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+                <p:printer target="dtInscripciones" />
+            </p:commandButton>
+        </p>
+        <p:messages autoUpdate="true"/>
+        <p:dataTable id="dtInscripciones"
+                     value="#{inscripcionAlumnosLstBean.inscripcionesAlumnos}" 
+                     filteredValue="#{inscripcionAlumnosLstBean.filtroInscripcionesAlumnos}" 
+                     var="item"
+                     style="overflow-x: auto;"
+                     paginator="true"
+                     rows="20"
+                     binding="#{inscripcionAlumnosLstBean.tablaInscripciones}"
+                     rowsPerPageTemplate="20,50,100,500">   
+
+            <p:column >
+                
+                <p:commandButton id="btnEditInscripcion"
+                                 actionListener="#{inscripcionAlumnosBean.definirActionBoton(false)}"                                 
+                                 update=":frmPri:dtInscripciones"
+                                 icon="ui-icon-pencil"
+                                 >
+                    <f:setPropertyActionListener value="#{item}" target="#{inscripcionAlumnosLstBean.inscripcion}" />  
+                     
+
+
+                </p:commandButton>
+
+
+                <p:commandButton id="cbDeleteInscripcion"
+                                 title="Eliminar"
+                                 icon="ui-icon-circle-close" 
+                                 action="#{inscripcionAlumnosBean.eliminar(item)}"
+                                 update=":frmPri:dtInscripciones"
+                                 />
+
+
+            </p:column>
+
+
+            <p:column
+                style="word-wrap:break-word;" filterBy="#{item.alumno}" sortBy="#{item.alumno.apellido}">
+                <f:facet name="header">
+                    <h:outputText value="Alumno"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno}"/>
+            </p:column>
+            <p:column
+                style="word-wrap:break-word;" filterBy="#{item.cohorte.carrera}">
+                <f:facet name="header">
+                    <h:outputText value="Carrera"/>
+                </f:facet>
+                <h:outputText value="#{item.cohorte.carrera}"/>
+            </p:column>
+            <p:column
+                filterBy="#{item.cohorte.descripcion}"
+                
+                style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Cohorte"/>
+                </f:facet>
+                <h:outputText value="#{item.cohorte}"/>
+            </p:column>            
+            <p:column
+                style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Matricula"/>
+                </f:facet>
+                <h:outputText value="#{item.matricula}"/>
+            </p:column>  
+            <p:column
+                style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Fecha Inscripción"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaInscripcion}">  <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>  
+        </p:dataTable>
+        <p:messages autoUpdate="true"/>
+
+    </ui:define>
+</ui:composition>

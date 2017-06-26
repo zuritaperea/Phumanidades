@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./Templates/adminTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top"> Datos Personales </ui:define>    
+
+    <ui:define name="content">
+
+        <h:inputHidden value="#{inscripcionAlumnosLstBean.inscripcion.id}" />
+
+        <ui:include src="AlumnoFindDlgModificarInscripcion.xhtml"/>
+
+        <h1>
+            <h:outputText value="Modificar Inscripcion Alumnos"/>
+        </h1>
+
+        <h:outputText value="Alumno"/>
+        <p:panel id="pnAlumnoModificarInscripcion" 
+                 header="Seleccionar Alumno"
+                 style="height: 100px;width: 500px">
+
+            <div style="padding: 5px 5px 5px 10px;">
+                <h:outputText value="*Alumno: "/>
+                <p:commandButton id="cbBuscarAlumnoInscripcion" 
+                                 icon="ui-icon-search"
+                                 actionListener="#{alumnoBean.abrirDlgFindAlumnoModificarInscripcion()}"
+                                 update="dFindAlumnoMI"
+                                 process="@this"/>
+
+
+                <h:outputText id="otAlumnoModificarInscripcion"
+                              value="#{inscripcionAlumnosLstBean.inscripcion.alumno.dni} - #{inscripcionAlumnosLstBean.inscripcion.alumno.apellido} - #{inscripcionAlumnosLstBean.inscripcion.alumno.nombre}"/>
+
+            </div>
+        </p:panel>   
+
+
+
+
+
+        <h:outputText value="Cohorte"/>
+        <p:panel id="pnCohorteModificarInscripcion" 
+                 header="Seleccionar Cohorte"
+                 style="height: 100px;width: 500px">
+            <div style="padding: 5px 5px 5px 10px;">
+                <p:selectOneMenu id="somCohorteModificarInscripcion" 
+                                 value="#{inscripcionAlumnosLstBean.inscripcion.cohorte}"
+                                 converter="ConversorCohorte"
+                                 >
+                    <f:selectItems value="#{cohorteLstBean.lstSICohorte}"/>
+                </p:selectOneMenu>
+            </div>
+        </p:panel>
+
+
+        <h:panelGrid id="prInscripcionAlumnos" columns="2">
+
+        
+
+            <h:outputText value="Matricula"/>
+            <p:inputText id="itMatriculaAlumno" 
+                         value="#{inscripcionAlumnosLstBean.inscripcion.matricula}"/> 
+            
+            
+            
+            <h:outputText value="Fecha de Inscripcion"/>
+            <p:calendar id="fechaModificacionAlumno"
+                        value="#{inscripcionAlumnosLstBean.inscripcion.fechaInscripcion}"
+                        pattern="dd/MM/yyyy" locale="es_ES">
+            </p:calendar>
+
+
+        </h:panelGrid>
+
+        <br></br>
+
+        <h:panelGroup style="display:block; text-align:center">
+            <div style=" float: left;">
+                <p:messages autoUpdate="true"/>
+            </div>
+            <br></br>
+            <p:commandButton id="btnAltaInscripcionAlumno"
+                             value="Modificar" 
+                             action="#{inscripcionAlumnosBean.modificar(inscripcionAlumnosLstBean.inscripcion)}" 
+                             styleClass="boton"
+                             update="@this"
+                             disabled="#{inscripcionAlumnosLstBean.inscripcion == null}"
+                             />
+            <p:commandButton id="btnSalir"
+                             value="Salir"  
+                             action="InscripcionAlumnos.xhtml"
+                             ajax="false"
+                             icon="ui-icon-cancel"
+                             styleClass="boton"/>
+        </h:panelGroup>
+    </ui:define>
+</ui:composition>

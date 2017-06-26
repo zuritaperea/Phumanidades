@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+
+
+    <ui:define name="content">
+        <!--Dialogos que se van a usar-->
+        <ui:include src="DomicilioDlg.xhtml"/>
+        <ui:include src="TelefonosDlg.xhtml" />
+
+        <!--Inicio Dialogo Proveedor ABM -->
+
+        <p:dialog id="dProveedor"
+                  widgetVar="dlgProveedor"
+                  closable="false" position="top">
+
+            <h1><h:outputText value="Crear/Modificar/Eliminar"/></h1>
+            <h:inputHidden value="#{proveedorBean.proveedor.id }" />
+            <h:inputHidden value="#{proveedorBean.iActionBtnSelect}"/>
+            <h:inputHidden value="#{proveedorBean.bCamposSoloLectura}"/>
+
+            <p:panel id="pPriProveedor">
+
+                <h:panelGrid columns="2">
+
+
+                    <p:outputLabel value="C.U.I.T:" for="itCuit" />
+                    <p:inputText id="itCuit" 
+                                 value="#{proveedorBean.proveedor.cuit}"
+                                 title="C.U.I.T"
+                                 size="50"
+                                 maxlength="100"/>
+
+                    <p:outputLabel value="Razon Social:" for="itRazonSocial" />
+                    <p:inputText id="itRazonSocial" 
+                                 value="#{proveedorBean.proveedor.razonSocial}" 
+                                 title="Razon Social" 
+                                 size="50"
+                                 maxlength="100"/>
+
+                </h:panelGrid>
+
+                <p:panel header="Domicilio"
+                         style="height: 180px;width: 600px">
+                    <h:panelGrid columns="2" width="550">
+                        <p:commandButton id="btnDomicilioProveedor" 
+                                         value="Cargar Datos"
+                                         oncomplete="PF('dgDomicilio').show();"
+                                         actionListener="#{domicilioBean.definirActionBoton}"
+                                         icon="ui-icon-disk"
+                                         /> 
+
+                        <p:panel id="pnDomicilioProveedor" >
+                            <h:outputText  value="Localidad:  "/>
+                            <h:outputText  value="#{domicilioBean.domicilio.localidad}"/> <br></br>
+                            <h:outputText  value="Barrio:  "/>
+                            <h:outputText  value="#{domicilioBean.domicilio.barrio}"/> <br></br>
+                            <h:outputText  value="Calle:  "/>
+                            <h:outputText  value="#{domicilioBean.domicilio.calle}"/><br></br>
+                            <h:outputText  value="Numero:  "/>
+                            <h:outputText  value="#{domicilioBean.domicilio.numero}"/><br></br>
+                        </p:panel>
+                    </h:panelGrid>
+                </p:panel>
+
+
+                <p:panel header="Telefonos"
+                         style="height: 200px;width: 700px">
+                    <div class="flotar">
+
+                        <h:panelGrid columns="2"
+                                     width="700px"
+                                     cellpadding="10px">
+                            <p:dataTable var="telPro" 
+                                         value="#{listadoTelefonosBean.lstTelefonos}" 
+                                         id="dtTelefonosProveedor"
+                                         > 
+                                <p:column>
+
+
+                                    <p:commandButton id="btnDeleteTelProveedor" 
+                                                     icon="ui-icon-close"
+                                                     actionListener="#{listadoTelefonosBean.borrarTelefono(telPro)}"
+                                                     update=":frmPri:dtTelefonosProveedor"
+                                                     >
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column headerText="Tipo">  
+                                    <h:outputText value="#{telPro.tipoTelefono}" />  
+                                </p:column>  
+
+                                <p:column headerText="Numero">  
+                                    <h:outputText value="#{telPro.numero}" />  
+                                </p:column>  
+                            </p:dataTable> 
+
+                            <p:commandButton id="btnCreateTelefonosProveedor"
+                                             value="Agregar" 
+                                             oncomplete="PF('dlgTel').show();"
+                                             icon="ui-icon-disk"
+                                             actionListener="#{listadoTelefonosBean.definirActionBoton}"
+                                             update="dTelefonos"/>
+                        </h:panelGrid>
+                    </div>
+                </p:panel>
+
+
+                <div style=" float: left;">
+                    <p:messages autoUpdate="true"/>
+                </div>
+
+                <div style="clear: both;"/>
+
+                <div class="divboton">
+
+                    <p:commandButton id="btnActionProveedor"
+                                     value=" " 
+                                     actionListener="#{proveedorBean.actionBtn()}" 
+                                     update=":frmPri:pPriProveedor, :frmPri:dtProveedor, @this"
+                                     binding="#{proveedorBean.cbAction}"
+                                     styleClass="boton"/>
+
+
+                    <p:commandButton id="btnSalirABMProveedor"
+                                     value="Salir"  
+                                     actionListener="#{proveedorBean.limpiar()}"
+                                     oncomplete="PF('dlgProveedor').hide()"
+                                     icon="ui-icon-cancel"
+                                     update=":frmPri:dProveedor, :frmPri:dtProveedor"
+                                     styleClass="boton"/>
+
+                </div>
+            </p:panel>
+
+        </p:dialog>
+        <!--Fin  Dialogo Proveedor ABM -->
+
+
+        <!--TABLA NIVEL -->
+
+
+        <h1> <h:outputText value="Proveedores"
+                           class="Bienvenido"/></h1>
+
+
+            <p:commandButton id="cbCreate"
+                             value="Nuevo" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgProveedor').show();"
+                             actionListener="#{proveedorBean.setBtnSelect}"
+                             update=":frmPri:dtProveedor, dProveedor"
+                             />
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+            <p:printer target="dtProveedor" />
+        </p:commandButton>      
+        <p></p>            <p:dataTable id="dtProveedor"
+                         value="#{proveedorLstBean.lstProveedor}" 
+                         var="item"
+                         style="overflow-x: auto;"
+                         paginator="true"
+                         rows="20"
+                         binding="#{proveedorLstBean.tablaProveedor}"
+                         rowsPerPageTemplate="20,50,100,500">
+
+                <p:column >
+                    <p:commandButton id="cbEdit"
+                                     title="Editar"
+                                     icon="ui-icon-pencil" 
+                                     update=":frmPri:dProveedor"
+                                     oncomplete="PF('dlgProveedor').show();"
+                                     actionListener="#{proveedorBean.setBtnSelect}"
+                                     process="@form">                    
+
+                        <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
+
+                    </p:commandButton>
+
+                    <p:commandButton id="cbDelete"
+                                     title="Eliminar"
+                                     icon="ui-icon-circle-close" 
+                                     update=":frmPri:dProveedor"
+                                     oncomplete="PF('dlgProveedor').show();"
+                                     actionListener="#{proveedorBean.setBtnSelect}">
+                        <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
+
+                    </p:commandButton>
+
+                </p:column>
+                <p:column 
+                    filterBy="#{item.cuit}"
+                    style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="CUIT"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cuit}"/>
+                </p:column>
+
+                <p:column 
+                    filterBy="#{item.razonSocial}"
+                    style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="Razon Social"/>
+                    </f:facet>
+                    <h:outputText value="#{item.razonSocial}"/>
+                </p:column>
+
+            </p:dataTable>
+
+    </ui:define>
+</ui:composition>

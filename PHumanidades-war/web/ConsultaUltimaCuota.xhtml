@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+
+
+    <ui:define name="content">
+        <h2>Consultar última cuota pagada por alumno</h2>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{consultaCobrosAlumnosBean.consultarUltimaCuotaPagada()}" />
+        </f:metadata>
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtAlumnosCohorte" /></p:commandButton>
+        <p:dataTable id="dtAlumnosCohorte"
+                     value="#{consultaCobrosAlumnosBean.listaUltimaCuota}" 
+                     var="item"
+                     filterEvent="enter" 
+                     paginator="true"
+                     rows="20"
+                     widgetVar="tablaAlumnos"
+                     binding="#{consultaCobrosAlumnosBean.tablaAlumnos}"
+
+                     rowsPerPageTemplate="20,50,100,500">
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.alumno.dni}">
+                <f:facet name="header">
+                    <h:outputText value="Dni"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.dni}"/>
+            </p:column>
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.alumno.apellido}"
+                      sortBy="#{item.alumno.apellido}" >
+                <f:facet name="header">
+                    <h:outputText value="Alumno"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.apellido}, #{item.alumno.nombre}"/>
+            </p:column>
+
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.cohorte.carrera}">
+                <f:facet name="header">
+                    <h:outputText value="Carrera"/>
+                </f:facet>              
+                <h:outputText value="#{item.cohorte.carrera}"/>
+            </p:column>
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.cohorte}">
+                <f:facet name="header">
+                    <h:outputText value="Cohorte"/>
+                </f:facet>
+
+                <f:facet name="filter">
+                    <p:selectOneMenu onchange="PF('tablaAlumnos').filter()" >
+                        <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
+                        <f:selectItems value="#{cohorteLstBean.lstCohorte}" />
+                    </p:selectOneMenu></f:facet>
+                <h:outputText value="#{item.cohorte}"/>
+            </p:column>
+            <p:column width="80"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.cuota}">
+                <f:facet name="header">
+                    <h:outputText value="Cuota"/>
+                </f:facet>
+                <h:outputText value="#{item.cuota}"/>
+            </p:column>
+
+
+            <p:column width="80"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.fechaPago}">
+                <f:facet name="header">
+                    <h:outputText value="Fecha Pago"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaPago}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>    
+            </p:column>
+
+        </p:dataTable>
+
+
+        <p:messages autoUpdate="true"/>
+
+        <h3>Exportar</h3>
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar a Excel todos" />
+            <p:dataExporter type="xls" target="dtAlumnosCohorte" fileName="cuotaalumnos"/>
+        </h:commandLink>
+
+
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/csv.png" title="Exportar a CSV todos" />
+            <p:dataExporter type="csv" target="dtAlumnosCohorte" fileName="cuotaalumnos"/>
+        </h:commandLink>
+
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Ingresos Filtrados"/>
+            <p:dataExporter type="xls" target="dtAlumnosCohorte" fileName="cuotaalumnosfiltrada" pageOnly="true"/>
+        </h:commandLink>
+
+
+
+    </ui:define>
+</ui:composition>
+
+

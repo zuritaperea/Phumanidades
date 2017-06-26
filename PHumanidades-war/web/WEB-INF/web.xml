@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Development</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>login.xhtml</welcome-file>
+    </welcome-file-list>
+    
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/sessionTimeOut.xhtml</location>
+    </error-page>
+    <filter>
+        <filter-name>FilterSystem</filter-name>
+        <filter-class>Filter.FilterSystem</filter-class>
+    </filter>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>bootstrap</param-value>
+    </context-param>
+    <filter-mapping>
+        <filter-name>FilterSystem</filter-name>
+        <url-pattern>/Alumno.xhtml</url-pattern>
+        <url-pattern>/AlumnoFindDlg.xhtml</url-pattern>
+        <url-pattern>/Carrera.xhtml</url-pattern>
+        <url-pattern>/CarreraFindDlg.xhtml</url-pattern>
+        <url-pattern>/CarrerasDistancia.xhtml</url-pattern>
+        <url-pattern>/CobrosAlumnos.xhtml</url-pattern>
+        <url-pattern>/Cohorte.xhtml</url-pattern>
+        <url-pattern>/CohorteFindDlg.xhtml</url-pattern>
+        <url-pattern>/ConsultaPagosDocente.xhtml</url-pattern>
+        <url-pattern>/ConsultaCobrosAlumnos.xhtml</url-pattern>
+        <url-pattern>/CorreosElectronicosDlg.xhtml</url-pattern>
+        <url-pattern>/CuentasDlg.xhtml</url-pattern>
+        <url-pattern>/Docente.xhtml</url-pattern>
+        <url-pattern>/DocenteFindDlg.xhtml</url-pattern>
+        <url-pattern>/DomicilioDlg.xhtml</url-pattern>
+        <url-pattern>/GastosGenerales.xhtml</url-pattern>
+        <url-pattern>/InscripcionAlumnos.xhtml</url-pattern>
+        <url-pattern>/MateriasDlg.xhtml</url-pattern>
+        <url-pattern>/OtrosIngresos.xhtml</url-pattern>
+        <url-pattern>/PagosDocente.xhtml</url-pattern>
+        <url-pattern>/Proveedor.xhtml</url-pattern>
+        <url-pattern>/TelefonosDlg.xhtml</url-pattern>
+        <url-pattern>/TipoCarrerasDlg.xhtml</url-pattern>
+        <url-pattern>/index.xhtml</url-pattern>
+        <url-pattern>/usuario.xhtml</url-pattern>
+    </filter-mapping>
+</web-app>

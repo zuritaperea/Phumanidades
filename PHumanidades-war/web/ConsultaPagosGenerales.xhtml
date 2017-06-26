@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+
+    <ui:define name="content">
+
+        <p:growl id="grConsultaPagosGenerales" showDetail="true" sticky="true" />
+        <h1>
+
+            <h:outputText value="Consultas Egresos por Pagos Generales"
+                          class="Bienvenido"/>  
+        </h1>
+        <p:tabView id="tvConsultaGastosGenerales" dynamic="true" cache="true">  
+            <p:ajax event="tabChange" listener="#{consultaPagosGeneralesBean.onTabChange}" update=":frmPri:grConsultaPagosGenerales"/>
+            <p:tab id="tabPagosGeneralesFecha" title="Pagos entre Fechas"> 
+
+                <table>
+                    <tr>
+                        <td>
+                            <h:outputText value="Desde"/><br/>
+                            <p:calendar id="cIniTab1"
+                                        label="Desde" locale="es_ES"
+                                        pattern="dd/MM/yyyy"
+                                        value="#{consultaPagosGeneralesBean.fechaIni}">
+                            </p:calendar>
+                        </td>
+
+                        <td>
+                            <h:outputText value="Hasta"/><br/>
+                            <p:calendar id="cFinTab1" locale="es_ES"
+                                        label="Hasta"
+                                        pattern="dd/MM/yyyy"
+                                        value="#{consultaPagosGeneralesBean.fechaFin}">
+                            </p:calendar>
+                        </td>
+
+                        <td>
+                            <br/>
+                            <p:commandButton id="cbConsultarGastos"
+                                             value="Buscar" 
+                                             icon="ui-icon-search" 
+                                             update=":frmPri:dtPagosGenerales, :frmPri:dtPagosGenerales:otTotalPagoGeneral"
+                                             actionListener="#{consultaPagosGeneralesBean.buscarGastosGeneralesFechas()}"
+                                             /> 
+
+                        </td>
+                    </tr>
+                </table>
+            </p:tab>
+
+        </p:tabView>
+
+
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtPagosGenerales" />
+        </p:commandButton>
+
+        <p:dataTable id="dtPagosGenerales"
+                     value="#{consultaPagosGeneralesBean.lstGastoGeneral}" 
+                     var="item"
+                     paginator="true"
+                     filterEvent="enter"
+                     rows="20">
+
+            <f:facet name="header">
+                <h:outputText value="Egresos Generales: "/>  
+                <h:outputText value="Desde: "/>  
+                <h:outputText value="#{consultaPagosGeneralesBean.fechaIni}">  
+                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
+                </h:outputText>  
+                <h:outputText value=" Hasta: "/>  
+                <h:outputText value="#{consultaPagosGeneralesBean.fechaFin}">  
+                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
+                </h:outputText>                 
+            </f:facet>
+
+
+            <p:column width="80"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.proveedor.cuit}">
+                <f:facet name="header">
+                    <h:outputText value="CUIT"/>
+                </f:facet>
+                <h:outputText value="#{item.proveedor.cuit}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.proveedor.razonSocial}">
+                <f:facet name="header">
+                    <h:outputText value="Razon Social"/>
+                </f:facet>
+                <h:outputText value="#{item.proveedor.razonSocial}"/>
+            </p:column>
+
+
+
+            <p:column width="100"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.monto}">
+                <f:facet name="header">
+                    <h:outputText value="Monto"/>
+                </f:facet>
+                <h:outputText value="#{item.monto}"/>
+            </p:column>
+
+            <p:column
+                style="word-wrap:break-word;"
+                filterBy="#{item.concepto}">
+                <f:facet name="header">
+                    <h:outputText value="Concepto"/>
+                </f:facet>
+                <h:outputText value="#{item.concepto}"/>
+            </p:column>
+            <p:column                    >
+                <f:facet name="header">
+                    <h:outputText value="Fecha Registro"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaRegistro}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+            <p:column                   >
+                <f:facet name="header">
+                    <h:outputText value="Cuenta"/>
+                </f:facet>
+                <h:outputText value="#{item.cuenta}"/>
+            </p:column>
+
+            <p:column 
+                       filterBy="#{item.numeroOrdenPago}" >
+                <f:facet name="header">
+                    <h:outputText value="N°"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroOrdenPago}"/>
+            </p:column>
+            <f:facet name="footer" id="pnTotalPagoGeneral">
+                <h:outputLabel value="Importe Total: $ " />
+                <h:outputText id="otTotalPagoGeneral"
+                              value="#{consultaPagosGeneralesBean.totalXGastoGeneral}"/>  
+                <h:outputLabel value=", Emision de Reporte: " />
+                <h:outputText  value="#{consultaCobrosAlumnosBean.now}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES"/>
+                </h:outputText>
+
+            </f:facet>
+        </p:dataTable>
+
+        <h3>Exportar</h3>
+
+
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Egresos Filtrados"/>
+            <p:dataExporter type="xls" postProcessor="#{consultaCobrosGeneralesBean.postProcessXLS}" 
+                            target="dtPagosGenerales" fileName="egresos"   pageOnly="false"/>
+        </h:commandLink>
+
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Egresos Filtrados"/>
+            <pe:exporter type="pdf" target="dtPagosGenerales" orientation="Landscape"
+                         fileName="egresos" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
+
+
+        </h:commandLink>
+
+        <p:messages autoUpdate="true"/>
+
+    </ui:define>
+</ui:composition>

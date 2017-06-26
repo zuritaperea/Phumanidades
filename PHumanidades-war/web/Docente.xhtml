@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns="http://www.w3.org/1999/xhtml"
+                template="./Templates/adminTemplate.xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:define name="top"> Datos Personales </ui:define>    
+
+    <ui:define name="content">
+
+        <ui:include src="DomicilioDlg.xhtml"/>
+        <ui:include src="TelefonosDlg.xhtml" />
+        <ui:include src="CorreosElectronicosDlg.xhtml" />
+        <ui:include src="CarreraFindDlg.xhtml" />
+        <!-- Inicio Formulario Alta Principal-->
+
+        <p:dialog id="dDocente"
+                  widgetVar="dlgDocente"
+                  closable="true" position="top" header="Docente"
+                  height="700px">    
+
+            <h:inputHidden value="#{docenteBean.docente.id}" />
+            <h:inputHidden value="#{docenteBean.iActionBtnSelect}"/>
+            <h:inputHidden value="#{docenteBean.bCamposSoloLectura}"/>
+            <p:panel id="pPriDocente">
+                <p:scrollPanel mode="native" style="height:650px;">
+                    <h:panelGrid columns="4">
+
+
+                        <h:outputText value="Nombre"/>
+
+
+                        <p:inputText id="nombre" 
+
+                                     value="#{docenteBean.docente.nombre}"/>
+
+
+                        <h:outputText value="Apellido"/>
+
+                        <p:inputText id="apellido" 
+
+                                     value="#{docenteBean.docente.apellido}"/> 
+                        <h:outputText value="Fecha de Nacimiento"/>
+
+                        <p:calendar id="fechaNac" 
+                                    required="false"
+                                    value="#{docenteBean.docente.fechaNacimiento}"
+                                    mode="popup"
+                                    showOn="button"
+                                    navigator="true"/>
+
+                        <h:outputText value="Documento de Identidad"/>
+                        <p:inputMask id="dni" 
+                                     required="false"
+                                     value="#{docenteBean.docente.dni}"
+                                     mask="99999999"
+                                     /> 
+                    </h:panelGrid>
+                    <br></br>
+                 
+
+                        <p:panel header="Domicilio"
+                                 style="height: 160px;width: 100%;overflow:auto">
+                            <h:panelGrid columns="2" width="550">
+                                <p:commandButton id="btnDomicilioDocentes" 
+                                                 value="Cargar Datos"
+                                                 oncomplete="PF('dgDomicilio').show();"
+                                                 actionListener="#{domicilioBean.definirActionBoton}"
+                                                 icon="ui-icon-disk"
+                                                 /> 
+
+                                <p:panel id="pnDomicilio" >
+                                    <h:outputText  value="Localidad:  "/>
+                                    <h:outputText  value="#{domicilioBean.domicilio.localidad}"/> <br></br>
+                                    <h:outputText  value="Barrio:  "/>
+                                    <h:outputText  value="#{domicilioBean.domicilio.barrio}"/> <br></br>
+                                    <h:outputText  value="Calle:  "/>
+                                    <h:outputText  value="#{domicilioBean.domicilio.calle}"/><br></br>
+                                    <h:outputText  value="Numero:  "/>
+                                    <h:outputText  value="#{domicilioBean.domicilio.numero}"/><br></br>
+                                </p:panel>
+                            </h:panelGrid>
+                        </p:panel>
+
+                    <br></br> 
+                    <p:panel header="Telefonos"
+                             style="height: 105px;width: 100%;overflow:auto">
+                        <div class="flotar">
+
+                            <h:panelGrid columns="2"
+                                         width="700px"
+                                         cellpadding="2px">
+                                <p:dataTable var="telDoc" 
+                                             value="#{listadoTelefonosBean.lstTelefonos}" 
+                                             id="dtTelefonosDocentes"
+                                             > 
+
+                                    <p:column id="cDeleteDoc">
+
+
+                                        <p:commandButton id="btnDeleteTelDoc" 
+                                                         actionListener="#{listadoTelefonosBean.borrarTelefono(telDoc)}"                                                                         
+                                                         icon="ui-icon-close"
+                                                         update=":frmPri:dtTelefonosDocentes">
+                                        </p:commandButton>
+                                    </p:column>
+
+                                    <p:column id="cTipoTelefonoDoc" headerText="Tipo">  
+                                        <h:outputText id="otTipoTelefonoDoc"
+                                                      value="#{telDoc.tipoTelefono}" />  
+                                    </p:column> 
+
+                                    <p:column id="cNumeroDoc" headerText="Numero">  
+                                        <h:outputText id="otNumeroDoc" 
+                                                      value="#{telDoc.numero}" />  
+                                    </p:column>  
+                                </p:dataTable> 
+
+                                <p:commandButton id="btnCreateTelefonosDocentes"
+                                                 value="Agregar" 
+                                                 oncomplete="PF('dlgTel').show();"
+                                                 icon="ui-icon-disk"
+                                                 actionListener="#{listadoTelefonosBean.definirActionBoton}"
+                                                 update="dTelefonos"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>    
+
+                    <p:panel header="Correos Electronicos"
+                             style="height: 105px;width: 100%;overflow:auto">
+                        <div class="flotar">
+
+                            <h:panelGrid columns="2"
+                                         width="700px"
+                                         cellpadding="2px">
+                                <p:dataTable var="mailDoc"
+                                             id="dtEmailDocentes"
+                                             value="#{listadoEmailBean.lstCorreoElectronico}"
+                                             >  
+                                    <p:column>
+
+
+                                        <p:commandButton id="btnDeleteEmailDoc" 
+                                                         actionListener="#{listadoEmailBean.borrarEmail(mailDoc)}"
+                                                         update=":frmPri:dtEmailDocentes"
+                                                         icon="ui-icon-close">
+                                        </p:commandButton>
+                                    </p:column>  
+
+                                    <p:column headerText="Email">  
+                                        <h:outputText value="#{mailDoc.direccion}" />  
+                                    </p:column>  
+                                </p:dataTable>
+
+                                <p:commandButton id="btnCreateEmailDocentes"
+                                                 value="Agregar" 
+                                                 actionListener="#{listadoEmailBean.definirActionBotonEmail}"
+                                                 oncomplete="PF('dlgEmail').show();"
+                                                 icon="ui-icon-disk"
+                                                 update="dEmail"/>
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+
+                    <p:panel header="Carreras"
+                             style="height: 150px;width: 100%;overflow:auto">
+                        <div class="flotar">
+
+                            <h:panelGrid columns="2"
+                                         width="100%"
+                                         cellpadding="2px">
+
+
+                                <p:dataTable  id="dtCarrerasAso"
+                                              value="#{carreraLstBean.lstCarrerasAsoc}"
+                                              var="carAsoc"
+
+                                              >
+
+                                    <p:column>
+                                        #{carAsoc.descripcion}
+
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:commandButton value="Quitar"
+                                                         action="#{carreraLstBean.quitarCarrera()}"
+                                                         oncomplete="PF('dlgMensaje').show();"
+                                                         update=":frmPri:dtCarrerasAso">  
+                                            <f:setPropertyActionListener value="#{carAsoc}" 
+                                                                         target="#{carreraLstBean.carreraSelect}"/>  
+                                        </p:commandButton>
+
+                                    </p:column>
+
+                                </p:dataTable>
+
+                                <p:commandButton id="btnCarrerasDoc"
+                                                 icon="ui-icon-search" 
+                                                 title="Buscar Carreras"
+                                                 oncomplete="PF('dlgCarrerasSeleccion').show();"
+                                                 update=":frmPri:dtCarrerasSeleccion"
+                                                 process="@this"
+                                                 actionListener="#{carreraLstBean.definirActionBoton}"/>     
+                               </h:panelGrid> <h:outputText value="En el cuadro de búsqueda puede seleccionar más de una carrera, para ello mantenga presionadal la tecla CTRL"/>
+                            
+                        </div>
+                    </p:panel>
+
+                    <div style=" float: left;">
+                        <p:messages autoUpdate="true"/>
+                    </div>
+                    <!--Boton Confirmar Alta-->
+                    <div class="divboton">
+                        <p:commandButton id="registerDocente"
+                                         value=" " 
+                                         actionListener="#{docenteBean.accion()}" 
+                                         update=":frmPri:pPriDocente, :frmPri:dtDocente, @this"
+                                         binding="#{docenteBean.cbAction}"
+                                         styleClass="boton"
+                                         />
+
+
+                        <p:commandButton id="btnSalir"
+                                         value="Salir"  
+                                         actionListener="#{docenteBean.limpiar()}"
+                                         oncomplete="PF('dlgDocente').hide()"
+                                         icon="ui-icon-cancel"
+                                         update=":frmPri:dDocente, :frmPri:dtDocente"
+                                         styleClass="boton"
+                                         />
+                    </div><br /><br /><br />
+
+                    <!--Fin Dialogo Confirmar alta-->
+                </p:scrollPanel> 
+            </p:panel>
+        </p:dialog>
+
+        <!--Fin boton Confirmar Alta-->
+        <!--Inicio Dialogo Confirmar Alta-->
+        <p:confirmDialog id="confirmarAlta"  
+                         header="Proceso de alta" 
+                         widgetVar="altaPersonas"
+                         message="Se dara de alta la Persona" 
+                         severity="alert"
+                         >  
+            <table cellpadding="5" cellspacing="5" width="350">
+                <tr>
+                    <td align="right">
+
+                        <p:commandButton id="confirmar" value="Aceptar" actionListener="#{docenteBean.accion()}" process="@this, dDocente" oncomplete="PF('altaPersonas').hide()" ajax="false"/> 
+
+                    </td> 
+                    <td align="left">
+                        <p:commandButton id="cancelarAlta" value="Cancelar" onclick="PF('altaPersonas').hide()" type="button" ajax="false" />   
+                    </td>
+                </tr>
+            </table>
+        </p:confirmDialog> 
+
+
+        <!-- Fin Alta Principal--> 
+
+        <!--Inicio Dialogo Confirmar Borrar telefono-->  
+        <p:confirmDialog id="confirmDialogTelDoc" message="Seguro Desea Eliminar El Telefono Seleccionado?"  
+                         header="Proceso de Eliminacion" severity="alert" widgetVar="confirmationTelDoc">  
+
+            <table cellpadding="5" cellspacing="5" width="350">
+                <tr>
+                    <td align="right">
+                        <p:commandButton id="confirmTelDoc" value="Aceptar" oncomplete="PF('confirmationTelDoc').hide()" actionListener="#{listadoTelefonosBean.quitarTelefono()}" update=":frmPri:dtTelefonosDocentes"/> 
+                    </td>  
+                    <td align="left">
+                        <p:commandButton id="declineTelDoc" value="Cancelar" onclick="PF('confirmationTelDoc').hide()" type="button" />   
+                    </td>
+                </tr>
+            </table>
+        </p:confirmDialog> 
+        <!--Fin Dialogo Confirmar Borrar Telefonos--> 
+
+        <!--Inicio Dialogo Confirmar Borrar Correo Electronico-->  
+        <p:confirmDialog id="confirmDialogEmailDoc" message="Seguro Desea Eliminar Correo Electronico?"  
+                         header="Proceso de Eliminacion" severity="alert" widgetVar="confirmationEmailDoc">  
+            <table cellpadding="5" cellspacing="5" width="350">
+                <tr>
+                    <td align="right">
+                        <p:commandButton id="confirmEmailDoc" value="Aceptar" oncomplete="PF('confirmationEmailDoc').hide()" actionListener="#{listadoEmailBean.quitarEmail}" update=":frmPri:dtEmailDocentes"/> 
+                    </td>  
+                    <td align="left">
+                        <p:commandButton id="declineEmailDoc" value="Cancelar" onclick="PF('confirmationEmailDoc').hide()" type="button" />   
+                    </td>
+                </tr>
+            </table>
+        </p:confirmDialog> 
+        <!--Fin Dialogo Confirmar Borrar Correo Electronico-->
+
+        <!--Inicio Dialogo eliminar carrera-->
+        <p:dialog id="dMensaje"
+                  widgetVar="dlgMensaje"
+                  modal="true"
+                  >
+
+
+            <h:outputText id="otMensajeDocente" 
+                          value="#{carreraLstBean.getsMensaje()}"/><br/><br/>
+
+            <center>
+                <p:commandButton id="btnMensajes"
+                                 value="Aceptar"
+                                 update=":frmPri:dtCarrerasAso"
+                                 oncomplete="PF('dlgMensaje').hide();"/>
+            </center>
+
+        </p:dialog>    
+        <!--Inicio Dialogo eliminar carrera-->
+
+        <!--INICIO PANTALLA PRINCIPAL-->
+
+        <h1>   <h:outputText value="Docentes"
+                             /> </h1>
+
+
+
+
+        <b:row><b:column span="1">
+
+            <p:commandButton id="cbCreate"
+                                     value="Nuevo" 
+                             icon="ui-icon-circle-plus" 
+                             oncomplete="PF('dlgDocente').show();"
+                                     actionListener="#{docenteBean.setBtnSelect}"
+                                     update=":frmPri:dtDocente,dDocente, dtTelefonosDocentes"
+                                     />
+            </b:column><b:column span="2">
+                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+                        <p:printer target="dtDocente" />
+                    </p:commandButton>    </b:column>
+        </b:row>        <p>&nbsp;</p>
+
+        <b:row><b:column>
+                <p:dataTable id="dtDocente"
+                             value="#{docenteLstBean.lstDocente}" 
+                             var="item"
+                             style="overflow-x: auto;"
+                             paginator="true"
+                             rows="20"
+                             binding="#{docenteLstBean.tablaDocente}"
+                             rowsPerPageTemplate="20,50,100,500"
+                             filterEvent="enter">   
+
+
+                    <p:column >
+                        <p:commandButton id="cbEditarDocente"
+                                         title="Editar"
+                                         icon="ui-icon-pencil" 
+                                         update=":frmPri:dDocente"
+                                         oncomplete="PF('dlgDocente').show();"
+                                         actionListener="#{docenteBean.setBtnSelect}"
+                                         process="@form">                    
+
+                            <f:setPropertyActionListener value="#{item}" target="#{docenteBean.docente}"/> 
+
+                        </p:commandButton>
+
+                        <p:commandButton id="cbDeleteDocente"
+                                         title="Eliminar"
+                                         icon="ui-icon-circle-close" 
+                                         update=":frmPri:dDocente"
+                                         oncomplete="PF('dlgDocente').show();"
+                                         actionListener="#{docenteBean.setBtnSelect}">
+                            <f:setPropertyActionListener value="#{item}" target="#{docenteBean.docente}"/> 
+
+                        </p:commandButton>
+
+                    </p:column>
+
+                 
+
+                    <p:column 
+                        filterBy="#{item.dni}"
+                        style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="dni"/>
+                        </f:facet>
+                        <h:outputText value="#{item.dni}"/>
+                    </p:column>
+
+                    <p:column
+                        filterBy="#{item.nombre}"
+                        style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nombre}"/>
+                    </p:column>
+
+                    <p:column
+                        filterBy="#{item.apellido}"
+                        style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Apellido"/>
+                        </f:facet>
+                        <h:outputText value="#{item.apellido}"/>
+                    </p:column>
+
+                    <p:column
+                        style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Fecha/Nac"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaNacimiento}">             
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+
+                </p:dataTable>
+
+            </b:column></b:row>
+
+
+        <!--FIN PANTALLA PRINCIPAL-->
+
+    </ui:define>
+</ui:composition>

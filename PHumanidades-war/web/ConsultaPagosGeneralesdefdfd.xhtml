@@ -1,0 +1,221 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core">
+
+
+
+    <ui:define name="content">
+
+        <div style="float:left; width: 100%;  text-align: center;">
+
+            <h:outputText value="Consultas Pagos Docentes"
+                          class="Bienvenido"/>  
+        </div>
+        <div style="float:left; width: 100%;  text-align: center;">
+            <p:tabView id="tvConsulta" dynamic="true" cache="true">  
+                <p:ajax event="tabChange" listener="#{consultaPagosDocenteBean.onTabChange}" update=":frmPri:growl"/>
+                <p:tab id="tabMontoCarrera" title="Gastos por Carrera"> 
+
+                    <table>
+                        <tr>
+                            <td>
+                                <h:outputText value="Desde"/><br/>
+                                <p:calendar id="cIniTab1Gastos"
+                                            label="Desde" locale="es_ES"
+                                            pattern="dd/MM/yyyy"
+                                            value="#{consultaPagosDocenteBean.fechaIni}">
+                                </p:calendar>
+                            </td>
+
+                            <td>
+                                <h:outputText value="Hasta"/><br/>
+                                <p:calendar id="cFinTab1Gastos" locale="es_ES"
+                                            label="Hasta"
+                                            pattern="dd/MM/yyyy"
+                                            value="#{consultaPagosDocenteBean.fechaFin}">
+                                </p:calendar>
+                            </td>
+
+                            <td>
+
+                                <h:outputText value="Carrera"/><br/>
+                                <p:selectOneMenu id="somCarrera" 
+                                                 value="#{carreraLstBean.carreraSelect}"
+                                                 converter="ConversorCarrera"
+                                                 >
+                                    <f:selectItems value="#{carreraLstBean.lstSICarrera}"/>
+                                </p:selectOneMenu>
+
+                            </td>
+                            <td>
+                                <br/>
+                                <p:commandButton id="cbConsultarGastosTab1"
+                                                 value="Buscar" 
+                                                 icon="ui-icon-search" 
+                                                 update=":frmPri:dtPagosDocente, :frmPri:otTotalCarrera"
+                                                 actionListener="#{consultaPagosDocenteBean.buscarFechaCarreras()}"
+                                                 /> 
+                            </td>
+                        </tr>
+                    </table>
+                </p:tab>
+                <p:tab id="tabGastosTotales" title="Gastos entre Fechas">
+
+                    <table>
+                        <tr>
+                            <td>
+                                <h:outputText value="Desde"/><br/>
+                                <p:calendar id="cIniTab2Gastos"
+                                            label="Desde" locale="es_ES"
+                                            pattern="dd/MM/yyyy"
+                                            value="#{consultaPagosDocenteBean.fechaIni}">
+                                </p:calendar>
+                            </td>
+
+                            <td>
+                                <h:outputText value="Hasta"/><br/>
+                                <p:calendar id="cFinTab2Gastos" locale="es_ES"
+                                            label="Hasta"
+                                            pattern="dd/MM/yyyy"
+                                            value="#{consultaPagosDocenteBean.fechaFin}">
+                                </p:calendar>
+                            </td>
+
+
+                            <td>
+                                <br/>
+                                <p:commandButton id="cbConsultarGastosTab2"
+                                                 value="Buscar" 
+                                                 icon="ui-icon-search" 
+                                                 update=":frmPri:dtPagosDocente, :frmPri:otTotalCarrera"
+                                                 actionListener="#{consultaPagosDocenteBean.buscarFecha()}"
+                                                 /> 
+                            </td>
+                        </tr>
+                    </table>
+
+                </p:tab>
+            </p:tabView>
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                <p:printer target="dtPagosDocente" />
+            </p:commandButton>
+            <p:dataTable id="dtPagosDocente"
+                         value="#{consultaPagosDocenteBean.lstPagosDocente}" 
+                         var="item"
+                         style="overflow-x: auto;width: 1200px;"
+                         paginator="true"
+                         rows="20">
+
+
+                <p:column width="150"
+                          style="word-wrap:break-word;"
+                          filterBy="#{item.docente.apellido}">
+                    <f:facet name="header">
+                        <h:outputText value="Apellido"/>
+                    </f:facet>
+                    <h:outputText value="#{item.docente.apellido}"/>
+                </p:column>
+
+                <p:column width="150"
+                          style="word-wrap:break-word;"
+                          filterBy="#{item.docente.nombre}">
+                    <f:facet name="header">
+                        <h:outputText value="Nombre"/>
+                    </f:facet>
+                    <h:outputText value="#{item.docente.nombre}"/>
+                </p:column>
+
+                <p:column width="150"
+                          style="word-wrap:break-word;"
+                          filterBy="#{item.carrera.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="Carrera"/>
+                    </f:facet>
+                    <h:outputText value="#{item.carrera.descripcion}"/>
+                </p:column>
+
+                <p:column width="80"
+                          style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="Monto"/>
+                    </f:facet>
+                    <h:outputText value="#{item.monto}"/>
+                </p:column>
+
+                <p:column width="50"
+                          style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="IB"/>
+                    </f:facet>
+                    <h:outputText value="#{item.retencionIB}"/>
+                </p:column>
+
+                <p:column width="50"
+                          style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="IVA"/>
+                    </f:facet>
+                    <h:outputText value="#{item.iva}"/>
+                </p:column>
+
+                <p:column width="50"
+                          style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="IG"/>
+                    </f:facet>
+                    <h:outputText value="#{item.impuestoGanancia}"/>
+                </p:column>
+
+                <p:column width="50"
+                          style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="SUSS"/>
+                    </f:facet>
+                    <h:outputText value="#{item.suss}"/>
+                </p:column>
+
+                <p:column width="80"
+                          style="word-wrap:break-word;">
+                    <f:facet name="header">
+                        <h:outputText value="Total"/>
+                    </f:facet>
+                    <h:outputText value="#{item.montoConDescuentos}"/>
+                </p:column>
+
+                <p:column width="80"
+                          style="word-wrap:break-word;"
+                          filterBy="#{item.fechaRegistro}">
+                    <f:facet name="header">
+                        <h:outputText value="Fecha Registro"/>
+                    </f:facet>
+                    <h:outputText value="#{item.fechaRegistro}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>    
+                </p:column>
+
+            </p:dataTable>
+
+            <p:panel id="pnTotalCarrera" 
+                     header="Total"
+                     style="height: 100px;width: 400px">
+
+                <h:outputText id="otTotalCarrera"
+                              value="#{consultaPagosDocenteBean.totalXCarrera}"/>
+
+            </p:panel>
+
+
+
+
+
+            <div style=" float: left;">
+                <p:messages autoUpdate="true"/>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

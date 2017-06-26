@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+
+    <ui:define name="content">
+
+        <p:growl id="grConsultaCobroCuotasAlumnos" showDetail="true" sticky="true" />
+        <h1>
+
+            <h:outputText value="Alumnos Por Cohorte"
+                          class="Bienvenido"/>  
+        </h1>
+
+        <table>
+            <tr>
+
+
+                <td>
+
+                    <h:outputText value="Cohorte"/><br/>
+                    <p:selectOneMenu id="somCohorte" 
+                                     value="#{cohorteLstBean.cohorteSelect}"
+                                     converter="ConversorCohorte"
+                                     >
+                        <f:selectItems value="#{cohorteLstBean.lstSICohorte}"/>
+                    </p:selectOneMenu>
+
+                </td>
+                <td>
+                    <br/>
+                    <p:commandButton id="cbConsultarAlumnosCohorte"
+                                     value="Buscar" 
+                                     icon="ui-icon-search" 
+                                     update=":frmPri:dtAlumnosCohorte"
+                                     actionListener="#{consultaCobrosAlumnosBean.buscarAlumnosCohorte()}"
+                                     /> 
+
+                </td>
+            </tr>
+        </table>
+
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtAlumnosCohorte" /></p:commandButton>
+        <p:dataTable id="dtAlumnosCohorte"
+                     value="#{consultaCobrosAlumnosBean.lstInscripcionAlumnos}" 
+                     var="item"
+                     filterEvent="enter" 
+                     paginator="true"
+                     rows="20"
+                     widgetVar="tablaAlumnos"
+                     binding="#{consultaCobrosAlumnosBean.tablaAlumnos}"
+                     rowsPerPageTemplate="20,50,100,500">
+            <f:facet name="header">  
+                <h:outputText value="Alumnos "/>                
+                <h:outputText value=" Cohorte: "/>  
+                <h:outputText value="#{cohorteLstBean.cohorteSelect}"/>  
+
+            </f:facet> 
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.alumno.dni}">
+                <f:facet name="header">
+                    <h:outputText value="Dni"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.dni}"/>
+            </p:column>
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.alumno.apellido}"
+                      sortBy="#{item.alumno.apellido}" >
+                <f:facet name="header">
+                    <h:outputText value="Alumno"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.apellido}, #{item.alumno.nombre}"/>
+            </p:column>
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.matricula}">
+                <f:facet name="header">
+                    <h:outputText value="Matricula"/>
+                </f:facet>
+                <h:outputText value="#{item.matricula}"/>
+            </p:column>
+
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.cohorte.carrera}">
+                <f:facet name="header">
+                    <h:outputText value="Carrera"/>
+                </f:facet>              
+                <h:outputText value="#{item.cohorte.carrera}"/>
+            </p:column>
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.cohorte}">
+                <f:facet name="header">
+                    <h:outputText value="Cohorte"/>
+                </f:facet>
+                <h:outputText value="#{item.cohorte}"/>
+            </p:column>
+
+
+            <p:column width="80"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.fechaInscripcion}">
+                <f:facet name="header">
+                    <h:outputText value="Fecha Inscripción"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaInscripcion}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>    
+            </p:column>
+            <f:facet name="footer" id="pnTotalCohorte">               
+                <h:outputLabel value="Emision de Reporte: " />
+                <h:outputText  value="#{consultaCobrosAlumnosBean.now}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES"/>
+                </h:outputText>
+
+            </f:facet>
+        </p:dataTable>
+
+        <h3>Exportar</h3>
+
+
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Alumnos"/>
+            <p:dataExporter type="xls" postProcessor="#{consultaCobrosGeneralesBean.postProcessXLS}" 
+                            target="dtAlumnosCohorte" fileName="alumnos"   pageOnly="false"/>
+        </h:commandLink>
+
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Alumnos"/>
+            <pe:exporter type="pdf" target="dtAlumnosCohorte" orientation="Landscape"
+                         fileName="alumnos" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
+
+
+        </h:commandLink>
+
+        <p:messages autoUpdate="true"/>
+
+    </ui:define>
+</ui:composition>

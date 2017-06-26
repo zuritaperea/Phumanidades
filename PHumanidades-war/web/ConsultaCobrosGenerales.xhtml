@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+    <ui:define name="content">
+
+        <p:growl id="grConsultaCobrosGenerales" showDetail="true" sticky="true" />
+        <h1>
+
+            <h:outputText value="Consultas Ingresos Generales"
+                          class="Bienvenido"/>  
+        </h1>
+        <p:tabView id="tvConsultaCobrosGenerales" dynamic="true" cache="true">  
+            <p:ajax event="tabChange" listener="#{consultaCobrosGeneralesBean.onTabChange}" update=":frmPri:grConsultaCobrosGenerales"/>
+            <p:tab id="tabCobrosGeneralesFecha" title="Cobros entre Fechas"> 
+
+                <p:panelGrid columns="4">
+                    <h:outputText value="Desde"/>
+                    <p:calendar id="cIniTab1"
+                                label="Desde" locale="es_ES"
+                                pattern="dd/MM/yyyy"
+                                value="#{consultaCobrosGeneralesBean.fechaIni}">
+                    </p:calendar>
+
+                    <h:outputText value="Hasta"/>
+                    <p:calendar id="cFinTab1" locale="es_ES"
+                                label="Hasta"
+                                pattern="dd/MM/yyyy"
+                                value="#{consultaCobrosGeneralesBean.fechaFin}">
+                    </p:calendar>
+
+
+                    <h:outputText id="soTipo"
+                                  value="Tipo de Ingreso:" />
+                    <p:selectOneMenu id="tipoIngreso" 
+                                     value="#{consultaCobrosGeneralesBean.tipoIngreso}"
+                                     required="false">
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+
+                    <p:commandButton id="cbConsultarCobros"
+                                     value="Buscar" 
+                                     icon="ui-icon-search" 
+                                     update=":frmPri:dtCobrosGenerales2, :frmPri:dtCobrosGenerales2:otTotalCobroGeneral"
+                                     actionListener="#{consultaCobrosGeneralesBean.buscarCobrosGeneralesFechas()}"
+                                     /> </p:panelGrid>
+            </p:tab>
+
+        </p:tabView>
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtCobrosGenerales2" /></p:commandButton>
+        <p:dataTable id="dtCobrosGenerales2"
+                     value="#{consultaCobrosGeneralesBean.lstCobroGeneral}" 
+                     var="item"
+                     filterEvent="enter"
+                     paginator="true"
+                     rows="20"
+                     rowsPerPageTemplate="20,50,100,500"
+                     widgetVar="dtCobrosGenerales2"
+                     sortBy="#{item.alumno.apellido}"
+                     binding="#{consultaCobrosGeneralesBean.tablaIngresos}"
+
+                     >
+            <f:facet name="header">  
+                <h:outputText value="Ingresos Generales: "/>  
+                <h:outputText value="Desde: "/>  
+                <h:outputText value="#{consultaCobrosGeneralesBean.fechaIni}">  
+                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
+                </h:outputText>  
+                <h:outputText value=" Hasta: "/>  
+                <h:outputText value="#{consultaCobrosGeneralesBean.fechaFin}">  
+                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
+                </h:outputText>  
+                <h:outputText value=" Tipo: "/>  
+                <h:outputText value="#{consultaCobrosGeneralesBean.tipoIngreso.descripcion}"/>  
+
+            </f:facet>  
+            <p:column sortBy="#{item.numeroRecibo}"
+                      style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Nro. Recibo"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroRecibo}"/>
+            </p:column>
+            <p:column width="80"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.alumno.dni}" exportable="false">
+                <f:facet name="header">
+                    <h:outputText value="Dni"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.dni}" />
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.alumno.apellido}"
+                sortBy="#{item.alumno.apellido}" exportable="false">
+                <f:facet name="header">
+                    <h:outputText value="Alumno"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.apellido}  #{item.alumno.nombre}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.nombre}" exportable="false">
+                <f:facet name="header">
+                    <h:outputText value="Alumno Eventual"/>
+                </f:facet>
+                <h:outputText value="#{item.nombre} "/>
+            </p:column>
+            <p:column visible="false">
+                <f:facet name="header">
+                    <h:outputText value="Alumno"/>
+                </f:facet>
+                <h:outputText value="#{item.alumno.apellido}  #{item.alumno.nombre} #{item.nombre} #{item.alumno.dni}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.concepto}" filterMatchMode="contains">
+                <f:facet name="header">
+                    <h:outputText value="Concepto"/>
+                </f:facet>
+                <h:outputText value="#{item.concepto}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.fechaPago}">
+                <f:facet name="header">
+                    <h:outputText value="Fecha de Pago"/>
+                </f:facet>
+                <h:outputText value="#{item.fechaPago}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>
+            </p:column>
+
+            <p:column width="80"
+                      style="word-wrap:break-word;"
+                      filterBy="#{item.importe}">
+                <f:facet name="header">
+                    <h:outputText value="Importe"/>
+                </f:facet>
+                <h:outputText value="#{item.importe}"/>
+            </p:column>
+            <p:column exportable="true"
+                      filterBy="#{item.tipoIngreso}" filterMatchMode="contains">
+                <f:facet name="header">
+                    <h:outputText value="Tipo"/>
+                </f:facet>
+                <h:outputText value="#{item.tipoIngreso.descripcion}"/>
+            </p:column>
+            <p:column exportable="true"
+                      filterBy="#{item.formaPago}" filterMatchMode="contains">
+                <f:facet name="header">
+                    <h:outputText value="Forma de Pago"/>
+                </f:facet>
+                <h:outputText value="#{item.formaPago}"/>
+            </p:column>
+            <f:facet name="footer" id="pnTotalCobroGeneral">
+                <h:outputLabel value="Importe Total Cobros Generales: $ " />
+                <h:outputText id="otTotalCobroGeneral"
+                              value="#{consultaCobrosGeneralesBean.totalXCobroGeneral}"/>  
+                <h:outputLabel value=", Emisión de Reporte: " />
+                <h:outputText  value="#{consultaCobrosGeneralesBean.now}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES"/>
+                </h:outputText>
+
+            </f:facet>
+        </p:dataTable>
+
+
+
+        <p:messages autoUpdate="true"/>
+
+        <h3>Exportar</h3>
+
+
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Ingresos Filtrados"/>
+            <p:dataExporter type="xls" postProcessor="#{consultaCobrosGeneralesBean.postProcessXLS}" 
+                            target="dtCobrosGenerales2" fileName="ingresosconsulta"   pageOnly="false"/>
+        </h:commandLink>
+
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ingresos Filtrados"/>
+            <pe:exporter type="pdf" target="dtCobrosGenerales2" orientation="Landscape"
+                         fileName="ingresosconsulta" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
+
+
+        </h:commandLink>
+    </ui:define>
+</ui:composition>

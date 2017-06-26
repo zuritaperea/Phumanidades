@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      template="./Templates/adminTemplate.xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <!--Inicio Dialogo buscar Docente-->
+    <p:dialog id="dFindDocente" 
+              widgetVar="dlgFindDocente" 
+              modal="true" position="top"
+              width="700">
+
+        <h:inputHidden value="#{docenteBean.tipoBusqueda}" />
+
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto" style="width: 500px;">
+
+            <f:facet name="header">  
+                <h:outputText value="Busqueda de Docentes"/>
+
+            </f:facet>  
+            <h:panelGrid columns="2"  cellpadding="5">
+                <h:outputText value="Tipo de Busqueda"/>
+                <p:selectOneMenu id="tipoBusqueda" 
+                                 value="#{docenteBean.tipoBusqueda}"
+                                 required="false">
+                    <f:selectItems value="#{docenteBean.lstTipoBusqueda}"/>
+                </p:selectOneMenu>
+            </h:panelGrid>    
+
+            <h:panelGrid columns="2"  cellpadding="5">
+                <p:inputText id="itBusqueda" 
+                             value="#{docenteBean.busqueda}"/> 
+
+
+
+                <p:commandButton id="btnDniApellido" 
+                                 icon="ui-icon-search"
+                                 actionListener="#{docenteBean.buscarDniApellido()}"
+                                 update="dtBusquedaDocente"
+                                 process="@this, itBusqueda, tipoBusqueda"/>
+            </h:panelGrid>
+
+            <div style="width: 650px">
+                <p:dataTable id="dtBusquedaDocente"
+                             value="#{docenteLstBean.lstDocente}"
+                             var="te"
+                             paginator="true"
+                             rows="10"
+                             rowKey="#{te.id}"
+                             selection="#{docenteLstBean.docenteSeleccionado}"
+                             selectionMode="single"
+                             >
+
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Dni"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.dni}"/>
+
+                    </p:column>
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Apellido"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.apellido}"/>
+
+                    </p:column>
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.nombre}"/>
+
+                    </p:column>
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="cbSelectDocente"
+                                         value="Seleccionar"
+                                         action="#{docenteBean.obtenerCarreras()}"
+                                         icon="ui-icon-search"  
+                                         process="dtBusquedaDocente,@this"
+                                         oncomplete="PF('dlgFindDocente').hide();"/>  
+                    </f:facet>
+
+
+                </p:dataTable>                 
+            </div>
+
+
+        </div>
+    </p:dialog> 
+</html>
