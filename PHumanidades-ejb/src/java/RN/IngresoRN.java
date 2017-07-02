@@ -129,6 +129,17 @@ public class IngresoRN implements IngresoRNLocal {
         if (ingresoCuota.getFechaPago() == null) {
             throw new Exception("No selecciono Fecha de Pago");
         }//fin if
+        Date ultimoPago = ingresoCuotaFacadeLocal.findFechaUltimaCuotaAlumno(ingresoCuota.getAlumno());
+        if (ingresoCuota.getFechaPago() != null && ultimoPago != null) {
+            if(ingresoCuota.getFechaPago().compareTo(ultimoPago) <= 0) {
+                Calendar c = Calendar.getInstance();
+                c.setTime(ultimoPago);
+                throw new Exception("La Fecha de Pago debe ser mayor o igual que el ultimo pago: "+
+                        String.valueOf(c.get(Calendar.DAY_OF_MONTH))+"/"+
+                        String.valueOf(c.get(Calendar.MONTH+1))+"/"+
+                        String.valueOf(c.get(Calendar.YEAR)));
+            }    
+        }
         if (ingresoCuota.getCuenta() == null) {
             throw new Exception("Debe seleccionar una cuenta");
         } else if (ingresoCuota.getCuenta().getCodigo() == null) {

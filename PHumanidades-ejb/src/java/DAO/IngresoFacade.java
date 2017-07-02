@@ -283,4 +283,17 @@ public class IngresoFacade extends AbstractFacade<Ingreso> implements IngresoFac
         }
     }
 
+    @Override
+    public Date findFechaUltimaCuotaAlumno(Alumno alumno) {
+        Query q = em.createNamedQuery("Ingreso.findFechaUltimaCuotaAlumno");
+        q.setParameter("alumno",alumno);
+        try{
+            return (Date) q.getSingleResult();
+        }catch (Exception e){
+            return null;
+        }
+    }
+    
+    
+
 }

@@ -64,6 +64,8 @@ public interface IngresoFacadeLocal {
     public int findUltimaCuotaAlumno(Alumno alumno);
 
     public int findUltimaCuotaAlumnoCohorte(Alumno alumno, Cohorte cohorte);
+    
+    public Date findFechaUltimaCuotaAlumno(Alumno alumno);
 
     public List<Ingreso> findAllDesc();
 

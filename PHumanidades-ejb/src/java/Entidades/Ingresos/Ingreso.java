@@ -43,6 +43,8 @@ import javax.persistence.Temporal;
             query = "SELECT MAX(c.cuota) FROM Ingreso c WHERE c.alumno=:alumno AND c.borrado=false AND c.anulado=false "),
     @NamedQuery(name = "Ingreso.findUltimaCuotaAlumnoCohorte",
             query = "SELECT MAX(c.cuota) FROM Ingreso c WHERE c.alumno=:alumno and c.cohorte=:cohorte  AND c.borrado=false AND c.anulado=false "),
+    @NamedQuery(name = "Ingreso.findFechaUltimaCuotaAlumno",
+            query = "SELECT MAX(c.fechaPago) FROM Ingreso c WHERE c.alumno=:alumno AND c.borrado=false AND c.anulado=false"),
     @NamedQuery(name = "Ingreso.UpdateBorrado", query = "UPDATE Ingreso c SET c.borrado = :estado WHERE c.id = :id"),
     @NamedQuery(name = "Ingreso.UpdateAnulado", query = "UPDATE Ingreso c SET c.anulado = :estado WHERE c.id = :id"),
 
