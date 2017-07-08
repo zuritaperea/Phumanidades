@@ -85,9 +85,7 @@
             </tr>
         </table>
 
-        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-            <p:printer target="dtCobroCuotasConsulta" />
-        </p:commandButton>
+        
 
         <h2>
 
@@ -170,7 +168,10 @@
                 <h:outputText value="#{item.cohorte}"/>
             </p:column>
         </p:dataTable>
-
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtCobroCuotasConsulta" />
+        </p:commandButton>
+        
         <p:messages autoUpdate="true"/>
 
         <h2>
@@ -250,6 +251,8 @@
 
 
         </p:dataTable>
-
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtCobroCuotasConsultaGeneral" />
+        </p:commandButton>
     </ui:define>
 </ui:composition>

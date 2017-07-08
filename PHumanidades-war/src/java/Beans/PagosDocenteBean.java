@@ -541,14 +541,19 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaCreado(new Date());
             pagoDocente.setCreadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
+            if(docenteLstBean.getDocenteSeleccionado() == null && proveedorLstBean.getProveedorSelect() == null){
+                throw new Exception("Debe escoger un Docente o un Proveedor");
+            }
+            if(montoDesc.equals(0)){
+                throw new Exception("Debe consignar el monto");
+            }
             if (pagoDocente.getDocente() != null) {
                 if (pagoDocente.getCarrera() != null) {
                     PagosDocenteRNLocal.create(pagoDocente);
                     sMensaje = "El Pago fue Registrado";
                     severity = FacesMessage.SEVERITY_INFO;
                 } else {
-                    sMensaje = "Si seleccionó un docente debe seleccionar su carrera";
-                    severity = FacesMessage.SEVERITY_ERROR;
+                    throw new Exception("Si selecciono un Docente debe seleccionar su carrera");
                 }
             } else {
                 PagosDocenteRNLocal.create(pagoDocente);
@@ -590,7 +595,7 @@ public class PagosDocenteBean implements Serializable {
 
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();

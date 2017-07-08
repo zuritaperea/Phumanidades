@@ -12,6 +12,47 @@
     <ui:define name="content">
 
         <ui:include src="AlumnoFindDlgConsulta.xhtml"/>
+        
+        <!-- Dialogo Impresión codigo alumno -->
+        <p:dialog id="dCodigoCA"
+                  widgetVar="dlgCodigoCA"
+                  closable="true" position="top" header="Alumnos">
+
+            <h:inputHidden value="#{alumnoLstBean.alumnoSelectConsulta.id}" />
+            <p:scrollPanel mode="native" style="max-height:600px">    
+
+                <p:panel id="pCodigoCA" styleClass="contenidoTabla">
+                    <img src="Imagenes/logo.jpg "/>
+
+                    <h:panelGrid cellpadding="0" cellspacing="0" columns="2"                                  
+                                 columnClasses="contenidoTabla,contenidoTabla">
+                        <h:outputText value="Alumno: " styleClass="headerTabla" />
+                        <h:outputText value="#{alumnoLstBean.alumnoSelectConsulta}" />
+                        <h:outputText value="DNI: " styleClass="headerTabla" />
+                        <h:outputText value="#{alumnoLstBean.alumnoSelectConsulta.dni}" />    
+                        <h:outputText value="Fecha Nacimiento: " styleClass="headerTabla" />
+                        <h:outputText value="#{alumnoLstBean.alumnoSelectConsulta.fechaNacimiento}" >
+                                          <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        <h:outputText  value="Localidad:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoLstBean.alumnoSelectConsulta.domicilio.localidad}"/> 
+                        <h:outputText  value="Barrio:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoLstBean.alumnoSelectConsulta.domicilio.barrio}"/>
+                        <h:outputText  value="Calle:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoLstBean.alumnoSelectConsulta.domicilio.calle}"/>
+                        <h:outputText  value="Numero:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoLstBean.alumnoSelectConsulta.domicilio.numero}"/>
+
+                        <h:outputText value="Codigo RAPIPAGO" styleClass="headerTabla" />
+                        <p:barcode value="#{alumnoBean.getCodigoRapipago(alumnoLstBean.alumnoSelectConsulta)}" type="int2of5"/>
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                    <p:printer target="pCodigoCA" />
+                </p:commandButton><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></p:scrollPanel>
+        </p:dialog>
+        
 
         <p:growl id="grConsultaCobroCuotasAlumnos" showDetail="true" sticky="true" />
         <h1>
@@ -88,8 +129,18 @@
             </tr>
         </table>
 
-        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
             <p:printer target="dtCobroCuotasConsulta" />
+        </p:commandButton>
+        <p:commandButton id="cbCodigoCA"
+                                 title="Código"
+                                 value="Código"
+                                 icon="ui-icon-print" 
+                                 update=":frmPri:dCodigoCA, @this"
+                                 oncomplete="PF('dlgCodigoCA').show();"
+                                 >
+                    <f:setPropertyActionListener value="#{item}" target="#{alumnoBean.alumno}"/> 
+
         </p:commandButton>
 
         <h2>
