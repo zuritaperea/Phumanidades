@@ -167,6 +167,13 @@
                 </f:facet>
                 <h:outputText value="#{item.cohorte}"/>
             </p:column>
+            <p:column 
+                >
+                <f:facet name="header">
+                    <h:outputText value="Tipo Ingreso"/>
+                </f:facet>
+                <h:outputText value="#{item.tipoIngreso.descripcion}"/>
+            </p:column>
         </p:dataTable>
         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="dtCobroCuotasConsulta" />
@@ -248,7 +255,13 @@
                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </p:column>
-
+            <p:column 
+                width="60">
+                <f:facet name="header">
+                    <h:outputText value="Tipo Ingreso"/>
+                </f:facet>
+                <h:outputText value="#{itemm.tipoIngreso.descripcion}"/>
+            </p:column>
 
         </p:dataTable>
         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
