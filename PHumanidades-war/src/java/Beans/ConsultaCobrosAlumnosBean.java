@@ -9,13 +9,18 @@ import RN.IngresoRNLocal;
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -197,13 +202,27 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
     public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
         Document pdf = (Document) document;
         pdf.open();
-        pdf.newPage();
-        pdf.setPageSize(PageSize.A4);
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         String logo = externalContext.getRealPath("") + File.separator + "Imagenes" + File.separator + "LogoFacultadHumanidades70x70.png";
         //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         // pdf.add(new Phrase("Fecha: " + formato.format(new Date())));
-        pdf.add(Image.getInstance(logo));
+        
+        PdfPTable pdfTable = new PdfPTable(6);
+        PdfPCell pdfcell = new PdfPCell();
+        pdfcell.setColspan(1);
+        pdfcell.setImage(Image.getInstance(logo));
+	pdfTable.addCell(pdfcell);
+        final Phrase phrase = new Phrase("FACULTAD DE HUMANIDADES \n última cuota alumnos \n "+ 
+                new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        phrase.setFont(FontFactory.getFont(FontFactory.TIMES_ROMAN));
+        PdfPCell pdfcell2 = new PdfPCell();
+        pdfcell2.setColspan(5);
+        pdfcell2.setHorizontalAlignment(1);
+        pdfcell2.setVerticalAlignment(1);
+        pdfcell2.setPhrase(phrase);
+        pdfTable.addCell(pdfcell2);
+    
+	pdf.add(pdfTable);
     }
 
     public void buscarFechaCohortes() {

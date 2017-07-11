@@ -5,7 +5,8 @@
                  template="./Templates/adminTemplate.xhtml"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:h="http://java.sun.com/jsf/html"
-                 xmlns:f="http://java.sun.com/jsf/core">
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 
@@ -110,6 +111,15 @@
         <h:commandLink>
             <p:graphicImage value="./Imagenes/excel.png" title="Exportar Ingresos Filtrados"/>
             <p:dataExporter type="xls" target="dtAlumnosCohorte" fileName="cuotaalumnosfiltrada" pageOnly="true"/>
+        </h:commandLink>
+        
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ultima Cuota"/>
+            <pe:exporter type="pdf" target="dtAlumnosCohorte" orientation="Landscape"
+                         fileName="ultima_cuota" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                         preProcessor="#{consultaCobrosAlumnosBean.preProcessPDF}"
+                         />  
         </h:commandLink>
 
 
