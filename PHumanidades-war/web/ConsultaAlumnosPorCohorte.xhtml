@@ -48,8 +48,14 @@
             </tr>
         </table>
 
-        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-            <p:printer target="dtAlumnosCohorte" /></p:commandButton>
+         <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ultima Cuota"/>
+            <pe:exporter type="pdf" target="dtAlumnosCohorte" orientation="Landscape"
+                         fileName="ultima_cuota" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                         preProcessor="#{consultaCobrosGeneralesBean.generar()}"
+                         />  
+        </h:commandLink>
         <p:dataTable id="dtAlumnosCohorte"
                      value="#{consultaCobrosAlumnosBean.lstInscripcionAlumnos}" 
                      var="item"
@@ -141,13 +147,14 @@
                             target="dtAlumnosCohorte" fileName="alumnos"   pageOnly="false"/>
         </h:commandLink>
 
+        
         <h:commandLink >
-            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Alumnos"/>
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ultima Cuota"/>
             <pe:exporter type="pdf" target="dtAlumnosCohorte" orientation="Landscape"
-                         fileName="alumnos" datasetPadding="4"  cellFontSize="10" 
-                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
-
-
+                         fileName="ultima_cuota" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                         preProcessor="#{consultaCobrosGeneralesBean.generar()}"
+                         />  
         </h:commandLink>
 
         <p:messages autoUpdate="true"/>
