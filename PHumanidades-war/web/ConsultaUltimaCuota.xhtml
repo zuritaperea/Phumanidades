@@ -118,7 +118,7 @@
             <pe:exporter type="pdf" target="dtAlumnosCohorte" orientation="Landscape"
                          fileName="ultima_cuota" datasetPadding="4"  cellFontSize="10" 
                          skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
-                         preProcessor="#{consultaCobrosAlumnosBean.preProcessPDF}"
+                         preProcessor="#{consultaCobrosAlumnosBean.generar()}"
                          />  
         </h:commandLink>
 

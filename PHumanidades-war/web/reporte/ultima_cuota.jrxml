@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ultima_cuota" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="37ab4415-eba0-43eb-a9b8-fa6de3c77c9c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="escudo1" class="java.lang.String"/>
+	<parameter name="escudo2" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT t0.ID, t0.APELLIDO, t0.CALIDAD, t0.CONDICION, t0.DNI, t0.FECHANACIMIENTO, t0.NOMBRE, t0.DOMICILIO_ID, t2.ID, t2.CANTIDADCUOTAS, t2.DESCRIPCION, t2.IMPORTECUOTA, t2.CARRERA_ID, t2.ANIO_ID, t1.FECHAPAGO, t1.CUOTA, t4.DESCRIPCION as DESC FROM ingresos t1 LEFT OUTER JOIN COHORTE t2 ON (t2.ID = t1.COHORTE_ID) JOIN CARRERA t4 ON (t2.CARRERA_ID = t4.ID), ALUMNO t0 WHERE ((t1.CUOTA = (SELECT MAX(t3.CUOTA) FROM ingresos t3 WHERE (t3.ALUMNO_ID = t0.ID))) AND (t0.ID = t1.ALUMNO_ID)) order by t0.APELLIDO, t0.NOMBRE]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="apellido" class="java.lang.String"/>
+	<field name="calidad" class="java.lang.String"/>
+	<field name="condicion" class="java.lang.String"/>
+	<field name="dni" class="java.lang.String"/>
+	<field name="fechanacimiento" class="java.sql.Date"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="domicilio_id" class="java.lang.Long"/>
+	<field name="cantidadcuotas" class="java.lang.Integer"/>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="importecuota" class="java.math.BigDecimal"/>
+	<field name="carrera_id" class="java.lang.Long"/>
+	<field name="anio_id" class="java.lang.Long"/>
+	<field name="fechapago" class="java.sql.Date"/>
+	<field name="cuota" class="java.lang.Integer"/>
+	<field name="desc" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="109" splitType="Stretch">
+			<image>
+				<reportElement x="722" y="0" width="80" height="80" uuid="fd0710d4-8c96-4628-8122-655660012481"/>
+				<imageExpression><![CDATA[$P{escudo2}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="10" y="0" width="80" height="80" uuid="317da878-3771-4e72-a7a3-aec07f06b258"/>
+				<imageExpression><![CDATA[$P{escudo1}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="253" y="59" width="322" height="20" uuid="dd5723d5-80a5-431e-9674-7670d043e18f"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Secretaría de Administración y Asuntos Institucionales]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="34" width="217" height="20" uuid="b5534416-6507-4ed6-8a3a-48063ab9fe36"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facultad de Humanidades]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="774" y="89" width="28" height="20" uuid="8a13b28f-818e-4532-a374-133f5a04e8b3"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="257" y="7" width="313" height="20" uuid="4e68f37d-6bf5-4476-8917-80c2a1abaecc"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Universidad Nacional de Catamarca]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="711" y="89" width="63" height="20" uuid="1a2ed3e2-b60c-413f-8fa6-f86346486231"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="108" width="802" height="1" uuid="21aa27ec-7b0e-4f1e-8b37-136527d76d1a"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="69" height="20" uuid="aba1eba4-d202-4c9c-bbc7-58e2151de08a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="87" y="0" width="184" height="20" uuid="cc15dc07-f328-433e-b2f7-cdfc4cf30eee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALUMNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="534" y="0" width="100" height="20" uuid="11fbe078-1937-43d8-a056-c9e80b00c579"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[COHORTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="647" y="0" width="54" height="20" uuid="ac161789-c2ae-40f2-8a69-330dd630c719"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CUOTA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="711" y="0" width="91" height="20" uuid="801ea1a0-7d31-4a5a-89a9-fc4b417e36b9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA DE PAGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="294" y="0" width="225" height="20" uuid="fdf3bb0a-bb2b-4e0f-a6cb-b95fba7cd157"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CARRERA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="74" y="0" width="1" height="25" uuid="a435e00c-bfa3-43f3-a7df-412bf1b781ad"/>
+			</line>
+			<line>
+				<reportElement x="283" y="0" width="1" height="25" uuid="c1b169a2-41e7-4501-b16d-3c1f8bbd23b1"/>
+			</line>
+			<line>
+				<reportElement x="526" y="0" width="1" height="25" uuid="26fc8676-7221-4297-afb0-19259a9b7042"/>
+			</line>
+			<line>
+				<reportElement x="0" y="24" width="802" height="1" uuid="a7373fae-89a6-4236-8c5c-3afbfc53eba7"/>
+			</line>
+			<line>
+				<reportElement x="640" y="0" width="1" height="24" uuid="978e81d1-c7a7-4f17-9208-a16641192b18"/>
+			</line>
+			<line>
+				<reportElement x="706" y="0" width="1" height="25" uuid="aba4c94b-169e-4bc9-9e8b-04aa4cef4552"/>
+			</line>
+			<line>
+				<reportElement x="802" y="1" width="1" height="24" uuid="1b04ecbc-4204-47cf-a7f0-7cea7e3936a1"/>
+			</line>
+			<line>
+				<reportElement x="0" y="1" width="1" height="23" uuid="bb41cd89-b349-412f-b734-85149a127e9d"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="5" width="69" height="20" uuid="ff8bff84-04e0-4c0e-8617-b7d9703fd739"/>
+				<textFieldExpression><![CDATA[$F{dni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="5" width="184" height="20" uuid="110e2871-214a-48c3-918d-3f07894a03b7"/>
+				<textFieldExpression><![CDATA[$F{apellido} + "," +$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="647" y="5" width="54" height="20" uuid="1af90394-5287-48fb-9fbc-a70f5a614761"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cuota}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="711" y="5" width="91" height="20" uuid="c32277ed-8fbc-449d-a61e-45ae4bbd7d88"/>
+				<textFieldExpression><![CDATA[$F{fechapago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="294" y="5" width="225" height="34" uuid="2106b0a2-4a0c-4928-9515-2e31af60cd40"/>
+				<textFieldExpression><![CDATA[$F{desc}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="283" y="0" width="1" height="40" uuid="69c5e390-735d-4336-a2f3-b975ab9ec892"/>
+			</line>
+			<line>
+				<reportElement x="74" y="0" width="1" height="40" uuid="3c75213e-b164-4ed1-9e16-f7969cb90403"/>
+			</line>
+			<line>
+				<reportElement x="-1" y="39" width="802" height="1" uuid="7ed1a8bf-e0a3-4925-b25b-93df809fd9af"/>
+			</line>
+			<line>
+				<reportElement x="526" y="0" width="1" height="40" uuid="4a2fd0c3-5949-4b8b-b7a7-da1caa0aa5e9"/>
+			</line>
+			<line>
+				<reportElement x="640" y="0" width="1" height="40" uuid="fd21a3c4-7f16-497d-9e9c-70bd87996bb2"/>
+			</line>
+			<line>
+				<reportElement x="706" y="0" width="1" height="40" uuid="57195683-c7a6-44a1-9d26-0c555beae5b1"/>
+			</line>
+			<line>
+				<reportElement x="801" y="0" width="1" height="40" uuid="2847700c-f771-463f-ad5e-ce333742b5f3"/>
+			</line>
+			<line>
+				<reportElement x="0" y="0" width="1" height="40" uuid="792167bf-46f3-4a4f-b91d-2deff5e73cc5"/>
+			</line>
+			<textField>
+				<reportElement x="534" y="5" width="100" height="34" uuid="6ab6f449-bbc2-4b25-a55a-b5660ce5066f"/>
+				<textFieldExpression><![CDATA[$F{descripcion}
+]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

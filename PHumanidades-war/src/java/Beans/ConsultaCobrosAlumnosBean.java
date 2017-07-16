@@ -20,10 +20,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -33,6 +37,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -50,6 +59,9 @@ import org.primefaces.event.TabChangeEvent;
 @ManagedBean(name = "consultaCobrosAlumnosBean")
 @ViewScoped
 public class ConsultaCobrosAlumnosBean implements Serializable {
+    
+    private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "escudo.jpg";
+     private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "logo2.jpg";
 
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
@@ -334,4 +346,43 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
             listaUltimaCuota.add(i);
         }
     }
+    
+    public void generar() throws SQLException {
+
+        Connection conect;
+        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "postgres", "123456");
+   
+        System.out.println("funcionando");
+
+        try {
+
+            HashMap parametros = new HashMap();
+            
+           
+            parametros.put("escudo1",escudo1 );
+            parametros.put("escudo2",escudo2 );
+            
+            
+//funcionando
+
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator+"ultima_cuota.jasper";
+            System.out.println(reportPath);
+            System.out.println(escudo1);
+            System.out.println(escudo2);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception ex) {
+            System.out.println(ex + "CAUSA: " + ex.getCause());
+            ex.printStackTrace();
+        }
+
+    }//fin generar
 }
