@@ -8,6 +8,7 @@ package Beans;
 import Entidades.Carreras.Carrera;
 import Entidades.Egresos.FormaPago;
 import Entidades.Egresos.PagosDocente;
+import Entidades.Egresos.RubroPresupuestario;
 import Entidades.Egresos.TipoComprobante;
 import Entidades.Persona.Docente;
 import Entidades.Persona.Proveedor;
@@ -95,6 +96,10 @@ public class PagosDocenteBean implements Serializable {
     @Enumerated(EnumType.STRING)
     private FormaPago formapago;
     private List<SelectItem> lstFormaPago;
+    
+    @Enumerated(EnumType.STRING)
+    private RubroPresupuestario rubroPresupuestario;
+    private List<SelectItem> lstRubroPresupuestario;
 
     private List<SelectItem> lstProveedor;
 
@@ -106,6 +111,7 @@ public class PagosDocenteBean implements Serializable {
     private void init() {
         pagoDocente = new PagosDocente();
         cargarLstFormaPago();
+        cargarLstRubroPresupuestario();
         cargarLstProveedor();
         cargarLstTipoComprobante();
     }
@@ -210,6 +216,16 @@ public class PagosDocenteBean implements Serializable {
         this.lstFormaPago = lstFormaPago;
     }
 
+    public List<SelectItem> getLstRubroPresupuestario() {
+        return lstRubroPresupuestario;
+    }
+
+    public void setLstRubroPresupuestario(List<SelectItem> lstRubroPresupuestario) {
+        this.lstRubroPresupuestario = lstRubroPresupuestario;
+    }
+    
+    
+
     public List<SelectItem> getLstProveedor() {
         return lstProveedor;
     }
@@ -224,6 +240,14 @@ public class PagosDocenteBean implements Serializable {
 
     public void setFormapago(FormaPago formapago) {
         this.formapago = formapago;
+    }
+
+    public RubroPresupuestario getRubroPresupuestario() {
+        return rubroPresupuestario;
+    }
+
+    public void setRubroPresupuestario(RubroPresupuestario rubroPresupuestario) {
+        this.rubroPresupuestario = rubroPresupuestario;
     }
 
     public DocenteBean getDocenteBean() {
@@ -717,5 +741,12 @@ public class PagosDocenteBean implements Serializable {
         //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         // pdf.add(new Phrase("Fecha: " + formato.format(new Date())));
         pdf.add(Image.getInstance(logo));
+    }
+
+    private void cargarLstRubroPresupuestario() {
+        lstRubroPresupuestario = new ArrayList<SelectItem>();
+        for (RubroPresupuestario rp : RubroPresupuestario.values()) {
+            lstRubroPresupuestario.add(new SelectItem(rp, rp.toString()));
+        }
     }
 }

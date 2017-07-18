@@ -85,6 +85,9 @@ public class PagosDocente extends Base implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private FormaPago formapago;
+    
+    @Enumerated(EnumType.STRING)
+    private RubroPresupuestario rubroPresupuestario;
 
     @Enumerated(EnumType.STRING)
     private TipoComprobante tipocomprobante;
@@ -129,6 +132,16 @@ public class PagosDocente extends Base implements Serializable {
 
     @OneToOne
     private Cuenta cuenta;
+
+    public RubroPresupuestario getRubroPresupuestario() {
+        return rubroPresupuestario;
+    }
+
+    public void setRubroPresupuestario(RubroPresupuestario rubroPresupuestario) {
+        this.rubroPresupuestario = rubroPresupuestario;
+    }
+    
+    
 
     public int getNumeroOrdenPago() {
         return numeroOrdenPago;

@@ -259,6 +259,14 @@
 
                                 <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
                             </p:selectOneMenu>
+                            <h:outputText value="Rubro Presupuestario"/>
+                            <p:selectOneMenu id="rubroPresupuestario" 
+                                             value="#{pagosDocenteBean.pagoDocente.rubroPresupuestario}"
+                                             required="false">                            
+                                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+
+                                <f:selectItems value="#{pagosDocenteBean.lstRubroPresupuestario}"/>
+                            </p:selectOneMenu>
                             <h:outputText value="Numero de Cheque"/>
                             <p:inputText id="numeroCheque" 
                                          value="#{pagosDocenteBean.pagoDocente.numeroCheque}"/>
@@ -639,6 +647,13 @@
                     <h:outputText value="Forma de Pago"/>
                 </f:facet>
                 <h:outputText value="#{item.formapago}"/>
+            </p:column>
+            <p:column visible="false"
+                      style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Rubro Presupuestario"/>
+                </f:facet>
+                <h:outputText value="#{item.rubroPresupuestario}"/>
             </p:column>
             <p:column visible="false"
                       style="word-wrap:break-word;">
