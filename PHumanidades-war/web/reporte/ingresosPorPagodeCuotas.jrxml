@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="15028a43-b154-46c5-95ef-f15fd2147ad9">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="128"/>
+	<parameter name="escudo1" class="java.lang.String"/>
+	<parameter name="escudo2" class="java.lang.String"/>
+	<parameter name="cohorte_id" class="java.lang.Long"/>
+	<parameter name="apellido" class="java.lang.String"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="dni" class="java.lang.String"/>
+	<parameter name="codigo" class="java.lang.String"/>
+	<parameter name="alumno_id" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT
+    ingresos.numero_recibo,
+     ingresos."cuota",
+     ingresos."fechapago",
+     alumno."dni",
+     alumno."apellido",
+     alumno."nombre",
+     carrera."descripcion" AS carrera,
+     cohorte."descripcion" AS cohorte
+FROM
+     "ingresos" ingresos INNER JOIN "alumno" alumno ON ingresos."alumno_id" = alumno."id"
+     INNER JOIN "cohorte" cohorte ON ingresos."cohorte_id" = cohorte."id"
+     INNER JOIN "carrera" carrera ON cohorte."carrera_id" = carrera."id"
+WHERE
+     ingresos.alumno_id = $P{alumno_id}
+     and ingresos.cohorte_id = $P{cohorte_id}
+ AND ingresos.borrado = 'false'
+ AND ingresos.anulado = 'false'
+ORDER BY
+     ingresos.id DESC]]>
+	</queryString>
+	<field name="numero_recibo" class="java.lang.Integer"/>
+	<field name="cuota" class="java.lang.Integer"/>
+	<field name="fechapago" class="java.sql.Date"/>
+	<field name="dni" class="java.lang.String"/>
+	<field name="apellido" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="carrera" class="java.lang.String"/>
+	<field name="cohorte" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="193" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="44" width="191" height="20" uuid="2ee7fd62-0557-4438-9498-db7293700238"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facultad de Humanidades]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="463" y="96" width="63" height="20" uuid="67d93177-0c56-4cb2-8f47-bb1359101c31"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="117" y="70" width="322" height="20" uuid="2d34057c-03fa-4e81-9cee-73195607ed38"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Secretaría de Administración y Asuntos Institucionales]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="526" y="96" width="28" height="20" uuid="f6be1a55-b8db-4e89-a156-cca385f2df16"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="473" y="2" width="80" height="80" uuid="93c3d544-8c4f-4927-b4e1-212c74b55d9b"/>
+				<imageExpression><![CDATA[$P{escudo2}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="2" y="1" width="80" height="80" uuid="1705b775-cd23-4e12-ad10-1c931077dd86"/>
+				<imageExpression><![CDATA[$P{escudo1}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="145" y="17" width="256" height="20" uuid="2cffcf06-05cf-4512-ad70-986a166569ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Universidad Nacional de Catamarca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="150" width="47" height="20" uuid="24a7dc38-6891-4884-b764-641bc997a7f1"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apellido:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="161" y="150" width="43" height="20" uuid="5513d40a-538e-41c8-af7d-b22a53032c9b"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="150" width="22" height="20" uuid="f22d5fe0-581f-4707-a51e-dfe78efe6a89"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DNI:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="47" y="150" width="112" height="20" uuid="3bd53b8e-4d38-4127-a7f9-a336da7d79db"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{apellido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="150" width="147" height="20" uuid="fd6dacbc-09e3-4b58-849d-90b8d35bda30"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="383" y="150" width="62" height="20" uuid="520b5097-faff-49ad-a057-86d6a1a0168f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dni}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="121" width="553" height="20" uuid="3bc0ca77-59a6-4345-89aa-176fbdc40420"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ingresos por Pago de Cuotas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="82" y="-71" width="190" height="20" uuid="78d1e8fe-8603-448a-adb2-6f7fce6f3d06"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carrera]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="445" y="141" width="108" height="29" uuid="ff3d6a35-94ee-4f8a-a2cf-7eea48890abf"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Int2of5" drawText="false" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$P{codigo}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement x="445" y="174" width="108" height="11" uuid="a3282f34-ea93-48e1-973d-6878cb6717f1"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{codigo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="47" height="20" uuid="415fc2e6-bff7-4b21-8906-46e48a859709"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[N° recibo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="1" width="67" height="20" uuid="4427ec97-e2ae-487d-8d6c-9f5079c5621f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="1" width="82" height="20" uuid="76b08375-9f21-496d-acfd-1634e4935a55"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fechapago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="1" width="168" height="20" uuid="d7f5c75c-179f-4676-a08a-cd8db4fc53fb"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cohorte]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="92f2daf1-74b4-42a8-b8cb-84adc23cb0b5"/>
+			</line>
+			<line>
+				<reportElement x="0" y="21" width="555" height="1" uuid="c9269a2d-5171-407b-988c-ea1efe1bbdca"/>
+			</line>
+			<line>
+				<reportElement x="48" y="1" width="1" height="20" uuid="f0dbc07f-f2da-43ab-81a7-4014d686a833"/>
+			</line>
+			<line>
+				<reportElement x="119" y="1" width="1" height="20" uuid="9dc7be15-b5cb-428e-8279-b4393f7deda3"/>
+			</line>
+			<line>
+				<reportElement x="202" y="1" width="1" height="20" uuid="83e4ce3f-16d8-40c5-85ca-fbac2e24a8a9"/>
+			</line>
+			<line>
+				<reportElement x="383" y="1" width="1" height="20" uuid="ce4529d6-240f-4b2f-bb55-d150ec18fd85"/>
+			</line>
+			<line>
+				<reportElement x="555" y="0" width="1" height="21" uuid="40aec5a8-7875-4257-935a-86802ab7df2f"/>
+			</line>
+			<staticText>
+				<reportElement x="203" y="1" width="179" height="20" uuid="28e85df3-6a19-44c7-93f9-777bb97dfdf4"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Carrera]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-1" y="0" width="1" height="21" uuid="760a6f07-64bb-4324-a036-9ea6df05ba84"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="1" width="47" height="36" uuid="26efa93a-236d-4f4d-a60f-007e7fa29b1c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{numero_recibo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="50" y="1" width="67" height="36" uuid="c90ba336-40a3-4c8d-9b83-d7631916f98e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cuota}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="120" y="1" width="82" height="36" uuid="6046de03-c0a6-4d55-9736-81d48597fa26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fechapago}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="203" y="1" width="180" height="36" uuid="fd1655de-6cf5-43eb-ba17-12ba6636ed7c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{carrera}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="386" y="1" width="168" height="36" uuid="d4722bfa-c114-4bf0-af46-b7669f4a6fd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cohorte}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="37" width="555" height="1" uuid="8d391e41-0d75-4347-b79f-6c03635ff1eb"/>
+			</line>
+			<line>
+				<reportElement x="48" y="0" width="1" height="37" uuid="ff0a3504-cf1b-47ca-a43c-bb2b8030185c"/>
+			</line>
+			<line>
+				<reportElement x="-1" y="-1" width="1" height="38" uuid="1387c7e1-f984-4dec-8a4f-abc79d2d364f"/>
+			</line>
+			<line>
+				<reportElement x="119" y="0" width="1" height="37" uuid="a31a9065-9f95-44ff-bf3f-95227e60392d"/>
+			</line>
+			<line>
+				<reportElement x="202" y="0" width="1" height="37" uuid="33ddd36e-ef06-4ae1-8433-373b24c2ad48"/>
+			</line>
+			<line>
+				<reportElement x="383" y="0" width="1" height="37" uuid="947af078-2b97-4bf7-af81-40e9f56e299f"/>
+			</line>
+			<line>
+				<reportElement x="555" y="0" width="1" height="37" uuid="beea0757-140e-4ece-99b2-852aec504a05"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

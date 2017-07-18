@@ -5,7 +5,8 @@
                  template="./Templates/adminTemplate.xhtml"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:h="http://java.sun.com/jsf/html"
-                 xmlns:f="http://java.sun.com/jsf/core">
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
 
 
 
@@ -175,9 +176,16 @@
                 <h:outputText value="#{item.tipoIngreso.descripcion}"/>
             </p:column>
         </p:dataTable>
-        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-            <p:printer target="dtCobroCuotasConsulta" />
-        </p:commandButton>
+       
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Pago de Cuotas"/>
+            <pe:exporter type="pdf" target="dtCobroCuotasConsulta" orientation="Landscape"
+                         fileName="pagocuota" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                         preProcessor="#{alumnoBean.generar()}"
+                         />  
+        </h:commandLink>
+
         
         <p:messages autoUpdate="true"/>
 
@@ -264,8 +272,14 @@
             </p:column>
 
         </p:dataTable>
-        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-            <p:printer target="dtCobroCuotasConsultaGeneral" />
-        </p:commandButton>
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Pago General"/>
+            <pe:exporter type="pdf" target="dtCobroCuotasConsultaGeneral" orientation="Landscape"
+                         fileName="pago_general" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                         preProcessor="#{alumnoBean.generarCuotasGeneral()}"
+                         />  
+        </h:commandLink>
+
     </ui:define>
 </ui:composition>
