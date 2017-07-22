@@ -196,7 +196,8 @@
             <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ingresos Filtrados"/>
             <pe:exporter type="pdf" target="dtCobrosGenerales2" orientation="Landscape"
                          fileName="ingresosconsulta" datasetPadding="4"  cellFontSize="10" 
-                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                         preProcessor="#{consultaCobrosGeneralesBean.generarCobrosGenerales()}"/>  
 
 
         </h:commandLink>

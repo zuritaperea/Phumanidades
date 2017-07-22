@@ -62,8 +62,8 @@ import org.apache.poi.hssf.util.HSSFColor;
 @ViewScoped
 public class ConsultaCobrosGeneralesBean implements Serializable {
 
-     private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\Imagenes\\escudo.jpg");
-     private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("\\Imagenes\\logo2.jpg");
+     private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "escudo.jpg";
+     private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "logo2.jpg";
     @EJB
     private IngresoRNLocal cobroGeneralRNLocal;
     @ManagedProperty(value = "#{cohorteLstBean}")
@@ -283,12 +283,10 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
             parametros.put("escudo2",escudo2 );
             parametros.put("cohorte",this.getCohorteLstBean().getCohorteSelect().getDescripcion() );
             parametros.put("cohorteID",this.getCohorteLstBean().getCohorteSelect().getId());
-            path = "reporte\\alumnoPorCohorte.jasper";
+            path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("")+File.separator+"reporte"+File.separator+"alumnoPorCohorte.jasper";
 //funcionando
 
-            FacesContext context = FacesContext.getCurrentInstance();
-            String reportPath = context.getExternalContext().getRealPath(path);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+            JasperPrint jasperPrint = JasperFillManager.fillReport(path, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
             ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
@@ -304,4 +302,47 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
 
     }//fin generar
     
+    public void generarCobrosGenerales() throws SQLException {
+
+        Connection conect;
+        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "ruben", "natalio123");
+        String path;
+        System.out.println("funcionando");
+
+        try {
+
+            HashMap parametros = new HashMap();
+            
+           
+            parametros.put("escudo1",escudo1 );
+            parametros.put("escudo2",escudo2 );
+            parametros.put("fecha_inicio",this.getFechaIni());
+            parametros.put("fecha_fin",this.getFechaFin());
+            parametros.put("tipo_ingreso",this.getTipoIngreso().getId() );
+            path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("")+
+                    File.separator+"reporte"+File.separator+"cobrosGenerales.jasper";
+//funcionando
+            System.out.println(escudo1);
+            System.out.println(escudo2);
+            System.out.println(this.getFechaIni());
+            System.out.println(this.getFechaFin());
+            System.out.println(this.getTipoIngreso().getId());
+            System.out.println(path);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(path, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception ex) {
+            System.out.println(ex + "CAUSA: " + ex.getCause());
+            ex.printStackTrace();
+        }
+
+    }//fin generar 
+     
 }
