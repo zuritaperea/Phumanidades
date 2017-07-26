@@ -49,6 +49,8 @@ import javax.persistence.Temporal;
             + "and g.docente IS NOT NULL AND g.fechaRegistro  BETWEEN :fechaIni AND :fechaFin ORDER BY g.fechaRegistro"),
     @NamedQuery(name = "PagosDocente.findPagosXFechaProveedor", query = "SELECT g FROM PagosDocente g WHERE g.borrado=false AND g.anulado=false "
             + "and g.proveedor IS NOT NULL AND g.fechaRegistro BETWEEN :fechaIni AND :fechaFin ORDER BY g.fechaRegistro"),
+    @NamedQuery(name = "PagosDocente.findPagosXFechaProveedorYCuenta", query = "SELECT g FROM PagosDocente g WHERE g.borrado=false AND g.anulado=false "
+            + "and g.proveedor IS NOT NULL and g.fechaRegistro BETWEEN :fechaIni AND :fechaFin AND g.cuenta=:cuenta ORDER BY g.fechaRegistro DESC"),
     @NamedQuery(name = "PagosDocente.findAllDesc",
             query = "SELECT c FROM PagosDocente c ORDER BY c.id DESC"),
     @NamedQuery(name = "PagosDocente.findPagosByDni", query = "SELECT p FROM PagosDocente p WHERE p.docente.dni =:dni  "

@@ -6,6 +6,7 @@
 package DAO;
 
 import Entidades.Carreras.Carrera;
+import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,8 @@ public interface PagosDocenteFacadeLocal {
     public List<PagosDocente> findByFechaCarrera(Date ini, Date fin, Carrera carrera);
 
     public List<PagosDocente> findPagosGeneralXFecha(Date ini, Date fin);
+    
+    public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta);
 
     public void updateBorrado(Boolean bEstado, Long id) throws Exception;
 

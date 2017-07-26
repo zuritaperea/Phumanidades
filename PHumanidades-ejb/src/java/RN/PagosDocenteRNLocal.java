@@ -6,6 +6,7 @@
 package RN;
 
 import Entidades.Carreras.Carrera;
+import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,8 @@ public interface PagosDocenteRNLocal {
     public List<PagosDocente> findPagosByDni(String dni) throws Exception;
 
     public List<PagosDocente> findPagosGeneralXFecha(Date ini, Date fin);
+    
+    public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta);
 
     public int findUltimoNumero();
 

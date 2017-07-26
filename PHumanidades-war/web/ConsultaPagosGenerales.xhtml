@@ -42,6 +42,19 @@
                                         value="#{consultaPagosGeneralesBean.fechaFin}">
                             </p:calendar>
                         </td>
+                        <td>
+
+                            <h:outputText value="Cuenta"/><br/>
+                            <p:selectOneMenu id="somCuenta" 
+                                             value="#{cuentaLstBean.cuenta}"
+                                             converter="ConversorCuenta"
+                                             >
+                                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+
+                                                        <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
+                            </p:selectOneMenu>
+
+                        </td>
 
                         <td>
                             <br/>
@@ -168,7 +181,8 @@
             <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Egresos Filtrados"/>
             <pe:exporter type="pdf" target="dtPagosGenerales" orientation="Landscape"
                          fileName="egresos" datasetPadding="4"  cellFontSize="10" 
-                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                         preProcessor="#{consultaPagosGeneralesBean.generarConsultaPagos()}"/>  
 
 
         </h:commandLink>

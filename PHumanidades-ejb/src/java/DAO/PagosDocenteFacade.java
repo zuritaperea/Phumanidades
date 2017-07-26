@@ -6,6 +6,7 @@
 package DAO;
 
 import Entidades.Carreras.Carrera;
+import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import java.util.Date;
 import java.util.List;
@@ -74,7 +75,7 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         q.setParameter("fechaFin", fechaFin);
         return q.getResultList();
     }
-
+    
     @Override
     public List<PagosDocente> findByFechaCarreraDocente(Date fechaIni, Date fechaFin, Carrera carrera) {
         Query q = null;
@@ -119,6 +120,16 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         q = em.createNamedQuery("PagosDocente.findPagosXFechaProveedor");
         q.setParameter("fechaIni", ini);
         q.setParameter("fechaFin", fin);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosXFechaProveedorYCuenta");
+        q.setParameter("fechaIni", ini);
+        q.setParameter("fechaFin", fin);
+        q.setParameter("cuenta", cuenta);
         return q.getResultList();
     }
 

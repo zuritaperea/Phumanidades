@@ -7,6 +7,7 @@ package RN;
 
 import Entidades.Carreras.Carrera;
 import DAO.PagosDocenteFacadeLocal;
+import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import java.util.Date;
 import java.util.List;
@@ -95,6 +96,11 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
     @Override
     public PagosDocente buscarPagosDocenteId(Long id) {
         return pagosDocenteFacadeLocal.buscarPagosDocenteId(id);
+    }
+
+    @Override
+    public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta) {
+        return pagosDocenteFacadeLocal.findPagosXFechaProveedorYCuenta(ini, fin, cuenta);
     }
 
 }

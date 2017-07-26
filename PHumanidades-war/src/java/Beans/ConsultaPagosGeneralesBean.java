@@ -1,20 +1,34 @@
 package Beans;
 
+import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import RN.PagosDocenteRNLocal;
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.TabChangeEvent;
 
@@ -25,10 +39,15 @@ import org.primefaces.event.TabChangeEvent;
 @ManagedBean(name = "consultaPagosGeneralesBean")
 @ViewScoped
 public class ConsultaPagosGeneralesBean implements Serializable {
+    
+    private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "LogoFacultadHumanidades.png";
 
     @EJB
     private PagosDocenteRNLocal pagoGeneralRNLocal;
-
+    
+    @ManagedProperty(value = "#{cuentaLstBean}")
+    private CuentaLstBean cuentaLstBean;
+    
     private List<PagosDocente> lstGastoGeneral;
     private Date fechaFin;
     private Date fechaIni;
@@ -36,7 +55,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
 
     @PostConstruct
     private void init() {
-
+     
         lstGastoGeneral = new ArrayList<>();
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -54,6 +73,15 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         this.fechaIni = fechaIni;
     }
 
+    public CuentaLstBean getCuentaLstBean() {
+        return cuentaLstBean;
+    }
+
+    public void setCuentaLstBean(CuentaLstBean cuentaLstBean) {
+        this.cuentaLstBean = cuentaLstBean;
+    }
+
+    
     /**
      * agrego un dia para que las busquedas sean de menor o igual
      *
@@ -102,8 +130,11 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             //System.out.println("entro if buscarFechaCarrera" + this.getCohorteLstBean().getCohorteSelect());
             //aumento un dia a la fecha fin para que la busqueda sea menor o igual
             if (fechaIni != null && fechaFin != null) {
-                this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedor(this.getFechaIni(), this.getFechaFin()));
-
+                if(this.getCuentaLstBean().getCuenta() != null){
+                    this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedorYCuenta(this.getFechaIni(), this.getFechaFin(),this.getCuentaLstBean().getCuenta()));
+                }else{
+                    this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedor(this.getFechaIni(), this.getFechaFin()));
+                }
 //Sumamos el total de los cobros por cohorte
                 for (PagosDocente gg : this.getLstGastoGeneral()) {
                     totalXGastoGeneral = totalXGastoGeneral.add(gg.getMonto());
@@ -128,5 +159,67 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         //     this.setLstPagosDocente(new ArrayList<PagosDocente>());
         RequestContext.getCurrentInstance().update("frmPri:dtGastosGenerales");
     }
+    
+    public void generarConsultaPagos() throws SQLException {
+
+        Connection conect;
+        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "postgres", "123456");
+   
+        System.out.println("funcionando");
+
+        try {
+
+            HashMap parametros = new HashMap();
+            String query="";
+            if(this.getCuentaLstBean().getCuenta() != null){
+                query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHAREGISTRO, "
+                        + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                        + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                        + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                        + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                        + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                        + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
+                        + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO DESC",new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                        new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()),this.getCuentaLstBean().getCuenta().getId());
+                System.out.println(query);
+                parametros.put("descripcion",this.getCuentaLstBean().getCuenta().toString());
+            }else{
+                query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHAREGISTRO, "
+                        + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                        + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                        + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                        + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                        + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                        + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
+                        + ") ORDER BY e.FECHAREGISTRO DESC",new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                        new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
+            }
+            
+           
+            parametros.put("escudo",escudo1 );
+            parametros.put("query", query);
+            parametros.put("fecha_actual",new SimpleDateFormat("MMMM-yy").format(new Date()));
+            
+            System.out.println(escudo1);
+//funcionando
+
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator+"egresosGenerales.jasper";
+            System.out.println(reportPath);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception ex) {
+            System.out.println(ex + "CAUSA: " + ex.getCause());
+            ex.printStackTrace();
+        }
+
+    }//fin generar
 
 }
