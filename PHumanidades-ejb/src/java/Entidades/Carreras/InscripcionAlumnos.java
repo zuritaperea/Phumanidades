@@ -23,6 +23,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @NamedQueries({
+    @NamedQuery(name = "InscripcionAlumnos.inscripcionFindDni", query = "SELECT i FROM InscripcionAlumnos i WHERE i.alumno.dni=:dni"),
     @NamedQuery(name = "InscripcionAlumnos.alumnoFindCohorte", query = "SELECT i.cohorte FROM InscripcionAlumnos i WHERE i.alumno=:alumno"),
     @NamedQuery(name = "InscripcionAlumnos.findAlumnoCohorte", query = "SELECT i.id FROM InscripcionAlumnos i WHERE i.alumno.dni = :dni AND i.cohorte.id = :id")})
 public class InscripcionAlumnos implements Serializable {

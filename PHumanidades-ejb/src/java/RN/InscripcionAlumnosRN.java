@@ -60,4 +60,14 @@ public class InscripcionAlumnosRN implements InscripcionAlumnosRNLocal {
         return inscripcionAlumnosFacadeLocal.findAlumnoCohorte(dni, id);
         
     }
+
+    @Override
+    public List<InscripcionAlumnos> inscripcionFindDni(String dni) throws Exception {
+        return inscripcionAlumnosFacadeLocal.inscripcionFindDni(dni);
+    }
+
+    @Override
+    public InscripcionAlumnos find(Long id) throws Exception {
+        return inscripcionAlumnosFacadeLocal.find(id);
+    }
 }

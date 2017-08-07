@@ -35,5 +35,7 @@ public interface InscripcionAlumnosFacadeLocal {
     List<Cohorte> alumnoFindCohorte(Alumno alumno);
     
     List<InscripcionAlumnos> findAlumnoCohorte (String dni, Long id);
+    
+    List<InscripcionAlumnos> inscripcionFindDni(String dni);
 
 }

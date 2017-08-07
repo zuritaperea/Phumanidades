@@ -255,5 +255,5 @@ public class InscripcionAlumnosBean implements Serializable {
         return existeInscripto;
 
     }
-
+    
 }

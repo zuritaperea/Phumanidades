@@ -31,5 +31,9 @@ public interface InscripcionAlumnosRNLocal {
     public List<Cohorte> alumnoFindCohortes(Alumno alumno) throws Exception;
     
     public List<InscripcionAlumnos> findAlumnoCohorte(String dni, Long id) throws Exception;
+    
+    public List<InscripcionAlumnos> inscripcionFindDni(String dni) throws Exception;
+    
+    public InscripcionAlumnos find(Long id) throws Exception;
 
 }

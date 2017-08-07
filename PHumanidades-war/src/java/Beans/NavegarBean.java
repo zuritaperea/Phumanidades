@@ -302,6 +302,10 @@ public class NavegarBean {
     public String frmCarrerasDistancia() {
         return "/CarrerasDistancia.xhtml?faces-redirect=true";
     }
+    
+    public String frmIngresosArchivo() {
+        return "/CobroCuotasArchivo.xhtml?faces-redirect=true";
+    }
 
     public String frmConsultaCobrosGenerales() {
 

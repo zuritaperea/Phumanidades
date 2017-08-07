@@ -48,4 +48,18 @@ public class InscripcionAlumnosFacade extends AbstractFacade<InscripcionAlumnos>
         return q.getResultList();
     }
 
+    @Override
+    public List<InscripcionAlumnos> inscripcionFindDni(String dni) {
+        Query q = em.createNamedQuery("InscripcionAlumnos.inscripcionFindDni");
+        q.setParameter("dni", dni);
+        return q.getResultList();
+    }
+
+    @Override
+    public InscripcionAlumnos find(Object id) {
+        return super.find(id); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+
 }
