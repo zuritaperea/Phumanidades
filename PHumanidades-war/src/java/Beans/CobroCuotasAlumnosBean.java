@@ -15,12 +15,18 @@ import RN.Contador005RNLocal;
 import RN.Contador025RNLocal;
 import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +39,11 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
@@ -45,6 +56,8 @@ import org.primefaces.context.RequestContext;
 @RequestScoped
 public class CobroCuotasAlumnosBean implements Serializable {
 
+    private final String huma = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "huma.png";
+    private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "logo2.jpg";
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
 
@@ -86,6 +99,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private Contador025 contador025;
     private Date fechaIni;
     private Date fechaFin;
+    private Date feha_fin_real;
     private Date fechaPago;
     int ultimaCuota;
 //Inicio Busqueda Carrera   
@@ -126,6 +140,14 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
     public void setTablaIngresos(DataTable tablaIngresos) {
         this.tablaIngresos = tablaIngresos;
+    }
+
+    public Date getFeha_fin_real() {
+        return feha_fin_real;
+    }
+
+    public void setFeha_fin_real(Date feha_fin_real) {
+        this.feha_fin_real = feha_fin_real;
     }
 
     public List<Ingreso> getIngresos() {
@@ -998,5 +1020,58 @@ public class CobroCuotasAlumnosBean implements Serializable {
             List<Ingreso> findAllByNumeroRecibo = ingresoCuotaRNLocal.findAllByNumeroRecibo(i.getCuenta(), i.getNumeroRecibo(), anio);
             ingresos = findAllByNumeroRecibo;
         }
+    }
+
+    public void generar() throws SQLException {
+        String cue = "";
+        Connection conect;
+        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "postgres", "123456");
+        String path;
+        System.out.println("funcionando" + " " + this.getCobroCuotasAlumnosLstBean().getFechaIni() + "  " + this.getCobroCuotasAlumnosLstBean().getFechaFin());
+
+        try {
+            if (this.cuentaLstBean.getCuenta_id() == 1) {
+                cue = "025";
+            } else {
+                cue = "005";
+            }
+            HashMap parametros = new HashMap();
+
+            if (this.fechaFin != null && this.fechaIni != null) {
+                Calendar c = Calendar.getInstance();
+                this.feha_fin_real = this.fechaFin;
+                c.setTime(this.fechaFin);
+                c.add(Calendar.DATE, 1);  // number of days to add
+                this.fechaFin = c.getTime();  // fechaFin is now the new date
+                parametros.put("fechaIni", this.fechaIni);
+                parametros.put("fechaFin", this.fechaFin);
+                parametros.put("cuenta_id", this.cuentaLstBean.getCuenta_id());
+                parametros.put("escudo1", huma);
+                parametros.put("feha_fin_real", this.feha_fin_real);
+                 parametros.put("cuenta", cue);
+                //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
+                //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
+            }
+
+            //System.out.println( "Patron actualizado: " +  );
+            //parametros.put("escudo1",escudo1 );
+            // parametros.put("escudo2",escudo2 );
+            path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "reporte" + File.separator + "reporteIngresosAlumnos.jasper";
+//funcionando
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(path, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+            servletOutputStream.flush();
+            servletOutputStream.close();
+            FacesContext.getCurrentInstance().responseComplete();
+
+        } catch (Exception ex) {
+            System.out.println(ex + "CAUSA: " + ex.getCause());
+
+        }
+
     }
 }
