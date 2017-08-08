@@ -22,7 +22,7 @@
 	<field name="anulado" class="java.lang.Boolean"/>
 	<field name="borrado" class="java.lang.Boolean"/>
 	<field name="concepto" class="java.lang.String"/>
-	<field name="fecharegistro" class="java.sql.Date"/>
+	<field name="fechacomprobante" class="java.sql.Date"/>
 	<field name="formapago" class="java.lang.String"/>
 	<field name="impuestoganancia" class="java.math.BigDecimal"/>
 	<field name="iva" class="java.math.BigDecimal"/>
@@ -80,15 +80,8 @@
 	</variable>
 	<title>
 		<band height="70" splitType="Stretch">
-			<staticText>
-				<reportElement x="273" y="10" width="273" height="20" uuid="73138d95-cb62-4fed-909b-a0a4d8049626"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[FACULTAD DE HUMANIDADES UNCa.]]></text>
-			</staticText>
 			<textField pattern="MMMMM-yy">
-				<reportElement x="355" y="30" width="100" height="20" uuid="333f0e4e-24aa-4b3d-9ab0-4419631c2a73"/>
+				<reportElement x="281" y="50" width="100" height="20" uuid="333f0e4e-24aa-4b3d-9ab0-4419631c2a73"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -104,14 +97,14 @@
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="309" y="50" width="185" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
+				<reportElement x="382" y="50" width="185" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="3" y="0" width="114" height="70" uuid="1f0132a7-2feb-4aa4-8a77-ea211e4ba609"/>
+				<reportElement x="1" y="0" width="801" height="50" uuid="1f0132a7-2feb-4aa4-8a77-ea211e4ba609"/>
 				<imageExpression><![CDATA[$P{escudo}]]></imageExpression>
 			</image>
 		</band>
@@ -201,7 +194,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[FECHA REGISTRO]]></text>
+				<text><![CDATA[FECHA COMP.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="520" y="2" width="37" height="20" uuid="e089b22c-d793-46d2-a922-5460114f58a3"/>
@@ -326,12 +319,12 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{rubropresupuestario}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="126" y="0" width="42" height="20" uuid="be2c2b34-29aa-4ed9-8281-5b6900f01e80"/>
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fecharegistro}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fechacomprobante}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="520" y="0" width="37" height="20" uuid="caa6c251-2e4a-481a-8ba5-c179f78c0def"/>

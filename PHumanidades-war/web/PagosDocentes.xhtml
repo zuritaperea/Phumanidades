@@ -250,6 +250,12 @@
                                         value="#{pagosDocenteBean.pagoDocente.fechaRegistro}"
                                         pattern="dd/MM/yyyy" locale="es_ES">
                             </p:calendar>
+                            
+                            <h:outputText value="Fecha de Comprobante"/>
+                            <p:calendar id="fechaComp"
+                                        value="#{pagosDocenteBean.pagoDocente.fechaComprobante}"
+                                        pattern="dd/MM/yyyy" locale="es_ES">
+                            </p:calendar>
 
                             <h:outputText value="Forma de Pago"/>
                             <p:selectOneMenu id="formaPago" 

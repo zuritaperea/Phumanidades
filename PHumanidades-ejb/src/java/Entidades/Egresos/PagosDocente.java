@@ -114,6 +114,8 @@ public class PagosDocente extends Base implements Serializable {
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaRegistro;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaComprobante;
     @OneToOne
     private Docente docente;
     @OneToOne
@@ -142,9 +144,15 @@ public class PagosDocente extends Base implements Serializable {
     public void setRubroPresupuestario(RubroPresupuestario rubroPresupuestario) {
         this.rubroPresupuestario = rubroPresupuestario;
     }
-    
-    
 
+    public Date getFechaComprobante() {
+        return fechaComprobante;
+    }
+
+    public void setFechaComprobante(Date fechaComprobante) {
+        this.fechaComprobante = fechaComprobante;
+    }
+    
     public int getNumeroOrdenPago() {
         return numeroOrdenPago;
     }

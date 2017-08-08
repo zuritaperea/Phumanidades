@@ -40,7 +40,7 @@ import org.primefaces.event.TabChangeEvent;
 @ViewScoped
 public class ConsultaPagosGeneralesBean implements Serializable {
     
-    private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "LogoFacultadHumanidades.png";
+    private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "huma.png";
 
     @EJB
     private PagosDocenteRNLocal pagoGeneralRNLocal;
@@ -172,7 +172,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             HashMap parametros = new HashMap();
             String query="";
             if(this.getCuentaLstBean().getCuenta() != null){
-                query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHAREGISTRO, "
+                query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                         + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
                         + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
                         + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
@@ -184,7 +184,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                 System.out.println(query);
                 parametros.put("descripcion",this.getCuentaLstBean().getCuenta().toString());
             }else{
-                query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHAREGISTRO, "
+                query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                         + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
                         + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
                         + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
