@@ -30,13 +30,29 @@ public class CuentaLstBean implements Serializable {
     private List<Cuenta> lstCuenta; //Cargamos la lista de Usuarios retornada po el metodo findAll del usuarioRNLocal
     private List<SelectItem> lstSICuenta;//Aca se guarda el item seleccionado de la lista
     private Cuenta cuenta;
-
+    private Integer cuenta_id;
     public List<Cuenta> getLstCuenta() {
         return lstCuenta;
     }
 
     public void setLstCuenta(List<Cuenta> lstCuenta) {
         this.lstCuenta = lstCuenta;
+    }
+
+    public CuentaRNLocal getCuentaRNLocal() {
+        return cuentaRNLocal;
+    }
+
+    public void setCuentaRNLocal(CuentaRNLocal cuentaRNLocal) {
+        this.cuentaRNLocal = cuentaRNLocal;
+    }
+
+    public Integer getCuenta_id() {
+        return cuenta_id;
+    }
+
+    public void setCuenta_id(Integer cuenta_id) {
+        this.cuenta_id = cuenta_id;
     }
 
     public List<SelectItem> getLstSICuenta() {

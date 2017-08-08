@@ -6,7 +6,8 @@
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:f="http://java.sun.com/jsf/core"
-                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
 
 
     <ui:define name="content">
@@ -74,6 +75,7 @@
                                              styleClass="boton"
                                              ajax="true"
                                              />
+
 
                             <!--update=":frmPri:dCobroCuotasAlumnos, :frmPri:dtCobroCuotas"-->
                         </p:column>
@@ -196,20 +198,23 @@
         <!--FIN DIALOGO ABM COBROS CUOTAS ALUMNOS -->      
 
         <!--INICIO PANTALLA PRINCIAPAL TABLA COBROS ALUMNOS-->
-        <h:panelGrid columns="5">
+        <h:panelGrid columns="6">
             <h:outputText value="Desde"/>
             <p:calendar id="fechaIniCobrosGenerales"
-                        label="Desde" locale="es_ES"
+                        label="Desde"  
+                        locale="es_ES"
                         pattern="dd/MM/yyyy"
                         value="#{cobroCuotasAlumnosBean.fechaIni}">
             </p:calendar>
 
             <h:outputText value="Hasta"/>
-            <p:calendar id="fechaFinCobrosGenerales" locale="es_ES"
-                        label="Hasta"
+            <p:calendar id="fechaFinCobrosGenerales"  
+                        label="Hasta" 
+                        locale="es_ES"
                         pattern="dd/MM/yyyy"
                         value="#{cobroCuotasAlumnosBean.fechaFin}">
             </p:calendar>
+
 
             <p:commandButton id="cbConsultarCobrosGenerales"
                              icon="ui-icon-search" 
@@ -217,6 +222,14 @@
                              process="@this, fechaIniCobrosGenerales,fechaFinCobrosGenerales" 
                              actionListener="#{cobroCuotasAlumnosBean.cargarCobrosGeneralXFecha()}"
                              /> 
+            <h:commandLink >
+                <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Pago de Cuotas"/>
+                <pe:exporter type="pdf" target=":frmPri:dtCobroCuotas" orientation="Landscape"
+                             fileName="pagocuota" datasetPadding="4"  cellFontSize="10" 
+                             skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
+                             preProcessor="#{cobroCuotasAlumnosBean.generar()}"
+                             />  
+            </h:commandLink>
 
 
             <h:outputText value="Dni o Apellido o Nombre"/>
@@ -229,7 +242,8 @@
                              actionListener="#{cobroCuotasAlumnosBean.buscarCobroXDniOTexto()}"
                              update="dtCobroCuotas"
                              process="@this, dniCA"/>
-        </h:panelGrid><h:panelGrid columns="3">
+        </h:panelGrid>
+        <h:panelGrid columns="3">
 
             <p:commandButton id="btnNuevoCobro"
                              value="Nuevo Cobro Alumno" 
@@ -402,7 +416,7 @@
 
 
             <p:column width="70" 
-                style="word-wrap:break-word;">
+                      style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Cuota"/>
                 </f:facet>
@@ -428,7 +442,7 @@
             </p:column>
 
             <p:column 
-                 filterBy="#{item.tipoIngreso}" filterMatchMode="contains">
+                filterBy="#{item.tipoIngreso}" filterMatchMode="contains">
                 <f:facet name="header">
                     <h:outputText value="Tipo"/>
                 </f:facet>

@@ -262,6 +262,11 @@ public class NavegarBean {
         this.numeroCuentaBean.setNumero(0);
         this.cohorteLstBean.setNumeroRecibo(0);
         this.cohorteLstBean.setUltimaCuota(0);
+        if (cuenta == 025) {
+            this.cuentaLstBean.setCuenta_id(1);
+        }
+        else{ this.cuentaLstBean.setCuenta_id(2);}
+
         getCobroCuotasAlumnosLstBean().cargarIngresos(cuenta);
         RequestContext.getCurrentInstance().update(":frmPri:dtCobroCuotas");
         return "/CobrosAlumnos.xhtml?faces-redirect=true";
@@ -302,7 +307,7 @@ public class NavegarBean {
     public String frmCarrerasDistancia() {
         return "/CarrerasDistancia.xhtml?faces-redirect=true";
     }
-    
+
     public String frmIngresosArchivo() {
         return "/CobroCuotasArchivo.xhtml?faces-redirect=true";
     }
