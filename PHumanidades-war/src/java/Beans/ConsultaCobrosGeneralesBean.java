@@ -332,7 +332,7 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
                 parametros.put("escudo2", escudo2);
                 parametros.put("fecha_inicio", this.getFechaIni());
                 parametros.put("fecha_fin", this.getFechaFin());
-                Long id = null
+                Long id = null;
                 if (this.getTipoIngreso() != null && this.getTipoIngreso().getId() != null) {
                     id = this.getTipoIngreso().getId();
                 }
@@ -340,7 +340,6 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
                 path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("")
                         + File.separator + "reporte" + File.separator + "cobrosGenerales.jasper";
 //funcionando
-
 
                 JasperPrint jasperPrint = JasperFillManager.fillReport(path, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
                 HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
