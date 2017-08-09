@@ -305,7 +305,7 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
     public void generarCobrosGenerales() throws SQLException {
 
         Connection conect;
-        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "ruben", "natalio123");
+        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "postgres", "123456");
         String path;
         System.out.println("funcionando");
 
