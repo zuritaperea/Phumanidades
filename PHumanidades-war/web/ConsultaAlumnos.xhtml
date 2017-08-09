@@ -46,9 +46,14 @@
                         <h:outputText value="Código RAPIPAGO" styleClass="headerTabla" />
                         <p:barcode value="#{alumnoBean.getCodigoRapipago(alumnoLstBean.alumnoSelectConsulta)}" type="int2of5"/>
 
-                        <h:outputText value="Códigos de Link Pagos" styleClass="headerTabla" />
+                        <h:outputText value="Código de Link Pagos" styleClass="headerTabla" />
 
-                        <h:outputText value="CODIGO DE LINK PAGOS: 5623954532 \n CODIGO DE PAGO ELECTRONICO: 5623954532" />
+                        <h:outputText value="5623954532" />
+                        
+                         <h:outputText value="Código de Pago Electrónico" styleClass="headerTabla" />
+
+                        <h:outputText value="5623954532" />
+                        
                 </h:panelGrid>
             </p:panel>
             <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
