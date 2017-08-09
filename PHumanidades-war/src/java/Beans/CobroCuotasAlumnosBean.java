@@ -1029,7 +1029,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         try {
             String cue = "";
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup("java:jdbc/PHumanidades");
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             Connection conect = dataSource.getConnection();  String path;
             System.out.println("funcionando" + " " + this.getCobroCuotasAlumnosLstBean().getFechaIni() + "  " + this.getCobroCuotasAlumnosLstBean().getFechaFin());
             

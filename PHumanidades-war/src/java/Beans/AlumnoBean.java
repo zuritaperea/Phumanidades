@@ -683,7 +683,7 @@ public class AlumnoBean {
         try {
             
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup("java:jdbc/PHumanidades");
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             Connection conect = dataSource.getConnection();
             String path;
             System.out.println("funcionando" + conect);
@@ -733,7 +733,7 @@ public class AlumnoBean {
         try {
             
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup("java:jdbc/PHumanidades");
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             Connection conect = dataSource.getConnection();
             String path;
             System.out.println("funcionando");

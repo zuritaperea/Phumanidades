@@ -170,7 +170,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         try {
             
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup("java:jdbc/PHumanidades");
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             Connection conect = dataSource.getConnection();
             System.out.println("funcionando");
             
