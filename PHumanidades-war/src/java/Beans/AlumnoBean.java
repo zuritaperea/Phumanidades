@@ -35,10 +35,13 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -677,81 +680,99 @@ public class AlumnoBean {
 
     public void generar() throws SQLException {
 
-        Connection conect;
-        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "postgres", "123456");
-        String path;
-        System.out.println("funcionando" + conect);
-
         try {
-
-            HashMap parametros = new HashMap();
-
-            parametros.put("escudo1", escudo1);
-            parametros.put("escudo2", escudo2);
-            parametros.put("apellido", this.alumnoLstBean.getAlumnoSelect().getApellido());
-            parametros.put("nombre", this.alumnoLstBean.getAlumnoSelect().getNombre());
-            parametros.put("dni", this.alumnoLstBean.getAlumnoSelect().getDni());
-
-            parametros.put("codigo", this.getCodigoRapipago(alumnoLstBean.getAlumnoSelect()));
-            parametros.put("alumno_id", this.alumnoLstBean.getAlumnoSelect().getId());
-            parametros.put("cohorte_id", this.cohorteLstBean.getCohorteSeleccionada().getId());
-
+            
+            InitialContext initialContext = new InitialContext();
+            DataSource dataSource = (DataSource) initialContext.lookup("java:jdbc/PHumanidades");
+            Connection conect = dataSource.getConnection();
+            String path;
+            System.out.println("funcionando" + conect);
+            
+            try {
+                
+                HashMap parametros = new HashMap();
+                
+                parametros.put("escudo1", escudo1);
+                parametros.put("escudo2", escudo2);
+                parametros.put("apellido", this.alumnoLstBean.getAlumnoSelect().getApellido());
+                parametros.put("nombre", this.alumnoLstBean.getAlumnoSelect().getNombre());
+                parametros.put("dni", this.alumnoLstBean.getAlumnoSelect().getDni());
+                
+                parametros.put("codigo", this.getCodigoRapipago(alumnoLstBean.getAlumnoSelect()));
+                parametros.put("alumno_id", this.alumnoLstBean.getAlumnoSelect().getId());
+                parametros.put("cohorte_id", this.cohorteLstBean.getCohorteSeleccionada().getId());
+                
 //funcionando
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ingresosPorPagodeCuotas.jasper";
-            System.out.println(reportPath);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
-            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
-            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-            servletOutputStream.flush();
-            servletOutputStream.close();
-            FacesContext.getCurrentInstance().responseComplete();
-
-        } catch (Exception ex) {
-            System.out.println(ex + "CAUSA: " + ex.getCause());
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ingresosPorPagodeCuotas.jasper";
+                System.out.println(reportPath);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+                HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                FacesContext.getCurrentInstance().responseComplete();
+                
+            } catch (Exception ex) {
+                System.out.println(ex + "CAUSA: " + ex.getCause());
+                
+            }
+            
+        }//fin generar
+ catch (NamingException ex) {
+            Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
-    }//fin generar
+    }
 
     public void generarCuotasGeneral() throws SQLException {
 
-        Connection conect;
-        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "postgres", "123456");
-        String path;
-        System.out.println("funcionando");
-
         try {
-
-            HashMap parametros = new HashMap();
-
-            parametros.put("escudo1", escudo1);
-            parametros.put("escudo2", escudo2);
-            parametros.put("apellido", this.alumnoLstBean.getAlumnoSelect().getApellido());
-            parametros.put("nombre", this.alumnoLstBean.getAlumnoSelect().getNombre());
-            parametros.put("dni", this.alumnoLstBean.getAlumnoSelect().getDni());
-
-            parametros.put("codigo", this.getCodigoRapipago(alumnoLstBean.getAlumnoSelect()));
-            parametros.put("alumno_id", this.alumnoLstBean.getAlumnoSelect().getId());
-
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ingresosPorPagosGenerales.jasper";
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
-            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
-            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-            servletOutputStream.flush();
-            servletOutputStream.close();
-            FacesContext.getCurrentInstance().responseComplete();
-
-        } catch (Exception ex) {
-            System.out.println(ex + "CAUSA: " + ex.getCause());
+            
+            InitialContext initialContext = new InitialContext();
+            DataSource dataSource = (DataSource) initialContext.lookup("java:jdbc/PHumanidades");
+            Connection conect = dataSource.getConnection();
+            String path;
+            System.out.println("funcionando");
+            
+            try {
+                
+                HashMap parametros = new HashMap();
+                
+                parametros.put("escudo1", escudo1);
+                parametros.put("escudo2", escudo2);
+                parametros.put("apellido", this.alumnoLstBean.getAlumnoSelect().getApellido());
+                parametros.put("nombre", this.alumnoLstBean.getAlumnoSelect().getNombre());
+                parametros.put("dni", this.alumnoLstBean.getAlumnoSelect().getDni());
+                
+                parametros.put("codigo", this.getCodigoRapipago(alumnoLstBean.getAlumnoSelect()));
+                parametros.put("alumno_id", this.alumnoLstBean.getAlumnoSelect().getId());
+                
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ingresosPorPagosGenerales.jasper";
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+                HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                FacesContext.getCurrentInstance().responseComplete();
+                
+            } catch (Exception ex) {
+                System.out.println(ex + "CAUSA: " + ex.getCause());
+                
+            }
+            
+        }//fin generar
+ catch (NamingException ex) {
+            Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
-    }//fin generar
+    }
 
 }
