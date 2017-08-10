@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <ui:define name="content">
+
+
+
+
+        <h1>
+            <h:outputText value="Reporte de Ingresos"
+                          class="Bienvenido"/>
+        </h1>
+        <p:panel   style="text-align:center;" id="display">
+
+            <h:panelGrid columns="7" cellpadding="10" >
+                <h:outputText value="Desde"/>
+                <p:calendar id="fechaIniCobrosGenerales"
+                            label="Desde"  
+                            locale="es_ES"
+                            pattern="dd/MM/yyyy"
+                            value="#{cobroCuotasAlumnosBean.fechaIni}">
+                </p:calendar>
+
+                <h:outputText value="Hasta"/>
+                <p:calendar id="fechaFinCobrosGenerales"  
+                            label="Hasta" 
+                            locale="es_ES"
+                            pattern="dd/MM/yyyy"
+                            value="#{cobroCuotasAlumnosBean.fechaFin}">
+                </p:calendar>
+                <h:outputText value="Cuenta:"/>
+                <p:selectOneMenu id="somCuenta"
+                                 converter="ConversorGenerico"
+                                 value="#{cuentaLstBean.cuenta}"
+                                 >
+                    <f:selectItem itemLabel="Seleccione una cuenta..." itemValue=""/>
+                    <f:selectItems 
+                        value="#{cuentaLstBean.lstSICuenta}"/>
+
+                </p:selectOneMenu>
+            </h:panelGrid>
+
+        </p:panel>
+        <div>
+            <p:messages autoUpdate="true"/>
+        </div>
+        <p:growl id="message" showDetail="true"  />
+        <div class="camposTexto"
+             style="float: left; margin: 10px;
+             width: 100%;
+             text-align: center;">
+            <h:commandButton  action="#{cobroCuotasAlumnosBean.generar()}" value="Ver PDF" /> 
+
+
+        </div>
+        
+
+
+
+        <!--FIN PANTALLA PRINCIAPAL TABLA COBROS ALUMNOS-->
+    </ui:define>
+</ui:composition>

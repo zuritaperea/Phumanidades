@@ -286,6 +286,11 @@ public class NavegarBean {
         cohorteLstBean.cargarCohorte();
         return "/ConsultaAlumnosPorCohorte.xhtml?faces-redirect=true";
     }
+     public String frmConsultaCuentas() {
+        cuentaLstBean.cargarCuentas();
+        cuentaLstBean.cargar_SI_Cuenta();
+        return "/ReporteCobrosAlumnos.xhtml?faces-redirect=true";
+    }
 
     public String frmConsultaIngresoAlumnos() {
         alumnoLstBean.setAlumnoSelect(new Alumno());

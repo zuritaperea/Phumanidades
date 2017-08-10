@@ -7,6 +7,7 @@ package Beans;
 import Entidades.Carreras.Cuenta;
 import RN.CuentaRNLocal;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -94,6 +95,14 @@ public class CuentaLstBean implements Serializable {
             fc.addMessage(null, fm);
         }
     }//fin cargarCarreras
+     public void cargar_SI_Cuenta() {
+        this.setLstSICuenta(new ArrayList<SelectItem>());
+
+        for (Cuenta a : this.getLstCuenta()) {
+            SelectItem si = new SelectItem(a, a.getDescripcion());
+            this.getLstSICuenta().add(si);
+        }
+    }
 
     /*  public void findCarreraNombre(String nombre){
     
