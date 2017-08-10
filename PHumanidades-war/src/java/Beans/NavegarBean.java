@@ -291,6 +291,11 @@ public class NavegarBean {
         cuentaLstBean.cargar_SI_Cuenta();
         return "/ReporteCobrosAlumnos.xhtml?faces-redirect=true";
     }
+      public String frmConsultaIngresosPeriodo() {
+        cuentaLstBean.cargarCuentas();
+        cuentaLstBean.cargar_SI_Cuenta();
+        return "/ReporteIngresosTipoPeriodo.xhtml?faces-redirect=true";
+    }
 
     public String frmConsultaIngresoAlumnos() {
         alumnoLstBean.setAlumnoSelect(new Alumno());
