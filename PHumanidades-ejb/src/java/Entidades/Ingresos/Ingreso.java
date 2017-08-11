@@ -100,6 +100,10 @@ public class Ingreso extends Base implements Serializable {
     private String nombre;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaPago;
+    //Para el caso en que la forma de pago sea deposito, se deberá ingresa la fecha del deposito
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaDeposito;
+    
     @Column(nullable = false, columnDefinition = "boolean default 'false'")
     private Boolean borrado;
     @Column(nullable = false, columnDefinition = "boolean default 'false'")
@@ -232,6 +236,14 @@ public class Ingreso extends Base implements Serializable {
 
     public void setFormaPago(FormaPago formaPago) {
         this.formaPago = formaPago;
+    }
+
+    public Date getFechaDeposito() {
+        return fechaDeposito;
+    }
+
+    public void setFechaDeposito(Date fechaDeposito) {
+        this.fechaDeposito = fechaDeposito;
     }
 
     @Override
