@@ -102,7 +102,7 @@
 
             <p:panel id="pnDatosCuota" 
                      style="height: 125px;width: 800px; overflow: auto">
-                <h:panelGrid columns="4">
+                <h:panelGrid columns="6">
                     <h:outputText value="Importe $:"/>
 
                     <p:inputText id="itImporte" 
@@ -114,7 +114,21 @@
                                      value="#{cobroCuotasAlumnosLstBean.ingreso.formaPago}"
                                      required="false">
                         <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
+                        <p:ajax update="input" /> 
+
                     </p:selectOneMenu>
+
+                    <br></br>
+                    <h:panelGroup   id="input">
+
+                        <h:outputText  value="Fecha de Deposito: " rendered="#{cobroCuotasAlumnosLstBean.ingreso.formaPago.name == 'Deposito'}"/>
+                        <p:calendar value="#{cobroCuotasAlumnosLstBean.ingreso.fechaDeposito}" 
+                                    rendered="#{cobroCuotasAlumnosLstBean.ingreso.formaPago.name == 'Deposito'}"
+                                    mode="popup"
+                                    placeholder="Fecha de deposito"
+                                    navigator="true"/>
+
+                    </h:panelGroup>
                     <h:outputText value="Nro Cuota:"/>
 
                     <p:inputText id="itCuota" 

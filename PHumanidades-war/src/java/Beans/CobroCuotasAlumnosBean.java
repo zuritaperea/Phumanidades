@@ -104,6 +104,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private Date fechaFin;
     private Date feha_fin_real;
     private Date fechaPago;
+    private Date fechaDeposito;
     int ultimaCuota;
 //Inicio Busqueda Carrera   
     String dni; //USADO PARA LA CONSULTA INICIAL - MEDIANTE ESTE DNI TRAEMOS LOS PAGOS
@@ -122,6 +123,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         //cargarLstTipoComprobante();
         dni = "";
         fechaPago = new Date();
+        fechaDeposito = new Date();
         contador005 = new Contador005();
         contador025 = new Contador025();
         if (cobroCuotasAlumnosLstBean.getCuenta() != null && cobroCuotasAlumnosLstBean.getCuenta().getCodigo() != null) {
@@ -330,6 +332,14 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
     public void setNavegarBean(NavegarBean navegarBean) {
         this.navegarBean = navegarBean;
+    }
+
+    public Date getFechaDeposito() {
+        return fechaDeposito;
+    }
+
+    public void setFechaDeposito(Date fechaDeposito) {
+        this.fechaDeposito = fechaDeposito;
     }
 
     public void nuevoCobroGeneral() {
@@ -619,6 +629,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                             if (!cohorteLstBean.isFlag()) {
                                 ingreso.setCuota(cuota);
                                 ingreso.setFechaPago(cobroCuotasAlumnosLstBean.getFechaPago());
+                                ingreso.setFechaDeposito(cobroCuotasAlumnosLstBean.getFechaDeposito());
                                 ingreso.setAlumno(alumno);
                                 ingreso.setBorrado(false);
                                 ingreso.setAnulado(false);
@@ -755,6 +766,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         FacesMessage.Severity severity = null;
         try {
             if (this.ingreso.getFechaPago() != null) {
+                System.out.println("fecha depositooooooooooooooo"+ this.getFechaDeposito() +"fecha pagooooooooooo" +this.ingreso.getFechaPago());
                 ingreso.setAlumno(this.getAlumnoLstBean().getAlumnoSelect());
                 ingreso.setBorrado(false);
                 ingreso.setAnulado(false);
@@ -762,6 +774,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 ingreso.setNumeroRecibo(this.numeroCuentaBean.getNumero());
                 ingreso.setCuota(0);
                 ingreso.setFechaCreado(new Date());
+                ingreso.setFechaDeposito(this.getFechaDeposito());
                 ingreso.setCreadoPor(this.usuarioLogerBean.getUsuario().getUsuario());
                 ingresoCuotaRNLocal.create(ingreso);
 
@@ -1104,7 +1117,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
             String cue = "";
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/PHumanidades");
             Connection conect = dataSource.getConnection();
             String path = "";
 

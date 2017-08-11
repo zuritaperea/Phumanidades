@@ -21,7 +21,7 @@
 
             <p:panel id="pnDatosCobroGeneral" 
                      header="Datos del Ingreso"
-                     style="height: 310px;width: 100%">
+                     style="height: 380px;width: 100%">
 
                 <h:panelGrid columns="2"
                              width="600px"
@@ -57,8 +57,21 @@
                                      value="#{cobroCuotasAlumnosLstBean.ingreso.formaPago}"
                                      required="false">
                         <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
+                        <p:ajax update="input"/>
                     </p:selectOneMenu>
 
+
+                     <br></br>
+                    <h:panelGroup   id="input">
+
+                       
+                        <p:calendar value="#{cobroCuotasAlumnosLstBean.ingreso.fechaDeposito}" 
+                                    rendered="#{cobroCuotasAlumnosLstBean.ingreso.formaPago.name == 'Deposito'}"
+                                    mode="popup"
+                                    placeholder="Fecha de deposito"
+                                    navigator="true"/>
+
+                    </h:panelGroup>
 
                     <h:outputText value="Cuentas"/>
                     <p:selectOneMenu id="soCuentasCobroGeneral" 

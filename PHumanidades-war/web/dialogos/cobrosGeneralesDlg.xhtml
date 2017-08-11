@@ -7,7 +7,7 @@
 
     <!-- DIALOGO -->
     <p:dialog id="dCobrosGenerales"
-              widgetVar="dlgCobrosGenerales"
+              widgetVar="dlgCobrosGenerales" modal="true"
               closable="true" position="top">
 
         <h3><h:outputText value="Gestion de Cobros Generales"/></h3>
@@ -20,7 +20,7 @@
             <p:scrollPanel mode="native" style="max-height:600px">    
                 <p:panel id="pnDatosCobroGeneral" 
                          header="Datos del Ingreso"
-                         style="height: 300px;width: 100%">
+                         style="height: 400px;width: 100%">
 
                     <h:panelGrid columns="2"
                                  width="600px"
@@ -55,11 +55,23 @@
                                       value="Forma de Pago:" />
                         <p:selectOneMenu id="formaPago" 
                                          value="#{cobroCuotasAlumnosBean.ingreso.formaPago}"
-                                         required="false">
+                                         required="false" >
                             <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
+                            <p:ajax update="input" /> 
+                            
                         </p:selectOneMenu>
 
-
+                        <br></br>
+                        <h:panelGroup   id="input">
+                            
+                            <h:outputText  value="Fecha de Deposito: " rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"/>
+                            <p:calendar value="#{cobroCuotasAlumnosBean.fechaDeposito}" 
+                                        rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"
+                                        mode="popup"
+                                        placeholder="Fecha de deposito"
+                                    navigator="true"/>
+                            
+                        </h:panelGroup>
 
 
                         <h:outputText value="Cuentas"/>
