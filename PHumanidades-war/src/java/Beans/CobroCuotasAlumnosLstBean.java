@@ -46,6 +46,7 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
     private Date fechaIni;
     private Date fechaFin;
     private Date fechaPago;
+    private Date fechaDeposito;
 
     /**
      * Creates a new instance of DocenteLstBean
@@ -146,6 +147,14 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
 
     public void setiTipoBoton(int iTipoBoton) {
         this.iTipoBoton = iTipoBoton;
+    }
+
+    public Date getFechaDeposito() {
+        return fechaDeposito;
+    }
+
+    public void setFechaDeposito(Date fechaDeposito) {
+        this.fechaDeposito = fechaDeposito;
     }
 
     public void cargarIngresos() {

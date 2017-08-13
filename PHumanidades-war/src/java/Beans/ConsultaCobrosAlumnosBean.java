@@ -29,6 +29,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -37,8 +39,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -59,9 +64,9 @@ import org.primefaces.event.TabChangeEvent;
 @ManagedBean(name = "consultaCobrosAlumnosBean")
 @ViewScoped
 public class ConsultaCobrosAlumnosBean implements Serializable {
-    
+
     private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "escudo.jpg";
-     private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "logo2.jpg";
+    private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "logo2.jpg";
 
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
@@ -218,14 +223,14 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
         String logo = externalContext.getRealPath("") + File.separator + "Imagenes" + File.separator + "LogoFacultadHumanidades70x70.png";
         //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         // pdf.add(new Phrase("Fecha: " + formato.format(new Date())));
-        
+
         PdfPTable pdfTable = new PdfPTable(6);
         PdfPCell pdfcell = new PdfPCell();
         pdfcell.setColspan(1);
         pdfcell.setImage(Image.getInstance(logo));
-	pdfTable.addCell(pdfcell);
-        final Phrase phrase = new Phrase("FACULTAD DE HUMANIDADES \n última cuota alumnos \n "+ 
-                new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        pdfTable.addCell(pdfcell);
+        final Phrase phrase = new Phrase("FACULTAD DE HUMANIDADES \n última cuota alumnos \n "
+                + new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         phrase.setFont(FontFactory.getFont(FontFactory.TIMES_ROMAN));
         PdfPCell pdfcell2 = new PdfPCell();
         pdfcell2.setColspan(5);
@@ -233,8 +238,8 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
         pdfcell2.setVerticalAlignment(1);
         pdfcell2.setPhrase(phrase);
         pdfTable.addCell(pdfcell2);
-    
-	pdf.add(pdfTable);
+
+        pdf.add(pdfTable);
     }
 
     public void buscarFechaCohortes() {
@@ -346,43 +351,49 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
             listaUltimaCuota.add(i);
         }
     }
-    
+
     public void generar() throws SQLException {
 
-        Connection conect;
-        conect = DriverManager.getConnection("jdbc:postgresql://localhost:5432/humanidades", "postgres", "123456");
-   
-        System.out.println("funcionando");
-
         try {
-
-            HashMap parametros = new HashMap();
             
-           
-            parametros.put("escudo1",escudo1 );
-            parametros.put("escudo2",escudo2 );
+            InitialContext initialContext;
+            initialContext = new InitialContext();
             
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
+            Connection conect = dataSource.getConnection();
+            System.out.println("funcionando");
             
+            try {
+                
+                HashMap parametros = new HashMap();
+                
+                parametros.put("escudo1", escudo1);
+                parametros.put("escudo2", escudo2);
+                
 //funcionando
-
-            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-            String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator+"ultima_cuota.jasper";
-            System.out.println(reportPath);
-            System.out.println(escudo1);
-            System.out.println(escudo2);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
-            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
-            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-            JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-            servletOutputStream.flush();
-            servletOutputStream.close();
-            FacesContext.getCurrentInstance().responseComplete();
-
-        } catch (Exception ex) {
-            System.out.println(ex + "CAUSA: " + ex.getCause());
-            ex.printStackTrace();
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ultima_cuota.jasper";
+                System.out.println(reportPath);
+                System.out.println(escudo1);
+                System.out.println(escudo2);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+                HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                FacesContext.getCurrentInstance().responseComplete();
+                
+            } catch (Exception ex) {
+                System.out.println(ex + "CAUSA: " + ex.getCause());
+                ex.printStackTrace();
+            }
+            
+        }//fin generar
+ catch (NamingException ex) {
+            Logger.getLogger(ConsultaCobrosAlumnosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }//fin generar
+    }
 }

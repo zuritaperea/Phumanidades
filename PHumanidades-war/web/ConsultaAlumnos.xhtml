@@ -12,7 +12,7 @@
     <ui:define name="content">
 
         <ui:include src="AlumnoFindDlgConsulta.xhtml"/>
-        
+
         <!-- Dialogo Impresión codigo alumno -->
         <p:dialog id="dCodigoCA"
                   widgetVar="dlgCodigoCA"
@@ -32,7 +32,7 @@
                         <h:outputText value="#{alumnoLstBean.alumnoSelectConsulta.dni}" />    
                         <h:outputText value="Fecha Nacimiento: " styleClass="headerTabla" />
                         <h:outputText value="#{alumnoLstBean.alumnoSelectConsulta.fechaNacimiento}" >
-                                          <f:convertDateTime pattern="dd/MM/yyyy" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                         <h:outputText  value="Localidad:  " styleClass="headerTabla" />
                         <h:outputText  value="#{alumnoLstBean.alumnoSelectConsulta.domicilio.localidad}"/> 
@@ -43,251 +43,259 @@
                         <h:outputText  value="Numero:  " styleClass="headerTabla" />
                         <h:outputText  value="#{alumnoLstBean.alumnoSelectConsulta.domicilio.numero}"/>
 
-                        <h:outputText value="Codigo RAPIPAGO" styleClass="headerTabla" />
+                        <h:outputText value="Código RAPIPAGO" styleClass="headerTabla" />
                         <p:barcode value="#{alumnoBean.getCodigoRapipago(alumnoLstBean.alumnoSelectConsulta)}" type="int2of5"/>
 
-                    </h:panelGrid>
+                        <h:outputText value="Código de Link Pagos" styleClass="headerTabla" />
+
+                        <h:outputText value="5623954532" />
+                        
+                         <h:outputText value="Código de Pago Electrónico" styleClass="headerTabla" />
+
+                        <h:outputText value="5623954532" />
+                        
+                </h:panelGrid>
+            </p:panel>
+            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                <p:printer target="pCodigoCA" />
+            </p:commandButton><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></p:scrollPanel>
+    </p:dialog>
+
+
+    <p:growl id="grConsultaCobroCuotasAlumnos" showDetail="true" sticky="true" />
+    <h1>
+
+        <h:outputText value="Consulta Alumnos - Pagos"
+                      class="Bienvenido"/>  
+    </h1>
+
+
+    <table>
+        <tr>
+
+
+            <td>
+
+                <p:panel id="pnAlumno" 
+                         header="Seleccionar Alumno"
+                         style="height: 100px;width: 500px">
+
+                    <div style="padding: 5px 5px 5px 10px;">
+                        <h:outputText value="*Alumno: "/>
+                        <p:commandButton id="cbBuscarAlumnoCobro" 
+                                         icon="ui-icon-search"
+                                         actionListener="#{alumnoBean.abrirDlgFindAlumnoConsulta()}"
+                                         update="dFindAlumnoConsulta"
+                                         process="@this"/>
+
+
+                        <h:outputText id="otAlumno4"
+                                      value="#{alumnoLstBean.alumnoSelectConsulta.dni} - #{alumnoLstBean.alumnoSelectConsulta.apellido} - #{alumnoLstBean.alumnoSelectConsulta.nombre}"/>
+
+                    </div>
                 </p:panel>
-                <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
-                    <p:printer target="pCodigoCA" />
-                </p:commandButton><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></p:scrollPanel>
-        </p:dialog>
-        
 
-        <p:growl id="grConsultaCobroCuotasAlumnos" showDetail="true" sticky="true" />
-        <h1>
-
-            <h:outputText value="Consulta Alumnos - Pagos"
-                          class="Bienvenido"/>  
-        </h1>
+                <p:panel id="pnCohortesConsulta" 
+                         style="height: 150px;width: 800px; overflow: auto">
 
 
-        <table>
-            <tr>
 
-
-                <td>
-
-                    <p:panel id="pnAlumno" 
-                             header="Seleccionar Alumno"
-                             style="height: 100px;width: 500px">
-
-                        <div style="padding: 5px 5px 5px 10px;">
-                            <h:outputText value="*Alumno: "/>
-                            <p:commandButton id="cbBuscarAlumnoCobro" 
+                    <p:dataTable  id="dtCortesCobros"
+                                  value="#{cohorteLstBean.lstCohortesAlumnosConsulta}"
+                                  var="cort"  
+                                  rowKey="#{cort.id}">
+                        <p:column width="10%">
+                            <p:commandButton id="btnBuscar"
+                                             actionListener="#{cohorteLstBean.obtenerDatosPagosCohorte(alumnoLstBean.alumnoSelectConsulta,cort)}"
                                              icon="ui-icon-search"
-                                             actionListener="#{alumnoBean.abrirDlgFindAlumnoConsulta()}"
-                                             update="dFindAlumnoConsulta"
-                                             process="@this"/>
+                                             styleClass="boton"/>
+
+                            <!--update=":frmPri:dCobroCuotasAlumnos, :frmPri:dtCobroCuotas"-->
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Carrera"/>
+                            </f:facet>
+                            <h:outputText value="#{cort.carrera.descripcion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Cohorte"/>
+                            </f:facet>
+                            <h:outputText value="#{cort.descripcion}"/>
+                        </p:column>
 
 
-                            <h:outputText id="otAlumno4"
-                                          value="#{alumnoLstBean.alumnoSelectConsulta.dni} - #{alumnoLstBean.alumnoSelectConsulta.apellido} - #{alumnoLstBean.alumnoSelectConsulta.nombre}"/>
-
-                        </div>
-                    </p:panel>
-
-                    <p:panel id="pnCohortesConsulta" 
-                             style="height: 150px;width: 800px; overflow: auto">
+                    </p:dataTable>
+                    <h:outputText value="Haga Click en la lupa para seleccionar Cohorte y cargar el detalle de la cuotas pagas - De lo contrario la operacion no se llevara a cabo"/>
 
 
+                </p:panel>
 
-                        <p:dataTable  id="dtCortesCobros"
-                                      value="#{cohorteLstBean.lstCohortesAlumnosConsulta}"
-                                      var="cort"  
-                                      rowKey="#{cort.id}">
-                            <p:column width="10%">
-                                <p:commandButton id="btnBuscar"
-                                                 actionListener="#{cohorteLstBean.obtenerDatosPagosCohorte(alumnoLstBean.alumnoSelectConsulta,cort)}"
-                                                 icon="ui-icon-search"
-                                                 styleClass="boton"/>
+            </td>
 
-                                <!--update=":frmPri:dCobroCuotasAlumnos, :frmPri:dtCobroCuotas"-->
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Carrera"/>
-                                </f:facet>
-                                <h:outputText value="#{cort.carrera.descripcion}"/>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">
-                                    <h:outputText value="Cohorte"/>
-                                </f:facet>
-                                <h:outputText value="#{cort.descripcion}"/>
-                            </p:column>
+        </tr>
+    </table>
 
-
-                        </p:dataTable>
-                        <h:outputText value="Haga Click en la lupa para seleccionar Cohorte y cargar el detalle de la cuotas pagas - De lo contrario la operacion no se llevara a cabo"/>
-
-
-                    </p:panel>
-
-                </td>
-
-            </tr>
-        </table>
-
-        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
-            <p:printer target="dtCobroCuotasConsulta" />
-        </p:commandButton>
-        <p:commandButton id="cbCodigoCA"
-                                 title="Código"
-                                 value="Código"
-                                 icon="ui-icon-print" 
-                                 update=":frmPri:dCodigoCA, @this"
-                                 oncomplete="PF('dlgCodigoCA').show();"
-                                 >
-                    <f:setPropertyActionListener value="#{item}" target="#{alumnoBean.alumno}"/> 
-
-        </p:commandButton>
-
-        <h2>
-
-            <h:outputText value="Pago de Cuotas"
-                          class="Bienvenido"/>  
-        </h2>
-
-        <p:dataTable id="dtCobroCuotasConsulta"
-                     value="#{cohorteLstBean.lstCuotasAlumnoConsulta}" 
-                     var="item"
-                     paginator="true"
-                     rows="20"
-                     rowStyleClass="#{item.borrado ? 'borrado' : null}"
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
-                     {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                     filterEvent="enter"
+    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+        <p:printer target="dtCobroCuotasConsulta" />
+    </p:commandButton>
+    <p:commandButton id="cbCodigoCA"
+                     title="Código"
+                     value="Códigos de Pago"
+                     icon="ui-icon-print" 
+                     update=":frmPri:dCodigoCA, @this"
+                     oncomplete="PF('dlgCodigoCA').show();"
                      >
+        <f:setPropertyActionListener value="#{item}" target="#{alumnoBean.alumno}"/> 
+
+    </p:commandButton>
+
+    <h2>
+
+        <h:outputText value="Pago de Cuotas"
+                      class="Bienvenido"/>  
+    </h2>
+
+    <p:dataTable id="dtCobroCuotasConsulta"
+                 value="#{cohorteLstBean.lstCuotasAlumnoConsulta}" 
+                 var="item"
+                 paginator="true"
+                 rows="20"
+                 rowStyleClass="#{item.borrado ? 'borrado' : null}"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 filterEvent="enter"
+                 >
 
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Dni"/>
-                </f:facet>
-                <h:outputText value="#{item.alumno.dni}"/>
-            </p:column>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Dni"/>
+            </f:facet>
+            <h:outputText value="#{item.alumno.dni}"/>
+        </p:column>
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Apellido"/>
-                </f:facet>
-                <h:outputText value="#{item.alumno.apellido}"/>
-            </p:column>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Apellido"/>
+            </f:facet>
+            <h:outputText value="#{item.alumno.apellido}"/>
+        </p:column>
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Nombre"/>
-                </f:facet>
-                <h:outputText value="#{item.alumno.nombre}"/>
-            </p:column>
-
-
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Cuota"/>
-                </f:facet>
-                <h:outputText value="#{item.cuota}"/>
-            </p:column>
-
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Fecha Pago"/>
-                </f:facet>
-                <h:outputText value="#{item.fechaPago}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Nombre"/>
+            </f:facet>
+            <h:outputText value="#{item.alumno.nombre}"/>
+        </p:column>
 
 
-        </p:dataTable>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Cuota"/>
+            </f:facet>
+            <h:outputText value="#{item.cuota}"/>
+        </p:column>
 
-        <p:messages autoUpdate="true"/>
-
-        <h2>
-
-            <h:outputText value="Otros Pagos"
-                          class="Bienvenido"/>  
-        </h2>
-
-        <p:dataTable id="dtCobroCuotasConsultaGeneral"
-                     value="#{cohorteLstBean.lstCuotasAlumnoGeneral}" 
-                     var="itemm"
-                     paginator="true"
-                     rows="20"
-                     rowStyleClass="#{itemm.borrado ? 'borrado' : null}"
-                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
-                     {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                     filterEvent="enter"
-                     >
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Fecha Pago"/>
+            </f:facet>
+            <h:outputText value="#{item.fechaPago}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+        </p:column>
 
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Dni"/>
-                </f:facet>
-                <h:outputText value="#{itemm.alumno.dni}"/>
-            </p:column>
+    </p:dataTable>
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Apellido"/>
-                </f:facet>
-                <h:outputText value="#{itemm.alumno.apellido}"/>
-            </p:column>
+    <p:messages autoUpdate="true"/>
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Nombre"/>
-                </f:facet>
-                <h:outputText value="#{itemm.alumno.nombre}"/>
-            </p:column>
+    <h2>
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Nombre/Opc"/>
-                </f:facet>
-                <h:outputText value="#{itemm.nombre}"/>
-            </p:column>
+        <h:outputText value="Otros Pagos"
+                      class="Bienvenido"/>  
+    </h2>
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Concepto"/>
-                </f:facet>
-                <h:outputText value="#{itemm.concepto}"/>
-            </p:column>
+    <p:dataTable id="dtCobroCuotasConsultaGeneral"
+                 value="#{cohorteLstBean.lstCuotasAlumnoGeneral}" 
+                 var="itemm"
+                 paginator="true"
+                 rows="20"
+                 rowStyleClass="#{itemm.borrado ? 'borrado' : null}"
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
+                 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                 filterEvent="enter"
+                 >
 
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Cuota"/>
-                </f:facet>
-                <h:outputText value="#{itemm.cuota}"/>
-            </p:column>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Dni"/>
+            </f:facet>
+            <h:outputText value="#{itemm.alumno.dni}"/>
+        </p:column>
 
-            <p:column 
-                width="60">
-                <f:facet name="header">
-                    <h:outputText value="Fecha Pago"/>
-                </f:facet>
-                <h:outputText value="#{itemm.fechaPago}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Apellido"/>
+            </f:facet>
+            <h:outputText value="#{itemm.alumno.apellido}"/>
+        </p:column>
+
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Nombre"/>
+            </f:facet>
+            <h:outputText value="#{itemm.alumno.nombre}"/>
+        </p:column>
+
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Nombre/Opc"/>
+            </f:facet>
+            <h:outputText value="#{itemm.nombre}"/>
+        </p:column>
+
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Concepto"/>
+            </f:facet>
+            <h:outputText value="#{itemm.concepto}"/>
+        </p:column>
 
 
-        </p:dataTable>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Cuota"/>
+            </f:facet>
+            <h:outputText value="#{itemm.cuota}"/>
+        </p:column>
 
-    </ui:define>
+        <p:column 
+            width="60">
+            <f:facet name="header">
+                <h:outputText value="Fecha Pago"/>
+            </f:facet>
+            <h:outputText value="#{itemm.fechaPago}">
+                <f:convertDateTime pattern="dd/MM/yyyy"/>
+            </h:outputText>
+        </p:column>
+
+
+    </p:dataTable>
+
+</ui:define>
 </ui:composition>

@@ -222,15 +222,6 @@
                              process="@this, fechaIniCobrosGenerales,fechaFinCobrosGenerales" 
                              actionListener="#{cobroCuotasAlumnosBean.cargarCobrosGeneralXFecha()}"
                              /> 
-            <h:commandLink >
-                <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Pago de Cuotas"/>
-                <pe:exporter type="pdf" target=":frmPri:dtCobroCuotas" orientation="Landscape"
-                             fileName="pagocuota" datasetPadding="4"  cellFontSize="10" 
-                             skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
-                             preProcessor="#{cobroCuotasAlumnosBean.generar()}"
-                             />  
-            </h:commandLink>
-
 
             <h:outputText value="Dni o Apellido o Nombre"/>
             <p:inputText id="dniCA" 
@@ -275,7 +266,7 @@
             <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                 <p:printer target="dtCobroCuotas" />
             </p:commandButton></h:panelGrid>
-        <p:messages autoUpdate="true"/>
+      <!--  <p:messages autoUpdate="true"/>  -->
 
         <p:dataTable id="dtCobroCuotas"
                      value="#{cobroCuotasAlumnosLstBean.lstCobroCuotas}" 
