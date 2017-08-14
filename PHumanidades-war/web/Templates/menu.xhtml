@@ -21,17 +21,14 @@
                         <p:menuitem value="Cohortes" action="#{navegarBean.frmCohorte()}"></p:menuitem>
                         <p:menuitem value="Inscripcion Alumnos" action="#{navegarBean.frmInscripcionAlumnos()}"></p:menuitem>
                     </p:submenu>
-                    <p:submenu label="Egresos" icon="ui-icon-arrowreturnthick-1-n">
-                        <p:menuitem value="Todos"  action="#{navegarBean.frmPagosDocentes()}" ></p:menuitem>
-                        <p:menuitem value="Tipos de Egreso" ajax="false" action="/paginas/tipoEgreso/List.xhtml?faces-redirect=true"></p:menuitem>
-                    </p:submenu>    
+                    <p:menuitem value="Egresos"  action="#{navegarBean.frmPagosDocentes()}" icon="ui-icon-arrowreturnthick-1-n"></p:menuitem>                             
                     <p:submenu label="Ingresos" icon="ui-icon-arrowreturnthick-1-s">
                         <p:menuitem value="Todos" action="#{navegarBean.frmIngresos()}"></p:menuitem>
                         <p:menuitem value="Ingreso desde Archivo" action="#{navegarBean.frmIngresosArchivo()}"></p:menuitem>
                         <p:menuitem value="025 - Carreras a Distancia" action="#{navegarBean.frmIngresos(025)}"></p:menuitem>  
                         <p:menuitem value="005 - Gastos Generales" action="#{navegarBean.frmIngresos(005)}"></p:menuitem>    
                         <p:menuitem value="Tipos de Ingreso" ajax="false" action="/paginas/tipoIngreso/List.xhtml?faces-redirect=true"></p:menuitem>    
-                        
+
                     </p:submenu> 
                     <p:submenu label="Consultas" icon="ui-icon-search" >
                         <p:menuitem value="Egresos por Pagos Docentes" action="#{navegarBean.frmConsultaPagosDocentes()}"></p:menuitem>
@@ -43,6 +40,7 @@
                         <p:menuitem value="Última Cuota Alumnos" action="/ConsultaUltimaCuota.xhtml"></p:menuitem>                               
                         <p:menuitem value="Reporte de Ingresos" action="#{navegarBean.frmConsultaCuentas()}"></p:menuitem> 
                         <p:menuitem value="Reporte de Ingresos Por Período" action="#{navegarBean.frmConsultaIngresosPeriodo()}"></p:menuitem> 
+                        <p:menuitem value="Reporte Egresos Generales" action="#{navegarBean.frmConsultaPagosGeneralesRubro()}"></p:menuitem>
                     </p:submenu>         
                 </p:menubar>                              
             </b:navbarLinks>

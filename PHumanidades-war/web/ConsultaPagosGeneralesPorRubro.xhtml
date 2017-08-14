@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+
+    <ui:define name="content">
+    <p:growl id="grConsultaPagosGenerales" showDetail="true" sticky="true" />
+        <h1>
+
+            <h:outputText value="Reporte egresos por Pagos Generales"
+                          class="Bienvenido"/>  
+        </h1>
+        <p:tab id="tabPagosGeneralesFecha" title="Pagos entre Fechas"> 
+
+            <table>
+                <tr>
+                    <td>
+                        <h:outputText value="Desde"/><br/>
+                        <p:calendar id="cIniTab1"
+                                    label="Desde" locale="es_ES"
+                                    pattern="dd/MM/yyyy"
+                                    value="#{consultaPagosGeneralesBean.fechaIni}">
+                        </p:calendar>
+                    </td>
+
+                    <td>
+                        <h:outputText value="Hasta"/><br/>
+                        <p:calendar id="cFinTab1" locale="es_ES"
+                                    label="Hasta"
+                                    pattern="dd/MM/yyyy"
+                                    value="#{consultaPagosGeneralesBean.fechaFin}">
+                        </p:calendar>
+                    </td>
+                    <td>
+
+                        <h:outputText value="Cuenta"/><br/>
+                        <p:selectOneMenu id="somCuenta" 
+                                         value="#{cuentaLstBean.cuenta}"
+                                         converter="ConversorCuenta"
+                                         >
+                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+
+                            <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
+                        </p:selectOneMenu>
+
+                    </td>
+                    <td>
+                        <h:outputText value="Rubro Presupuestario:   "/><br/>
+                        <p:selectOneMenu id="somIDType"                                           
+                                         value="#{consultaPagosGeneralesBean.rubroPresupuestario}"                                                     
+                                        >
+                              <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+
+                                <f:selectItems value="#{pagosDocenteBean.lstRubroPresupuestario}"/>
+                        </p:selectOneMenu>
+                    </td>
+                    
+                </tr>
+            </table>
+             <div>
+            <p:messages autoUpdate="true"/>
+        </div>
+        <p:growl id="message" showDetail="true"  />
+        <div class="camposTexto"
+             style="float: left; margin: 10px;
+             width: 100%;
+             text-align: center;">
+            <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes()}" value="Ver PDF" /> 
+
+
+        </div>
+        </p:tab>
+
+
+        <p:messages autoUpdate="true"/>
+
+    </ui:define>
+</ui:composition>

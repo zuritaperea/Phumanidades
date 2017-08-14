@@ -66,6 +66,8 @@ public class NavegarBean {
 
     @ManagedProperty(value = "#{numeroCuentaBean}")
     private NumeroCuentaBean numeroCuentaBean;
+    @ManagedProperty(value = "#{listaRubroPresupuestario}")
+    private ListaRubroPresupuestario listaRubroPresupuestario;
 
     @EJB
     IngresoRNLocal ingresoCuotaRNLocal;
@@ -111,6 +113,22 @@ public class NavegarBean {
 
     public CarreraLstBean getCarreraLstBean() {
         return carreraLstBean;
+    }
+
+    public ListaRubroPresupuestario getListaRubroPresupuestario() {
+        return listaRubroPresupuestario;
+    }
+
+    public void setListaRubroPresupuestario(ListaRubroPresupuestario listaRubroPresupuestario) {
+        this.listaRubroPresupuestario = listaRubroPresupuestario;
+    }
+
+    public IngresoRNLocal getIngresoCuotaRNLocal() {
+        return ingresoCuotaRNLocal;
+    }
+
+    public void setIngresoCuotaRNLocal(IngresoRNLocal ingresoCuotaRNLocal) {
+        this.ingresoCuotaRNLocal = ingresoCuotaRNLocal;
     }
 
     public void setCarreraLstBean(CarreraLstBean carreraLstBean) {
@@ -330,6 +348,13 @@ public class NavegarBean {
     public String frmConsultaPagosGenerales() {
 
         return "/ConsultaPagosGenerales.xhtml?faces-redirect=true";
+    }
+     public String frmConsultaPagosGeneralesRubro() {
+         
+         this.getListaRubroPresupuestario().setLstSIRubroType(null);
+        this.getListaRubroPresupuestario().cargarIdentificationTypes();
+        
+        return "/ConsultaPagosGeneralesPorRubro.xhtml?faces-redirect=true";
     }
 
 }
