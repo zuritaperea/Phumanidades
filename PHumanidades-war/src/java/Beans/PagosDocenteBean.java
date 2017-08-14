@@ -5,11 +5,13 @@
  */
 package Beans;
 
+import DAO.TipoEgresoFacadeLocal;
 import Entidades.Carreras.Carrera;
 import Entidades.Egresos.FormaPago;
 import Entidades.Egresos.PagosDocente;
 import Entidades.Egresos.RubroPresupuestario;
 import Entidades.Egresos.TipoComprobante;
+import Entidades.Egresos.TipoEgreso;
 import Entidades.Persona.Docente;
 import Entidades.Persona.Proveedor;
 import RN.PagosDocenteRNLocal;
@@ -103,7 +105,11 @@ public class PagosDocenteBean implements Serializable {
 
     private List<SelectItem> lstProveedor;
 
-
+    @EJB
+    private TipoEgresoFacadeLocal tipoEgresoFacadeLocal;
+    
+    private TipoEgreso tipoEgreso;
+    private List<SelectItem> lstTipoEgreso;
     /**
      * Creates a new instance of DocenteBean
      */
@@ -114,9 +120,35 @@ public class PagosDocenteBean implements Serializable {
         cargarLstRubroPresupuestario();
         cargarLstProveedor();
         cargarLstTipoComprobante();
+        cargarLstTipoEgresos();
+    }
+
+    public TipoEgresoFacadeLocal getEgresoFacadeLocal() {
+        return tipoEgresoFacadeLocal;
+    }
+
+    public void setEgresoFacadeLocal(TipoEgresoFacadeLocal egresoFacadeLocal) {
+        this.tipoEgresoFacadeLocal = egresoFacadeLocal;
+    }
+
+    public TipoEgreso getTipoEgreso() {
+        return tipoEgreso;
+    }
+
+    public void setTipoEgreso(TipoEgreso tipoEgreso) {
+        this.tipoEgreso = tipoEgreso;
+    }
+
+    public List<SelectItem> getLstTipoEgreso() {
+        return lstTipoEgreso;
+    }
+
+    public void setLstTipoEgreso(List<SelectItem> lstTipoEgreso) {
+        this.lstTipoEgreso = lstTipoEgreso;
     }
 
   
+    
     public PagosDocenteRNLocal getPagosDocenteRNLocal() {
         return PagosDocenteRNLocal;
     }
@@ -747,6 +779,13 @@ public class PagosDocenteBean implements Serializable {
         lstRubroPresupuestario = new ArrayList<SelectItem>();
         for (RubroPresupuestario rp : RubroPresupuestario.values()) {
             lstRubroPresupuestario.add(new SelectItem(rp, rp.toString()));
+        }
+    }
+    
+    private void cargarLstTipoEgresos(){
+        lstTipoEgreso = new ArrayList<SelectItem>();
+        for (TipoEgreso t: tipoEgresoFacadeLocal.findAll()){
+            lstTipoEgreso.add(new SelectItem(t,t.getDescripcion()));
         }
     }
 }

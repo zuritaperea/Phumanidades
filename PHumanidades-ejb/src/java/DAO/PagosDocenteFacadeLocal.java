@@ -8,9 +8,11 @@ package DAO;
 import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
+import Entidades.Egresos.TipoEgreso;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
+import javax.persistence.criteria.Predicate;
 
 /**
  *
@@ -42,6 +44,10 @@ public interface PagosDocenteFacadeLocal {
     public void updateBorrado(Boolean bEstado, Long id) throws Exception;
 
     public List<PagosDocente> findPagosByDni(String dni);
+    
+    public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo);
+    
+    public List<PagosDocente> findPagosByPredicates(Date FechaInicio,Date FechaFin,Cuenta cuenta,TipoEgreso tipoEgreso);
     
     public PagosDocente buscarPagosDocenteId(Long id);
 

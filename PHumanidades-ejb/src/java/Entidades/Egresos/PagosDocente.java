@@ -55,7 +55,8 @@ import javax.persistence.Temporal;
             query = "SELECT c FROM PagosDocente c ORDER BY c.id DESC"),
     @NamedQuery(name = "PagosDocente.findPagosByDni", query = "SELECT p FROM PagosDocente p WHERE p.docente.dni =:dni  "
             + "AND p.borrado=false and p.anulado=false ORDER BY p.fechaRegistro DESC"),
-
+    @NamedQuery(name = "PagosDocente.findPagosByTipoEgreso", query = "SELECT p FROM PagosDocente p WHERE p.tipoEgreso=:tipo "
+            + "AND p.borrado=false and p.anulado=false ORDER BY p.fechaRegistro DESC"),
     @NamedQuery(name = "PagosDocente.findPagosDocentesId", query = "SELECT p FROM PagosDocente p WHERE p.id =:id  AND p.borrado=false")})
 @Table(name = "egresos")
 public class PagosDocente extends Base implements Serializable {
@@ -136,6 +137,18 @@ public class PagosDocente extends Base implements Serializable {
 
     @OneToOne
     private Cuenta cuenta;
+    @OneToOne
+    private TipoEgreso tipoEgreso;
+
+    public TipoEgreso getTipoEgreso() {
+        return tipoEgreso;
+    }
+
+    public void setTipoEgreso(TipoEgreso tipoEgreso) {
+        this.tipoEgreso = tipoEgreso;
+    }
+    
+    
 
     public RubroPresupuestario getRubroPresupuestario() {
         return rubroPresupuestario;

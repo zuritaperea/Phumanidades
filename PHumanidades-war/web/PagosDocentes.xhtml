@@ -299,9 +299,14 @@
                                              required="false">
                                 <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
                                 <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
-
-
-
+                            </p:selectOneMenu>
+                            <h:outputText value="Tipo Egreso" />
+                            <p:selectOneMenu id="tipoEgreso" 
+                                             value="#{pagosDocenteBean.pagoDocente.tipoEgreso}"
+                                             required="false">
+                                <f:converter binding="#{conversorTipoEgreso}"/>
+                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
                             </p:selectOneMenu>
 
 
@@ -660,6 +665,13 @@
                     <h:outputText value="Rubro Presupuestario"/>
                 </f:facet>
                 <h:outputText value="#{item.rubroPresupuestario}"/>
+            </p:column>
+            <p:column visible="false"
+                      style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Tipo Egreso"/>
+                </f:facet>
+                <h:outputText value="#{item.tipoEgreso.descripcion}"/>
             </p:column>
             <p:column visible="false"
                       style="word-wrap:break-word;">

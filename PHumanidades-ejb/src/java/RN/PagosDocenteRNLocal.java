@@ -8,6 +8,7 @@ package RN;
 import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
+import Entidades.Egresos.TipoEgreso;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -35,6 +36,10 @@ public interface PagosDocenteRNLocal {
     public List<PagosDocente> findByFechaCarrera(Date ini, Date fin, Carrera carrera) throws Exception;
 
     public List<PagosDocente> findPagosByDni(String dni) throws Exception;
+    
+    public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo) throws Exception;
+    
+    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta,TipoEgreso tipoEgreso) throws Exception;
 
     public List<PagosDocente> findPagosGeneralXFecha(Date ini, Date fin);
     

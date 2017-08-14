@@ -9,6 +9,7 @@ import Entidades.Carreras.Carrera;
 import DAO.PagosDocenteFacadeLocal;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
+import Entidades.Egresos.TipoEgreso;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -101,6 +102,16 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
     @Override
     public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta) {
         return pagosDocenteFacadeLocal.findPagosXFechaProveedorYCuenta(ini, fin, cuenta);
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo) throws Exception {
+        return pagosDocenteFacadeLocal.findPagosByTipoEgreso(tipo);
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta, TipoEgreso tipoEgreso) throws Exception {
+        return pagosDocenteFacadeLocal.findPagosByPredicates(ini, fin, cuenta, tipoEgreso);
     }
 
 }

@@ -55,6 +55,16 @@
                             </p:selectOneMenu>
 
                         </td>
+                        <td>
+                            <h:outputText value="Tipo Egreso" /><br/>
+                            <p:selectOneMenu id="tipoEgreso" 
+                                             value="#{consultaPagosGeneralesBean.tipoEgreso}"
+                                             required="false">
+                                <f:converter binding="#{conversorTipoEgreso}"/>
+                                <f:selectItem itemLabel="Seleccionar" itemValue="#{null}"/>
+                                <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
+                            </p:selectOneMenu>
+                        </td>
 
                         <td>
                             <br/>

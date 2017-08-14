@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoEgresoCreateDlg" widgetVar="TipoEgresoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTipoEgresoTitle}">
+            <h:form id="TipoEgresoCreateForm">
+                <h:panelGroup id="displayE">
+                    <p:panelGrid columns="2" rendered="#{tipoEgresoController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateTipoEgresoLabel_id}" for="id" />
+                        <p:inputText disabled="true" id="id" value="#{tipoEgresoController.selected.id}" title="#{bundle.CreateTipoEgresoTitle_id}" />
+                        <p:outputLabel value="#{bundle.CreateTipoEgresoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tipoEgresoController.selected.descripcion}" title="#{bundle.CreateTipoEgresoTitle_descripcion}" required="true"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoEgresoController.create}" value="#{bundle.Save}" update="displayE,:TipoEgresoListForm:datalistE,:growl" oncomplete="handleSubmit(args,'TipoEgresoCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TipoEgresoCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
+

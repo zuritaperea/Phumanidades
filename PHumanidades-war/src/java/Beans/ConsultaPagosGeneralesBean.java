@@ -1,7 +1,9 @@
 package Beans;
 
+import DAO.TipoEgresoFacadeLocal;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
+import Entidades.Egresos.TipoEgreso;
 import RN.PagosDocenteRNLocal;
 import java.io.File;
 import java.io.Serializable;
@@ -26,8 +28,10 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -57,6 +61,12 @@ public class ConsultaPagosGeneralesBean implements Serializable {
     private Date fechaFin;
     private Date fechaIni;
     private BigDecimal totalXGastoGeneral;
+    
+    @EJB
+    private TipoEgresoFacadeLocal tipoEgresoFacadeLocal;
+    
+    private TipoEgreso tipoEgreso;
+    private List<SelectItem> lstTipoEgreso;
 
     @PostConstruct
     private void init() {
@@ -68,6 +78,8 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         fechaIni = new Date();
         fechaFin = c.getTime();
         totalXGastoGeneral = new BigDecimal(0);
+        cargarLstTipoEgresos();
+        this.setTipoEgreso(new TipoEgreso());
     }//fin init
 
     public Date getFechaIni() {
@@ -84,6 +96,30 @@ public class ConsultaPagosGeneralesBean implements Serializable {
 
     public void setCuentaLstBean(CuentaLstBean cuentaLstBean) {
         this.cuentaLstBean = cuentaLstBean;
+    }
+
+    public TipoEgresoFacadeLocal getTipoEgresoFacadeLocal() {
+        return tipoEgresoFacadeLocal;
+    }
+
+    public void setTipoEgresoFacadeLocal(TipoEgresoFacadeLocal tipoEgresoFacadeLocal) {
+        this.tipoEgresoFacadeLocal = tipoEgresoFacadeLocal;
+    }
+
+    public TipoEgreso getTipoEgreso() {
+        return tipoEgreso;
+    }
+
+    public void setTipoEgreso(TipoEgreso tipoEgreso) {
+        this.tipoEgreso = tipoEgreso;
+    }
+
+    public List<SelectItem> getLstTipoEgreso() {
+        return lstTipoEgreso;
+    }
+
+    public void setLstTipoEgreso(List<SelectItem> lstTipoEgreso) {
+        this.lstTipoEgreso = lstTipoEgreso;
     }
 
     
@@ -122,6 +158,13 @@ public class ConsultaPagosGeneralesBean implements Serializable {
     public void setTotalXGastoGeneral(BigDecimal totalXGastoGeneral) {
         this.totalXGastoGeneral = totalXGastoGeneral;
     }
+    
+    private void cargarLstTipoEgresos(){
+        lstTipoEgreso = new ArrayList<SelectItem>();
+        for (TipoEgreso t: tipoEgresoFacadeLocal.findAll()){
+            lstTipoEgreso.add(new SelectItem(t,t.getDescripcion()));
+        }
+    }
 
     /**
      * Buscar historial de operaciones entre dos fechas
@@ -134,13 +177,13 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             totalXGastoGeneral = BigDecimal.ZERO;
             //System.out.println("entro if buscarFechaCarrera" + this.getCohorteLstBean().getCohorteSelect());
             //aumento un dia a la fecha fin para que la busqueda sea menor o igual
-            if (fechaIni != null && fechaFin != null) {
+          /*  if (fechaIni != null && fechaFin != null) {
                 if(this.getCuentaLstBean().getCuenta() != null){
                     this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedorYCuenta(this.getFechaIni(), this.getFechaFin(),this.getCuentaLstBean().getCuenta()));
                 }else{
                     this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedor(this.getFechaIni(), this.getFechaFin()));
                 }
-//Sumamos el total de los cobros por cohorte
+
                 for (PagosDocente gg : this.getLstGastoGeneral()) {
                     totalXGastoGeneral = totalXGastoGeneral.add(gg.getMonto());
                 }
@@ -150,7 +193,17 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                     FacesContext fc = FacesContext.getCurrentInstance();
                     fc.addMessage(null, fm);
                 }//fin if
-            }
+            }*/
+            this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosByPredicates(fechaIni, fechaFin, this.getCuentaLstBean().getCuenta(), tipoEgreso));
+            for (PagosDocente gg : this.getLstGastoGeneral()) {
+                    totalXGastoGeneral = totalXGastoGeneral.add(gg.getMonto());
+                }
+
+                if (this.getLstGastoGeneral().isEmpty()) {
+                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                    FacesContext fc = FacesContext.getCurrentInstance();
+                    fc.addMessage(null, fm);
+                }
         } catch (Exception ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
             FacesContext fc = FacesContext.getCurrentInstance();

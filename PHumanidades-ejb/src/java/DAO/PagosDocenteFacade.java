@@ -8,12 +8,18 @@ package DAO;
 import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
+import Entidades.Egresos.TipoEgreso;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -131,6 +137,44 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         q.setParameter("fechaFin", fin);
         q.setParameter("cuenta", cuenta);
         return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosByTipoEgreso");
+        q.setParameter("tipoEgreso", tipo);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByPredicates(Date FechaInicio,Date FechaFin,Cuenta cuenta,TipoEgreso tipoEgreso) {
+        System.out.println("--------------------------");
+        
+        CriteriaBuilder qb = em.getCriteriaBuilder();
+        CriteriaQuery cq = qb.createQuery();
+        Root<PagosDocente> pagos = cq.from(PagosDocente.class);
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(FechaInicio != null){
+            predicates.add(
+                qb.greaterThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaInicio));
+        }
+        if(FechaFin != null){
+            predicates.add(
+                qb.lessThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaFin));
+        }
+        if(cuenta != null){
+            predicates.add(
+                qb.equal(pagos.get("cuenta"), cuenta));
+        }
+        if(tipoEgreso != null){
+            predicates.add(
+                qb.equal(pagos.get("tipoEgreso"), tipoEgreso));
+        }
+        Predicate [] predicatesarr = predicates.toArray(new Predicate[predicates.size()]);
+        cq.select(pagos)
+            .where(predicatesarr);
+        return em.createQuery(cq).getResultList();
     }
 
 }

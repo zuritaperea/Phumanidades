@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+     <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+     <ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:ui="http://java.sun.com/jsf/facelets"
+                      template="../../Templates/paginasTemplate.xhtml"
+                      xmlns:p="http://primefaces.org/ui"
+                      xmlns:h="http://java.sun.com/jsf/html"
+                      xmlns:f="http://java.sun.com/jsf/core"
+                      xmlns:b="http://bootsfaces.net/ui"
+                      >
+     <ui:define name="content">
+
+
+        <h3>
+            <h:outputText value="#{bundle.ListTipoEgresoTitle}"></h:outputText>
+        </h3>
+
+         
+            <h:form id="TipoEgresoListForm">
+                <p:panel header="#{bundle.ListTipoEgresoTitle}">
+                    <p:dataTable id="datalistE" value="#{tipoEgresoController.items}" var="item"
+                                 selectionMode="single" selection="#{tipoEgresoController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButtonE viewButtonE editButtonE deleteButtonE"/>
+                        <p:ajax event="rowUnselect" update="createButtonE viewButtonE editButtonE deleteButtonE"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoEgresoTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTipoEgresoTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButtonE" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoEgresoController.prepareCreate}" update=":TipoEgresoCreateForm" oncomplete="PF('TipoEgresoCreateDialog').show()"/>
+                            <p:commandButton id="viewButtonE"   icon="ui-icon-search" value="#{bundle.View}" update=":TipoEgresoViewForm" oncomplete="PF('TipoEgresoViewDialog').show()" disabled="#{empty tipoEgresoController.selected}"/>
+                            <p:commandButton id="editButtonE"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoEgresoEditForm" oncomplete="PF('TipoEgresoEditDialog').show()" disabled="#{empty tipoEgresoController.selected}"/>
+                            <p:commandButton id="deleteButtonE" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoEgresoController.destroy}" update=":growl,datalistE" disabled="#{empty tipoEgresoController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
