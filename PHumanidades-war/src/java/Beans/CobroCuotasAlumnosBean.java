@@ -1117,7 +1117,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
             String cue = "";
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/PHumanidades");
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             Connection conect = dataSource.getConnection();
             String path = "";
 
