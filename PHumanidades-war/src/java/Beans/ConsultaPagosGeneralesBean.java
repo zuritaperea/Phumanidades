@@ -1,8 +1,10 @@
 package Beans;
 
+import DAO.TipoEgresoFacadeLocal;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import Entidades.Egresos.RubroPresupuestario;
+import Entidades.Egresos.TipoEgreso;
 import RN.PagosDocenteRNLocal;
 import java.io.File;
 import java.io.Serializable;
@@ -27,10 +29,12 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -47,26 +51,31 @@ import org.primefaces.event.TabChangeEvent;
 @ManagedBean(name = "consultaPagosGeneralesBean")
 @ViewScoped
 public class ConsultaPagosGeneralesBean implements Serializable {
-
+    
     private final String escudo1 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "huma.png";
 
     @EJB
     private PagosDocenteRNLocal pagoGeneralRNLocal;
-
+    
     @ManagedProperty(value = "#{cuentaLstBean}")
     private CuentaLstBean cuentaLstBean;
-
+    
     private List<PagosDocente> lstGastoGeneral;
     private Date fechaFin;
     private Date fechaIni;
     private Date feha_fin_real;
-    @Enumerated(EnumType.STRING)
-    private RubroPresupuestario rubroPresupuestario;
     private BigDecimal totalXGastoGeneral;
-
+    
+    @EJB
+    private TipoEgresoFacadeLocal tipoEgresoFacadeLocal;
+    
+    private TipoEgreso tipoEgreso;
+    private List<SelectItem> lstTipoEgreso;
+@Enumerated(EnumType.STRING)
+    private RubroPresupuestario rubroPresupuestario;
     @PostConstruct
     private void init() {
-
+     
         lstGastoGeneral = new ArrayList<>();
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -74,35 +83,12 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         fechaIni = new Date();
         fechaFin = c.getTime();
         totalXGastoGeneral = new BigDecimal(0);
-
+        cargarLstTipoEgresos();
+        this.setTipoEgreso(new TipoEgreso());
     }//fin init
 
     public Date getFechaIni() {
         return fechaIni;
-    }
-
-    public RubroPresupuestario getRubroPresupuestario() {
-        return rubroPresupuestario;
-    }
-
-    public void setRubroPresupuestario(RubroPresupuestario rubroPresupuestario) {
-        this.rubroPresupuestario = rubroPresupuestario;
-    }
-
-    public PagosDocenteRNLocal getPagoGeneralRNLocal() {
-        return pagoGeneralRNLocal;
-    }
-
-    public Date getFeha_fin_real() {
-        return feha_fin_real;
-    }
-
-    public void setFeha_fin_real(Date feha_fin_real) {
-        this.feha_fin_real = feha_fin_real;
-    }
-
-    public void setPagoGeneralRNLocal(PagosDocenteRNLocal pagoGeneralRNLocal) {
-        this.pagoGeneralRNLocal = pagoGeneralRNLocal;
     }
 
     public void setFechaIni(Date fechaIni) {
@@ -117,6 +103,55 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         this.cuentaLstBean = cuentaLstBean;
     }
 
+    public TipoEgresoFacadeLocal getTipoEgresoFacadeLocal() {
+        return tipoEgresoFacadeLocal;
+    }
+
+    public void setTipoEgresoFacadeLocal(TipoEgresoFacadeLocal tipoEgresoFacadeLocal) {
+        this.tipoEgresoFacadeLocal = tipoEgresoFacadeLocal;
+    }
+
+    public TipoEgreso getTipoEgreso() {
+        return tipoEgreso;
+    }
+
+    public void setTipoEgreso(TipoEgreso tipoEgreso) {
+        this.tipoEgreso = tipoEgreso;
+    }
+
+    public List<SelectItem> getLstTipoEgreso() {
+        return lstTipoEgreso;
+    }
+
+    public void setLstTipoEgreso(List<SelectItem> lstTipoEgreso) {
+        this.lstTipoEgreso = lstTipoEgreso;
+    }
+
+    public PagosDocenteRNLocal getPagoGeneralRNLocal() {
+        return pagoGeneralRNLocal;
+    }
+
+    public void setPagoGeneralRNLocal(PagosDocenteRNLocal pagoGeneralRNLocal) {
+        this.pagoGeneralRNLocal = pagoGeneralRNLocal;
+    }
+
+    public Date getFeha_fin_real() {
+        return feha_fin_real;
+    }
+
+    public void setFeha_fin_real(Date feha_fin_real) {
+        this.feha_fin_real = feha_fin_real;
+    }
+
+    public RubroPresupuestario getRubroPresupuestario() {
+        return rubroPresupuestario;
+    }
+
+    public void setRubroPresupuestario(RubroPresupuestario rubroPresupuestario) {
+        this.rubroPresupuestario = rubroPresupuestario;
+    }
+
+    
     /**
      * agrego un dia para que las busquedas sean de menor o igual
      *
@@ -152,6 +187,13 @@ public class ConsultaPagosGeneralesBean implements Serializable {
     public void setTotalXGastoGeneral(BigDecimal totalXGastoGeneral) {
         this.totalXGastoGeneral = totalXGastoGeneral;
     }
+    
+    private void cargarLstTipoEgresos(){
+        lstTipoEgreso = new ArrayList<SelectItem>();
+        for (TipoEgreso t: tipoEgresoFacadeLocal.findAll()){
+            lstTipoEgreso.add(new SelectItem(t,t.getDescripcion()));
+        }
+    }
 
     /**
      * Buscar historial de operaciones entre dos fechas
@@ -164,14 +206,23 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             totalXGastoGeneral = BigDecimal.ZERO;
             //System.out.println("entro if buscarFechaCarrera" + this.getCohorteLstBean().getCohorteSelect());
             //aumento un dia a la fecha fin para que la busqueda sea menor o igual
-            if (fechaIni != null && fechaFin != null) {
-                if (this.getCuentaLstBean().getCuenta() != null) {
-                    this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedorYCuenta(this.getFechaIni(), this.getFechaFin(), this.getCuentaLstBean().getCuenta()));
-                } else {
+          /*  if (fechaIni != null && fechaFin != null) {
+                if(this.getCuentaLstBean().getCuenta() != null){
+                    this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedorYCuenta(this.getFechaIni(), this.getFechaFin(),this.getCuentaLstBean().getCuenta()));
+                }else{
                     this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosXFechaProveedor(this.getFechaIni(), this.getFechaFin()));
                 }
-//Sumamos el total de los cobros por cohorte
                 for (PagosDocente gg : this.getLstGastoGeneral()) {
+                    totalXGastoGeneral = totalXGastoGeneral.add(gg.getMonto());
+                }
+                if (this.getLstGastoGeneral().isEmpty()) {
+                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                    FacesContext fc = FacesContext.getCurrentInstance();
+                    fc.addMessage(null, fm);
+                }//fin if
+            }*/
+            this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosByPredicates(fechaIni, fechaFin, this.getCuentaLstBean().getCuenta(), tipoEgreso));
+            for (PagosDocente gg : this.getLstGastoGeneral()) {
                     totalXGastoGeneral = totalXGastoGeneral.add(gg.getMonto());
                 }
 
@@ -179,8 +230,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                     fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
                     FacesContext fc = FacesContext.getCurrentInstance();
                     fc.addMessage(null, fm);
-                }//fin if
-            }
+                }
         } catch (Exception ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -194,21 +244,21 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         //     this.setLstPagosDocente(new ArrayList<PagosDocente>());
         RequestContext.getCurrentInstance().update("frmPri:dtGastosGenerales");
     }
-
+    
     public void generarConsultaPagos() throws SQLException {
 
         try {
-
+            
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             Connection conect = dataSource.getConnection();
             System.out.println("funcionando");
-
+            
             try {
-
+                
                 HashMap parametros = new HashMap();
-                String query = "";
-                if (this.getCuentaLstBean().getCuenta() != null) {
+                String query="";
+                if(this.getCuentaLstBean().getCuenta() != null){
                     query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                             + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
                             + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
@@ -216,11 +266,11 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                             + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                             + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                             + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                            + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
-                            new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
+                            + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO DESC",new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()),this.getCuentaLstBean().getCuenta().getId());
                     System.out.println(query);
-                    parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
-                } else {
+                    parametros.put("descripcion",this.getCuentaLstBean().getCuenta().toString());
+                }else{
                     query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                             + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
                             + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
@@ -228,19 +278,20 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                             + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                             + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                             + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
-                            + ") ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            + ") ORDER BY e.FECHAREGISTRO DESC",new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                             new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
                 }
-
-                parametros.put("escudo", escudo1);
+                
+                
+                parametros.put("escudo",escudo1 );
                 parametros.put("query", query);
-                parametros.put("fecha_actual", new SimpleDateFormat("MMMM-yy").format(new Date()));
-
+                parametros.put("fecha_actual",new SimpleDateFormat("MMMM-yy").format(new Date()));
+                
                 System.out.println(escudo1);
 //funcionando
-
+                
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "egresosGenerales.jasper";
+                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator+"egresosGenerales.jasper";
                 System.out.println(reportPath);
                 JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
                 HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
@@ -250,19 +301,18 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                 servletOutputStream.flush();
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
-
+                
             } catch (Exception ex) {
                 System.out.println(ex + "CAUSA: " + ex.getCause());
                 ex.printStackTrace();
             }
-
+            
         }//fin generar
-        catch (NamingException ex) {
+ catch (NamingException ex) {
             Logger.getLogger(ConsultaPagosGeneralesBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-
     public void generarConsultaPagosBienes() throws SQLException {
 
         try {
