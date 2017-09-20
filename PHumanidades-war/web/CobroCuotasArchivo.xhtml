@@ -37,11 +37,17 @@
                     </f:facet>
                     <h:outputText value="#{data.dni}"/>
                 </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Cuota"/>
-                    </f:facet>
-                    <h:outputText value="#{data.cuota}"/>
+                <p:column headerText="Cuota">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{data.cuota}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{data.cuota}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Monto">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{data.monto}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{data.monto}" style="width:100%"/></f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column headerText="Cohorte">
                     <p:cellEditor>
@@ -55,7 +61,19 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                
+                <p:column headerText="Tipo Ingreso">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{data.tipoIngreso}" style="width:100%;color:black"/></f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu id="tipoIngreso" style="width:100%;color:black" 
+                                         value="#{data.tipoIngreso}"
+                                         required="false">
+                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                            <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
                 <p:column headerText="Número Recibo">
                 <p:cellEditor>
                      <f:facet name="output"><h:outputText value="#{data.numRecibo}" /></f:facet>

@@ -19,37 +19,46 @@
             <h:outputText value="Reporte de Ingresos"
                           class="Bienvenido"/>
         </h1>
-        <p:panel   style="text-align:center;" id="display">
 
-            <h:panelGrid columns="7" cellpadding="10" >
-                <h:outputText value="Desde"/>
-                <p:calendar id="fechaIniCobrosGenerales"
-                            label="Desde"  
-                            locale="es_ES"
-                            pattern="dd/MM/yyyy"
-                            value="#{cobroCuotasAlumnosBean.fechaIni}">
-                </p:calendar>
 
-                <h:outputText value="Hasta"/>
-                <p:calendar id="fechaFinCobrosGenerales"  
-                            label="Hasta" 
-                            locale="es_ES"
-                            pattern="dd/MM/yyyy"
-                            value="#{cobroCuotasAlumnosBean.fechaFin}">
-                </p:calendar>
-                <h:outputText value="Cuenta:"/>
-                <p:selectOneMenu id="somCuenta"
-                                 converter="ConversorGenerico"
-                                 value="#{cuentaLstBean.cuenta}"
-                                 >
-                    <f:selectItem itemLabel="Seleccione una cuenta..." itemValue=""/>
-                    <f:selectItems 
-                        value="#{cuentaLstBean.lstSICuenta}"/>
+        <table>
+            <tr>
+                <td>
+                    <h:outputText value="Desde"/><br/>
+                    <p:calendar id="fechaIniCobrosGenerales"
+                                label="Desde"  locale="es_ES"
+                                pattern="dd/MM/yyyy"
+                                value="#{cobroCuotasAlumnosBean.fechaIni}">
+                    </p:calendar>
+                </td>
 
-                </p:selectOneMenu>
-            </h:panelGrid>
+                <td>
+                    <h:outputText value="Hasta"/><br/>
+                    <p:calendar id="fechaFinCobrosGenerales"  
+                                label="Hasta" locale="es_ES"
+                                pattern="dd/MM/yyyy"
+                                value="#{cobroCuotasAlumnosBean.fechaFin}">
+                    </p:calendar>
+                </td>
 
-        </p:panel>
+                <td>
+
+                    <h:outputText value="Cuenta:"/><br/>
+                    <p:selectOneMenu id="somCuenta"
+                                     converter="ConversorGenerico"
+                                     value="#{cuentaLstBean.cuenta}"
+                                     >
+                        <f:selectItem itemLabel="Seleccione una cuenta..." itemValue=""/>
+                        <f:selectItems 
+                            value="#{cuentaLstBean.lstSICuenta}"/>
+
+                    </p:selectOneMenu>
+
+                </td>
+
+            </tr>
+        </table>
+
         <div>
             <p:messages autoUpdate="true"/>
         </div>
@@ -59,10 +68,10 @@
              width: 100%;
              text-align: center;">
             <h:commandButton  action="#{cobroCuotasAlumnosBean.generar()}" value="Ver PDF" /> 
-
+            <h:commandButton  action="#{cobroCuotasAlumnosBean.generarExcel()}" value="Ver excel" />
 
         </div>
-        
+
 
 
 

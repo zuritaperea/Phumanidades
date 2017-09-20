@@ -8,9 +8,11 @@ package Beans;
 import Entidades.Carreras.Cuenta;
 import Entidades.Carreras.InscripcionAlumnos;
 import Entidades.Ingresos.Ingreso;
+import Entidades.Ingresos.TipoIngreso;
 import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -146,8 +148,8 @@ public class CobroCuotasAlumnosBeanArchivo {
                 if(fileContent.length()==37){
                     System.out.println(fileContent);
                     DataFile df = new DataFile();
-                    df.setDni(fileContent.substring(0, 8));
-                    df.setCuota(fileContent.substring(17, 19));
+                    df.setDni(fileContent.substring(28, 36));
+                    df.setMonto(new BigDecimal(fileContent.substring(17, 21)));
                     df.setCodigo(fileContent.substring(23, 37));
                     dataList.add(df);
                 }
@@ -178,6 +180,8 @@ public class CobroCuotasAlumnosBeanArchivo {
             i.setAlumno(d.getIa().getAlumno());
             i.setCohorte(d.getIa().getCohorte());
             i.setCuota(Integer.valueOf(d.getCuota()));
+            i.setImporte(d.getMonto());
+            i.setTipoIngreso(d.getTipoIngreso());
             i.setNumeroRecibo(Integer.valueOf(d.getNumRecibo()));
             i.setFechaPago(new Date()); 
             i.setCuenta(d.getIa().getCohorte().getCarrera().getCuenta());
@@ -239,6 +243,8 @@ public class CobroCuotasAlumnosBeanArchivo {
         String numRecibo;
         InscripcionAlumnos ia;
         Cuenta cuenta;
+        BigDecimal monto;
+        TipoIngreso tipoIngreso;
 
         public DataFile(String dni, String cuota, String codigo) {
             this.dni = dni;
@@ -296,6 +302,24 @@ public class CobroCuotasAlumnosBeanArchivo {
         public void setNumRecibo(String numRecibo) {
             this.numRecibo = numRecibo;
         }
+
+        public BigDecimal getMonto() {
+            return monto;
+        }
+
+        public void setMonto(BigDecimal monto) {
+            this.monto = monto;
+        }
+
+        public TipoIngreso getTipoIngreso() {
+            return tipoIngreso;
+        }
+
+        public void setTipoIngreso(TipoIngreso tipoIngreso) {
+            this.tipoIngreso = tipoIngreso;
+        }
+        
+        
 
         @Override
         public String toString() {
