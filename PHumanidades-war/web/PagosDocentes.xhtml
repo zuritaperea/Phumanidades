@@ -253,10 +253,10 @@
                             <p:tab title="Más Comprobantes" >
                                 <h:panelGrid columns="6" cellpadding="5">
                                     <h:outputText value="Tipo Egreso" />
-                                    <h:outputText value="Fecha de Comprobante"/>
-                                    <h:outputText value="Tipo de Comprobante"/>
-                                    <h:outputText value="Numero Comprobante"/>
-                                    <h:outputText value="Importe Comprobante"/>
+                                    <h:outputText value="Fecha"/>
+                                    <h:outputText value="Tipo"/>
+                                    <h:outputText value="Numero"/>
+                                    <h:outputText value="Importe"/>
                                     <h:outputText value="Concepto"/>
                                     <p:selectOneMenu id="tipoEgreso2" 
                                                      value="#{pagosDocenteBean.pagoDocente2.tipoEgreso}"
@@ -278,15 +278,15 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp2" 
-                                                 value="#{pagosDocenteBean.pagoDocente2.numeroComprobante}"/>
+                                                 value="#{pagosDocenteBean.pagoDocente2.numeroComprobante}" style="width: 100px; " />
 
                                     <p:inputText id="importeComprobante2" 
                                                  value="#{pagosDocenteBean.pagoDocente2.importeComprobante}"
-                                                 onblur="calcularImporte();"/>
+           onblur="calcularImporte();" style="width: 100px; "/>
 
                                     <p:inputText id="concepto2" 
                                                  value="#{pagosDocenteBean.pagoDocente2.concepto}"
-                                                 style="width: 200px; "/>
+                                                 style="width: 250px; "/>
                                     <p:selectOneMenu id="tipoEgreso3" 
                                                      value="#{pagosDocenteBean.pagoDocente3.tipoEgreso}"
                                                      required="false">
@@ -307,14 +307,14 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp3" 
-                                                 value="#{pagosDocenteBean.pagoDocente3.numeroComprobante}"/>
+                                                 value="#{pagosDocenteBean.pagoDocente3.numeroComprobante}" style="width: 100px; " />
 
                                     <p:inputText id="importeComprobante3" 
                                                  value="#{pagosDocenteBean.pagoDocente3.importeComprobante}"
-                                                 onblur="calcularImporte();"/>
+           onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto3" 
                                                  value="#{pagosDocenteBean.pagoDocente3.concepto}"
-                                                 style="width: 500px; "/>
+                                                 style="width: 250px; "/>
                                     <p:selectOneMenu id="tipoEgreso4" 
                                                      value="#{pagosDocenteBean.pagoDocente4.tipoEgreso}"
                                                      required="false">
@@ -335,13 +335,13 @@
                                         <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
                                     </p:selectOneMenu>
                                     <p:inputText id="numeroComp4" 
-                                                 value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}"/>
+                                                 value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}" style="width: 100px; " />
                                     <p:inputText id="importeComprobante4" 
                                                  value="#{pagosDocenteBean.pagoDocente4.importeComprobante}"
-                                                 onblur="calcularImporte();"/>
+           onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto4" 
                                                  value="#{pagosDocenteBean.pagoDocente4.concepto}"
-                                                 style="width: 500px; "/>
+                                                 style="width: 250px; "/>
                                     <p:selectOneMenu id="tipoEgreso5" 
                                                      value="#{pagosDocenteBean.pagoDocente5.tipoEgreso}"
                                                      required="false">
@@ -362,13 +362,13 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp5" 
-                                                 value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}"/>
+                                                 value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}" style="width: 100px; " />
                                     <p:inputText id="importeComprobante5" 
                                                  value="#{pagosDocenteBean.pagoDocente5.importeComprobante}"
-                                                 onblur="calcularImporte();"/>
+           onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto5" 
                                                  value="#{pagosDocenteBean.pagoDocente5.concepto}"
-                                                 style="width: 500px; "/>
+                                                 style="width: 250px; "/>
                                     <p:selectOneMenu id="tipoEgreso6" 
                                                      value="#{pagosDocenteBean.pagoDocente6.tipoEgreso}"
                                                      required="false">
@@ -389,13 +389,13 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp6" 
-                                                 value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}"/>
+                                                 value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}" style="width: 100px; " />
                                     <p:inputText id="importeComprobante6" 
                                                  value="#{pagosDocenteBean.pagoDocente6.importeComprobante}"
-                                                 onblur="calcularImporte();"/>
+           onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto6" 
                                                  value="#{pagosDocenteBean.pagoDocente6.concepto}"
-                                                 style="width: 500px; "/>
+                                                  style="width: 250px; "/>
                                 </h:panelGrid>
                             </p:tab>                        <div style="float:none;clear: both"></div>
                         </p:accordionPanel>
