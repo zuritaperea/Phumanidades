@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="828" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="a7c1509d-f949-4eb2-be48-fb3c1c51872f">
 	<property name="ireport.zoom" value="2.0"/>
-	<property name="ireport.x" value="830"/>
-	<property name="ireport.y" value="105"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="fechaIni" class="java.util.Date">
 		<parameterDescription><![CDATA[]]></parameterDescription>
 	</parameter>
@@ -44,8 +44,43 @@ WHERE
      ingresos.fechapago BETWEEN $P{fechaIni} and $P{fechaFin}
      and ingresos.borrado = false
      and ingresos.cuenta_id = $P{cuenta_id}
-ORDER BY
-     numero_recibo ASC]]>
+and ingresos.anulado=false
+and ingresos.importe<>0
+ union
+SELECT
+    char_length(trim(to_char(numero_recibo,'999999999'))) as cant,trim(to_char(numero_recibo,'999999999')) as num_rec,
+     ingresos."numero_recibo",
+     ingresos."cuota",
+     ingresos."fechapago",
+     COALESCE(ingresos."nombre",'') AS alumno_eventual,
+     COALESCE(alumno."apellido"||' '||alumno."nombre",'') AS alumno,
+     ingresos."cuenta_id",
+     ingresos."tipoingreso_id",
+     ingresos."importe",
+     ingresos."alumno_id",
+     ingresos."anulado",
+     ingresos."formapago" ,
+     
+     ingresos.cohorte_id,
+     COALESCE (ingresos."concepto",'') as concepto_eventual,
+      COALESCE (ingresos_tipo_ingreso.descripcion,'') as tipoingreso,
+COALESCE(cohorte.descripcion,'') as cohorte,
+COALESCE(carrera.descripcion,'') as carerra,
+     
+    
+ingresos.formapago,
+ingresos.importe
+FROM
+     ingresos left JOIN  alumno ON ingresos."alumno_id" = alumno."id"
+     left JOIN ingresos_tipo_ingreso ON ingresos."tipoingreso_id" = ingresos_tipo_ingreso."id"
+     left join cohorte on ingresos.cohorte_id= cohorte.id
+     left join carrera on cohorte.carrera_id=carrera.id
+WHERE
+     ingresos.fechapago BETWEEN $P{fechaIni} and $P{fechaFin}
+     and ingresos.borrado = false
+     and ingresos.cuenta_id = $P{cuenta_id}
+and ingresos.anulado=true
+order by numero_recibo asc]]>
 	</queryString>
 	<field name="cant" class="java.lang.Integer"/>
 	<field name="num_rec" class="java.lang.String"/>
