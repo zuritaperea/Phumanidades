@@ -107,6 +107,24 @@
             else
                 return true;
         }
+
+        function calcularImporte() {
+
+            var new_value = (
+                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante"]').value)) +
+                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante2"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante2"]').value)) +
+                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante3"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante3"]').value)) +
+                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante4"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante4"]').value)) +
+                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante5"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante5"]').value)) +
+                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante6"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante6"]').value)))
+
+
+            if (isNaN(new_value))
+                alert("Debe ingresar solo valores numéricos");
+            else
+                document.getElementById('frmPri:monto').value = new_value;
+        }
+
         function calcularTotal() {
 
             var new_value = (document.getElementById('frmPri:monto').value -

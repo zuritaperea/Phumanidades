@@ -6,6 +6,7 @@
 package Beans;
 
 import Entidades.Egresos.RubroPresupuestario;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import javax.faces.model.SelectItem;
  */
 @ManagedBean
 @SessionScoped
-public class ListaRubroPresupuestario {
+public class ListaRubroPresupuestario implements Serializable {
 
     private List<SelectItem> lstSIRubroType;
 
@@ -39,7 +40,6 @@ public class ListaRubroPresupuestario {
     public void cargarIdentificationTypes() {
         lstSIRubroType = new ArrayList<>();
         for (RubroPresupuestario it : RubroPresupuestario.values()) {
-            System.out.println("los tipos de Rubros son:" + it.getName());
             lstSIRubroType.add(new SelectItem(it, it.getName()));
         }
     }
