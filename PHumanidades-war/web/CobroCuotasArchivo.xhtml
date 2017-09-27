@@ -21,7 +21,6 @@
                 
            
          
-            
                     <p:messages autoUpdate="true" id="msgs"  />    
             <p:dataTable id="dtDatosArchivo" value="#{cobroCuotasAlumnosBeanArchivo.dataList}"
                          var="data" editable="true">
@@ -37,11 +36,17 @@
                     </f:facet>
                     <h:outputText value="#{data.dni}"/>
                 </p:column>
-                <p:column headerText="Cuota">
-                    <p:cellEditor>
-                        <f:facet name="output"><h:outputText value="#{data.cuota}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{data.cuota}" style="width:100%"/></f:facet>
-                    </p:cellEditor>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="Fecha"/>
+                    </f:facet>
+                    <h:outputText value="#{data.fecha}"/>
+                </p:column>
+                <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Cuota" />
+                        </f:facet>
+                        <h:outputText value="#{data.cuota}"/>
                 </p:column>
                 <p:column headerText="Monto">
                     <p:cellEditor>
@@ -50,13 +55,15 @@
                     </p:cellEditor>
                 </p:column>
                 <p:column headerText="Cohorte">
-                    <p:cellEditor>
+                    <p:cellEditor >
                         <f:facet name="output"><h:outputText value="#{data.ia}" style="width:100%;color:black"/></f:facet>
                         <f:facet name="input">
-                            <p:selectOneMenu value="#{data.ia}" style="width:100%;color:black"> 
+                            <p:selectOneMenu value="#{data.ia}" style="width:100%;color:black" 
+                                             valueChangeListener="#{cobroCuotasAlumnosBeanArchivo.updaterow}"
+                                             >
                                 <f:converter binding="#{conversorInscripcionAlumnos}"/>
                                 <f:selectItem value="#{null}" itemLabel="Seleccione"/>
-                                <f:selectItems  value="#{cobroCuotasAlumnosBeanArchivo.obtenerDatos(data.dni)}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
+                                <f:selectItems  value="#{data.si}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
@@ -74,17 +81,30 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="Número Recibo">
-                <p:cellEditor>
-                     <f:facet name="output"><h:outputText value="#{data.numRecibo}" /></f:facet>
-                     <f:facet name="input"><p:inputText value="#{data.numRecibo}" style="width:100%"/></f:facet>
-                </p:cellEditor>
+                <p:column>
+                     <f:facet name="header">
+                         <h:outputText value="Número Recibo" />
+                     </f:facet>
+                     <h:outputText value="#{data.numRecibo}" style="width:100%"/>
                 </p:column>
                 <p:column>
                     <f:facet name="header">
-                        <h:outputText value="Codigo"/>
+                        <h:outputText value="Concepto"/>
                     </f:facet>
-                    <h:outputText value="#{data.codigo}"/>
+                    <h:outputText value="#{data.concepto}"/>
+                </p:column>
+                <p:column headerText="Cuenta">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{data.cuenta}" style="width:100%;color:black"/></f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{data.cuenta}" style="width:100%;color:black"
+                                             converter="ConversorCuenta"
+                                             required="false">
+                                    <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                    <f:selectItems value="#{cuentaLstBean.lstCuenta}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
+                                </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column style="width:32px">
                     <p:rowEditor />

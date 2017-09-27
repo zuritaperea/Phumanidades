@@ -7,12 +7,15 @@ package Beans;
 
 import Entidades.Carreras.Cuenta;
 import Entidades.Carreras.InscripcionAlumnos;
+import Entidades.Egresos.FormaPago;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Ingresos.TipoIngreso;
 import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +30,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.validator.ValidatorException;
 import org.primefaces.component.datatable.DataTable;
@@ -149,45 +153,96 @@ public class CobroCuotasAlumnosBeanArchivo {
                     System.out.println(fileContent);
                     DataFile df = new DataFile();
                     df.setDni(fileContent.substring(28, 36));
+                    List<InscripcionAlumnos> lista = getIAFromDni(df.getDni());
+                    df.setSi(cargarSelectItem(lista));
+                    System.out.println("fecha:"+fileContent.substring(0, 8));
+                    df.setFecha(new SimpleDateFormat("yyyyMMdd").parse(fileContent.substring(0, 8)));
                     df.setMonto(new BigDecimal(fileContent.substring(17, 21)));
-                    df.setCodigo(fileContent.substring(23, 37));
+                    df.setConcepto(fileContent.substring(23, 37));
                     dataList.add(df);
                 }
             }
         } catch (IOException e) {
           e.printStackTrace();
+        } catch (ParseException ex) {
+            Logger.getLogger(CobroCuotasAlumnosBeanArchivo.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public List<SelectItem> obtenerDatos(String dni){
-        List<InscripcionAlumnos> lista = new ArrayList<>();
-        this.setLstSIIA(new ArrayList<SelectItem>());
-        try {
-            lista = inscripcionAlumnosRNLocal.inscripcionFindDni(dni);
-        } catch (Exception ex) {
-            Logger.getLogger(CobroCuotasAlumnosBeanArchivo.class.getName()).log(Level.SEVERE, null, ex);
+    public void updaterow(ValueChangeEvent event){
+        System.out.println("funcionando"+event.getNewValue());
+        if(event.getNewValue() instanceof InscripcionAlumnos){
+            System.out.println(((InscripcionAlumnos) event.getNewValue()  ).getAlumno());
+            InscripcionAlumnos iaLocal = (InscripcionAlumnos) event.getNewValue();
+            for (DataFile df : dataList){
+                System.out.println(df);
+                if(df.getDni().equals(iaLocal.getAlumno().getDni())){
+                    
+                    df.setCuota(String.valueOf(ingresoRNLocal.findUltimaCuotaAlumnoCohorte(iaLocal.getAlumno(),
+                    iaLocal.getCohorte())+1));
+                    
+                    String codigoCuenta = iaLocal.getCohorte().getCarrera().getCuenta().getCodigo();
+                    try {
+                        df.setNumRecibo(String.valueOf(ingresoRNLocal.numeroReciboSegunCuenta(codigoCuenta) + 1));
+                    } catch (Exception ex) {
+                        Logger.getLogger(CobroCuotasAlumnosBeanArchivo.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    df.setCuenta(iaLocal.getCohorte().getCarrera().getCuenta());
+                    break;
+                    
+                }
+            }
         }
+    }
+    
+    public List<SelectItem> cargarSelectItem(List<InscripcionAlumnos> lista){
+        
+        this.setLstSIIA(new ArrayList<SelectItem>());
+        
         for(InscripcionAlumnos ia: lista){
             this.getLstSIIA().add(new SelectItem(ia,ia.toString()));
         }
         return this.getLstSIIA();
     }
     
+    public List<InscripcionAlumnos> getIAFromDni(String dni){
+        List<InscripcionAlumnos> lista = new ArrayList<>();
+        try {
+            lista = inscripcionAlumnosRNLocal.inscripcionFindDni(dni);
+        } catch (Exception ex) {
+            Logger.getLogger(CobroCuotasAlumnosBeanArchivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
     public String guardarRegistro(DataFile d){
         try {
             Ingreso i = new Ingreso();
-            i.setAlumno(d.getIa().getAlumno());
-            i.setCohorte(d.getIa().getCohorte());
-            i.setCuota(Integer.valueOf(d.getCuota()));
-            i.setImporte(d.getMonto());
-            i.setTipoIngreso(d.getTipoIngreso());
-            i.setNumeroRecibo(Integer.valueOf(d.getNumRecibo()));
-            i.setFechaPago(new Date()); 
-            i.setCuenta(d.getIa().getCohorte().getCarrera().getCuenta());
-            i.setAnulado(Boolean.FALSE);
-            i.setBorrado(Boolean.FALSE);
-            this.getIngresoRNLocal().create(i);
+            if(d.getIa() != null){
+                i.setAlumno(d.getIa().getAlumno());
+                i.setCohorte(d.getIa().getCohorte());
+                i.setCuota(Integer.valueOf(d.getCuota()));
+                i.setImporte(d.getMonto());
+                i.setTipoIngreso(d.getTipoIngreso());
+                i.setNumeroRecibo(Integer.valueOf(d.getNumRecibo()));
+                i.setFechaPago(d.getFecha()); 
+                i.setCuenta(d.getIa().getCohorte().getCarrera().getCuenta());
+                i.setAnulado(Boolean.FALSE);
+                i.setBorrado(Boolean.FALSE);
+                i.setFormaPago(FormaPago.RAPIPAGO);
+                this.getIngresoRNLocal().create(i); 
+            }else{
+                i.setTipoIngreso(d.getTipoIngreso());
+                i.setFechaPago(d.getFecha());
+                i.setImporte(d.getMonto());
+                i.setCuenta(d.getCuenta());
+                i.setAnulado(Boolean.FALSE);
+                i.setBorrado(Boolean.FALSE);
+                i.setFormaPago(FormaPago.RAPIPAGO);
+                i.setConcepto(d.getConcepto());
+                this.getIngresoRNLocal().create(i);
+            }
         } catch (Exception ex) {
             System.out.println(ex.getLocalizedMessage());
             System.out.println(ex.getMessage());
@@ -239,18 +294,24 @@ public class CobroCuotasAlumnosBeanArchivo {
         
         String dni;
         String cuota;
-        String codigo;
+        String concepto;
         String numRecibo;
+        Date fecha;
         InscripcionAlumnos ia;
         Cuenta cuenta;
         BigDecimal monto;
         TipoIngreso tipoIngreso;
+        List<SelectItem> si;
+        
 
-        public DataFile(String dni, String cuota, String codigo) {
-            this.dni = dni;
-            this.cuota = cuota;
-            this.codigo = codigo;
+        public List<SelectItem> getSi() {
+            return si;
         }
+
+        public void setSi(List<SelectItem> si) {
+            this.si = si;
+        }
+        
 
         public DataFile() {
         }
@@ -287,12 +348,12 @@ public class CobroCuotasAlumnosBeanArchivo {
             this.cuota = cuota;
         }
 
-        public String getCodigo() {
-            return codigo;
+        public String getConcepto() {
+            return concepto;
         }
 
-        public void setCodigo(String codigo) {
-            this.codigo = codigo;
+        public void setConcepto(String concepto) {
+            this.concepto = concepto;
         }
 
         public String getNumRecibo() {
@@ -318,12 +379,19 @@ public class CobroCuotasAlumnosBeanArchivo {
         public void setTipoIngreso(TipoIngreso tipoIngreso) {
             this.tipoIngreso = tipoIngreso;
         }
-        
+
+        public Date getFecha() {
+            return fecha;
+        }
+
+        public void setFecha(Date fecha) {
+            this.fecha = fecha;
+        }
         
 
         @Override
         public String toString() {
-            return "DataFile{" + "dni=" + dni + ", cuota=" + cuota + ", codigo=" + codigo + ", numRecibo=" + numRecibo +", ia=" + ia+  '}';
+            return "DataFile{" + "dni=" + dni + ", cuota=" + cuota + ", concepto=" + concepto + ", numRecibo=" + numRecibo +", ia=" + ia+  '}';
         }
         
         
