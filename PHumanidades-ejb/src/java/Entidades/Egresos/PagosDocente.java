@@ -88,28 +88,13 @@ public class PagosDocente extends Base implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private FormaPago formapago;
-    
+
     @Enumerated(EnumType.STRING)
     private RubroPresupuestario rubroPresupuestario;
 
     @Enumerated(EnumType.STRING)
     private TipoComprobante tipocomprobante;
     private String numeroComprobante;
-    @Enumerated(EnumType.STRING)
-    private TipoComprobante tipocomprobante2;
-    private String numeroComprobante2;
-    @Enumerated(EnumType.STRING)
-    private TipoComprobante tipocomprobante3;
-    private String numeroComprobante3;
-    @Enumerated(EnumType.STRING)
-    private TipoComprobante tipocomprobante4;
-    private String numeroComprobante4;
-    @Enumerated(EnumType.STRING)
-    private TipoComprobante tipocomprobante5;
-    private String numeroComprobante5;
-    @Enumerated(EnumType.STRING)
-    private TipoComprobante tipocomprobante6;
-    private String numeroComprobante6;
 
     private String numeroCheque;
 
@@ -123,22 +108,15 @@ public class PagosDocente extends Base implements Serializable {
     private Carrera carrera;
     @OneToOne
     private Proveedor proveedor;
-    @OneToOne
-    private Proveedor proveedor2;
-    @OneToOne
-    private Proveedor proveedor3;
-    @OneToOne
-    private Proveedor proveedor4;
-    @OneToOne
-    private Proveedor proveedor5;
-    @OneToOne
-    private Proveedor proveedor6;
+
     private int numeroOrdenPago;
 
     @OneToOne
     private Cuenta cuenta;
     @OneToOne
     private TipoEgreso tipoEgreso;
+    @Column(scale = 2, precision = 12)
+    private BigDecimal importeComprobante;
 
     public TipoEgreso getTipoEgreso() {
         return tipoEgreso;
@@ -147,8 +125,6 @@ public class PagosDocente extends Base implements Serializable {
     public void setTipoEgreso(TipoEgreso tipoEgreso) {
         this.tipoEgreso = tipoEgreso;
     }
-    
-    
 
     public RubroPresupuestario getRubroPresupuestario() {
         return rubroPresupuestario;
@@ -165,7 +141,7 @@ public class PagosDocente extends Base implements Serializable {
     public void setFechaComprobante(Date fechaComprobante) {
         this.fechaComprobante = fechaComprobante;
     }
-    
+
     public int getNumeroOrdenPago() {
         return numeroOrdenPago;
     }
@@ -190,38 +166,6 @@ public class PagosDocente extends Base implements Serializable {
         this.cuenta = cuenta;
     }
 
-    public TipoComprobante getTipocomprobante2() {
-        return tipocomprobante2;
-    }
-
-    public void setTipocomprobante2(TipoComprobante tipocomprobante2) {
-        this.tipocomprobante2 = tipocomprobante2;
-    }
-
-    public String getNumeroComprobante2() {
-        return numeroComprobante2;
-    }
-
-    public void setNumeroComprobante2(String numeroComprobante2) {
-        this.numeroComprobante2 = numeroComprobante2;
-    }
-
-    public TipoComprobante getTipocomprobante3() {
-        return tipocomprobante3;
-    }
-
-    public void setTipocomprobante3(TipoComprobante tipocomprobante3) {
-        this.tipocomprobante3 = tipocomprobante3;
-    }
-
-    public String getNumeroComprobante3() {
-        return numeroComprobante3;
-    }
-
-    public void setNumeroComprobante3(String numeroComprobante3) {
-        this.numeroComprobante3 = numeroComprobante3;
-    }
-
     public Proveedor getProveedor() {
         return proveedor;
     }
@@ -234,92 +178,12 @@ public class PagosDocente extends Base implements Serializable {
         return id;
     }
 
-    public TipoComprobante getTipocomprobante4() {
-        return tipocomprobante4;
+    public BigDecimal getImporteComprobante() {
+        return importeComprobante;
     }
 
-    public void setTipocomprobante4(TipoComprobante tipocomprobante4) {
-        this.tipocomprobante4 = tipocomprobante4;
-    }
-
-    public String getNumeroComprobante4() {
-        return numeroComprobante4;
-    }
-
-    public void setNumeroComprobante4(String numeroComprobante4) {
-        this.numeroComprobante4 = numeroComprobante4;
-    }
-
-    public TipoComprobante getTipocomprobante5() {
-        return tipocomprobante5;
-    }
-
-    public void setTipocomprobante5(TipoComprobante tipocomprobante5) {
-        this.tipocomprobante5 = tipocomprobante5;
-    }
-
-    public String getNumeroComprobante5() {
-        return numeroComprobante5;
-    }
-
-    public void setNumeroComprobante5(String numeroComprobante5) {
-        this.numeroComprobante5 = numeroComprobante5;
-    }
-
-    public TipoComprobante getTipocomprobante6() {
-        return tipocomprobante6;
-    }
-
-    public void setTipocomprobante6(TipoComprobante tipocomprobante6) {
-        this.tipocomprobante6 = tipocomprobante6;
-    }
-
-    public String getNumeroComprobante6() {
-        return numeroComprobante6;
-    }
-
-    public void setNumeroComprobante6(String numeroComprobante6) {
-        this.numeroComprobante6 = numeroComprobante6;
-    }
-
-    public Proveedor getProveedor2() {
-        return proveedor2;
-    }
-
-    public void setProveedor2(Proveedor proveedor2) {
-        this.proveedor2 = proveedor2;
-    }
-
-    public Proveedor getProveedor3() {
-        return proveedor3;
-    }
-
-    public void setProveedor3(Proveedor proveedor3) {
-        this.proveedor3 = proveedor3;
-    }
-
-    public Proveedor getProveedor4() {
-        return proveedor4;
-    }
-
-    public void setProveedor4(Proveedor proveedor4) {
-        this.proveedor4 = proveedor4;
-    }
-
-    public Proveedor getProveedor5() {
-        return proveedor5;
-    }
-
-    public void setProveedor5(Proveedor proveedor5) {
-        this.proveedor5 = proveedor5;
-    }
-
-    public Proveedor getProveedor6() {
-        return proveedor6;
-    }
-
-    public void setProveedor6(Proveedor proveedor6) {
-        this.proveedor6 = proveedor6;
+    public void setImporteComprobante(BigDecimal importeComprobante) {
+        this.importeComprobante = importeComprobante;
     }
 
     public void setId(Long id) {

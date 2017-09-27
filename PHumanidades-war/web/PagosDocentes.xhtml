@@ -26,27 +26,28 @@
                     <img src="Imagenes/logo.jpg "/><p>
                         ORDEN DE PAGO N°: 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroOrdenPago}" />   </p>
-                    <h:panelGrid cellpadding="0" cellspacing="0" columns="11"                                  
-                                 columnClasses="contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla ">
+                    <h:panelGrid cellpadding="0" cellspacing="0" columns="13"                                  
+                                 columnClasses="contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla ">
                         <h:outputText value="Fecha" styleClass="headerTabla" />
                         <h:outputText value="Docente" styleClass="headerTabla" />
                         <h:outputText value="Proveedor" styleClass="headerTabla" />
-                        <h:outputText value="Nro Compr" styleClass="headerTabla" />
-                        <h:outputText value="Importe" styleClass="headerTabla" />
+                        <h:outputText value="Importe Comprobante" styleClass="headerTabla" />
+                        <h:outputText value="Total" styleClass="headerTabla" />
                         <h:outputText value="Ret IVA" styleClass="headerTabla" />
                         <h:outputText value="Ret IG" styleClass="headerTabla" />
                         <h:outputText value="Ret IIBB" styleClass="headerTabla" />
                         <h:outputText value="SUSS" styleClass="headerTabla" />
                         <h:outputText value="Neto a Pagar" styleClass="headerTabla" />
                         <h:outputText value="Nro. Cheque" styleClass="headerTabla" />
+                        <h:outputText value="Nro Compr" styleClass="headerTabla" />
+                        <h:outputText value="Concepto" styleClass="headerTabla" />
 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.fechaRegistro}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.docente.apellido}, #{pagosDocenteBean.pagoDocente.docente.nombre}" />
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.proveedor.razonSocial}" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante}" />
-
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.importeComprobante}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.monto}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.iva}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.impuestoGanancia}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
@@ -54,63 +55,13 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.suss}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.montoConDescuentos}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroCheque}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.concepto}" />                   
+
+
                     </h:panelGrid>
                     <h:panelGrid cellpadding="0" cellspacing="0" columns="2"                                  
                                  columnClasses="contenidoTabla,contenidoTabla">
-                        <h:outputText value="Concepto:" styleClass="headerTabla" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.concepto}" />
-
-                        <h:outputText value="Tipo Compr 2" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante2}" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.tipocomprobante2}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante2 }"/>
-
-                        <h:outputText value="Nro Compr 2" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante2 }" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante2}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante2 }"/>
-
-                        <h:outputText value="Proveedor 2" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor2 }"/>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.proveedor2}" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor2 }"/>
-
-
-                        <h:outputText value="Tipo Compr 3" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante3 }" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.tipocomprobante3}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante3 }"/>
-
-                        <h:outputText value="Nro Compr 3" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante3 }" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante3}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante3 }"/>
-
-
-
-                        <h:outputText value="Proveedor 3" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor3 }"/>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.proveedor3}" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor3 }"/>
-
-
-                        <h:outputText value="Tipo Compr 4" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante4 }" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.tipocomprobante4}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante4 }"/>
-
-                        <h:outputText value="Nro Compr 4" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante4 }" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante4}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante4 }"/>
-
-
-                        <h:outputText value="Proveedor 4" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor4 }"/>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.proveedor4}" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor4 }"/>
-
-
-                        <h:outputText value="Tipo Compr 5" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante5 }" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.tipocomprobante5}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante5 }"/>
-
-                        <h:outputText value="Nro Compr 5" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante5 }"/>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante5}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante5 }" />
-
-                        <h:outputText value="Proveedor 5" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor5 }"/>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.proveedor5}" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor5 }"/>
-
-
-                        <h:outputText value="Tipo Compr 6" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante6 }" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.tipocomprobante6}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante6 }"/>
-
-                        <h:outputText value="Nro Compr 6" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante6 }"/>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante6}" rendered="#{not empty pagosDocenteBean.pagoDocente.numeroComprobante6 }" />
-
-                        <h:outputText value="Proveedor 6" styleClass="headerTabla" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor6 }"/>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.proveedor6}" rendered="#{not empty pagosDocenteBean.pagoDocente.proveedor6 }"/>
 
 
                         <h:outputText value="Cuenta" styleClass="headerTabla" />
@@ -204,41 +155,7 @@
                         <h:outputText id="otProveedor"
                                       value="#{proveedorLstBean.proveedorSelect.cuit} - #{proveedorLstBean.proveedorSelect.razonSocial}"/>
                     </h:panelGrid>
-                    <p:panel id="pnDetalle"
-                             header="Detalle del Pago"
-                             >
-                        <h:panelGrid columns="2"
-                                     width="100%">
 
-                            <h:outputText value="Monto $"/>
-                            <p:inputText id="monto" 
-                                         value="#{pagosDocenteBean.pagoDocente.monto}" 
-                                         onblur="calcularTotal();"/>
-
-
-                            <h:outputText value="Retencion Ingresos Brutos"/>    
-                            <p:inputText id="retencion" 
-                                         value="#{pagosDocenteBean.pagoDocente.retencionIB}" onblur="calcularTotal();"/> 
-
-                            <h:outputText value="Retencion Iva"/>      
-                            <p:inputText id="iva" 
-                                         value="#{pagosDocenteBean.pagoDocente.iva}" onblur="calcularTotal();"/>
-
-                            <h:outputText value="Retencion Impuesto a las Ganacias"/>   
-                            <p:inputText id="impGanancias" 
-                                         value="#{pagosDocenteBean.pagoDocente.impuestoGanancia}" onblur="calcularTotal();"/>
-
-                            <h:outputText value="Retencion SUSS"/>       
-                            <p:inputText id="suss" 
-                                         value="#{pagosDocenteBean.pagoDocente.suss}" onblur="calcularTotal();"/>
-
-                            <h:outputText value="TOTAL NETO: $"/> 
-                            <p:inputText id="total" 
-                                         value="#{pagosDocenteBean.pagoDocente.montoConDescuentos}"/> 
-
-                        </h:panelGrid>
-                        <div style="clear:both">  </div>
-                    </p:panel>
                     <p:panel id="pnInformacion" 
                              header="Informacion Adicional"
 
@@ -250,12 +167,8 @@
                                         value="#{pagosDocenteBean.pagoDocente.fechaRegistro}"
                                         pattern="dd/MM/yyyy" locale="es_ES">
                             </p:calendar>
-                            
-                            <h:outputText value="Fecha de Comprobante"/>
-                            <p:calendar id="fechaComp"
-                                        value="#{pagosDocenteBean.pagoDocente.fechaComprobante}"
-                                        pattern="dd/MM/yyyy" locale="es_ES">
-                            </p:calendar>
+
+
 
                             <h:outputText value="Forma de Pago"/>
                             <p:selectOneMenu id="formaPago" 
@@ -265,6 +178,9 @@
 
                                 <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
                             </p:selectOneMenu>
+                            <h:outputText value="Numero de Cheque"/>
+                            <p:inputText id="numeroCheque" 
+                                         value="#{pagosDocenteBean.pagoDocente.numeroCheque}"/>
                             <h:outputText value="Rubro Presupuestario"/>
                             <p:selectOneMenu id="rubroPresupuestario" 
                                              value="#{pagosDocenteBean.pagoDocente.rubroPresupuestario}"
@@ -273,25 +189,7 @@
 
                                 <f:selectItems value="#{pagosDocenteBean.lstRubroPresupuestario}"/>
                             </p:selectOneMenu>
-                            <h:outputText value="Numero de Cheque"/>
-                            <p:inputText id="numeroCheque" 
-                                         value="#{pagosDocenteBean.pagoDocente.numeroCheque}"/>
-                            <h:outputText value="Tipo de Comprobante"/>
-                            <p:selectOneMenu id="tipoComprobante" 
-                                             value="#{pagosDocenteBean.pagoDocente.tipocomprobante}"
-                                             required="false">                             
-                                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                                <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
-                            </p:selectOneMenu>
-
-                            <h:outputText value="Numero Comprobante"/>
-                            <p:inputText id="numeroComp" 
-                                         value="#{pagosDocenteBean.pagoDocente.numeroComprobante}"/>
-                            <h:outputText value="Concepto"/>
-                            <p:inputTextarea id="concepto" 
-                                             value="#{pagosDocenteBean.pagoDocente.concepto}"
-                                             style="width: 500px; "/>
                             <h:outputText value="Cuenta" />
                             <p:selectOneMenu id="soCuentasCobroGeneral" 
                                              value="#{pagosDocenteBean.pagoDocente.cuenta}"
@@ -300,28 +198,79 @@
                                 <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
                                 <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
                             </p:selectOneMenu>
-                            <h:outputText value="Tipo Egreso" />
-                            <p:selectOneMenu id="tipoEgreso" 
-                                             value="#{pagosDocenteBean.pagoDocente.tipoEgreso}"
-                                             required="false">
-                                <f:converter binding="#{conversorTipoEgreso}"/>
-                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
-                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <div style="clear:both">  </div>
+                    </p:panel>
+                    <p:panel id="pnComprobante" 
+                             header="Comprobante"
+
+                             >
+                        <h:panelGrid columns="2">
+
+                        <h:outputText value="Tipo Egreso" />
+                        <p:selectOneMenu id="tipoEgreso" 
+                                         value="#{pagosDocenteBean.pagoDocente.tipoEgreso}"
+                                         required="false">
+                            <f:converter binding="#{conversorTipoEgreso}"/>
+                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                            <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                        </p:selectOneMenu>
+
+
+                        <h:outputText value="Fecha de Comprobante"/>
+                        <p:calendar id="fechaComp"
+                                    value="#{pagosDocenteBean.pagoDocente.fechaComprobante}"
+                                    pattern="dd/MM/yyyy" locale="es_ES">
+                        </p:calendar>
+                        <h:outputText value="Tipo de Comprobante"/>
+                        <p:selectOneMenu id="tipoComprobante" 
+                                         value="#{pagosDocenteBean.pagoDocente.tipocomprobante}"
+                                         required="false">                             
+                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+
+                            <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="Numero Comprobante"/>
+                        <p:inputText id="numeroComp" 
+                                     value="#{pagosDocenteBean.pagoDocente.numeroComprobante}"/>
+                        <h:outputText value="Importe Comprobante $"/>
+
+                        <p:inputText id="importeComprobante" 
+                                     value="#{pagosDocenteBean.pagoDocente.importeComprobante}"
+                                     onblur="calcularImporte();"/>
+
+                        <h:outputText value="Concepto"/>
+                        <p:inputTextarea id="concepto" 
+                                         value="#{pagosDocenteBean.pagoDocente.concepto}"
+                                         style="width: 500px; "/>
+
 
 
                         </h:panelGrid>                        <div style="float:none;clear: both"></div>
 
-                        <p:accordionPanel activeIndex="-1">
+                        <p:accordionPanel activeIndex="-1" id="masComprobantes">
                             <p:tab title="Más Comprobantes" >
-                                <h:panelGrid columns="3" cellpadding="10">
-
-                                    <h:outputText value="Tipo de Comprobante"/>
-                                    <h:outputText value="Numero Comprobante"/>
-                                    <h:outputText value="Proveedor"/>
-
+                                <h:panelGrid columns="6" cellpadding="5">
+                                    <h:outputText value="Tipo Egreso" />
+                                    <h:outputText value="Fecha"/>
+                                    <h:outputText value="Tipo"/>
+                                    <h:outputText value="Numero"/>
+                                    <h:outputText value="Importe"/>
+                                    <h:outputText value="Concepto"/>
+                                    <p:selectOneMenu id="tipoEgreso2" 
+                                                     value="#{pagosDocenteBean.pagoDocente2.tipoEgreso}"
+                                                     required="false">
+                                        <f:converter binding="#{conversorTipoEgreso}"/>
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                                    </p:selectOneMenu>
+                                    <p:calendar id="fechaComp2"
+                                                value="#{pagosDocenteBean.pagoDocente2.fechaComprobante}"
+                                                pattern="dd/MM/yyyy" locale="es_ES">
+                                    </p:calendar>
                                     <p:selectOneMenu id="tipoComprobante2" 
-                                                     value="#{pagosDocenteBean.pagoDocente.tipocomprobante2}"
+                                                     value="#{pagosDocenteBean.pagoDocente2.tipocomprobante}"
                                                      required="false">                               
                                         <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
@@ -329,23 +278,28 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp2" 
-                                                 value="#{pagosDocenteBean.pagoDocente.numeroComprobante2}"/>
+                                                 value="#{pagosDocenteBean.pagoDocente2.numeroComprobante}" style="width: 100px; " />
 
+                                    <p:inputText id="importeComprobante2" 
+                                                 value="#{pagosDocenteBean.pagoDocente2.importeComprobante}"
+           onblur="calcularImporte();" style="width: 100px; "/>
 
-                                    <p:autoComplete id="proveedor2" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente.proveedor2}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
-
-
+                                    <p:inputText id="concepto2" 
+                                                 value="#{pagosDocenteBean.pagoDocente2.concepto}"
+                                                 style="width: 250px; "/>
+                                    <p:selectOneMenu id="tipoEgreso3" 
+                                                     value="#{pagosDocenteBean.pagoDocente3.tipoEgreso}"
+                                                     required="false">
+                                        <f:converter binding="#{conversorTipoEgreso}"/>
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                                    </p:selectOneMenu>
+                                    <p:calendar id="fechaComp3"
+                                                value="#{pagosDocenteBean.pagoDocente3.fechaComprobante}"
+                                                pattern="dd/MM/yyyy" locale="es_ES">
+                                    </p:calendar>
                                     <p:selectOneMenu id="tipoComprobante3" 
-                                                     value="#{pagosDocenteBean.pagoDocente.tipocomprobante3}"
+                                                     value="#{pagosDocenteBean.pagoDocente3.tipocomprobante}"
                                                      required="false">                               
                                         <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
@@ -353,43 +307,54 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp3" 
-                                                 value="#{pagosDocenteBean.pagoDocente.numeroComprobante3}"/>
+                                                 value="#{pagosDocenteBean.pagoDocente3.numeroComprobante}" style="width: 100px; " />
 
-                                    <p:autoComplete id="proveedor3" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente.proveedor3}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
-
+                                    <p:inputText id="importeComprobante3" 
+                                                 value="#{pagosDocenteBean.pagoDocente3.importeComprobante}"
+           onblur="calcularImporte();" style="width: 100px; "/>
+                                    <p:inputText id="concepto3" 
+                                                 value="#{pagosDocenteBean.pagoDocente3.concepto}"
+                                                 style="width: 250px; "/>
+                                    <p:selectOneMenu id="tipoEgreso4" 
+                                                     value="#{pagosDocenteBean.pagoDocente4.tipoEgreso}"
+                                                     required="false">
+                                        <f:converter binding="#{conversorTipoEgreso}"/>
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                                    </p:selectOneMenu>
+                                    <p:calendar id="fechaComp4"
+                                                value="#{pagosDocenteBean.pagoDocente4.fechaComprobante}"
+                                                pattern="dd/MM/yyyy" locale="es_ES">
+                                    </p:calendar>
 
                                     <p:selectOneMenu id="tipoComprobante4" 
-                                                     value="#{pagosDocenteBean.pagoDocente.tipocomprobante4}"
+                                                     value="#{pagosDocenteBean.pagoDocente4.tipocomprobante}"
                                                      required="false">                               
                                         <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
                                         <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
                                     </p:selectOneMenu>
                                     <p:inputText id="numeroComp4" 
-                                                 value="#{pagosDocenteBean.pagoDocente.numeroComprobante4}"/>
-
-                                    <p:autoComplete id="proveedor4" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente.proveedor4}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
-
+                                                 value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}" style="width: 100px; " />
+                                    <p:inputText id="importeComprobante4" 
+                                                 value="#{pagosDocenteBean.pagoDocente4.importeComprobante}"
+           onblur="calcularImporte();" style="width: 100px; "/>
+                                    <p:inputText id="concepto4" 
+                                                 value="#{pagosDocenteBean.pagoDocente4.concepto}"
+                                                 style="width: 250px; "/>
+                                    <p:selectOneMenu id="tipoEgreso5" 
+                                                     value="#{pagosDocenteBean.pagoDocente5.tipoEgreso}"
+                                                     required="false">
+                                        <f:converter binding="#{conversorTipoEgreso}"/>
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                                    </p:selectOneMenu>
+                                    <p:calendar id="fechaComp5"
+                                                value="#{pagosDocenteBean.pagoDocente5.fechaComprobante}"
+                                                pattern="dd/MM/yyyy" locale="es_ES">
+                                    </p:calendar>
                                     <p:selectOneMenu id="tipoComprobante5" 
-                                                     value="#{pagosDocenteBean.pagoDocente.tipocomprobante5}"
+                                                     value="#{pagosDocenteBean.pagoDocente5.tipocomprobante}"
                                                      required="false">                               
                                         <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
@@ -397,22 +362,26 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp5" 
-                                                 value="#{pagosDocenteBean.pagoDocente.numeroComprobante5}"/>
-
-                                    <p:autoComplete id="proveedor5" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente.proveedor5}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
-
-
+                                                 value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}" style="width: 100px; " />
+                                    <p:inputText id="importeComprobante5" 
+                                                 value="#{pagosDocenteBean.pagoDocente5.importeComprobante}"
+           onblur="calcularImporte();" style="width: 100px; "/>
+                                    <p:inputText id="concepto5" 
+                                                 value="#{pagosDocenteBean.pagoDocente5.concepto}"
+                                                 style="width: 250px; "/>
+                                    <p:selectOneMenu id="tipoEgreso6" 
+                                                     value="#{pagosDocenteBean.pagoDocente6.tipoEgreso}"
+                                                     required="false">
+                                        <f:converter binding="#{conversorTipoEgreso}"/>
+                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                                    </p:selectOneMenu>
+                                    <p:calendar id="fechaComp6"
+                                                value="#{pagosDocenteBean.pagoDocente6.fechaComprobante}"
+                                                pattern="dd/MM/yyyy" locale="es_ES">
+                                    </p:calendar>
                                     <p:selectOneMenu id="tipoComprobante6" 
-                                                     value="#{pagosDocenteBean.pagoDocente.tipocomprobante6}"
+                                                     value="#{pagosDocenteBean.pagoDocente6.tipocomprobante}"
                                                      required="false">                               
                                         <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
@@ -420,24 +389,52 @@
                                     </p:selectOneMenu>
 
                                     <p:inputText id="numeroComp6" 
-                                                 value="#{pagosDocenteBean.pagoDocente.numeroComprobante6}"/>
-
-                                    <p:autoComplete id="proveedor6" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente.proveedor6}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"
-                                                    />
-
+                                                 value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}" style="width: 100px; " />
+                                    <p:inputText id="importeComprobante6" 
+                                                 value="#{pagosDocenteBean.pagoDocente6.importeComprobante}"
+           onblur="calcularImporte();" style="width: 100px; "/>
+                                    <p:inputText id="concepto6" 
+                                                 value="#{pagosDocenteBean.pagoDocente6.concepto}"
+                                                  style="width: 250px; "/>
                                 </h:panelGrid>
                             </p:tab>                        <div style="float:none;clear: both"></div>
                         </p:accordionPanel>
                         <div style="float:none;clear: both"></div>
+                        <p:panel id="pnDetalle"
+                                 header="Detalle del Pago"
+                                 >
+                            <h:panelGrid columns="2"
+                                         width="100%">
+
+                                <h:outputText value="Monto $"/>
+                                <p:inputText id="monto" 
+                                             value="#{pagosDocenteBean.pagoDocente.monto}" 
+                                             onblur="calcularTotal();"/>
+
+
+                                <h:outputText value="Retencion Ingresos Brutos"/>    
+                                <p:inputText id="retencion" 
+                                             value="#{pagosDocenteBean.pagoDocente.retencionIB}" onblur="calcularTotal();"/> 
+
+                                <h:outputText value="Retencion Iva"/>      
+                                <p:inputText id="iva" 
+                                             value="#{pagosDocenteBean.pagoDocente.iva}" onblur="calcularTotal();"/>
+
+                                <h:outputText value="Retencion Impuesto a las Ganacias"/>   
+                                <p:inputText id="impGanancias" 
+                                             value="#{pagosDocenteBean.pagoDocente.impuestoGanancia}" onblur="calcularTotal();"/>
+
+                                <h:outputText value="Retencion SUSS"/>       
+                                <p:inputText id="suss" 
+                                             value="#{pagosDocenteBean.pagoDocente.suss}" onblur="calcularTotal();"/>
+
+                                <h:outputText value="TOTAL NETO: $"/> 
+                                <p:inputText id="total" 
+                                             value="#{pagosDocenteBean.pagoDocente.montoConDescuentos}"/> 
+
+                            </h:panelGrid>
+                            <div style="clear:both">  </div>
+                        </p:panel>
                         <h:panelGroup>
 
 
@@ -468,7 +465,7 @@
 
         <!--INICIO PANTALLA PRINCIPAL PAGOS DOCENTES-->
         <h1>Gestión de Egresos</h1>
-      
+
 
         <p:commandButton id="btnNuevoPago"
                          value="Nuevo" 
@@ -505,7 +502,7 @@
                 <p:columnToggler datasource="dtPagosDocente" trigger="toggler" />
             </f:facet>
             <!--INICIO BOTONES EDITAR, ELIMINAR RECUPERAR -->
-            <p:column width="120" exportable="false">
+            <p:column width="150" exportable="false">
                 <p:commandButton id="btnEdit"
                                  actionListener="#{pagosDocenteBean.definirActionBoton}"                                 
                                  update=":frmPri:dRegistrarPagosDocentes"
@@ -629,26 +626,26 @@
                     <h:inputHidden id="filter" />
                 </f:facet>
 
-                    <f:facet name="header">
-                        <h:outputText value="Fecha Registro" />                  
-                    </f:facet>
-                    <f:facet name="header">
+                <f:facet name="header">
+                    <h:outputText value="Fecha Registro" />                  
+                </f:facet>
+                <f:facet name="header">
 
-                        <p:calendar id="from" pattern="dd/MM/yyyy">
-                            <p:ajax event="dateSelect" 
-                                    onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
-                                    oncomplete="PF('dtPagosDocente').filter()" />
-                        </p:calendar>
-                        <p:calendar id="to" pattern="dd/MM/yyyy">
-                            <p:ajax event="dateSelect" 
-                                    onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
-                                    oncomplete="PF('dtPagosDocente').filter()" />
-                        </p:calendar>
+                    <p:calendar id="from" pattern="dd/MM/yyyy">
+                        <p:ajax event="dateSelect" 
+                                onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                oncomplete="PF('dtPagosDocente').filter()" />
+                    </p:calendar>
+                    <p:calendar id="to" pattern="dd/MM/yyyy">
+                        <p:ajax event="dateSelect" 
+                                onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                oncomplete="PF('dtPagosDocente').filter()" />
+                    </p:calendar>
 
-                    </f:facet>
-                    <h:outputText value="#{item.fechaRegistro}">
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:outputText>    
+                </f:facet>
+                <h:outputText value="#{item.fechaRegistro}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>    
             </p:column>
 
 
@@ -749,115 +746,13 @@
                 </f:facet>
                 <h:outputText value="#{item.numeroComprobante}"/>
             </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Proveedor 2"/>
-                </f:facet>
-                <h:outputText value="#{item.proveedor2}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Tipo Comprobante 2"/>
-                </f:facet>
-                <h:outputText value="#{item.tipocomprobante2}"/>
-            </p:column>
 
             <p:column visible="false"
                       style="word-wrap:break-word;">
                 <f:facet name="header">
-                    <h:outputText value="N° Comprobante 2"/>
+                    <h:outputText value="Importe Comprobante"/>
                 </f:facet>
-                <h:outputText value="#{item.numeroComprobante2}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Proveedor 3"/>
-                </f:facet>
-                <h:outputText value="#{item.proveedor3}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Tipo Comprobante 3"/>
-                </f:facet>
-                <h:outputText value="#{item.tipocomprobante3}"/>
-            </p:column>
-
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="N° Comprobante 3"/>
-                </f:facet>
-                <h:outputText value="#{item.numeroComprobante3}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Proveedor 4"/>
-                </f:facet>
-                <h:outputText value="#{item.proveedor4}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Tipo Comprobante 4"/>
-                </f:facet>
-                <h:outputText value="#{item.tipocomprobante4}"/>
-            </p:column>
-
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="N° Comprobante 4"/>
-                </f:facet>
-                <h:outputText value="#{item.numeroComprobante4}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Proveedor 5"/>
-                </f:facet>
-                <h:outputText value="#{item.proveedor5}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Tipo Comprobante 5"/>
-                </f:facet>
-                <h:outputText value="#{item.tipocomprobante5}"/>
-            </p:column>
-
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="N° Comprobante 5"/>
-                </f:facet>
-                <h:outputText value="#{item.numeroComprobante5}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Proveedor 6"/>
-                </f:facet>
-                <h:outputText value="#{item.proveedor6}"/>
-            </p:column>
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Tipo Comprobante 6"/>
-                </f:facet>
-                <h:outputText value="#{item.tipocomprobante6}"/>
-            </p:column>
-
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="N° Comprobante 6"/>
-                </f:facet>
-                <h:outputText value="#{item.numeroComprobante6}"/>
+                <h:outputText value="#{item.importeComprobante}"/>
             </p:column>
 
             <p:column visible="false"

@@ -88,8 +88,14 @@ public class PagosDocenteBean implements Serializable {
 
     private PagosDocente pagoDocente;
     private PagosDocente pagoDocenteAux;
-//Inicio Busqueda Carrera   
+    //Pagos docentes para comprobantes
+    private PagosDocente pagoDocente2;
+    private PagosDocente pagoDocente3;
+    private PagosDocente pagoDocente4;
+    private PagosDocente pagoDocente5;
+    private PagosDocente pagoDocente6;
 
+//Inicio Busqueda Carrera   
     private CommandButton cbAction;
 
 //Fin Busqueda Carrera    
@@ -98,7 +104,7 @@ public class PagosDocenteBean implements Serializable {
     @Enumerated(EnumType.STRING)
     private FormaPago formapago;
     private List<SelectItem> lstFormaPago;
-    
+
     @Enumerated(EnumType.STRING)
     private RubroPresupuestario rubroPresupuestario;
     private List<SelectItem> lstRubroPresupuestario;
@@ -107,20 +113,75 @@ public class PagosDocenteBean implements Serializable {
 
     @EJB
     private TipoEgresoFacadeLocal tipoEgresoFacadeLocal;
-    
+
     private TipoEgreso tipoEgreso;
     private List<SelectItem> lstTipoEgreso;
+
     /**
      * Creates a new instance of DocenteBean
      */
     @PostConstruct
     private void init() {
         pagoDocente = new PagosDocente();
+        pagoDocente2 = new PagosDocente();
+        pagoDocente3 = new PagosDocente();
+        pagoDocente4 = new PagosDocente();
+        pagoDocente5 = new PagosDocente();
+        pagoDocente6 = new PagosDocente();
+
         cargarLstFormaPago();
         cargarLstRubroPresupuestario();
         cargarLstProveedor();
         cargarLstTipoComprobante();
         cargarLstTipoEgresos();
+    }
+
+    public PagosDocente getPagoDocente6() {
+        return pagoDocente6;
+    }
+
+    public void setPagoDocente6(PagosDocente pagoDocente6) {
+        this.pagoDocente6 = pagoDocente6;
+    }
+
+    public PagosDocente getPagoDocente2() {
+        return pagoDocente2;
+    }
+
+    public void setPagoDocente2(PagosDocente pagoDocente2) {
+        this.pagoDocente2 = pagoDocente2;
+    }
+
+    public PagosDocente getPagoDocente3() {
+        return pagoDocente3;
+    }
+
+    public void setPagoDocente3(PagosDocente pagoDocente3) {
+        this.pagoDocente3 = pagoDocente3;
+    }
+
+    public PagosDocente getPagoDocente4() {
+        return pagoDocente4;
+    }
+
+    public void setPagoDocente4(PagosDocente pagoDocente4) {
+        this.pagoDocente4 = pagoDocente4;
+    }
+
+    public PagosDocente getPagoDocente5() {
+        return pagoDocente5;
+    }
+
+    public void setPagoDocente5(PagosDocente pagoDocente5) {
+        this.pagoDocente5 = pagoDocente5;
+    }
+
+    public TipoEgresoFacadeLocal getTipoEgresoFacadeLocal() {
+        return tipoEgresoFacadeLocal;
+    }
+
+    public void setTipoEgresoFacadeLocal(TipoEgresoFacadeLocal tipoEgresoFacadeLocal) {
+        this.tipoEgresoFacadeLocal = tipoEgresoFacadeLocal;
     }
 
     public TipoEgresoFacadeLocal getEgresoFacadeLocal() {
@@ -147,8 +208,6 @@ public class PagosDocenteBean implements Serializable {
         this.lstTipoEgreso = lstTipoEgreso;
     }
 
-  
-    
     public PagosDocenteRNLocal getPagosDocenteRNLocal() {
         return PagosDocenteRNLocal;
     }
@@ -255,8 +314,6 @@ public class PagosDocenteBean implements Serializable {
     public void setLstRubroPresupuestario(List<SelectItem> lstRubroPresupuestario) {
         this.lstRubroPresupuestario = lstRubroPresupuestario;
     }
-    
-    
 
     public List<SelectItem> getLstProveedor() {
         return lstProveedor;
@@ -306,7 +363,7 @@ public class PagosDocenteBean implements Serializable {
         this.pagosDocenteLstBean = pagosDocenteLstBean;
     }
 
-     public void cargarLstFormaPago() {
+    public void cargarLstFormaPago() {
         lstFormaPago = new ArrayList<SelectItem>();
         for (FormaPago fp : FormaPago.values()) {
             lstFormaPago.add(new SelectItem(fp, fp.toString()));
@@ -597,15 +654,77 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaCreado(new Date());
             pagoDocente.setCreadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
-            if(docenteLstBean.getDocenteSeleccionado() == null && proveedorLstBean.getProveedorSelect() == null){
+            if (docenteLstBean.getDocenteSeleccionado() == null && proveedorLstBean.getProveedorSelect() == null) {
                 throw new Exception("Debe escoger un Docente o un Proveedor");
             }
-            if(montoDesc.equals(0)){
+            if (montoDesc.equals(0)) {
                 throw new Exception("Debe consignar el monto");
             }
             if (pagoDocente.getDocente() != null) {
                 if (pagoDocente.getCarrera() != null) {
                     PagosDocenteRNLocal.create(pagoDocente);
+
+                    if (pagoDocente2.getFechaComprobante() != null && !pagoDocente2.getNumeroComprobante().isEmpty()) {
+                        pagoDocente2.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                        pagoDocente2.setFechaCreado(pagoDocente.getFechaCreado());
+                        pagoDocente2.setCreadoPor(pagoDocente.getCreadoPor());
+                        pagoDocente2.setAnulado(false);
+                        pagoDocente2.setBorrado(false);
+                        pagoDocente2.setDocente(pagoDocente.getDocente());
+                        pagoDocente2.setProveedor(pagoDocente.getProveedor());
+                        pagoDocente2.setFechaRegistro(pagoDocente.getFechaRegistro());
+                        pagoDocente2.setCarrera(pagoDocente.getCarrera());
+                        PagosDocenteRNLocal.create(pagoDocente2);
+                    }
+                    if (pagoDocente6.getFechaComprobante() != null && !pagoDocente3.getNumeroComprobante().isEmpty()) {
+                        pagoDocente3.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                        pagoDocente3.setFechaCreado(pagoDocente.getFechaCreado());
+                        pagoDocente3.setCreadoPor(pagoDocente.getCreadoPor());
+                        pagoDocente3.setAnulado(false);
+                        pagoDocente3.setBorrado(false);
+                        pagoDocente3.setDocente(pagoDocente.getDocente());
+                        pagoDocente3.setProveedor(pagoDocente.getProveedor());
+                        pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
+                        pagoDocente3.setCarrera(pagoDocente.getCarrera());
+                        PagosDocenteRNLocal.create(pagoDocente3);
+                    }
+                    if (pagoDocente4.getFechaComprobante() != null && !pagoDocente4.getNumeroComprobante().isEmpty()) {
+                        pagoDocente4.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                        pagoDocente4.setFechaCreado(pagoDocente.getFechaCreado());
+                        pagoDocente4.setCreadoPor(pagoDocente.getCreadoPor());
+                        pagoDocente4.setAnulado(false);
+                        pagoDocente4.setBorrado(false);
+                        pagoDocente4.setDocente(pagoDocente.getDocente());
+                        pagoDocente4.setProveedor(pagoDocente.getProveedor());
+                        pagoDocente4.setFechaRegistro(pagoDocente.getFechaRegistro());
+                        pagoDocente4.setCarrera(pagoDocente.getCarrera());
+                        PagosDocenteRNLocal.create(pagoDocente4);
+                    }
+                    if (pagoDocente5.getFechaComprobante() != null && !pagoDocente5.getNumeroComprobante().isEmpty()) {
+                        pagoDocente5.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                        pagoDocente5.setFechaCreado(pagoDocente.getFechaCreado());
+                        pagoDocente5.setCreadoPor(pagoDocente.getCreadoPor());
+                        pagoDocente5.setAnulado(false);
+                        pagoDocente5.setBorrado(false);
+                        pagoDocente5.setDocente(pagoDocente.getDocente());
+                        pagoDocente5.setProveedor(pagoDocente.getProveedor());
+                        pagoDocente5.setFechaRegistro(pagoDocente.getFechaRegistro());
+                        pagoDocente5.setCarrera(pagoDocente.getCarrera());
+                        PagosDocenteRNLocal.create(pagoDocente5);
+                    }
+                    if (pagoDocente6.getFechaComprobante() != null && !pagoDocente6.getNumeroComprobante().isEmpty()) {
+                        pagoDocente6.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                        pagoDocente6.setFechaCreado(pagoDocente.getFechaCreado());
+                        pagoDocente6.setCreadoPor(pagoDocente.getCreadoPor());
+                        pagoDocente6.setAnulado(false);
+                        pagoDocente6.setBorrado(false);
+                        pagoDocente6.setDocente(pagoDocente.getDocente());
+                        pagoDocente6.setProveedor(pagoDocente.getProveedor());
+                        pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
+                        pagoDocente6.setCarrera(pagoDocente.getCarrera());
+                        PagosDocenteRNLocal.create(pagoDocente6);
+                    }
+
                     sMensaje = "El Pago fue Registrado";
                     severity = FacesMessage.SEVERITY_INFO;
                 } else {
@@ -651,7 +770,7 @@ public class PagosDocenteBean implements Serializable {
 
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
-            
+
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -735,10 +854,6 @@ public class PagosDocenteBean implements Serializable {
         this.proveedorLstBean.setProveedorSelect(new Proveedor());
     }//fin limpiar
 
-   
-
-   
-
     private void cargarUltimoNumero() {
         int numeroOrdenPago = PagosDocenteRNLocal.findUltimoNumero();
         //System.out.println("llama metodo cargar ultimo numero directo de la query"+numeroOrdenPago);
@@ -781,11 +896,11 @@ public class PagosDocenteBean implements Serializable {
             lstRubroPresupuestario.add(new SelectItem(rp, rp.toString()));
         }
     }
-    
-    private void cargarLstTipoEgresos(){
+
+    private void cargarLstTipoEgresos() {
         lstTipoEgreso = new ArrayList<SelectItem>();
-        for (TipoEgreso t: tipoEgresoFacadeLocal.findAll()){
-            lstTipoEgreso.add(new SelectItem(t,t.getDescripcion()));
+        for (TipoEgreso t : tipoEgresoFacadeLocal.findAll()) {
+            lstTipoEgreso.add(new SelectItem(t, t.getDescripcion()));
         }
     }
 }
