@@ -24,7 +24,8 @@
                     <p:menuitem value="Egresos"  action="#{navegarBean.frmPagosDocentes()}" icon="ui-icon-arrowreturnthick-1-n"></p:menuitem>                             
                     <p:submenu label="Ingresos" icon="ui-icon-arrowreturnthick-1-s">
                         <p:menuitem value="Todos" action="#{navegarBean.frmIngresos()}"></p:menuitem>
-                        <p:menuitem value="Ingreso desde Archivo" action="#{navegarBean.frmIngresosArchivo()}"></p:menuitem>
+                        <p:menuitem value="Ingreso desde Archivo RAPIPAGO" action="#{navegarBean.frmIngresosArchivo()}"></p:menuitem>
+                        <p:menuitem value="Ingreso desde Archivo RED LINK" action="#{navegarBean.frmIngresosArchivoCSV()}"></p:menuitem>
                         <p:menuitem value="025 - Carreras a Distancia" action="#{navegarBean.frmIngresos(025)}"></p:menuitem>  
                         <p:menuitem value="005 - Gastos Generales" action="#{navegarBean.frmIngresos(005)}"></p:menuitem>    
                         <p:menuitem value="Tipos de Ingreso" ajax="false" action="/paginas/tipoIngreso/List.xhtml?faces-redirect=true"></p:menuitem>    

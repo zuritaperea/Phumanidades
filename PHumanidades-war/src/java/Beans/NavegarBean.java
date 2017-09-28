@@ -339,6 +339,10 @@ public class NavegarBean {
     public String frmIngresosArchivo() {
         return "/CobroCuotasArchivo.xhtml?faces-redirect=true";
     }
+    
+    public String frmIngresosArchivoCSV() {
+        return "/ImportarCsv.xhtml?faces-redirect=true";
+    }
 
     public String frmConsultaCobrosGenerales() {
 
