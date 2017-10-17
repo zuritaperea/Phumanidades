@@ -38,6 +38,7 @@ import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -250,7 +251,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         try {
             
             InitialContext initialContext = new InitialContext();
-            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
+            DataSource dataSource = (DataSource) initialContext.lookup("java:app/humanidades_ruben");
             Connection conect = dataSource.getConnection();
             System.out.println("funcionando");
             
@@ -313,6 +314,83 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         }
 
     }
+    
+    public void generarConsultaPagosExcel() throws SQLException {
+
+        try {
+            
+            InitialContext initialContext = new InitialContext();
+            DataSource dataSource = (DataSource) initialContext.lookup("java:app/humanidades_ruben");
+            Connection conect = dataSource.getConnection();
+            System.out.println("funcionando");
+            
+            try {
+                
+                HashMap parametros = new HashMap();
+                String query="";
+                if(this.getCuentaLstBean().getCuenta() != null){
+                    query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
+                            + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                            + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                            + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                            + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                            + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                            + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
+                            + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO DESC",new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()),this.getCuentaLstBean().getCuenta().getId());
+                    System.out.println(query);
+                    parametros.put("descripcion",this.getCuentaLstBean().getCuenta().toString());
+                }else{
+                    query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
+                            + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                            + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                            + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                            + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                            + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                            + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
+                            + ") ORDER BY e.FECHAREGISTRO DESC",new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
+                }
+                
+                
+                parametros.put("escudo",escudo1 );
+                parametros.put("query", query);
+                parametros.put("fecha_actual",new SimpleDateFormat("MMMM-yy").format(new Date()));
+                
+                System.out.println(escudo1);
+//funcionando
+                
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator+"egresosGenerales.jasper";
+                System.out.println(reportPath);
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+                HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                httpServletResponse.addHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                httpServletResponse.addHeader("Content-disposition", "attachment; filename=egresos.xlsx");
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter exporter = new net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter();
+                exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+                
+                exporter.exportReport();
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                FacesContext.getCurrentInstance().responseComplete();
+                
+            } catch (Exception ex) {
+                System.out.println(ex + "CAUSA: " + ex.getCause());
+                ex.printStackTrace();
+            }
+            
+        }//fin generar
+ catch (NamingException ex) {
+            Logger.getLogger(ConsultaPagosGeneralesBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    
+    
     public void generarConsultaPagosBienes() throws SQLException {
 
         try {

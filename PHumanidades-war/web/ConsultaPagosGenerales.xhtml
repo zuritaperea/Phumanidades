@@ -181,11 +181,10 @@
         <h3>Exportar</h3>
 
 
-        <h:commandLink>
-            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Egresos Filtrados"/>
-            <p:dataExporter type="xls" postProcessor="#{consultaCobrosGeneralesBean.postProcessXLS}" 
-                            target="dtPagosGenerales" fileName="egresos"   pageOnly="false"/>
-        </h:commandLink>
+        <h:commandButton action="#{consultaPagosGeneralesBean.generarConsultaPagosExcel()}"
+                         image="./Imagenes/excel.png" title="Exportar Egresos Filtrados">
+            
+        </h:commandButton>
 
         <h:commandLink >
             <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Egresos Filtrados"/>

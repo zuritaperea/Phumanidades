@@ -14,6 +14,7 @@ import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -220,18 +221,44 @@ public class CobroCuotasAlumnosBeanArchivo {
         try {
             Ingreso i = new Ingreso();
             if(d.getIa() != null){
-                i.setAlumno(d.getIa().getAlumno());
-                i.setCohorte(d.getIa().getCohorte());
-                i.setCuota(Integer.valueOf(d.getCuota()));
-                i.setImporte(d.getMonto());
-                i.setTipoIngreso(d.getTipoIngreso());
-                i.setNumeroRecibo(Integer.valueOf(d.getNumRecibo()));
-                i.setFechaPago(d.getFecha()); 
-                i.setCuenta(d.getIa().getCohorte().getCarrera().getCuenta());
-                i.setAnulado(Boolean.FALSE);
-                i.setBorrado(Boolean.FALSE);
-                i.setFormaPago(FormaPago.RAPIPAGO);
-                this.getIngresoRNLocal().create(i); 
+                if(d.getNumCuotas() != null){
+                    if(d.getNumCuotas() > 0){
+                        System.out.println("entro numero de cuotas");
+                        for(int j=1; j<= d.getNumCuotas();j++){
+                            i = new Ingreso();
+                            if(j == d.getNumCuotas()){
+                                i.setImporte(d.getMonto());
+                            }else{
+                                i.setImporte(new BigDecimal("0"));
+                            }
+                            i.setAlumno(d.getIa().getAlumno());
+                            i.setCohorte(d.getIa().getCohorte());
+                            i.setCuota(Integer.valueOf(d.getCuota()));
+                            i.setImporte(d.getMonto());
+                            i.setTipoIngreso(d.getTipoIngreso());
+                            i.setNumeroRecibo(Integer.valueOf(d.getNumRecibo()));
+                            i.setFechaPago(d.getFecha()); 
+                            i.setCuenta(d.getIa().getCohorte().getCarrera().getCuenta());
+                            i.setAnulado(Boolean.FALSE);
+                            i.setBorrado(Boolean.FALSE);
+                            i.setFormaPago(FormaPago.RAPIPAGO);
+                            this.getIngresoRNLocal().create(i);
+                        }
+                    }
+                }else{
+                    i.setAlumno(d.getIa().getAlumno());
+                    i.setCohorte(d.getIa().getCohorte());
+                    i.setCuota(Integer.valueOf(d.getCuota()));
+                    i.setImporte(d.getMonto());
+                    i.setTipoIngreso(d.getTipoIngreso());
+                    i.setNumeroRecibo(Integer.valueOf(d.getNumRecibo()));
+                    i.setFechaPago(d.getFecha()); 
+                    i.setCuenta(d.getIa().getCohorte().getCarrera().getCuenta());
+                    i.setAnulado(Boolean.FALSE);
+                    i.setBorrado(Boolean.FALSE);
+                    i.setFormaPago(FormaPago.RAPIPAGO);
+                    this.getIngresoRNLocal().create(i); 
+                }
             }else{
                 i.setTipoIngreso(d.getTipoIngreso());
                 i.setFechaPago(d.getFecha());
@@ -302,7 +329,15 @@ public class CobroCuotasAlumnosBeanArchivo {
         BigDecimal monto;
         TipoIngreso tipoIngreso;
         List<SelectItem> si;
-        
+        Integer numCuotas;
+
+        public Integer getNumCuotas() {
+            return numCuotas;
+        }
+
+        public void setNumCuotas(Integer numCuotas) {
+            this.numCuotas = numCuotas;
+        }
 
         public List<SelectItem> getSi() {
             return si;

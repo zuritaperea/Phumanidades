@@ -36,11 +36,20 @@
                     </f:facet>
                     <h:outputText value="#{data.dni}"/>
                 </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Fecha"/>
-                    </f:facet>
-                    <h:outputText value="#{data.fecha}"/>
+                <p:column headerText="Fecha">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{data.fecha}">
+                                <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:calendar locale="es_ES"
+                                        pattern="dd/MM/yyyy"
+                                        value="#{data.fecha}">
+                            </p:calendar>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column>
                         <f:facet name="header">
@@ -87,11 +96,25 @@
                      </f:facet>
                      <h:outputText value="#{data.numRecibo}" style="width:100%"/>
                 </p:column>
-                <p:column>
-                    <f:facet name="header">
-                        <h:outputText value="Concepto"/>
-                    </f:facet>
-                    <h:outputText value="#{data.concepto}"/>
+                <p:column headerText="Concepto">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{data.concepto}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText value="#{data.concepto}" style="width:100%;color:black"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Número de Cuotas">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{data.numCuotas}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText value="#{data.numCuotas}" style="width:100%;color:black"/>
+                        </f:facet>
+                    </p:cellEditor>
                 </p:column>
                 <p:column headerText="Cuenta">
                     <p:cellEditor>
