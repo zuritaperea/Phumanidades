@@ -73,8 +73,8 @@
              style="float: left; margin: 10px;
              width: 100%;
              text-align: center;">
-            <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes()}" value="Ver PDF" /> 
-
+            <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('pdf')}" value="Ver PDF" /> 
+            <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('excel')}" value="Ver Excel" />
 
         </div>
         </p:tab>

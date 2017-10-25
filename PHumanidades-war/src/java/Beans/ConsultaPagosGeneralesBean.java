@@ -391,7 +391,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
     
     
     
-    public void generarConsultaPagosBienes() throws SQLException {
+    public void generarConsultaPagosBienes(String type) throws SQLException {
 
         try {
 
@@ -423,7 +423,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                         }
                         query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                                 + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
-                                + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + " LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
@@ -438,7 +438,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                         System.out.println("es distinto de null");
                         query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                                 + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
-                                + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
@@ -467,7 +467,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                         }
                         query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                                 + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
-                                + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
@@ -477,7 +477,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                     } else {
                         query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                                 + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
-                                + "e.NUMEROCOMPROBANTE,  e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
@@ -508,13 +508,24 @@ public class ConsultaPagosGeneralesBean implements Serializable {
 //funcionando
 
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "egresosGeneralesPorBienes.jasper";
+                String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "egresosGenerales.jasper";
                 System.out.println(reportPath);
                 JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
                 HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-                httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
                 ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-                JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                if(type.equals("pdf")){
+                    httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+                    JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                }else{
+                    httpServletResponse.addHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                    httpServletResponse.addHeader("Content-disposition", "attachment; filename=egresos.xlsx");
+                    net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter exporter = new net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter();
+                    exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                    exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+
+                    exporter.exportReport();
+                }
+                
                 servletOutputStream.flush();
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
