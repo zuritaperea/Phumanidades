@@ -59,7 +59,7 @@ import org.primefaces.context.RequestContext;
 public class PagosDocenteBean implements Serializable {
 
     @EJB
-    private PagosDocenteRNLocal PagosDocenteRNLocal;
+    private PagosDocenteRNLocal pagosDocenteRNLocal;
     @EJB
     private ProveedorRNLocal proveedorRNLocal;//hacemos la referencia para poder utilizar el metodo findall
 
@@ -209,11 +209,11 @@ public class PagosDocenteBean implements Serializable {
     }
 
     public PagosDocenteRNLocal getPagosDocenteRNLocal() {
-        return PagosDocenteRNLocal;
+        return pagosDocenteRNLocal;
     }
 
     public void setPagosDocenteRNLocal(PagosDocenteRNLocal PagosDocenteRNLocal) {
-        this.PagosDocenteRNLocal = PagosDocenteRNLocal;
+        this.pagosDocenteRNLocal = PagosDocenteRNLocal;
     }
 
     public ProveedorRNLocal getProveedorRNLocal() {
@@ -408,6 +408,11 @@ public class PagosDocenteBean implements Serializable {
             if (this.proveedorLstBean.getProveedorSelect() != null) {
                 this.pagosDocenteLstBean.setDocProv(2);
             }
+            this.setPagoDocente2(new PagosDocente());
+            this.setPagoDocente3(new PagosDocente());
+            this.setPagoDocente4(new PagosDocente());
+            this.setPagoDocente5(new PagosDocente());
+            this.setPagoDocente6(new PagosDocente());
         }
         if (btnSelect.getId().equals("btnDelete")) {
             this.getCbAction().setValue("Eliminar");
@@ -457,6 +462,11 @@ public class PagosDocenteBean implements Serializable {
             this.docenteLstBean.setDocenteSeleccionado(new Docente());
             this.proveedorLstBean.setProveedorSelect(new Proveedor());
             this.carreraLstBean.setLstCarrerasDocente(new ArrayList<Carrera>());
+            this.setPagoDocente2(new PagosDocente());
+            this.setPagoDocente3(new PagosDocente());
+            this.setPagoDocente4(new PagosDocente());
+            this.setPagoDocente5(new PagosDocente());
+            this.setPagoDocente6(new PagosDocente());
 
             cargarUltimoNumero();
             RequestContext.getCurrentInstance().update("frmPri:otProveedor");
@@ -506,7 +516,7 @@ public class PagosDocenteBean implements Serializable {
 
             if (this.proveedorLstBean.getProveedorSelect() == null && this.docenteLstBean.getDocenteSeleccionado() == null) {
                 System.out.println("entro al if");
-                pagoDocenteAux = this.PagosDocenteRNLocal.buscarPagosDocenteId(this.pagoDocente.getId());
+                pagoDocenteAux = this.pagosDocenteRNLocal.buscarPagosDocenteId(this.pagoDocente.getId());
                 //System.out.println("proveedor " + this.pagoDocenteAux.getProveedor().getRazonSocial());
                 if (this.pagoDocenteAux.getProveedor() != null) {
                     System.out.println("entro al proveedor not null");
@@ -558,7 +568,7 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaModificado(new Date());
             pagoDocente.setModificadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
-            PagosDocenteRNLocal.edit(pagoDocente);
+            pagosDocenteRNLocal.edit(pagoDocente);
             //Agregar el pago a la lista
             this.getPagosDocenteLstBean().getLstPagosDocente().add(pagoDocente);
             this.setPagoDocente(new PagosDocente());
@@ -662,7 +672,7 @@ public class PagosDocenteBean implements Serializable {
             }
             if (pagoDocente.getDocente() != null) {
                 if (pagoDocente.getCarrera() != null) {
-                    PagosDocenteRNLocal.create(pagoDocente);
+                    pagosDocenteRNLocal.create(pagoDocente);
 
                     if (pagoDocente2.getFechaComprobante() != null && !pagoDocente2.getNumeroComprobante().isEmpty()) {
                         pagoDocente2.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
@@ -674,7 +684,7 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente2.setProveedor(pagoDocente.getProveedor());
                         pagoDocente2.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente2.setCarrera(pagoDocente.getCarrera());
-                        PagosDocenteRNLocal.create(pagoDocente2);
+                        pagosDocenteRNLocal.create(pagoDocente2);
                     }
                     if (pagoDocente6.getFechaComprobante() != null && !pagoDocente3.getNumeroComprobante().isEmpty()) {
                         pagoDocente3.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
@@ -686,7 +696,7 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente3.setProveedor(pagoDocente.getProveedor());
                         pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente3.setCarrera(pagoDocente.getCarrera());
-                        PagosDocenteRNLocal.create(pagoDocente3);
+                        pagosDocenteRNLocal.create(pagoDocente3);
                     }
                     if (pagoDocente4.getFechaComprobante() != null && !pagoDocente4.getNumeroComprobante().isEmpty()) {
                         pagoDocente4.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
@@ -698,7 +708,7 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente4.setProveedor(pagoDocente.getProveedor());
                         pagoDocente4.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente4.setCarrera(pagoDocente.getCarrera());
-                        PagosDocenteRNLocal.create(pagoDocente4);
+                        pagosDocenteRNLocal.create(pagoDocente4);
                     }
                     if (pagoDocente5.getFechaComprobante() != null && !pagoDocente5.getNumeroComprobante().isEmpty()) {
                         pagoDocente5.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
@@ -710,7 +720,7 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente5.setProveedor(pagoDocente.getProveedor());
                         pagoDocente5.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente5.setCarrera(pagoDocente.getCarrera());
-                        PagosDocenteRNLocal.create(pagoDocente5);
+                        pagosDocenteRNLocal.create(pagoDocente5);
                     }
                     if (pagoDocente6.getFechaComprobante() != null && !pagoDocente6.getNumeroComprobante().isEmpty()) {
                         pagoDocente6.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
@@ -722,7 +732,7 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente6.setProveedor(pagoDocente.getProveedor());
                         pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente6.setCarrera(pagoDocente.getCarrera());
-                        PagosDocenteRNLocal.create(pagoDocente6);
+                        pagosDocenteRNLocal.create(pagoDocente6);
                     }
 
                     sMensaje = "El Pago fue Registrado";
@@ -731,7 +741,7 @@ public class PagosDocenteBean implements Serializable {
                     throw new Exception("Si selecciono un Docente debe seleccionar su carrera");
                 }
             } else {
-                PagosDocenteRNLocal.create(pagoDocente);
+                pagosDocenteRNLocal.create(pagoDocente);
                 sMensaje = "El Pago fue Registrado";
                 severity = FacesMessage.SEVERITY_INFO;
             }
@@ -789,7 +799,7 @@ public class PagosDocenteBean implements Serializable {
         FacesMessage.Severity severity = null;
         try {
 
-            PagosDocenteRNLocal.remove(pagoDocente, bEstado);//cambia el estado del pago segun el valor bEstado
+            pagosDocenteRNLocal.remove(pagoDocente, bEstado);//cambia el estado del pago segun el valor bEstado
 
             //envia el mensaje segun sea true o false bEstado
             if (bEstado) {
@@ -824,7 +834,7 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente.setFechaModificado(new Date());
             pagoDocente.setModificadoPor(this.usuarioLogerBean.getUsuario().getUsuario());
             pagoDocente.setAnulado(b);
-            this.PagosDocenteRNLocal.edit(pagoDocente);
+            this.pagosDocenteRNLocal.edit(pagoDocente);
             if (b) {
                 sMensaje = "El dato fue anulado";
             } else {
@@ -833,6 +843,50 @@ public class PagosDocenteBean implements Serializable {
             this.getPagosDocenteLstBean().cargarPagosDocente();
             RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
 
+        } catch (Exception ex) {
+            severity = FacesMessage.SEVERITY_ERROR;
+            sMensaje = "Error: " + ex.getMessage();
+            System.out.println(sMensaje);
+
+        } finally {
+            fm = new FacesMessage(severity, sMensaje, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+
+        }
+    }
+
+    public void cargar() {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = FacesMessage.SEVERITY_INFO;
+        try {
+            List<PagosDocente> findPagosByNumeroOrdenPago = pagosDocenteRNLocal.findPagosByNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+
+            try {
+                pagoDocente = findPagosByNumeroOrdenPago.get(0);
+            } catch (Exception e) {
+            }
+            try {
+                pagoDocente2 = findPagosByNumeroOrdenPago.get(1);
+            } catch (Exception e) {
+            }
+            try {
+                pagoDocente3 = findPagosByNumeroOrdenPago.get(2);
+            } catch (Exception e) {
+            }
+            try {
+                pagoDocente4 = findPagosByNumeroOrdenPago.get(3);
+            } catch (Exception e) {
+            }
+            try {
+                pagoDocente5 = findPagosByNumeroOrdenPago.get(4);
+            } catch (Exception e) {
+            }
+            try {
+                pagoDocente6 = findPagosByNumeroOrdenPago.get(5);
+            } catch (Exception e) {
+            }
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
@@ -855,7 +909,7 @@ public class PagosDocenteBean implements Serializable {
     }//fin limpiar
 
     private void cargarUltimoNumero() {
-        int numeroOrdenPago = PagosDocenteRNLocal.findUltimoNumero();
+        int numeroOrdenPago = pagosDocenteRNLocal.findUltimoNumero();
         //System.out.println("llama metodo cargar ultimo numero directo de la query"+numeroOrdenPago);
         numeroOrdenPago++;
         pagoDocente.setNumeroOrdenPago(numeroOrdenPago);

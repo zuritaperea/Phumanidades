@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="581" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="39d48071-b387-4c76-bb43-ad50928c542d">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="84"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="fechaIni" class="java.util.Date"/>
 	<parameter name="feha_fin_real" class="java.util.Date"/>
 	<parameter name="fechaFin" class="java.util.Date"/>
@@ -11,7 +11,7 @@
 	<parameter name="cuenta" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT to_char(fechapago, 'TMMonth') as mes,extract(month from fechapago) as numero_mes,sum(importe),extract(year from fechapago) as año from ingresos
-where ingresos.fechapago between $P{fechaIni} and $P{fechaFin} and borrado='false' and anulado='false' and cuenta_id= $P{cuenta_id}  
+where ingresos.fechapago between $P{fechaIni} and $P{fechaFin} and borrado='false' and anulado='false' and cuenta_id= $P{cuenta_id}
 group by numero_mes,mes,año order by numero_mes asc]]>
 	</queryString>
 	<field name="mes" class="java.lang.String"/>
@@ -148,7 +148,7 @@ group by numero_mes,mes,año order by numero_mes asc]]>
 				<textFieldExpression><![CDATA["$ "+$F{sum}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="19" y="2" width="32" height="20" uuid="18983ad3-b9e4-45b1-a6cb-7cb798041847"/>
+				<reportElement x="1" y="2" width="80" height="20" uuid="18983ad3-b9e4-45b1-a6cb-7cb798041847"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>

@@ -562,69 +562,6 @@
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="27" splitType="Stretch">
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="594" y="4" width="44" height="20" uuid="0a20c29d-f05c-477d-9ce3-b99ca97b1af3"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{retencionib_1}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="783" y="4" width="48" height="20" uuid="4b893d4f-2a9b-415c-b1fa-90245b47928b"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{monto_1}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="689" y="4" width="41" height="20" uuid="39547ace-aa9f-41a6-823c-60ff420a64b7"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{suss_1}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="545" y="3" width="44" height="20" uuid="98172fe6-227f-4001-a708-4c2f5cfa8874"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{montocondescuentos_1}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="189" y="4" width="57" height="20" uuid="ed2be195-3902-4e80-b104-3515a036a279"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[SUBTOTAL]]></text>
-			</staticText>
-			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="644" y="4" width="41" height="20" uuid="57190011-6395-43a0-beca-c90bcc83dccb"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{iva_1}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="735" y="4" width="44" height="20" uuid="47c846ec-8cd8-4c0c-ab4e-ac33f0fd1c5a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{impuestoganancia_1}]]></textFieldExpression>
-			</textField>
-			<line>
-				<reportElement x="189" y="25" width="641" height="1" uuid="b25bf2e8-5abc-4410-8d22-adbfaa5fad38"/>
-			</line>
-			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
-				<reportElement x="404" y="4" width="50" height="20" uuid="34a11e4e-80df-450f-ada7-4ed37dc5f66c"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="6" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{importecomprobante_1}]]></textFieldExpression>
-			</textField>
-		</band>
-	</columnFooter>
 	<pageFooter>
 		<band height="26">
 			<textField pattern="¤ #,##0.00">

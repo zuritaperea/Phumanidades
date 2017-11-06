@@ -23,15 +23,25 @@
             <p:scrollPanel mode="native" style="max-height:600px">    
 
                 <p:panel id="pRecibo" styleClass="contenidoTabla">
-                    <img src="Imagenes/logo.jpg "/><p>
-                        ORDEN DE PAGO N°: 
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroOrdenPago}" />   </p>
+                    <img src="Imagenes/logo.jpg "/>
+                    <h:panelGrid cellpadding="0" cellspacing="0" columns="4"     > 
+                        <b> ORDEN DE PAGO N°: </b>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroOrdenPago}" />  
+                        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FECHA:  </b>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.fechaRegistro}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </h:panelGrid>
+
+                    <b><h:outputText value="DOCENTE: " rendered="#{pagosDocenteBean.pagoDocente.docente!=null}"/></b> <h:outputText value="#{pagosDocenteBean.pagoDocente.docente.apellido}, #{pagosDocenteBean.pagoDocente.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente.docente!=null}" />
+                    <b><h:outputText value="PROVEEDOR: " rendered="#{pagosDocenteBean.pagoDocente.proveedor!=null}" />  </b><h:outputText value=" #{pagosDocenteBean.pagoDocente.proveedor.razonSocial}"  />
+
                     <h:panelGrid cellpadding="0" cellspacing="0" columns="13"                                  
                                  columnClasses="contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla ">
-                        <h:outputText value="Fecha" styleClass="headerTabla" />
-                        <h:outputText value="Docente" styleClass="headerTabla" />
-                        <h:outputText value="Proveedor" styleClass="headerTabla" />
-                        <h:outputText value="Importe Comprobante" styleClass="headerTabla" />
+                        <h:outputText value="Fecha Comp." styleClass="headerTabla" />
+                        <h:outputText value="Tipo de Egreso" styleClass="headerTabla" />
+                        <h:outputText value="Tipo Compr" styleClass="headerTabla" />
+                        <h:outputText value="Importe Comp." styleClass="headerTabla" />
                         <h:outputText value="Total" styleClass="headerTabla" />
                         <h:outputText value="Ret IVA" styleClass="headerTabla" />
                         <h:outputText value="Ret IG" styleClass="headerTabla" />
@@ -39,14 +49,14 @@
                         <h:outputText value="SUSS" styleClass="headerTabla" />
                         <h:outputText value="Neto a Pagar" styleClass="headerTabla" />
                         <h:outputText value="Nro. Cheque" styleClass="headerTabla" />
-                        <h:outputText value="Nro Compr" styleClass="headerTabla" />
+                        <h:outputText value="Nro Comp." styleClass="headerTabla" />
                         <h:outputText value="Concepto" styleClass="headerTabla" />
 
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.fechaRegistro}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.fechaComprobante}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </h:outputText>
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.docente.apellido}, #{pagosDocenteBean.pagoDocente.docente.nombre}" />
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.proveedor.razonSocial}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.tipoEgreso.descripcion}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.tipocomprobante.name}" />
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.importeComprobante}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.monto}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.iva}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
@@ -58,8 +68,93 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante}" />
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.concepto}" />                   
 
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.tipoEgreso.descripcion}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.tipocomprobante.name}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.importeComprobante}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.monto}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.iva}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.impuestoGanancia}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.retencionIB}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.suss}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.montoConDescuentos}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.concepto}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>                   
+
+
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.tipoEgreso.descripcion}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.tipocomprobante.name}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.importeComprobante}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.monto}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.iva}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.impuestoGanancia}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.retencionIB}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.suss}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.montoConDescuentos}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.concepto}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"/>                   
+
+
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}">                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.tipoEgreso.descripcion}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.tipocomprobante.name}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.importeComprobante}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.monto}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.iva}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.impuestoGanancia}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.retencionIB}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.suss}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.montoConDescuentos}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.concepto}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>                   
+
+
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.tipoEgreso.descripcion}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.tipocomprobante.name}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.importeComprobante}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.monto}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.iva}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.impuestoGanancia}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.retencionIB}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.suss}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.montoConDescuentos}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}" ><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.concepto}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}" />                   
+
+
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}">                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.tipoEgreso.descripcion}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.tipocomprobante.name}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.importeComprobante}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.monto}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.iva}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.impuestoGanancia}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.retencionIB}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.suss}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.montoConDescuentos}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.concepto}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>                   
 
                     </h:panelGrid>
+
+
                     <h:panelGrid cellpadding="0" cellspacing="0" columns="2"                                  
                                  columnClasses="contenidoTabla,contenidoTabla">
 
@@ -207,43 +302,43 @@
                              >
                         <h:panelGrid columns="2">
 
-                        <h:outputText value="Tipo Egreso" />
-                        <p:selectOneMenu id="tipoEgreso" 
-                                         value="#{pagosDocenteBean.pagoDocente.tipoEgreso}"
-                                         required="false">
-                            <f:converter binding="#{conversorTipoEgreso}"/>
-                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                            <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
-                        </p:selectOneMenu>
+                            <h:outputText value="Tipo Egreso" />
+                            <p:selectOneMenu id="tipoEgreso" 
+                                             value="#{pagosDocenteBean.pagoDocente.tipoEgreso}"
+                                             required="false">
+                                <f:converter binding="#{conversorTipoEgreso}"/>
+                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                            </p:selectOneMenu>
 
 
-                        <h:outputText value="Fecha de Comprobante"/>
-                        <p:calendar id="fechaComp"
-                                    value="#{pagosDocenteBean.pagoDocente.fechaComprobante}"
-                                    pattern="dd/MM/yyyy" locale="es_ES">
-                        </p:calendar>
-                        <h:outputText value="Tipo de Comprobante"/>
-                        <p:selectOneMenu id="tipoComprobante" 
-                                         value="#{pagosDocenteBean.pagoDocente.tipocomprobante}"
-                                         required="false">                             
-                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+                            <h:outputText value="Fecha de Comprobante"/>
+                            <p:calendar id="fechaComp"
+                                        value="#{pagosDocenteBean.pagoDocente.fechaComprobante}"
+                                        pattern="dd/MM/yyyy" locale="es_ES">
+                            </p:calendar>
+                            <h:outputText value="Tipo de Comprobante"/>
+                            <p:selectOneMenu id="tipoComprobante" 
+                                             value="#{pagosDocenteBean.pagoDocente.tipocomprobante}"
+                                             required="false">                             
+                                <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                            <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
-                        </p:selectOneMenu>
+                                <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
+                            </p:selectOneMenu>
 
-                        <h:outputText value="Numero Comprobante"/>
-                        <p:inputText id="numeroComp" 
-                                     value="#{pagosDocenteBean.pagoDocente.numeroComprobante}"/>
-                        <h:outputText value="Importe Comprobante $"/>
+                            <h:outputText value="Numero Comprobante"/>
+                            <p:inputText id="numeroComp" 
+                                         value="#{pagosDocenteBean.pagoDocente.numeroComprobante}"/>
+                            <h:outputText value="Importe Comprobante $"/>
 
-                        <p:inputText id="importeComprobante" 
-                                     value="#{pagosDocenteBean.pagoDocente.importeComprobante}"
-                                     onblur="calcularImporte();"/>
+                            <p:inputText id="importeComprobante" 
+                                         value="#{pagosDocenteBean.pagoDocente.importeComprobante}"
+                                         onblur="calcularImporte();"/>
 
-                        <h:outputText value="Concepto"/>
-                        <p:inputTextarea id="concepto" 
-                                         value="#{pagosDocenteBean.pagoDocente.concepto}"
-                                         style="width: 500px; "/>
+                            <h:outputText value="Concepto"/>
+                            <p:inputTextarea id="concepto" 
+                                             value="#{pagosDocenteBean.pagoDocente.concepto}"
+                                             style="width: 500px; "/>
 
 
 
@@ -282,7 +377,7 @@
 
                                     <p:inputText id="importeComprobante2" 
                                                  value="#{pagosDocenteBean.pagoDocente2.importeComprobante}"
-           onblur="calcularImporte();" style="width: 100px; "/>
+                                                 onblur="calcularImporte();" style="width: 100px; "/>
 
                                     <p:inputText id="concepto2" 
                                                  value="#{pagosDocenteBean.pagoDocente2.concepto}"
@@ -311,7 +406,7 @@
 
                                     <p:inputText id="importeComprobante3" 
                                                  value="#{pagosDocenteBean.pagoDocente3.importeComprobante}"
-           onblur="calcularImporte();" style="width: 100px; "/>
+                                                 onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto3" 
                                                  value="#{pagosDocenteBean.pagoDocente3.concepto}"
                                                  style="width: 250px; "/>
@@ -338,7 +433,7 @@
                                                  value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}" style="width: 100px; " />
                                     <p:inputText id="importeComprobante4" 
                                                  value="#{pagosDocenteBean.pagoDocente4.importeComprobante}"
-           onblur="calcularImporte();" style="width: 100px; "/>
+                                                 onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto4" 
                                                  value="#{pagosDocenteBean.pagoDocente4.concepto}"
                                                  style="width: 250px; "/>
@@ -365,7 +460,7 @@
                                                  value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}" style="width: 100px; " />
                                     <p:inputText id="importeComprobante5" 
                                                  value="#{pagosDocenteBean.pagoDocente5.importeComprobante}"
-           onblur="calcularImporte();" style="width: 100px; "/>
+                                                 onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto5" 
                                                  value="#{pagosDocenteBean.pagoDocente5.concepto}"
                                                  style="width: 250px; "/>
@@ -392,10 +487,10 @@
                                                  value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}" style="width: 100px; " />
                                     <p:inputText id="importeComprobante6" 
                                                  value="#{pagosDocenteBean.pagoDocente6.importeComprobante}"
-           onblur="calcularImporte();" style="width: 100px; "/>
+                                                 onblur="calcularImporte();" style="width: 100px; "/>
                                     <p:inputText id="concepto6" 
                                                  value="#{pagosDocenteBean.pagoDocente6.concepto}"
-                                                  style="width: 250px; "/>
+                                                 style="width: 250px; "/>
                                 </h:panelGrid>
                             </p:tab>                        <div style="float:none;clear: both"></div>
                         </p:accordionPanel>
@@ -570,6 +665,7 @@
                                  icon="ui-icon-print" 
                                  update=":frmPri:dReciboPagoDocente, @this"
                                  oncomplete="PF('dlgReciboPagoDocente').show();"
+                                 action="#{pagosDocenteBean.cargar()}"                    
                                  disabled="#{item.borrado}">
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
 
