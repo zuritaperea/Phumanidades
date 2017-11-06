@@ -264,7 +264,7 @@ public class CobroCuotasAlumnosBeanArchivo {
     public String guardarRegistro(DataFile d) {
         try {
             Ingreso i = new Ingreso();
-            if (d.getTipoIngreso() != null) {
+            if (d.getTipoIngreso().getId() != null) {
                 if (d.getNumCuotas() != null) {
                     if (d.getNumCuotas() > 0) {
                         for (int j = 1; j <= d.getNumCuotas(); j++) {
@@ -285,7 +285,7 @@ public class CobroCuotasAlumnosBeanArchivo {
                             i.setAnulado(Boolean.FALSE);
                             i.setBorrado(Boolean.FALSE);
                             i.setFormaPago(FormaPago.RAPIPAGO);
-                            this.getIngresoRNLocal().create(i);
+                            this.getIngresoRNLocal().create(i, true);
                             switch (d.getIa().getCohorte().getCarrera().getCuenta().getCodigo()) {
                                 case "005":
                                     this.getContador005().setNumero(i.getNumeroRecibo());

@@ -26,6 +26,8 @@ public interface IngresoRNLocal {
 
     public void edit(Ingreso ingresoCuota) throws Exception;
 
+    public void edit(Ingreso ingresoCuota, boolean validar) throws Exception;
+
     public void remove(Ingreso ingresoCuota, Boolean bEstado) throws Exception;
 
     public List<Ingreso> findAll() throws Exception;

@@ -12,6 +12,7 @@ import Entidades.Ingresos.Ingreso;
 import Entidades.Ingresos.TipoIngreso;
 import Entidades.Persona.Alumno;
 import Entidades.Usuarios.Usuarios;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -131,14 +132,13 @@ public class IngresoRN implements IngresoRNLocal {
         }//fin if
         Date ultimoPago = ingresoCuotaFacadeLocal.findFechaUltimaCuotaAlumno(ingresoCuota.getAlumno());
         if (ingresoCuota.getFechaPago() != null && ultimoPago != null) {
-            if(ingresoCuota.getFechaPago().compareTo(ultimoPago) <= 0) {
+            if (ingresoCuota.getFechaPago().compareTo(ultimoPago) < 0) {
                 Calendar c = Calendar.getInstance();
                 c.setTime(ultimoPago);
-                throw new Exception("La Fecha de Pago debe ser mayor o igual que el ultimo pago: "+
-                        String.valueOf(c.get(Calendar.DAY_OF_MONTH))+"/"+
-                        String.valueOf(c.get(Calendar.MONTH+1))+"/"+
-                        String.valueOf(c.get(Calendar.YEAR)));
-            }    
+                String format = new SimpleDateFormat("dd/MM/yyyy").format(c.getTime());
+                throw new Exception("La Fecha de Pago debe ser mayor o igual que el ultimo pago: "
+                        + format);
+            }
         }
         if (ingresoCuota.getCuenta() == null) {
             throw new Exception("Debe seleccionar una cuenta");
@@ -268,6 +268,14 @@ public class IngresoRN implements IngresoRNLocal {
     @Override
     public List<Ingreso> findAllByCuenta(Cuenta cuenta, int anio) {
         return ingresoCuotaFacadeLocal.findAllByCuenta(cuenta, anio);
+    }
+
+    @Override
+    public void edit(Ingreso ingresoCuota, boolean validar) throws Exception {
+        if (validar) {
+            this.validar(ingresoCuota);
+        }
+        ingresoCuotaFacadeLocal.edit(ingresoCuota);
     }
 
 }

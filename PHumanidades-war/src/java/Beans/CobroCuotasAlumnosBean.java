@@ -706,7 +706,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         try {
             ingreso.setFechaModificado(new Date());
             ingreso.setModificadoPor(this.usuarioLogerBean.getUsuario().getUsuario());
-            this.ingresoCuotaRNLocal.edit(ingreso);
+            this.ingresoCuotaRNLocal.edit(ingreso, false);
             this.ingresoCuotaRNLocal.remove(ingreso, b);
             if (b) {
                 sMensaje = "El dato fue borrado";
@@ -741,7 +741,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
             ingreso.setFechaModificado(new Date());
             ingreso.setModificadoPor(this.usuarioLogerBean.getUsuario().getUsuario());
             ingreso.setAnulado(b);
-            this.ingresoCuotaRNLocal.edit(ingreso);
+            this.ingresoCuotaRNLocal.edit(ingreso, false);
             if (b) {
                 sMensaje = "El dato fue anulado";
             } else {
@@ -1260,7 +1260,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter exporter = new net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter();
                 exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
                 exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
-                
+
                 exporter.exportReport();
                 outputStream.flush();
                 outputStream.close();
