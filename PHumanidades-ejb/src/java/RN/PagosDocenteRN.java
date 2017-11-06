@@ -114,4 +114,9 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
         return pagosDocenteFacadeLocal.findPagosByPredicates(ini, fin, cuenta, tipoEgreso);
     }
 
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago) throws Exception {
+        return pagosDocenteFacadeLocal.findPagosByNumeroOrdenPago(numeroOrdenPago);
+    }
+
 }

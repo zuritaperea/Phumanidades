@@ -61,4 +61,6 @@ public interface PagosDocenteFacadeLocal {
 
     public List<PagosDocente> findPagosXFechaProveedor(Date ini, Date fin);
 
+    public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago);
+
 }

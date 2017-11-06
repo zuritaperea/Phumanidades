@@ -81,7 +81,7 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         q.setParameter("fechaFin", fechaFin);
         return q.getResultList();
     }
-    
+
     @Override
     public List<PagosDocente> findByFechaCarreraDocente(Date fechaIni, Date fechaFin, Carrera carrera) {
         Query q = null;
@@ -148,33 +148,40 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
     }
 
     @Override
-    public List<PagosDocente> findPagosByPredicates(Date FechaInicio,Date FechaFin,Cuenta cuenta,TipoEgreso tipoEgreso) {
-        System.out.println("--------------------------");
-        
+    public List<PagosDocente> findPagosByPredicates(Date FechaInicio, Date FechaFin, Cuenta cuenta, TipoEgreso tipoEgreso) {
+
         CriteriaBuilder qb = em.getCriteriaBuilder();
         CriteriaQuery cq = qb.createQuery();
         Root<PagosDocente> pagos = cq.from(PagosDocente.class);
         List<Predicate> predicates = new ArrayList<Predicate>();
-        if(FechaInicio != null){
+        if (FechaInicio != null) {
             predicates.add(
-                qb.greaterThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaInicio));
+                    qb.greaterThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaInicio));
         }
-        if(FechaFin != null){
+        if (FechaFin != null) {
             predicates.add(
-                qb.lessThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaFin));
+                    qb.lessThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaFin));
         }
-        if(cuenta != null){
+        if (cuenta != null) {
             predicates.add(
-                qb.equal(pagos.get("cuenta"), cuenta));
+                    qb.equal(pagos.get("cuenta"), cuenta));
         }
-        if(tipoEgreso != null){
+        if (tipoEgreso != null) {
             predicates.add(
-                qb.equal(pagos.get("tipoEgreso"), tipoEgreso));
+                    qb.equal(pagos.get("tipoEgreso"), tipoEgreso));
         }
-        Predicate [] predicatesarr = predicates.toArray(new Predicate[predicates.size()]);
+        Predicate[] predicatesarr = predicates.toArray(new Predicate[predicates.size()]);
         cq.select(pagos)
-            .where(predicatesarr);
+                .where(predicatesarr);
         return em.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosByNumeroOrdenPago");
+        q.setParameter("numeroOrdenPago", numeroOrdenPago);
+        return q.getResultList();
     }
 
 }

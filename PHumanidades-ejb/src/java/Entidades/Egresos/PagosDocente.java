@@ -37,6 +37,8 @@ import javax.persistence.Temporal;
             query = "SELECT MAX(c.numeroOrdenPago) FROM PagosDocente c WHERE c.borrado = false"),
     @NamedQuery(name = "PagosDocente.existeNumero", query = "SELECT c FROM PagosDocente c WHERE c.numeroOrdenPago =:numeroOrdenPago "
             + "AND c.borrado = false"),
+    @NamedQuery(name = "PagosDocente.findPagosByNumeroOrdenPago", query = "SELECT p FROM PagosDocente p WHERE p.numeroOrdenPago=:numeroOrdenPago "
+            + "AND p.borrado=false AND p.anulado=false ORDER BY p.id ASC"),
     @NamedQuery(name = "PagosDocente.findByFechaCarrera", query = "SELECT p FROM PagosDocente p WHERE p.carrera=:carrera "
             + "AND p.borrado=false AND p.fechaRegistro BETWEEN :fechaIni AND :fechaFin ORDER BY p.fechaRegistro"),
     @NamedQuery(name = "PagosDocente.findByFechaCarreraDocente", query = "SELECT p FROM PagosDocente p WHERE p.carrera=:carrera "

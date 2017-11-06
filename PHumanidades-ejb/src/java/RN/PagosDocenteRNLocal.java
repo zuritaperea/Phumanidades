@@ -36,13 +36,13 @@ public interface PagosDocenteRNLocal {
     public List<PagosDocente> findByFechaCarrera(Date ini, Date fin, Carrera carrera) throws Exception;
 
     public List<PagosDocente> findPagosByDni(String dni) throws Exception;
-    
+
     public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo) throws Exception;
-    
-    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta,TipoEgreso tipoEgreso) throws Exception;
+
+    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta, TipoEgreso tipoEgreso) throws Exception;
 
     public List<PagosDocente> findPagosGeneralXFecha(Date ini, Date fin);
-    
+
     public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta);
 
     public int findUltimoNumero();
@@ -54,5 +54,7 @@ public interface PagosDocenteRNLocal {
     public List<PagosDocente> findPagosXFechaProveedor(Date ini, Date fin);
 
     public List<PagosDocente> findPagosXFechaDocente(Date ini, Date fin);
+
+    public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago) throws Exception;
 
 }
