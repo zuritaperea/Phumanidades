@@ -5,20 +5,15 @@
  */
 package Beans;
 
-import Entidades.Carreras.Contador005;
-import Entidades.Carreras.Contador025;
 import Entidades.Carreras.Cuenta;
 import Entidades.Carreras.InscripcionAlumnos;
 import Entidades.Egresos.FormaPago;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Ingresos.TipoIngreso;
-import RN.Contador005RNLocal;
-import RN.Contador025RNLocal;
 import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,7 +26,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -57,18 +51,9 @@ public class CobroCuotasAlumnosBeanArchivo {
     @EJB
     private InscripcionAlumnosRNLocal inscripcionAlumnosRNLocal;
 
-    @EJB
-    private Contador005RNLocal contador005RNLocal;
-
-    @EJB
-    private Contador025RNLocal contador025RNLocal;
-
     private List<SelectItem> lstSIIA;
     @EJB
     private IngresoRNLocal ingresoRNLocal;
-
-    private Contador005 contador005;
-    private Contador025 contador025;
 
     /**
      * Creates a new instance of CobroCuotasAlumnosBeanArchivo
@@ -138,38 +123,6 @@ public class CobroCuotasAlumnosBeanArchivo {
         this.tablaDatos = tablaDatos;
     }
 
-    public Contador005RNLocal getContador005RNLocal() {
-        return contador005RNLocal;
-    }
-
-    public void setContador005RNLocal(Contador005RNLocal contador005RNLocal) {
-        this.contador005RNLocal = contador005RNLocal;
-    }
-
-    public Contador025RNLocal getContador025RNLocal() {
-        return contador025RNLocal;
-    }
-
-    public void setContador025RNLocal(Contador025RNLocal contador025RNLocal) {
-        this.contador025RNLocal = contador025RNLocal;
-    }
-
-    public Contador005 getContador005() {
-        return contador005;
-    }
-
-    public void setContador005(Contador005 contador005) {
-        this.contador005 = contador005;
-    }
-
-    public Contador025 getContador025() {
-        return contador025;
-    }
-
-    public void setContador025(Contador025 contador025) {
-        this.contador025 = contador025;
-    }
-
     public void validateFile(FacesContext ctx,
             UIComponent comp,
             Object value) {
@@ -193,15 +146,12 @@ public class CobroCuotasAlumnosBeanArchivo {
             Scanner sc = new Scanner(file.getInputstream());
             while (sc.hasNextLine()) {
                 fileContent = sc.nextLine().trim();
-                System.out.println(fileContent);
-                System.out.println(fileContent.length());
                 if (fileContent.length() == 37) {
                     System.out.println(fileContent);
                     DataFile df = new DataFile();
                     df.setDni(fileContent.substring(28, 36));
                     List<InscripcionAlumnos> lista = getIAFromDni(df.getDni());
                     df.setSi(cargarSelectItem(lista));
-                    System.out.println("fecha:" + fileContent.substring(0, 8));
                     df.setFecha(new SimpleDateFormat("yyyyMMdd").parse(fileContent.substring(0, 8)));
                     df.setMonto(new BigDecimal(fileContent.substring(17, 21)));
                     df.setConcepto(fileContent.substring(23, 37));
@@ -228,7 +178,7 @@ public class CobroCuotasAlumnosBeanArchivo {
                     df.setCuota(String.valueOf(ingresoRNLocal.findUltimaCuotaAlumnoCohorte(iaLocal.getAlumno(),
                             iaLocal.getCohorte()) + 1));
 
-                    String codigoCuenta = iaLocal.getCohorte().getCarrera().getCuenta().getCodigo();
+                    Cuenta codigoCuenta = iaLocal.getCohorte().getCarrera().getCuenta();
                     try {
                         df.setNumRecibo(String.valueOf(ingresoRNLocal.numeroReciboSegunCuenta(codigoCuenta) + 1));
                     } catch (Exception ex) {
@@ -264,7 +214,7 @@ public class CobroCuotasAlumnosBeanArchivo {
     public String guardarRegistro(DataFile d) {
         try {
             Ingreso i = new Ingreso();
-            if (d.getTipoIngreso().getId() != null) {
+            if (d.getTipoIngreso() == null) {
                 if (d.getNumCuotas() != null) {
                     if (d.getNumCuotas() > 0) {
                         for (int j = 1; j <= d.getNumCuotas(); j++) {
@@ -286,16 +236,7 @@ public class CobroCuotasAlumnosBeanArchivo {
                             i.setBorrado(Boolean.FALSE);
                             i.setFormaPago(FormaPago.RAPIPAGO);
                             this.getIngresoRNLocal().create(i, true);
-                            switch (d.getIa().getCohorte().getCarrera().getCuenta().getCodigo()) {
-                                case "005":
-                                    this.getContador005().setNumero(i.getNumeroRecibo());
-                                    contador005RNLocal.create(this.contador005);
-                                    break;
-                                case "025":
-                                    this.getContador025().setNumero(i.getNumeroRecibo());
-                                    contador025RNLocal.create(this.contador025);
-                                    break;
-                            }
+
                         }
                     }
                 } else {
@@ -310,17 +251,7 @@ public class CobroCuotasAlumnosBeanArchivo {
                     i.setAnulado(Boolean.FALSE);
                     i.setBorrado(Boolean.FALSE);
                     i.setFormaPago(FormaPago.RAPIPAGO);
-                    this.getIngresoRNLocal().create(i);
-                    switch (d.getIa().getCohorte().getCarrera().getCuenta().getCodigo()) {
-                        case "005":
-                            this.getContador005().setNumero(i.getNumeroRecibo());
-                            contador005RNLocal.create(this.contador005);
-                            break;
-                        case "025":
-                            this.getContador025().setNumero(i.getNumeroRecibo());
-                            contador025RNLocal.create(this.contador025);
-                            break;
-                    }
+                    this.getIngresoRNLocal().create(i);//                   
                 }
             } else {
                 i.setAlumno(d.getIa().getAlumno());
@@ -333,23 +264,12 @@ public class CobroCuotasAlumnosBeanArchivo {
                 i.setBorrado(Boolean.FALSE);
                 i.setFormaPago(FormaPago.RAPIPAGO);
                 i.setConcepto(d.getConcepto());
+                i.setNumeroRecibo(Integer.valueOf(d.getNumRecibo()));
                 this.getIngresoRNLocal().create(i);
-                switch (d.getIa().getCohorte().getCarrera().getCuenta().getCodigo()) {
-                    case "005":
-                        this.getContador005().setNumero(i.getNumeroRecibo());
-                        contador005RNLocal.create(this.contador005);
-                        break;
-                    case "025":
-                        this.getContador025().setNumero(i.getNumeroRecibo());
-                        contador025RNLocal.create(this.contador025);
-                        break;
-                }
             }
         } catch (Exception ex) {
-            System.out.println(ex.getLocalizedMessage());
-            System.out.println(ex.getMessage());
             FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, new FacesMessage(ex.getLocalizedMessage()));
+            fc.addMessage(null, new FacesMessage("Error Guardando: " + ex.getLocalizedMessage()));
             return null;
         }
         FacesContext fc = FacesContext.getCurrentInstance();

@@ -5,6 +5,7 @@
 package Beans;
 
 import Entidades.Carreras.Cohorte;
+import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
 import RN.CohorteRNLocal;
@@ -313,7 +314,7 @@ public class CohorteLstBean implements Serializable {
                 flag = false;
             }
 
-            String codigoCuenta = cohorteSeleccionada.getCarrera().getCuenta().getCodigo();
+            Cuenta codigoCuenta = cohorteSeleccionada.getCarrera().getCuenta();
             this.setNumeroRecibo(ingresoCuotaRNLocal.numeroReciboSegunCuenta(codigoCuenta) + 1);
             RequestContext.getCurrentInstance().update("frmPri:dtCortesCobros");
             RequestContext.getCurrentInstance().update("frmPri:btnActionCobroCuota");

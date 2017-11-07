@@ -77,6 +77,9 @@ import javax.persistence.Temporal;
             + "WHERE i.numeroRecibo =:numero AND i.cuenta=:cuenta AND "
             + "i.borrado=false AND FUNC('DATE_PART','YEAR', i.fechaPago) =:anio "
             + " ORDER BY i.cuota DESC"),
+    @NamedQuery(name = "Ingreso.findUltimoNumero",
+            query = "SELECT MAX(i.numeroRecibo) FROM Ingreso i WHERE  i.cuenta=:cuenta AND "
+            + "i.borrado=false AND i.anulado = false AND FUNC('DATE_PART','YEAR', i.fechaPago) =:anio "),
     @NamedQuery(name = "Ingreso.findAllByNumeroRecibo", query = "SELECT i FROM Ingreso i "
             + "WHERE i.numeroRecibo =:numero AND i.cuenta=:cuenta AND "
             + "i.borrado=false AND i.anulado = false AND FUNC('DATE_PART','YEAR', i.fechaPago) =:anio "
@@ -103,7 +106,7 @@ public class Ingreso extends Base implements Serializable {
     //Para el caso en que la forma de pago sea deposito, se deberá ingresa la fecha del deposito
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaDeposito;
-    
+
     @Column(nullable = false, columnDefinition = "boolean default 'false'")
     private Boolean borrado;
     @Column(nullable = false, columnDefinition = "boolean default 'false'")

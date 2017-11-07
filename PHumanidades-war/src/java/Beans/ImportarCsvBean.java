@@ -7,6 +7,7 @@ package Beans;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,7 +31,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @SessionScoped
-public class ImportarCsvBean {
+public class ImportarCsvBean implements Serializable {
 
     private UploadedFile file;
     private String fileContent;

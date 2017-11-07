@@ -46,7 +46,7 @@ public interface IngresoRNLocal {
 
     public List<Ingreso> findCobrosByDniOTexto(String dni) throws Exception;
 
-    public int numeroReciboSegunCuenta(String cuenta) throws Exception;
+    public int numeroReciboSegunCuenta(Cuenta cuenta) throws Exception;
 
     public List<Ingreso> findCobrosGeneralXFecha(Date fechaIni, Date fechaFin);
 
@@ -63,6 +63,8 @@ public interface IngresoRNLocal {
     public Ingreso find(Long id);
 
     public Ingreso getByNumeroRecibo(Cuenta cuenta, int numero, int anio);
+    
+    public int findUltimoNumero(Cuenta cuenta, int anio);
 
     public List<Object[]> consultaUltimaCuotaAlumno();
 

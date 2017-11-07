@@ -211,7 +211,7 @@ public class IngresoRN implements IngresoRNLocal {
     }
 
     @Override
-    public int numeroReciboSegunCuenta(String cuenta) throws Exception {
+    public int numeroReciboSegunCuenta(Cuenta cuenta) throws Exception {
         return ingresoCuotaFacadeLocal.numeroReciboSegunCuenta(cuenta);
     }
 
@@ -276,6 +276,11 @@ public class IngresoRN implements IngresoRNLocal {
             this.validar(ingresoCuota);
         }
         ingresoCuotaFacadeLocal.edit(ingresoCuota);
+    }
+
+    @Override
+    public int findUltimoNumero(Cuenta cuenta, int anio) {
+        return ingresoCuotaFacadeLocal.findUltimoNumero(cuenta, anio);
     }
 
 }

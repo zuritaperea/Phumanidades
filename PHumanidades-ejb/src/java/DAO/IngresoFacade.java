@@ -11,6 +11,7 @@ import Entidades.Ingresos.Ingreso;
 import Entidades.Ingresos.TipoIngreso;
 import Entidades.Persona.Alumno;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -190,21 +191,25 @@ public class IngresoFacade extends AbstractFacade<Ingreso> implements IngresoFac
     }
 
     @Override
-    public int numeroReciboSegunCuenta(String cuenta) {
-        //System.out.println("existeNumeroRecibo, IMGRESO CUOTA FACADE"+numero+""+cuenta.getDescripcion());
+    public int numeroReciboSegunCuenta(Cuenta cuenta) {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
         try {
-            if (cuenta.equals("025")) {
-                Query q = em.createNamedQuery("Contador025.findUltimoNumero");
-                q.setMaxResults(1);
-                return (int) q.getSingleResult();
-            } else {
-                Query q = em.createNamedQuery("Contador005.findUltimoNumero");
-                q.setMaxResults(1);
-                return (int) q.getSingleResult();
-            }
-
+            return findUltimoNumero(cuenta, year);
         } catch (Exception e) {
             System.out.println("Error numeroReciboSegunCuenta: " + e);
+            return 0;
+        }
+    }
+
+    @Override
+    public int findUltimoNumero(Cuenta cuenta, int anio) {
+        Query q = em.createNamedQuery("Ingreso.findUltimoNumero");
+        q.setParameter("cuenta", cuenta);
+        q.setParameter("anio", anio);
+        q.setMaxResults(1);
+        try {
+            return (int) q.getSingleResult();
+        } catch (Exception e) {
             return 0;
         }
     }
@@ -286,14 +291,12 @@ public class IngresoFacade extends AbstractFacade<Ingreso> implements IngresoFac
     @Override
     public Date findFechaUltimaCuotaAlumno(Alumno alumno) {
         Query q = em.createNamedQuery("Ingreso.findFechaUltimaCuotaAlumno");
-        q.setParameter("alumno",alumno);
-        try{
+        q.setParameter("alumno", alumno);
+        try {
             return (Date) q.getSingleResult();
-        }catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    
-    
 
 }

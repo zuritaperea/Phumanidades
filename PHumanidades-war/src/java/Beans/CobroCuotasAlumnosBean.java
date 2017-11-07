@@ -6,13 +6,9 @@
 package Beans;
 
 import Entidades.Carreras.Cohorte;
-import Entidades.Carreras.Contador005;
-import Entidades.Carreras.Contador025;
 import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
-import RN.Contador005RNLocal;
-import RN.Contador025RNLocal;
 import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import java.io.File;
@@ -20,9 +16,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -48,8 +42,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
@@ -67,11 +59,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
 
-    @EJB
-    private Contador005RNLocal contador005RNLocal;
-
-    @EJB
-    private Contador025RNLocal contador025RNLocal;
 
     @ManagedProperty(value = "#{usuarioLogerBean}")
     private UsuarioLogerBean usuarioLogerBean;
@@ -101,8 +88,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private int iActionBtnSelect;
     private CommandButton cbAction;
 
-    private Contador005 contador005;
-    private Contador025 contador025;
     private Date fechaIni;
     private Date fechaFin;
     private Date feha_fin_real;
@@ -127,8 +112,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         dni = "";
         fechaPago = new Date();
         fechaDeposito = new Date();
-        contador005 = new Contador005();
-        contador025 = new Contador025();
+
         if (cobroCuotasAlumnosLstBean.getCuenta() != null && cobroCuotasAlumnosLstBean.getCuenta().getCodigo() != null) {
             try {
                 cobroCuotasAlumnosLstBean.cargarIngresos(Integer.parseInt(cobroCuotasAlumnosLstBean.getCuenta().getCodigo()));
@@ -174,21 +158,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.ingresoCuotaRNLocal = ingresoCuotaRNLocal;
     }
 
-    public Contador005RNLocal getContador005RNLocal() {
-        return contador005RNLocal;
-    }
-
-    public void setContador005RNLocal(Contador005RNLocal contador005RNLocal) {
-        this.contador005RNLocal = contador005RNLocal;
-    }
-
-    public Contador025RNLocal getContador025RNLocal() {
-        return contador025RNLocal;
-    }
-
-    public void setContador025RNLocal(Contador025RNLocal contador025RNLocal) {
-        this.contador025RNLocal = contador025RNLocal;
-    }
 
     public UsuarioLogerBean getUsuarioLogerBean() {
         return usuarioLogerBean;
@@ -313,21 +282,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.numeroCuentaBean = numeroCuentaBean;
     }
 
-    public Contador005 getContador005() {
-        return contador005;
-    }
-
-    public void setContador005(Contador005 contador005) {
-        this.contador005 = contador005;
-    }
-
-    public Contador025 getContador025() {
-        return contador025;
-    }
-
-    public void setContador025(Contador025 contador025) {
-        this.contador025 = contador025;
-    }
+ 
 
     public NavegarBean getNavegarBean() {
         return navegarBean;
@@ -652,16 +607,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                     ingresoCuotaRNLocal.create(ingreso, true);
                                 }
 
-                                switch (cohorte.getCarrera().getCuenta().getCodigo()) {
-                                    case "005":
-                                        this.getContador005().setNumero(this.cohorteLstBean.getNumeroRecibo());
-                                        contador005RNLocal.create(this.contador005);
-                                        break;
-                                    case "025":
-                                        this.getContador025().setNumero(this.cohorteLstBean.getNumeroRecibo());
-                                        contador025RNLocal.create(this.contador025);
-                                        break;
-                                }
+                              
                                 cobroCuotasAlumnosLstBean.cargarIngresos();
                                 sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
                                 severity = FacesMessage.SEVERITY_INFO;
@@ -780,18 +726,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 ingreso.setFechaDeposito(this.getFechaDeposito());
                 ingreso.setCreadoPor(this.usuarioLogerBean.getUsuario().getUsuario());
                 ingresoCuotaRNLocal.create(ingreso);
-
-                switch (this.cuentaLstBean.getCuenta().getCodigo()) {
-                    case "005":
-                        this.getContador005().setNumero(this.numeroCuentaBean.getNumero());
-                        contador005RNLocal.create(this.contador005);
-                        break;
-                    case "025":
-                        this.getContador025().setNumero(this.numeroCuentaBean.getNumero());
-                        contador025RNLocal.create(this.contador025);
-                        break;
-                }
-
+                this.alumnoLstBean.setAlumnoSelect(new Alumno());
+                this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
+        
                 cobroCuotasAlumnosLstBean.cargarIngresos();
                 sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
                 severity = FacesMessage.SEVERITY_INFO;
@@ -913,8 +850,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.getAlumnoLstBean().setAlumnoSelectConsulta(new Alumno());
         this.getCohorteLstBean().setUltimaCuota(1);
         this.getCohorteLstBean().setCohorteSeleccionada(new Cohorte());
-        this.setContador005(new Contador005());
-        this.setContador025(new Contador025());
         this.cuentaLstBean.setCuenta(new Cuenta());
         this.numeroCuentaBean.setNumero(0);
         this.cohorteLstBean.setNumeroRecibo(0);

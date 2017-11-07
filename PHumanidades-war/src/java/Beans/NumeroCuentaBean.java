@@ -1,10 +1,6 @@
 package Beans;
 
-import Entidades.Carreras.Contador005;
-import Entidades.Carreras.Contador025;
-import Entidades.Carreras.Cuenta;
-import RN.Contador005RNLocal;
-import RN.Contador025RNLocal;
+import RN.IngresoRNLocal;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,10 +20,7 @@ import javax.faces.bean.RequestScoped;
 public class NumeroCuentaBean implements Serializable {
 
     @EJB
-    private Contador005RNLocal contador005RNLocal;
-
-    @EJB
-    private Contador025RNLocal contador025RNLocal;
+    private IngresoRNLocal ingresoRNLocal;
 
     @ManagedProperty(value = "#{cuentaLstBean}")
     private CuentaLstBean cuentaLstBean;
@@ -116,25 +109,10 @@ public class NumeroCuentaBean implements Serializable {
 
     public void cargarNumero() throws Exception {
         try {
-            if (this.cuentaLstBean.getCuenta().getCodigo().equals("005")) {
-                try {
-                    numero = this.contador005RNLocal.findUltimoNumero() + 1;
-                } catch (Exception exception) {
-                    numero = 1;
-                }
-            }
-        } catch (Exception e) {
+            numero = this.ingresoRNLocal.numeroReciboSegunCuenta(this.cuentaLstBean.getCuenta()) + 1;
+        } catch (Exception exception) {
+            numero = 1;
         }
-        try {
-            if (this.cuentaLstBean.getCuenta().getCodigo().equals("025")) {
-                try {
-                    numero = this.contador025RNLocal.findUltimoNumero() + 1;
-                } catch (Exception exception) {
-                    numero = 1;
-                }
-            }
-        } catch (Exception e) {
-        }
-
     }
+
 }

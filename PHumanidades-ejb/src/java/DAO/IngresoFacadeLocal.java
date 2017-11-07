@@ -53,7 +53,7 @@ public interface IngresoFacadeLocal {
 
     public boolean existeNumeroRecibo(Cuenta cuenta, int numero, int anio);
 
-    public int numeroReciboSegunCuenta(String cuenta);
+    public int numeroReciboSegunCuenta(Cuenta cuenta);
 
     public List<Ingreso> findCobrosGeneralXFecha(Date fechaIni, Date fechaFin);
     
@@ -78,5 +78,7 @@ public interface IngresoFacadeLocal {
     public List<Ingreso> findAllByCuenta(Cuenta cuenta, int anio);
 
     public List<Ingreso> findCobrosGeneralXFechaTipo(Date fechaIni, Date fechaFin, TipoIngreso tipoIngreso);
+
+    public int findUltimoNumero(Cuenta cuenta, int anio);
 
 }
