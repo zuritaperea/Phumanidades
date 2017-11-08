@@ -292,8 +292,8 @@ order by numero_recibo asc]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cant}==1?$P{cuenta}+"-"+"0000000"+$F{num_rec}:$F{cant}==2?$P{cuenta}+"-"+"000000"+$F{num_rec}:$F{cant}==3?$P{cuenta}+"-"+"00000"+$F{num_rec}:$F{cant}==4?$P{cuenta}+"-"+"0000"+$F{num_rec}:$F{cant}==5?$P{cuenta}+"-"+"000"+$F{num_rec}:$F{cant}==6?$P{cuenta}+"-"+"00"+$F{num_rec}:$F{cant}==7?$P{cuenta}+"-"+"0"+$F{num_rec}:$F{cant}==8?$P{cuenta}+"-"+$F{num_rec}:$F{num_rec}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="72" y="3" width="35" height="18" uuid="ded13cbc-abf3-49bc-8f69-f14c9017c967"/>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="65" y="0" width="55" height="23" uuid="ded13cbc-abf3-49bc-8f69-f14c9017c967"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
