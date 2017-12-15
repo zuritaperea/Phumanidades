@@ -198,42 +198,7 @@
         <!--FIN DIALOGO ABM COBROS CUOTAS ALUMNOS -->      
 
         <!--INICIO PANTALLA PRINCIAPAL TABLA COBROS ALUMNOS-->
-        <h:panelGrid columns="8">
-            <h:outputText value="Desde"/>
-            <p:calendar id="fechaIniCobrosGenerales"
-                        label="Desde"  
-                        locale="es_ES"
-                        pattern="dd/MM/yyyy"
-                        value="#{cobroCuotasAlumnosBean.fechaIni}">
-            </p:calendar>
-
-            <h:outputText value="Hasta"/>
-            <p:calendar id="fechaFinCobrosGenerales"  
-                        label="Hasta" 
-                        locale="es_ES"
-                        pattern="dd/MM/yyyy"
-                        value="#{cobroCuotasAlumnosBean.fechaFin}">
-            </p:calendar>
-
-
-            <p:commandButton id="cbConsultarCobrosGenerales"
-                             icon="ui-icon-search" 
-                             update="dtCobroCuotas"
-                             process="@this, fechaIniCobrosGenerales,fechaFinCobrosGenerales" 
-                             actionListener="#{cobroCuotasAlumnosBean.cargarCobrosGeneralXFecha()}"
-                             /> 
-
-            <h:outputText value="Dni o Apellido o Nombre"/>
-            <p:inputText id="dniCA" 
-                         required="false"
-                         value="#{cobroCuotasAlumnosBean.dni}"
-                         /> 
-            <p:commandButton id="btnDniCA" 
-                             icon="ui-icon-search"
-                             actionListener="#{cobroCuotasAlumnosBean.buscarCobroXDniOTexto()}"
-                             update="dtCobroCuotas"
-                             process="@this, dniCA"/>
-        </h:panelGrid>
+           
         <h:panelGrid columns="3">
 
             <p:commandButton id="btnNuevoCobro"
@@ -373,14 +338,32 @@
                 </f:facet>
                 <h:outputText value="#{item.numeroRecibo}"/>
             </p:column>
-            <p:column               >
-                <f:facet name="header">
-                    <h:outputText value="Fecha Pago"/>
-                </f:facet>
-                <h:outputText value="#{item.fechaPago}">
-                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                </h:outputText>
-            </p:column>
+             <p:column headerText="Fecha Pago" filterBy="#{item.fechaPago}" filterFunction="#{dateRangeFilter.filterByDate}">
+                        <f:facet name="filter">
+                            <h:inputHidden id="filter" />
+                        </f:facet>
+
+                        <f:facet name="header">
+                            <h:outputText value="Fecha Pago" />                  
+                        </f:facet>
+                        <f:facet name="header">
+
+                            <p:calendar id="from" pattern="dd/MM/yyyy">
+                                <p:ajax event="dateSelect" 
+                                        onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                        oncomplete="PF('dtCobroCuotas').filter()" />
+                            </p:calendar>
+                            <p:calendar id="to" pattern="dd/MM/yyyy">
+                                <p:ajax event="dateSelect" 
+                                        onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                        oncomplete="PF('dtCobroCuotas').filter()" />
+                            </p:calendar>
+
+                        </f:facet>
+                        <h:outputText value="#{item.fechaPago}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>    
+                    </p:column>
 
             <p:column  
                 filterBy="#{item.alumno.dni}">
@@ -511,7 +494,7 @@
 
         <h3>Exportar</h3>
         <h:commandLink>
-            <p:graphicImage value="./Imagenes/excel.png" title="Exportar a Excel todos" />
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar a Excel" />
             <p:dataExporter type="xls" target="dtCobroCuotas" fileName="ingresos"/>
         </h:commandLink>
 
@@ -521,10 +504,7 @@
             <p:dataExporter type="csv" target="dtCobroCuotas" fileName="ingresos"/>
         </h:commandLink>
 
-        <h:commandLink>
-            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Ingresos Filtrados"/>
-            <p:dataExporter type="xls" target="dtCobroCuotas" fileName="ingresosfiltrada" pageOnly="true"/>
-        </h:commandLink>
+       
 
 
         <!--FIN PANTALLA PRINCIAPAL TABLA COBROS ALUMNOS-->

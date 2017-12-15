@@ -680,8 +680,6 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente2.setCreadoPor(pagoDocente.getCreadoPor());
                         pagoDocente2.setAnulado(false);
                         pagoDocente2.setBorrado(false);
-                        pagoDocente2.setDocente(pagoDocente.getDocente());
-                        pagoDocente2.setProveedor(pagoDocente.getProveedor());
                         pagoDocente2.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente2.setCarrera(pagoDocente.getCarrera());
                         pagosDocenteRNLocal.create(pagoDocente2);
@@ -692,8 +690,6 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente3.setCreadoPor(pagoDocente.getCreadoPor());
                         pagoDocente3.setAnulado(false);
                         pagoDocente3.setBorrado(false);
-                        pagoDocente3.setDocente(pagoDocente.getDocente());
-                        pagoDocente3.setProveedor(pagoDocente.getProveedor());
                         pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente3.setCarrera(pagoDocente.getCarrera());
                         pagosDocenteRNLocal.create(pagoDocente3);
@@ -704,8 +700,6 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente4.setCreadoPor(pagoDocente.getCreadoPor());
                         pagoDocente4.setAnulado(false);
                         pagoDocente4.setBorrado(false);
-                        pagoDocente4.setDocente(pagoDocente.getDocente());
-                        pagoDocente4.setProveedor(pagoDocente.getProveedor());
                         pagoDocente4.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente4.setCarrera(pagoDocente.getCarrera());
                         pagosDocenteRNLocal.create(pagoDocente4);
@@ -716,8 +710,6 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente5.setCreadoPor(pagoDocente.getCreadoPor());
                         pagoDocente5.setAnulado(false);
                         pagoDocente5.setBorrado(false);
-                        pagoDocente5.setDocente(pagoDocente.getDocente());
-                        pagoDocente5.setProveedor(pagoDocente.getProveedor());
                         pagoDocente5.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente5.setCarrera(pagoDocente.getCarrera());
                         pagosDocenteRNLocal.create(pagoDocente5);
@@ -728,8 +720,6 @@ public class PagosDocenteBean implements Serializable {
                         pagoDocente6.setCreadoPor(pagoDocente.getCreadoPor());
                         pagoDocente6.setAnulado(false);
                         pagoDocente6.setBorrado(false);
-                        pagoDocente6.setDocente(pagoDocente.getDocente());
-                        pagoDocente6.setProveedor(pagoDocente.getProveedor());
                         pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
                         pagoDocente6.setCarrera(pagoDocente.getCarrera());
                         pagosDocenteRNLocal.create(pagoDocente6);

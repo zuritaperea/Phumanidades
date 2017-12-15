@@ -46,7 +46,7 @@ public class IngresoRN implements IngresoRNLocal {
 
     @Override
     public void edit(Ingreso ingresoCuota) throws Exception {
-        this.validar(ingresoCuota);
+        this.validar(ingresoCuota, true);
         ingresoCuotaFacadeLocal.edit(ingresoCuota);
     }
 

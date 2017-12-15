@@ -1007,7 +1007,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     this.feha_fin_real = this.fechaFin;
                     c.setTime(this.fechaFin);
                     c.add(Calendar.DATE, 1);  // number of days to add
-                    this.fechaFin = c.getTime();  // fechaFin is now the new date
+                   // this.fechaFin = c.getTime();  // fechaFin is now the new date
                     parametros.put("fechaIni", this.fechaIni);
                     parametros.put("fechaFin", this.fechaFin);
                     parametros.put("cuenta_id", this.cuentaLstBean.getCuenta().getId().intValue());
@@ -1170,7 +1170,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     this.feha_fin_real = this.fechaFin;
                     c.setTime(this.fechaFin);
                     c.add(Calendar.DATE, 1);  // number of days to add
-                    this.fechaFin = c.getTime();  // fechaFin is now the new date
+                  //  this.fechaFin = c.getTime();  // fechaFin is now the new date
                     parametros.put("fechaIni", this.fechaIni);
                     parametros.put("fechaFin", this.fechaFin);
                     parametros.put("cuenta_id", this.cuentaLstBean.getCuenta().getId().intValue());

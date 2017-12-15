@@ -346,13 +346,15 @@
 
                         <p:accordionPanel activeIndex="-1" id="masComprobantes">
                             <p:tab title="Más Comprobantes" >
-                                <h:panelGrid columns="6" cellpadding="5">
+                                <h:panelGrid columns="7" cellpadding="2">
                                     <h:outputText value="Tipo Egreso" />
                                     <h:outputText value="Fecha"/>
                                     <h:outputText value="Tipo"/>
                                     <h:outputText value="Numero"/>
                                     <h:outputText value="Importe"/>
                                     <h:outputText value="Concepto"/>
+                                    <h:outputText value="Proveedor"/>
+
                                     <p:selectOneMenu id="tipoEgreso2" 
                                                      value="#{pagosDocenteBean.pagoDocente2.tipoEgreso}"
                                                      required="false">
@@ -382,6 +384,18 @@
                                     <p:inputText id="concepto2" 
                                                  value="#{pagosDocenteBean.pagoDocente2.concepto}"
                                                  style="width: 250px; "/>
+
+                                    <p:autoComplete id="proveedor2" maxResults="5" 
+                                                    minQueryLength="3" 
+                                                    forceSelection="true"
+                                                    value="#{pagosDocenteBean.pagoDocente2.proveedor}"
+                                                    converter="ConversorProveedor"  
+                                                    completeMethod="#{pagosDocenteBean.completeText}" 
+                                                    var="proveedor"
+                                                    itemLabel="#{proveedor.razonSocial}"
+                                                    itemValue="#{proveedor.id}"
+                                                    effect="fade"  />
+
                                     <p:selectOneMenu id="tipoEgreso3" 
                                                      value="#{pagosDocenteBean.pagoDocente3.tipoEgreso}"
                                                      required="false">
@@ -410,6 +424,17 @@
                                     <p:inputText id="concepto3" 
                                                  value="#{pagosDocenteBean.pagoDocente3.concepto}"
                                                  style="width: 250px; "/>
+
+                                    <p:autoComplete id="proveedor3" maxResults="5" 
+                                                    minQueryLength="3" 
+                                                    forceSelection="true"
+                                                    value="#{pagosDocenteBean.pagoDocente3.proveedor}"
+                                                    converter="ConversorProveedor"  
+                                                    completeMethod="#{pagosDocenteBean.completeText}" 
+                                                    var="proveedor"
+                                                    itemLabel="#{proveedor.razonSocial}"
+                                                    itemValue="#{proveedor.id}"
+                                                    effect="fade"  />
                                     <p:selectOneMenu id="tipoEgreso4" 
                                                      value="#{pagosDocenteBean.pagoDocente4.tipoEgreso}"
                                                      required="false">
@@ -437,6 +462,18 @@
                                     <p:inputText id="concepto4" 
                                                  value="#{pagosDocenteBean.pagoDocente4.concepto}"
                                                  style="width: 250px; "/>
+
+                                    <p:autoComplete id="proveedor4" maxResults="5" 
+                                                    minQueryLength="3" 
+                                                    forceSelection="true"
+                                                    value="#{pagosDocenteBean.pagoDocente4.proveedor}"
+                                                    converter="ConversorProveedor"  
+                                                    completeMethod="#{pagosDocenteBean.completeText}" 
+                                                    var="proveedor"
+                                                    itemLabel="#{proveedor.razonSocial}"
+                                                    itemValue="#{proveedor.id}"
+                                                    effect="fade"  />
+
                                     <p:selectOneMenu id="tipoEgreso5" 
                                                      value="#{pagosDocenteBean.pagoDocente5.tipoEgreso}"
                                                      required="false">
@@ -464,6 +501,18 @@
                                     <p:inputText id="concepto5" 
                                                  value="#{pagosDocenteBean.pagoDocente5.concepto}"
                                                  style="width: 250px; "/>
+
+                                    <p:autoComplete id="proveedor5" maxResults="5" 
+                                                    minQueryLength="3" 
+                                                    forceSelection="true"
+                                                    value="#{pagosDocenteBean.pagoDocente5.proveedor}"
+                                                    converter="ConversorProveedor"  
+                                                    completeMethod="#{pagosDocenteBean.completeText}" 
+                                                    var="proveedor"
+                                                    itemLabel="#{proveedor.razonSocial}"
+                                                    itemValue="#{proveedor.id}"
+                                                    effect="fade"  />
+
                                     <p:selectOneMenu id="tipoEgreso6" 
                                                      value="#{pagosDocenteBean.pagoDocente6.tipoEgreso}"
                                                      required="false">
@@ -491,6 +540,16 @@
                                     <p:inputText id="concepto6" 
                                                  value="#{pagosDocenteBean.pagoDocente6.concepto}"
                                                  style="width: 250px; "/>
+                                    <p:autoComplete id="proveedor6" maxResults="5" 
+                                                    minQueryLength="3" 
+                                                    forceSelection="true"
+                                                    value="#{pagosDocenteBean.pagoDocente6.proveedor}"
+                                                    converter="ConversorProveedor"  
+                                                    completeMethod="#{pagosDocenteBean.completeText}" 
+                                                    var="proveedor"
+                                                    itemLabel="#{proveedor.razonSocial}"
+                                                    itemValue="#{proveedor.id}"
+                                                    effect="fade"  />
                                 </h:panelGrid>
                             </p:tab>                        <div style="float:none;clear: both"></div>
                         </p:accordionPanel>
