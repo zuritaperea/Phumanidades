@@ -16,6 +16,8 @@
                         <h:outputText value="#{tipoIngresoController.selected.id}" title="#{bundle.ViewTipoIngresoTitle_id}"/>
                         <h:outputText value="#{bundle.ViewTipoIngresoLabel_descripcion}"/>
                         <h:outputText value="#{tipoIngresoController.selected.descripcion}" title="#{bundle.ViewTipoIngresoTitle_descripcion}"/>
+                        <p:outputLabel value="Borrado"/>
+                        <p:selectBooleanCheckbox value="#{tipoIngresoController.selected.borrado}" disabled="true"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="TipoIngresoViewDialog.hide()"/>
                 </h:panelGroup>

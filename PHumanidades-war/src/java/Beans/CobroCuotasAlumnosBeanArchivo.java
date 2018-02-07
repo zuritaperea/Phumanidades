@@ -13,6 +13,7 @@ import Entidades.Ingresos.TipoIngreso;
 import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import java.io.IOException;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,7 +43,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @SessionScoped
-public class CobroCuotasAlumnosBeanArchivo {
+public class CobroCuotasAlumnosBeanArchivo implements Serializable{
 
     private UploadedFile file;
     private String fileContent;

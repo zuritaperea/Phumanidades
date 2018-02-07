@@ -16,6 +16,9 @@
                         <p:inputText disabled="true" id="id" value="#{tipoIngresoController.selected.id}" title="#{bundle.EditTipoIngresoTitle_id}" />
                         <p:outputLabel value="#{bundle.EditTipoIngresoLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{tipoIngresoController.selected.descripcion}" title="#{bundle.EditTipoIngresoTitle_descripcion}" />
+                        <p:outputLabel value="Borrado" for="borrado" />
+                        <p:selectBooleanCheckbox id="borrado" value="#{tipoIngresoController.selected.borrado}" />
+
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tipoIngresoController.update}" value="#{bundle.Save}" update="display,:TipoIngresoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TipoIngresoEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TipoIngresoEditDialog.hide()"/>

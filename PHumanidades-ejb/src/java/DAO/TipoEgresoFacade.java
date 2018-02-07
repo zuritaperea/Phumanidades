@@ -6,9 +6,11 @@
 package DAO;
 
 import Entidades.Egresos.TipoEgreso;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,10 +28,19 @@ public class TipoEgresoFacade extends AbstractFacade<TipoEgreso> implements Tipo
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
+    @Override
+    public List<TipoEgreso> findNoBorrados() {
+        try {
+            Query q = em.createNamedQuery("TipoEgreso.findNoBorrados");
+            return q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

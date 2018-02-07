@@ -5,7 +5,6 @@
  */
 package Beans;
 
-
 import DAO.TipoEgresoFacadeLocal;
 import Entidades.Egresos.TipoEgreso;
 import ManagedBeans.util.JsfUtil;
@@ -35,6 +34,7 @@ public class TipoEgresoController implements Serializable {
     private TipoEgresoFacadeLocal ejbFacade;
     private List<TipoEgreso> items = null;
     private TipoEgreso selected;
+
     /**
      * Creates a new instance of TipoEgresoController
      */
@@ -42,7 +42,7 @@ public class TipoEgresoController implements Serializable {
     }
 
     public List<TipoEgreso> getItems() {
-        if(items == null){
+        if (items == null) {
             items = getEjbFacade().findAll();
         }
         return items;
@@ -63,21 +63,25 @@ public class TipoEgresoController implements Serializable {
     public TipoEgresoFacadeLocal getEjbFacade() {
         return ejbFacade;
     }
-    
+
     public TipoEgreso prepareCreate() {
-        this.setSelected( new TipoEgreso());
-        System.out.println("prepare Create"+selected);
+        this.setSelected(new TipoEgreso());
+        System.out.println("prepare Create" + selected);
         return selected;
     }
-    
-   public List<TipoEgreso> getItemsAvailableSelectMany() {
+
+    public List<TipoEgreso> getItemsAvailableSelectMany() {
         return getEjbFacade().findAll();
     }
 
     public List<TipoEgreso> getItemsAvailableSelectOne() {
         return getEjbFacade().findAll();
     }
-    
+
+    public List<TipoEgreso> getItemsNoBorradosSelectOne() {
+        return getEjbFacade().findNoBorrados();
+    }
+
     public void create() {
         persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TipoEgresoCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -96,11 +100,11 @@ public class TipoEgresoController implements Serializable {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
+
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
         if (selected != null) {
-            System.out.println("if del selected not null"+selected);
-       
+            System.out.println("if del selected not null" + selected);
+
             try {
                 if (persistAction != JsfUtil.PersistAction.DELETE) {
                     getEjbFacade().edit(selected);
@@ -125,11 +129,11 @@ public class TipoEgresoController implements Serializable {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
-        }else{
-            System.out.println("if del selected null"+selected);
+        } else {
+            System.out.println("if del selected null" + selected);
         }
     }
-    
+
     @FacesConverter(forClass = TipoEgreso.class)
     public static class TipoEgresoControllerConverter implements Converter {
 
@@ -174,5 +178,5 @@ public class TipoEgresoController implements Serializable {
         }
 
     }
-    
+
 }

@@ -26,8 +26,10 @@ public interface TipoIngresoFacadeLocal {
 
     List<TipoIngreso> findAll();
 
+    List<TipoIngreso> findNoBorrados();
+
     List<TipoIngreso> findRange(int[] range);
 
     int count();
-    
+
 }

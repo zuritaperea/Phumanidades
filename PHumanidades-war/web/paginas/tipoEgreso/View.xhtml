@@ -16,6 +16,9 @@
                         <h:outputText value="#{tipoEgresoController.selected.id}" title="#{bundle.ViewTipoEgresoTitle_id}"/>
                         <h:outputText value="#{bundle.ViewTipoEgresoLabel_descripcion}"/>
                         <h:outputText value="#{tipoEgresoController.selected.descripcion}" title="#{bundle.ViewTipoEgresoTitle_descripcion}"/>
+                        <p:outputLabel value="Borrado"/>
+                        <p:selectBooleanCheckbox value="#{tipoEgresoController.selected.borrado}" disabled="true"/>
+
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="TipoEgresoViewDialog.hide()"/>
                 </h:panelGroup>

@@ -45,8 +45,9 @@
                         <p:selectOneMenu id="tipoIngreso" 
                                          value="#{cobroCuotasAlumnosBean.ingreso.tipoIngreso}"
                                          required="false">
+                            <f:converter binding="#{conversorTipoIngreso}"/>
                             <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                            <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                            <f:selectItems value="#{cobroCuotasAlumnosLstBean.tipoIngresos}"/>
                         </p:selectOneMenu>
                         <h:outputText value="Importe $"/>
                         <p:inputText id="importeCobroGeneral" 
@@ -58,19 +59,19 @@
                                          required="false" >
                             <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
                             <p:ajax update="input" /> 
-                            
+
                         </p:selectOneMenu>
 
                         <br></br>
                         <h:panelGroup   id="input">
-                            
+
                             <h:outputText  value="Fecha de Deposito: " rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"/>
                             <p:calendar value="#{cobroCuotasAlumnosBean.fechaDeposito}" 
                                         rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"
                                         mode="popup"
                                         placeholder="Fecha de deposito"
-                                    navigator="true"/>
-                            
+                                        navigator="true"/>
+
                         </h:panelGroup>
 
 

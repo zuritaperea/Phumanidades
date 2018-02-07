@@ -5,8 +5,8 @@
  */
 package Conversores;
 
-import DAO.TipoEgresoFacadeLocal;
-import Entidades.Egresos.TipoEgreso;
+import DAO.TipoIngresoFacadeLocal;
+import Entidades.Ingresos.TipoIngreso;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -18,19 +18,19 @@ import javax.faces.convert.Converter;
  *
  * @author ruben
  */
-@ManagedBean(name="conversorTipoEgreso")
+@ManagedBean(name="conversorTipoIngreso")
 @RequestScoped
-public class ConversorTipoEgreso implements Converter{
+public class ConversorTipoIngreso implements Converter{
     
     @EJB
-    private TipoEgresoFacadeLocal tipoEgresoFacadeLocal;
+    private TipoIngresoFacadeLocal tipoIngresoFacadeLocal;
 
-    public TipoEgresoFacadeLocal getTipoEgresoFacadeLocal() {
-        return tipoEgresoFacadeLocal;
+    public TipoIngresoFacadeLocal getTipoIngresoFacadeLocal() {
+        return tipoIngresoFacadeLocal;
     }
 
-    public void setTipoEgresoFacadeLocal(TipoEgresoFacadeLocal tipoEgresoFacadeLocal) {
-        this.tipoEgresoFacadeLocal = tipoEgresoFacadeLocal;
+    public void setTipoIngresoFacadeLocal(TipoIngresoFacadeLocal tipoIngresoFacadeLocal) {
+        this.tipoIngresoFacadeLocal = tipoIngresoFacadeLocal;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class ConversorTipoEgreso implements Converter{
             return null;
         }
         try{
-            TipoEgreso te = tipoEgresoFacadeLocal.find(Long.parseLong(value));
+            TipoIngreso te = tipoIngresoFacadeLocal.find(Long.parseLong(value));
             return te;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -50,7 +50,7 @@ public class ConversorTipoEgreso implements Converter{
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         try {
-            return String.valueOf(((TipoEgreso) value).getId());
+            return String.valueOf(((TipoIngreso) value).getId());
         } catch (Exception e) {
             return "";
         }

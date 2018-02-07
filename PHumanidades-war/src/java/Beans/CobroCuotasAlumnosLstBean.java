@@ -5,8 +5,10 @@
  */
 package Beans;
 
+import DAO.TipoIngresoFacadeLocal;
 import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
+import Entidades.Ingresos.TipoIngreso;
 import RN.CuentaRNLocal;
 import RN.IngresoRNLocal;
 import java.io.Serializable;
@@ -36,6 +38,9 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
     @EJB
     private CuentaRNLocal cuentaRNLocal;//hacemos la referencia para poder utilizar el metodo get cuenta
 
+    @EJB
+    private TipoIngresoFacadeLocal tipoIngresoFacadeLocal;
+
     private List<Ingreso> lstCobroCuotas; //Cargamos la lista de Usuarios retornada po el metodo findAll del usuarioRNLocal
     private List<SelectItem> lstSICobroCuota;//Aca se guarda el item seleccionado de la lista
 
@@ -47,6 +52,7 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
     private Date fechaFin;
     private Date fechaPago;
     private Date fechaDeposito;
+    private List<SelectItem> tipoIngresos;
 
     /**
      * Creates a new instance of DocenteLstBean
@@ -111,10 +117,34 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
         this.fechaFin = fechaFin;
     }
 
+    public TipoIngresoFacadeLocal getTipoIngresoFacadeLocal() {
+        return tipoIngresoFacadeLocal;
+    }
+
+    public void setTipoIngresoFacadeLocal(TipoIngresoFacadeLocal tipoIngresoFacadeLocal) {
+        this.tipoIngresoFacadeLocal = tipoIngresoFacadeLocal;
+    }
+
+    public List<SelectItem> getTipoIngresos() {
+        return tipoIngresos;
+    }
+
+    public void setTipoIngresos(List<SelectItem> tipoIngresos) {
+        this.tipoIngresos = tipoIngresos;
+    }
+
     @PostConstruct
     private void init() {
         ingreso = new Ingreso();
         this.cargarIngresos();
+        this.cargarLstTipoIngresos();
+    }
+
+    private void cargarLstTipoIngresos() {
+        tipoIngresos = new ArrayList<SelectItem>();
+        for (TipoIngreso t : tipoIngresoFacadeLocal.findNoBorrados()) {
+            tipoIngresos.add(new SelectItem(t, t.getDescripcion()));
+        }
     }
 
     public List<Ingreso> getLstCobroCuotas() {

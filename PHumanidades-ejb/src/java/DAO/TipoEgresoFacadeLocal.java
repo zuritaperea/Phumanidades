@@ -15,6 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface TipoEgresoFacadeLocal {
+
     void create(TipoEgreso tipoEgreso);
 
     void edit(TipoEgreso tipoEgreso);
@@ -24,6 +25,8 @@ public interface TipoEgresoFacadeLocal {
     TipoEgreso find(Object id);
 
     List<TipoEgreso> findAll();
+
+    List<TipoEgreso> findNoBorrados();
 
     List<TipoEgreso> findRange(int[] range);
 

@@ -943,7 +943,7 @@ public class PagosDocenteBean implements Serializable {
 
     private void cargarLstTipoEgresos() {
         lstTipoEgreso = new ArrayList<SelectItem>();
-        for (TipoEgreso t : tipoEgresoFacadeLocal.findAll()) {
+        for (TipoEgreso t : tipoEgresoFacadeLocal.findNoBorrados()) {
             lstTipoEgreso.add(new SelectItem(t, t.getDescripcion()));
         }
     }

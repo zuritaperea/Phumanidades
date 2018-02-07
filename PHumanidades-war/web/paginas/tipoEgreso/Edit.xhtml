@@ -16,6 +16,9 @@
                         <p:inputText disabled="true" id="id" value="#{tipoEgresoController.selected.id}" title="#{bundle.EditTipoEgresoTitle_id}" />
                         <p:outputLabel value="#{bundle.EditTipoEgresoLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{tipoEgresoController.selected.descripcion}" title="#{bundle.EditTipoEgresoTitle_descripcion}" required="true"/>
+                        <p:outputLabel value="Borrado" for="borrado" />
+                        <p:selectBooleanCheckbox id="borrado" value="#{tipoEgresoController.selected.borrado}" />
+
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tipoEgresoController.update}" value="#{bundle.Save}" update="display,:TipoEgresoListForm:datalistE,:growl" oncomplete="handleSubmit(args, 'TipoEgresoEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TipoEgresoEditDialog.hide()"/>

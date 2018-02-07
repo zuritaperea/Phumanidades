@@ -62,7 +62,7 @@
                                              required="false">
                                 <f:converter binding="#{conversorTipoEgreso}"/>
                                 <f:selectItem itemLabel="Seleccionar" itemValue="#{null}"/>
-                                <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
+                                <f:selectItems value="#{tipoEgresoController.itemsAvailableSelectOne}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
                             </p:selectOneMenu>
                         </td>
 

@@ -6,10 +6,13 @@
 package Entidades.Egresos;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -18,6 +21,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "egresos_tipo_egreso")
+@NamedQueries({
+    @NamedQuery(name = "TipoEgreso.UpdateBorrado", query = "UPDATE TipoEgreso p SET p.borrado = :estado WHERE p.id = :id"),
+    @NamedQuery(name = "TipoEgreso.findNoBorrados", query = "SELECT p FROM TipoEgreso p WHERE p.borrado=false")
+})
 public class TipoEgreso implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,6 +32,8 @@ public class TipoEgreso implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String descripcion;
+    @Column(nullable = false, columnDefinition = "boolean default 'false'")
+    private Boolean borrado;
 
     public String getDescripcion() {
         return descripcion;
@@ -33,7 +42,14 @@ public class TipoEgreso implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
+
+    public Boolean getBorrado() {
+        return borrado;
+    }
+
+    public void setBorrado(Boolean borrado) {
+        this.borrado = borrado;
+    }
 
     public Long getId() {
         return id;
@@ -65,7 +81,7 @@ public class TipoEgreso implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.Egresos.TipoEgreso[ id=" + id + " ]";
+        return descripcion;
     }
-    
+
 }

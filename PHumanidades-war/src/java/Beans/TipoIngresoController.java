@@ -117,6 +117,10 @@ public class TipoIngresoController implements Serializable {
         return getFacade().findAll();
     }
 
+    public List<TipoIngreso> getItemsNoBorradosSelectOne() {
+        return getFacade().findNoBorrados();
+    }
+
     @FacesConverter(forClass = TipoIngreso.class)
     public static class TipoIngresoControllerConverter implements Converter {
 
