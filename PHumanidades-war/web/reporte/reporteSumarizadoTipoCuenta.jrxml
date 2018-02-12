@@ -12,7 +12,7 @@
 	<queryString>
 		<![CDATA[SELECT to_char(fechapago, 'TMMonth') as mes,extract(month from fechapago) as numero_mes,sum(importe),extract(year from fechapago) as año from ingresos
 where ingresos.fechapago between $P{fechaIni} and $P{fechaFin} and borrado='false' and anulado='false' and cuenta_id= $P{cuenta_id}
-group by numero_mes,mes,año order by numero_mes asc]]>
+group by numero_mes,mes,año order by año, numero_mes asc]]>
 	</queryString>
 	<field name="mes" class="java.lang.String"/>
 	<field name="numero_mes" class="java.lang.Double"/>
@@ -147,7 +147,7 @@ group by numero_mes,mes,año order by numero_mes asc]]>
 				</textElement>
 				<textFieldExpression><![CDATA["$ "+$F{sum}]]></textFieldExpression>
 			</textField>
-			<textField pattern="yyyy">
+			<textField pattern="">
 				<reportElement x="1" y="2" width="80" height="20" uuid="18983ad3-b9e4-45b1-a6cb-7cb798041847"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>

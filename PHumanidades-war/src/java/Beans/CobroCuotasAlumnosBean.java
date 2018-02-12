@@ -1066,7 +1066,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     throw new Exception("Valores Nulos");
                 }
                 if (this.cuentaLstBean.getCuenta() != null) {
-                    System.out.println("entro por aquí");
 
                     if (this.cuentaLstBean.getCuenta().getId().intValue() == 1) {
                         cue = "025";
