@@ -24,6 +24,7 @@
                              rowKey="#{item.id}"
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"
+                             rowStyleClass="#{item.borrado ? 'borrado' : null}"
                              >
 
                     <p:ajax event="rowSelect"   update="createButtonE viewButtonE editButtonE deleteButtonE"/>

@@ -96,7 +96,7 @@
                                              required="false">
                                 <f:converter binding="#{conversorTipoIngreso}"/>
                                 <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                <f:selectItems value="#{cobroCuotasAlumnosLstBean.tipoIngresos}"/>
+                                <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
                             </p:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>

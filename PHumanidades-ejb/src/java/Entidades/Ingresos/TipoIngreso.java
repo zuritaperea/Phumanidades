@@ -23,7 +23,7 @@ import javax.persistence.Table;
 @Table(name = "ingresos_tipo_ingreso")
 @NamedQueries({
     @NamedQuery(name = "TipoIngreso.UpdateBorrado", query = "UPDATE TipoIngreso p SET p.borrado = :estado WHERE p.id = :id"),
-    @NamedQuery(name = "TipoIngreso.findNoBorrados", query = "SELECT p FROM TipoIngreso p WHERE p.borrado=false")
+    @NamedQuery(name = "TipoIngreso.findNoBorrados", query = "SELECT p FROM TipoIngreso p where p.borrado IS NULL OR p.borrado = false")
 })
 public class TipoIngreso implements Serializable {
 

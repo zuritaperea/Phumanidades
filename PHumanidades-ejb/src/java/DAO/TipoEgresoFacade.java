@@ -36,6 +36,7 @@ public class TipoEgresoFacade extends AbstractFacade<TipoEgreso> implements Tipo
     @Override
     public List<TipoEgreso> findNoBorrados() {
         try {
+            em.getEntityManagerFactory().getCache().evictAll();
             Query q = em.createNamedQuery("TipoEgreso.findNoBorrados");
             return q.getResultList();
         } catch (Exception e) {

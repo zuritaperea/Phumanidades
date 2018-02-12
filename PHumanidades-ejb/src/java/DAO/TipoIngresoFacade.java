@@ -35,12 +35,13 @@ public class TipoIngresoFacade extends AbstractFacade<TipoIngreso> implements Ti
 
     @Override
     public List<TipoIngreso> findNoBorrados() {
-       try {
+        try {
+            em.getEntityManagerFactory().getCache().evictAll();
             Query q = em.createNamedQuery("TipoIngreso.findNoBorrados");
             return q.getResultList();
         } catch (Exception e) {
             return null;
         }
     }
-    
+
 }
