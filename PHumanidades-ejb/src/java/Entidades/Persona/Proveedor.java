@@ -24,10 +24,10 @@ import javax.persistence.OneToOne;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Proveedor.findByCuit",
-            query = "SELECT p FROM Proveedor p where p.cuit=:cuit"),
+            query = "SELECT p FROM Proveedor p where p.cuit LIKE :cuit"),
      @NamedQuery(name = "Proveedor.findByRazonSocial",
             query = "SELECT p FROM Proveedor p where p.razonSocial=:razonSocial"),
-    @NamedQuery(name = "Proveedor.buscarProveedorRazonSocial", query = "SELECT p FROM Proveedor p WHERE upper(p.razonSocial) LIKE upper(:razon)")})
+    @NamedQuery(name = "Proveedor.buscarProveedorRazonSocial", query = "SELECT p FROM Proveedor p WHERE upper(p.razonSocial) LIKE upper(:razonSocial)")})
 public class Proveedor implements Serializable {
 
     private static final long serialVersionUID = 1L;

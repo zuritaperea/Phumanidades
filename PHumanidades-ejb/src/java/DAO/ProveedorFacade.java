@@ -34,7 +34,7 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> implements Provee
     @Override
     public List<Proveedor> findByCuit(String cuit) {
         Query q = em.createNamedQuery("Proveedor.findByCuit");
-        q.setParameter("cuit", cuit);
+        q.setParameter("cuit",  "%" + cuit + "%");
         return q.getResultList();
     }
     
@@ -47,9 +47,9 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> implements Provee
     }
 
     @Override
-    public List<Proveedor> buscarProveedorRazonSocial(String razon) {
+    public List<Proveedor> buscarProveedorRazonSocial(String razonSocial) {
         Query q = em.createNamedQuery("Proveedor.buscarProveedorRazonSocial");
-        q.setParameter("razon", "%" + razon + "%");
+        q.setParameter("razonSocial", "%" + razonSocial + "%");
         return q.getResultList();
 
     }

@@ -29,8 +29,8 @@ import javax.persistence.Temporal;
     @NamedQuery(name = "Docente.findByDocenteDni",
             query = "SELECT d FROM Docente d where d.dni=:dni"),
 
-    @NamedQuery(name = "Docente.findLikeNombreApellido", query = "SELECT d FROM Docente d WHERE d.nombre LIKE :cadena "
-            + "OR d.apellido LIKE :cadena ORDER BY d.apellido, d.nombre")})
+    @NamedQuery(name = "Docente.findLikeNombreApellido", query = "SELECT d FROM Docente d WHERE upper(d.nombre) LIKE :cadena "
+            + "OR upper(d.apellido) LIKE :cadena ORDER BY d.apellido, d.nombre")})
 
 public class Docente implements Serializable {
 

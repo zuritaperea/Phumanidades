@@ -47,7 +47,7 @@ public class DocenteFacade extends AbstractFacade<Docente> implements DocenteFac
     @Override
     public List<Docente> findLikeNombreApellido(String cadena) {
         Query q = em.createNamedQuery("Docente.findLikeNombreApellido");
-        q.setParameter("cadena", "%" + cadena + "%");
+        q.setParameter("cadena", "%" + cadena.toUpperCase() + "%");
         return q.getResultList();
     }
 
