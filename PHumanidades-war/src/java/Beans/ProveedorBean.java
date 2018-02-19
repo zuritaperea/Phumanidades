@@ -348,7 +348,7 @@ public class ProveedorBean implements Serializable {
     public void buscarCuitRazon() {
         
         try {
-            if (tipoBusqueda.equals("cuit")) {
+            if (tipoBusqueda.equals("CUIT")) {
                 if (busqueda.equals("")) {
                     this.getProveedorLstBean().findAllProveedores();
                 } else {
@@ -372,7 +372,7 @@ public class ProveedorBean implements Serializable {
     //metodo cargar selectOneMenu DocenteFindDlg (opciones DNI, Apellido)  
     public void cargarLstTipoBusqueda() {
         lstTipoBusqueda = new ArrayList();
-        lstTipoBusqueda.add("Cuit");
+        lstTipoBusqueda.add("CUIT");
         lstTipoBusqueda.add("Razon Social");
     }
     
