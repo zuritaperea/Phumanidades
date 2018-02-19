@@ -33,7 +33,7 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> implements Provee
 
     @Override
     public List<Proveedor> findByCuit(String cuit) {
-        Query q = em.createNamedQuery("Proveedor.findByDocenteDni");
+        Query q = em.createNamedQuery("Proveedor.findByCuit");
         q.setParameter("cuit", cuit);
         return q.getResultList();
     }
