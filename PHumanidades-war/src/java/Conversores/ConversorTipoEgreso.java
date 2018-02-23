@@ -5,6 +5,7 @@
  */
 package Conversores;
 
+import Beans.TipoEgresoController;
 import DAO.TipoEgresoFacadeLocal;
 import Entidades.Egresos.TipoEgreso;
 import javax.ejb.EJB;
@@ -18,33 +19,35 @@ import javax.faces.convert.Converter;
  *
  * @author ruben
  */
-@ManagedBean(name="conversorTipoEgreso")
+@ManagedBean(name = "conversorTipoEgreso")
 @RequestScoped
-public class ConversorTipoEgreso implements Converter{
-    
-    @EJB
-    private TipoEgresoFacadeLocal tipoEgresoFacadeLocal;
-
-    public TipoEgresoFacadeLocal getTipoEgresoFacadeLocal() {
-        return tipoEgresoFacadeLocal;
-    }
-
-    public void setTipoEgresoFacadeLocal(TipoEgresoFacadeLocal tipoEgresoFacadeLocal) {
-        this.tipoEgresoFacadeLocal = tipoEgresoFacadeLocal;
-    }
+public class ConversorTipoEgreso implements Converter {
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if(value == null){
+        if (value == null || value.length() == 0) {
             return null;
         }
-        try{
-            TipoEgreso te = tipoEgresoFacadeLocal.find(Long.parseLong(value));
-            return te;
-        }catch(Exception ex){
-            ex.printStackTrace();
+
+        TipoEgresoController controller = (TipoEgresoController) context.getApplication().getELResolver().
+                getValue(context.getELContext(), null, "tipoEgresoController");
+        try {
+            return controller.getEjbFacade().find(getKey(value));
+        } catch (Exception e) {
             return null;
         }
+    }
+
+    java.lang.Long getKey(String value) {
+        java.lang.Long key;
+        key = Long.valueOf(value);
+        return key;
+    }
+
+    String getStringKey(java.lang.Long value) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(value);
+        return sb.toString();
     }
 
     @Override
@@ -55,6 +58,5 @@ public class ConversorTipoEgreso implements Converter{
             return "";
         }
     }
-    
-    
+
 }

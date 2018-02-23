@@ -674,66 +674,17 @@ public class PagosDocenteBean implements Serializable {
                 if (pagoDocente.getCarrera() != null) {
                     pagosDocenteRNLocal.create(pagoDocente);
 
-                    if (pagoDocente2.getFechaComprobante() != null && !pagoDocente2.getNumeroComprobante().isEmpty()) {
-                        pagoDocente2.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
-                        pagoDocente2.setFechaCreado(pagoDocente.getFechaCreado());
-                        pagoDocente2.setCreadoPor(pagoDocente.getCreadoPor());
-                        pagoDocente2.setAnulado(false);
-                        pagoDocente2.setBorrado(false);
-                        pagoDocente2.setFechaRegistro(pagoDocente.getFechaRegistro());
-                        pagoDocente2.setCarrera(pagoDocente.getCarrera());
-                        pagosDocenteRNLocal.create(pagoDocente2);
-                    }
-                    if (pagoDocente6.getFechaComprobante() != null && !pagoDocente3.getNumeroComprobante().isEmpty()) {
-                        pagoDocente3.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
-                        pagoDocente3.setFechaCreado(pagoDocente.getFechaCreado());
-                        pagoDocente3.setCreadoPor(pagoDocente.getCreadoPor());
-                        pagoDocente3.setAnulado(false);
-                        pagoDocente3.setBorrado(false);
-                        pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
-                        pagoDocente3.setCarrera(pagoDocente.getCarrera());
-                        pagosDocenteRNLocal.create(pagoDocente3);
-                    }
-                    if (pagoDocente4.getFechaComprobante() != null && !pagoDocente4.getNumeroComprobante().isEmpty()) {
-                        pagoDocente4.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
-                        pagoDocente4.setFechaCreado(pagoDocente.getFechaCreado());
-                        pagoDocente4.setCreadoPor(pagoDocente.getCreadoPor());
-                        pagoDocente4.setAnulado(false);
-                        pagoDocente4.setBorrado(false);
-                        pagoDocente4.setFechaRegistro(pagoDocente.getFechaRegistro());
-                        pagoDocente4.setCarrera(pagoDocente.getCarrera());
-                        pagosDocenteRNLocal.create(pagoDocente4);
-                    }
-                    if (pagoDocente5.getFechaComprobante() != null && !pagoDocente5.getNumeroComprobante().isEmpty()) {
-                        pagoDocente5.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
-                        pagoDocente5.setFechaCreado(pagoDocente.getFechaCreado());
-                        pagoDocente5.setCreadoPor(pagoDocente.getCreadoPor());
-                        pagoDocente5.setAnulado(false);
-                        pagoDocente5.setBorrado(false);
-                        pagoDocente5.setFechaRegistro(pagoDocente.getFechaRegistro());
-                        pagoDocente5.setCarrera(pagoDocente.getCarrera());
-                        pagosDocenteRNLocal.create(pagoDocente5);
-                    }
-                    if (pagoDocente6.getFechaComprobante() != null && !pagoDocente6.getNumeroComprobante().isEmpty()) {
-                        pagoDocente6.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
-                        pagoDocente6.setFechaCreado(pagoDocente.getFechaCreado());
-                        pagoDocente6.setCreadoPor(pagoDocente.getCreadoPor());
-                        pagoDocente6.setAnulado(false);
-                        pagoDocente6.setBorrado(false);
-                        pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
-                        pagoDocente6.setCarrera(pagoDocente.getCarrera());
-                        pagosDocenteRNLocal.create(pagoDocente6);
-                    }
-
+                    crearOtroComprobantes();
                     sMensaje = "El Pago fue Registrado";
                     severity = FacesMessage.SEVERITY_INFO;
                 } else {
                     throw new Exception("Si selecciono un Docente debe seleccionar su carrera");
                 }
             } else {
+                crearOtroComprobantes();
                 pagosDocenteRNLocal.create(pagoDocente);
                 sMensaje = "El Pago fue Registrado";
-                severity = FacesMessage.SEVERITY_INFO;
+                severity = FacesMessage.SEVERITY_INFO;            
             }
 
             //Agregar el pago a la lista
@@ -945,6 +896,73 @@ public class PagosDocenteBean implements Serializable {
         lstTipoEgreso = new ArrayList<SelectItem>();
         for (TipoEgreso t : tipoEgresoFacadeLocal.findNoBorrados()) {
             lstTipoEgreso.add(new SelectItem(t, t.getDescripcion()));
+        }
+    }
+
+    private void crearOtroComprobantes() throws Exception {
+        if (pagoDocente2.getFechaComprobante() != null && !pagoDocente2.getNumeroComprobante().isEmpty()) {
+            pagoDocente2.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+            pagoDocente2.setFechaCreado(pagoDocente.getFechaCreado());
+            pagoDocente2.setCreadoPor(pagoDocente.getCreadoPor());
+            pagoDocente2.setAnulado(false);
+            pagoDocente2.setBorrado(false);
+            pagoDocente2.setFechaRegistro(pagoDocente.getFechaRegistro());
+            if (pagoDocente.getCarrera() != null) {
+                pagoDocente2.setCarrera(pagoDocente.getCarrera());
+            }
+
+            pagosDocenteRNLocal.create(pagoDocente2);
+        }
+        if (pagoDocente3.getFechaComprobante() != null && !pagoDocente3.getNumeroComprobante().isEmpty()) {
+            pagoDocente3.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+            pagoDocente3.setFechaCreado(pagoDocente.getFechaCreado());
+            pagoDocente3.setCreadoPor(pagoDocente.getCreadoPor());
+            pagoDocente3.setAnulado(false);
+            pagoDocente3.setBorrado(false);
+            pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
+            if (pagoDocente.getCarrera() != null) {
+                pagoDocente3.setCarrera(pagoDocente.getCarrera());
+
+                pagosDocenteRNLocal.create(pagoDocente3);
+            }
+            if (pagoDocente4.getFechaComprobante() != null && !pagoDocente4.getNumeroComprobante().isEmpty()) {
+                pagoDocente4.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                pagoDocente4.setFechaCreado(pagoDocente.getFechaCreado());
+                pagoDocente4.setCreadoPor(pagoDocente.getCreadoPor());
+                pagoDocente4.setAnulado(false);
+                pagoDocente4.setBorrado(false);
+                pagoDocente4.setFechaRegistro(pagoDocente.getFechaRegistro());
+                if (pagoDocente.getCarrera() != null) {
+                    pagoDocente4.setCarrera(pagoDocente.getCarrera());
+                }
+
+                pagosDocenteRNLocal.create(pagoDocente4);
+            }
+            if (pagoDocente5.getFechaComprobante() != null && !pagoDocente5.getNumeroComprobante().isEmpty()) {
+                pagoDocente5.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                pagoDocente5.setFechaCreado(pagoDocente.getFechaCreado());
+                pagoDocente5.setCreadoPor(pagoDocente.getCreadoPor());
+                pagoDocente5.setAnulado(false);
+                pagoDocente5.setBorrado(false);
+                pagoDocente5.setFechaRegistro(pagoDocente.getFechaRegistro());
+                if (pagoDocente.getCarrera() != null) {
+                    pagoDocente5.setCarrera(pagoDocente.getCarrera());
+                }
+
+                pagosDocenteRNLocal.create(pagoDocente5);
+            }
+            if (pagoDocente6.getFechaComprobante() != null && !pagoDocente6.getNumeroComprobante().isEmpty()) {
+                pagoDocente6.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
+                pagoDocente6.setFechaCreado(pagoDocente.getFechaCreado());
+                pagoDocente6.setCreadoPor(pagoDocente.getCreadoPor());
+                pagoDocente6.setAnulado(false);
+                pagoDocente6.setBorrado(false);
+                pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
+                if (pagoDocente.getCarrera() != null) {
+                    pagoDocente6.setCarrera(pagoDocente.getCarrera());
+                }
+                pagosDocenteRNLocal.create(pagoDocente6);
+            }
         }
     }
 }

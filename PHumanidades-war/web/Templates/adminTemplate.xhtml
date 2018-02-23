@@ -116,13 +116,13 @@
                     (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante3"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante3"]').value)) +
                     (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante4"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante4"]').value)) +
                     (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante5"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante5"]').value)) +
-                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante6"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante6"]').value)))
+                    (isNaN(parseFloat(document.querySelector('input[id$="importeComprobante6"]').value)) ? 0 : parseFloat(document.querySelector('input[id$="importeComprobante6"]').value))).toFixed(2)
 
 
             if (isNaN(new_value))
                 alert("Debe ingresar solo valores numéricos");
             else
-                document.getElementById('frmPri:monto').value = new_value;
+                document.getElementById('frmPri:monto').value = Math.round(new_value * 100) / 100;
         }
 
         function calcularTotal() {
@@ -131,12 +131,12 @@
                     document.getElementById('frmPri:retencion').value -
                     document.getElementById('frmPri:iva').value -
                     document.getElementById('frmPri:impGanancias').value -
-                    document.getElementById('frmPri:suss').value);
+                    document.getElementById('frmPri:suss').value).toFixed(2);
 
             if (isNaN(new_value))
                 alert("Debe ingresar solo valores numéricos");
             else
-                document.getElementById('frmPri:total').value = new_value;
+                document.getElementById('frmPri:total').value = Math.round(new_value * 100) / 100;
 
         }
         function ocultarCheque() {
