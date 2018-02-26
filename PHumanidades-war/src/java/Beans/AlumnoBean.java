@@ -587,7 +587,7 @@ public class AlumnoBean {
 
     public void devolverAlumnoConsulta() {
         obtenerCohortesAlumnosConsulta();
-        RequestContext.getCurrentInstance().update("frmPri:otAlumno4");//outPutText Consulta Publica Alumnos
+        RequestContext.getCurrentInstance().update("frmPri:pnAlumno");//outPutText Consulta Publica Alumnos
 
     }
 
@@ -645,7 +645,6 @@ public class AlumnoBean {
 //el alumno y en las que esta activo solamente
             //System.out.println(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(this.alumnoLstBean.getAlumnoSelect()));
             this.cohorteLstBean.setLstCohortesAlumnosConsulta(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(this.alumnoLstBean.getAlumnoSelectConsulta()));
-            System.out.println(this.cohorteLstBean.getLstCohortesAlumnosConsulta());
             RequestContext.getCurrentInstance().update("frmPri:pnCohortesConsulta");
 
         } catch (Exception ex) {

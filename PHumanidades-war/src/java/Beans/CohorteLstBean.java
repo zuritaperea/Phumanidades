@@ -330,16 +330,12 @@ public class CohorteLstBean implements Serializable {
     public void obtenerDatosPagosCohorte(Alumno a, Cohorte cort) throws Exception {
         FacesMessage fm;
         if (cort != null) {
-            System.out.println("corterererr " + cort);
             cohorteSeleccionada = cort;
-
             try {
 
                 this.setLstCuotasAlumnoConsulta(ingresoCuotaRNLocal.findCuotasAlumnoCohorte(a, cohorteSeleccionada));
                 this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
-                System.out.println("list " + this.getLstCuotasAlumnoGeneral());
                 if (this.getLstCuotasAlumnoConsulta().isEmpty()) {
-                    System.out.println("list empty");
                     fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
                     FacesContext fc = FacesContext.getCurrentInstance();
                     fc.addMessage(null, fm);
