@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <b:navBar brandAlign="left" brand="Facultad de Humanidades" brandHref="index.xhtml" inverse="true" >
+            <b:navbarLinks >
+                <p:menubar>
+
+                    <p:submenu label="Consultas" icon="ui-icon-search" >
+
+                        <p:menuitem value="Ingresos por Cuotas Alumnos" action="#{navegarBean.frmConsultaCobrosAlumnos()}"></p:menuitem>
+                        <p:menuitem value="Ingresos por Alumno" action="#{navegarBean.frmConsultaIngresoAlumnos()}"></p:menuitem>                               
+                        <p:menuitem value="Última Cuota Alumnos" action="/ConsultaUltimaCuota.xhtml"></p:menuitem>              
+                        <p:separator />                        
+                    </p:submenu>         
+                </p:menubar>                              
+            </b:navbarLinks>
+            <b:navbarLinks pull="right"> <b:dropMenu  value="Bienvenido #{usuarioLogerBean.usuario.nombre}">  
+                    <b:navLink  value="Cerrar Sesión" href="logout.xhtml"></b:navLink>                               
+                </b:dropMenu> 
+            </b:navbarLinks>
+
+        </b:navBar> 
+    </ui:composition></html>

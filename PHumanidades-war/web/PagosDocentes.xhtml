@@ -742,7 +742,8 @@
 
             <p:column 
                 style="word-wrap:break-word;"
-                filterBy="#{item.docente.apellido}" >
+                filterBy="#{item.docente.apellido}" 
+                filterMatchMode="contains">
                 <f:facet name="header">
                     <h:outputText value="Docente"/>
                 </f:facet>
@@ -762,7 +763,8 @@
 
             <p:column
                 style="word-wrap:break-word;"
-                filterBy="#{item.proveedor.razonSocial}">
+                filterBy="#{item.proveedor.razonSocial}"
+                filterMatchMode="contains">
                 <f:facet name="header">
                     <h:outputText value="Proveedor"/>
                 </f:facet>

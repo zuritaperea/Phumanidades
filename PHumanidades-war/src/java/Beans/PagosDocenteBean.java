@@ -515,15 +515,12 @@ public class PagosDocenteBean implements Serializable {
         try {
 
             if (this.proveedorLstBean.getProveedorSelect() == null && this.docenteLstBean.getDocenteSeleccionado() == null) {
-                System.out.println("entro al if");
                 pagoDocenteAux = this.pagosDocenteRNLocal.buscarPagosDocenteId(this.pagoDocente.getId());
                 //System.out.println("proveedor " + this.pagoDocenteAux.getProveedor().getRazonSocial());
                 if (this.pagoDocenteAux.getProveedor() != null) {
-                    System.out.println("entro al proveedor not null");
                     this.proveedorLstBean.setProveedorSelect(this.pagoDocenteAux.getProveedor());
                 }
                 if (this.pagoDocenteAux.getDocente() != null) {
-                    System.out.println("entro al docente not null");
                     this.docenteLstBean.setDocenteSeleccionado(pagoDocenteAux.getDocente());
                 }
             }
@@ -568,6 +565,7 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaModificado(new Date());
             pagoDocente.setModificadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
+            crearOtroComprobantes();
             pagosDocenteRNLocal.edit(pagoDocente);
             //Agregar el pago a la lista
             this.getPagosDocenteLstBean().getLstPagosDocente().add(pagoDocente);
@@ -684,7 +682,7 @@ public class PagosDocenteBean implements Serializable {
                 crearOtroComprobantes();
                 pagosDocenteRNLocal.create(pagoDocente);
                 sMensaje = "El Pago fue Registrado";
-                severity = FacesMessage.SEVERITY_INFO;            
+                severity = FacesMessage.SEVERITY_INFO;
             }
 
             //Agregar el pago a la lista
@@ -910,7 +908,9 @@ public class PagosDocenteBean implements Serializable {
             if (pagoDocente.getCarrera() != null) {
                 pagoDocente2.setCarrera(pagoDocente.getCarrera());
             }
-
+            if (pagoDocente.getDocente() != null) {
+                pagoDocente2.setDocente(pagoDocente.getDocente());
+            }
             pagosDocenteRNLocal.create(pagoDocente2);
         }
         if (pagoDocente3.getFechaComprobante() != null && !pagoDocente3.getNumeroComprobante().isEmpty()) {
@@ -925,6 +925,9 @@ public class PagosDocenteBean implements Serializable {
 
                 pagosDocenteRNLocal.create(pagoDocente3);
             }
+            if (pagoDocente.getDocente() != null) {
+                pagoDocente3.setDocente(pagoDocente.getDocente());
+            }
             if (pagoDocente4.getFechaComprobante() != null && !pagoDocente4.getNumeroComprobante().isEmpty()) {
                 pagoDocente4.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
                 pagoDocente4.setFechaCreado(pagoDocente.getFechaCreado());
@@ -935,7 +938,9 @@ public class PagosDocenteBean implements Serializable {
                 if (pagoDocente.getCarrera() != null) {
                     pagoDocente4.setCarrera(pagoDocente.getCarrera());
                 }
-
+                if (pagoDocente.getDocente() != null) {
+                    pagoDocente4.setDocente(pagoDocente.getDocente());
+                }
                 pagosDocenteRNLocal.create(pagoDocente4);
             }
             if (pagoDocente5.getFechaComprobante() != null && !pagoDocente5.getNumeroComprobante().isEmpty()) {
@@ -948,7 +953,9 @@ public class PagosDocenteBean implements Serializable {
                 if (pagoDocente.getCarrera() != null) {
                     pagoDocente5.setCarrera(pagoDocente.getCarrera());
                 }
-
+                if (pagoDocente.getDocente() != null) {
+                    pagoDocente5.setDocente(pagoDocente.getDocente());
+                }
                 pagosDocenteRNLocal.create(pagoDocente5);
             }
             if (pagoDocente6.getFechaComprobante() != null && !pagoDocente6.getNumeroComprobante().isEmpty()) {
@@ -960,6 +967,9 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
                 if (pagoDocente.getCarrera() != null) {
                     pagoDocente6.setCarrera(pagoDocente.getCarrera());
+                }
+                if (pagoDocente.getDocente() != null) {
+                    pagoDocente6.setDocente(pagoDocente.getDocente());
                 }
                 pagosDocenteRNLocal.create(pagoDocente6);
             }
