@@ -159,14 +159,14 @@ public class ConsultaPagosGeneralesBean implements Serializable {
      * @return fechaFinAumentada
      */
     public Date getFechaFin() {
-        if (fechaFin != null) {
-            Calendar c = Calendar.getInstance();
-            c.setTime(this.fechaFin);
-            c.add(Calendar.DATE, 1);
-            return c.getTime();
-        } else {
-            return fechaFin;
-        }
+//        if (fechaFin != null) {
+//            Calendar c = Calendar.getInstance();
+//            c.setTime(this.fechaFin);
+//            c.add(Calendar.DATE, 1);
+//            return c.getTime();
+//        } else {
+        return fechaFin;
+//        }
     }
 
     public void setFechaFin(Date fechaFin) {
@@ -267,7 +267,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                             + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                             + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                             + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                            + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHACOMPROBANTE DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                             new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
                     System.out.println(query);
                     parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
@@ -279,7 +279,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                             + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                             + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                             + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
-                            + ") ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            + ") ORDER BY e.FECHACOMPROBANTE DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                             new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
                 }
 
@@ -321,7 +321,6 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             Connection conect = dataSource.getConnection();
-            System.out.println("funcionando");
 
             try {
 
@@ -335,7 +334,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                             + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                             + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                             + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                            + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHACOMPROBANTE DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                             new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
                     System.out.println(query);
                     parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
@@ -347,7 +346,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                             + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                             + "JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                             + "AND NOT ((e.PROVEEDOR_ID IS NULL))) AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
-                            + ") ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                            + ") ORDER BY e.FECHACOMPROBANTE DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                             new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
                 }
 
@@ -420,23 +419,22 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + " LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
-                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                                + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "')) ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + " AND (e.FECHACOMPROBANTE BETWEEN '%s' AND '%s' )) "
+                                + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "')) ORDER BY e.FECHACOMPROBANTE ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
                         System.out.println(query);
                         parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
 
                     } else {
 
-                        System.out.println("es distinto de null");
                         query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
                                 + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
                                 + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
-                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                                + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + " AND (e.FECHACOMPROBANTE BETWEEN '%s' AND '%s' )) "
+                                + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHACOMPROBANTE ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
                         System.out.println(query);
                         parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
@@ -464,8 +462,8 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
-                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "'))"
-                                + ") ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + " AND (e.FECHACOMPROBANTE BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "'))"
+                                + ") ORDER BY e.FECHACOMPROBANTE ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
                     } else {
                         query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
@@ -474,8 +472,8 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                                 + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
-                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
-                                + ") ORDER BY e.FECHAREGISTRO DESC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + " AND (e.FECHACOMPROBANTE BETWEEN '%s' AND '%s' ))"
+                                + ") ORDER BY e.FECHACOMPROBANTE ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
                     }
                     parametros.put("descripcion", "005-0025");

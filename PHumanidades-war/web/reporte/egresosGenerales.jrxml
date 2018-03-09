@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="egresosGenerales" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="10" bottomMargin="10" uuid="71d6fb3f-57ba-48bd-bab1-dd4d782992cb">
 	<property name="ireport.zoom" value="1.8150000000000104"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="550"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fecha_inicio" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -87,13 +87,6 @@
 	</variable>
 	<title>
 		<band height="70" splitType="Stretch">
-			<textField pattern="MMMMM-yy">
-				<reportElement x="281" y="50" width="100" height="20" uuid="333f0e4e-24aa-4b3d-9ab0-4419631c2a73"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{fecha_actual}]]></textFieldExpression>
-			</textField>
 			<textField>
 				<reportElement x="716" y="50" width="80" height="20" uuid="ddf0703c-cdd5-4658-98d2-67ccc334a11a"/>
 				<textElement textAlignment="Right"/>
@@ -114,6 +107,19 @@
 				<reportElement x="1" y="0" width="831" height="50" uuid="1f0132a7-2feb-4aa4-8a77-ea211e4ba609"/>
 				<imageExpression><![CDATA[$P{escudo}]]></imageExpression>
 			</image>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="146" y="50" width="100" height="20" uuid="df032b0b-0327-4b41-b479-531a320a4b87"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="270" y="50" width="88" height="20" uuid="ce3cd21b-a781-4c5e-a2c3-9baeaa915314"/>
+				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="254" y="50" width="16" height="20" uuid="f12fa732-5228-4df4-9780-f960143e6b4b"/>
+				<text><![CDATA[al]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -490,7 +496,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montocondescuentos}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" pattern="">
 				<reportElement stretchType="RelativeToTallestObject" x="258" y="0" width="72" height="20" uuid="2fb67fbe-761f-4285-b11a-e9c48e0e09e4"/>
 				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="0.75"/>
@@ -502,7 +508,7 @@
 				<textElement verticalAlignment="Middle">
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{concepto}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{concepto}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="731" y="0" width="50" height="20" uuid="ba1f8de6-5d6e-45f9-92f2-705698e6b616"/>

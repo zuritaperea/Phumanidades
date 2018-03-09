@@ -408,6 +408,27 @@ public class PagosDocenteBean implements Serializable {
             if (this.proveedorLstBean.getProveedorSelect() != null) {
                 this.pagosDocenteLstBean.setDocProv(2);
             }
+            try {
+                this.carreraLstBean.setCarreraSeleccionada(new Carrera());
+            } catch (Exception ex) {
+            }
+            try {
+                this.docenteLstBean.setDocenteSeleccionado(new Docente());
+            } catch (Exception ex) {
+            }
+            try {
+                this.proveedorLstBean.setProveedorSelect(new Proveedor());
+            } catch (Exception ex) {
+            }
+            try {
+                this.carreraLstBean.setLstCarrerasDocente(new ArrayList<Carrera>());
+            } catch (Exception ex) {
+            }
+
+            this.carreraLstBean.setCarreraSeleccionada(new Carrera());
+            this.docenteLstBean.setDocenteSeleccionado(new Docente());
+            this.proveedorLstBean.setProveedorSelect(new Proveedor());
+            this.carreraLstBean.setLstCarrerasDocente(new ArrayList<Carrera>());
             this.setPagoDocente2(new PagosDocente());
             this.setPagoDocente3(new PagosDocente());
             this.setPagoDocente4(new PagosDocente());

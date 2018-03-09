@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -28,6 +29,16 @@ public class Usuarios implements Serializable {
     private String Nombre;
     private String usuario;
     private String password;
+    @OneToOne
+    private Grupo grupo;
+
+    public Grupo getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(Grupo grupo) {
+        this.grupo = grupo;
+    }
 
     public Long getId() {
         return id;

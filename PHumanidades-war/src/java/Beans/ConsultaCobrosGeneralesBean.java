@@ -193,7 +193,7 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
         Document pdf = (Document) document;
         pdf.open();
         pdf.newPage();
-        pdf.setPageSize(PageSize.A4);
+        pdf.setPageSize(PageSize.A4.rotate());
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         String logo = externalContext.getRealPath("") + File.separator + "Imagenes" + File.separator + "LogoFacultadHumanidades70x70.png";
         //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
