@@ -12,7 +12,7 @@
 
 
     <ui:define name="content">
-    <p:growl id="grConsultaPagosGenerales" showDetail="true" sticky="true" />
+        <p:growl id="grConsultaPagosGenerales" showDetail="true" sticky="true" />
         <h1>
 
             <h:outputText value="Reporte egresos por Pagos Generales"
@@ -56,27 +56,27 @@
                         <h:outputText value="Rubro Presupuestario:   "/><br/>
                         <p:selectOneMenu id="somIDType"                                           
                                          value="#{consultaPagosGeneralesBean.rubroPresupuestario}"                                                     
-                                        >
-                              <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+                                         >
+                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                                <f:selectItems value="#{pagosDocenteBean.lstRubroPresupuestario}"/>
+                            <f:selectItems value="#{pagosDocenteBean.lstRubroPresupuestario}"/>
                         </p:selectOneMenu>
                     </td>
-                    
+
                 </tr>
             </table>
-             <div>
-            <p:messages autoUpdate="true"/>
-        </div>
-        <p:growl id="message" showDetail="true"  />
-        <div class="camposTexto"
-             style="float: left; margin: 10px;
-             width: 100%;
-             text-align: center;">
-            <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('pdf')}" value="Ver PDF" /> 
-            <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('excel')}" value="Ver Excel" />
-
-        </div>
+            <div>
+                <p:messages autoUpdate="true"/>
+            </div>
+            <p:growl id="message" showDetail="true"  />
+            <p:panel header="Por fecha de Registro">
+                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('pdf')}" value="Ver PDF" /> 
+                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('excel')}" value="Ver Excel" />
+            </p:panel>
+            <p:panel header="Por fecha de Comprobante">
+                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienesFechaRegistro('pdf')}" value="Ver PDF" /> 
+                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienesFechaRegistro('excel')}" value="Ver Excel" />
+            </p:panel>
         </p:tab>
 
 

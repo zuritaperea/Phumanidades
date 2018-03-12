@@ -537,4 +537,154 @@ public class ConsultaPagosGeneralesBean implements Serializable {
 
     }
 
+    public void generarConsultaPagosBienesFechaRegistro(String type) throws SQLException {
+
+        try {
+
+            InitialContext initialContext = new InitialContext();
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
+            Connection conect = dataSource.getConnection();
+
+            try {
+
+                HashMap parametros = new HashMap();
+                String query = "";
+                if (this.getCuentaLstBean().getCuenta() != null) {
+                    if (this.rubroPresupuestario != null) {
+                        String tipo = "";
+                        if (this.rubroPresupuestario.getName().equals("Bienes de Consumo")) {
+                            tipo = "BIENES_DE_CONSUMO";
+                        }
+                        if (this.rubroPresupuestario.getName().equals("Servicios no Personales")) {
+                            tipo = "SERVICIOS_NO_PERSONALES";
+                        }
+                        if (this.rubroPresupuestario.getName().equals("Bienes de Capital")) {
+                            tipo = "BIENES_DE_CAPITAL";
+                        }
+                        if (this.rubroPresupuestario.getName().equals("Transferencias")) {
+                            tipo = "TRANSFERENCIAS";
+                        }
+                        query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
+                                + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                                + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                                + " LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
+                                + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "')) ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
+                        System.out.println(query);
+                        parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
+
+                    } else {
+
+                        query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
+                                + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                                + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                                + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
+                                + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
+                        System.out.println(query);
+                        parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
+
+                    }
+
+                } else {
+                    if (this.rubroPresupuestario != null) {
+                        String tipo = "";
+                        if (this.rubroPresupuestario.getName().equals("Bienes de Consumo")) {
+                            tipo = "BIENES_DE_CONSUMO";
+                        }
+                        if (this.rubroPresupuestario.getName().equals("Servicios no Personales")) {
+                            tipo = "SERVICIOS_NO_PERSONALES";
+                        }
+                        if (this.rubroPresupuestario.getName().equals("Bienes de Capital")) {
+                            tipo = "BIENES_DE_CAPITAL";
+                        }
+                        if (this.rubroPresupuestario.getName().equals("Transferencias")) {
+                            tipo = "TRANSFERENCIAS";
+                        }
+                        query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
+                                + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                                + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                                + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "'))"
+                                + ") ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
+                    } else {
+                        query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
+                                + "e.FORMAPAGO, e.IMPUESTOGANANCIA, e.IVA, e.MONTO, e.MONTOCONDESCUENTOS, e.NUMEROCHEQUE, "
+                                + "e.NUMEROCOMPROBANTE, e.IMPORTECOMPROBANTE, e.NUMEROORDENPAGO, e.RETENCIONIB, e.RUBROPRESUPUESTARIO, e.SUSS, "
+                                + "e.TIPOCOMPROBANTE, e.CARRERA_ID, e.CUENTA_ID, e.DOCENTE_ID, e.PROVEEDOR_ID, d.apellido, "
+                                + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
+                                + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
+                                + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
+                                + ") ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
+                    }
+                    parametros.put("descripcion", "005-0025");
+                }
+
+                if (this.fechaFin != null && this.fechaIni != null) {
+                    Calendar c = Calendar.getInstance();
+                    this.feha_fin_real = this.fechaFin;
+                    c.setTime(this.fechaFin);
+                    c.add(Calendar.DATE, 1);  // number of days to add
+                    this.fechaFin = c.getTime();  // fechaFin is now the new date
+
+                    //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
+                    //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
+                }
+                parametros.put("fecha_inicio", this.fechaIni);
+                parametros.put("fecha_fin", this.feha_fin_real);
+                parametros.put("escudo", escudo1);
+                parametros.put("query", query);
+                parametros.put("fecha_actual", new SimpleDateFormat("MMMM-yy").format(new Date()));
+
+                System.out.println(escudo1);
+//funcionando
+
+                ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+                String reportPath;
+                if (type.equals("pdf")) {
+                    reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "egresosGenerales.jasper";
+                } else {
+                    reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "egresosGeneralesXLS.jasper";
+                }
+                JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+                HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                if (type.equals("pdf")) {
+                    httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+                    JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                } else {
+                    httpServletResponse.addHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                    httpServletResponse.addHeader("Content-disposition", "attachment; filename=egresos.xlsx");
+                    net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter exporter = new net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter();
+                    exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                    exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, servletOutputStream);
+
+                    exporter.exportReport();
+                }
+
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                FacesContext.getCurrentInstance().responseComplete();
+
+            } catch (Exception ex) {
+                System.out.println(ex + "CAUSA: " + ex.getCause());
+                ex.printStackTrace();
+            }
+
+        }//fin generar
+        catch (NamingException ex) {
+            Logger.getLogger(ConsultaPagosGeneralesBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 }

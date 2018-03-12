@@ -48,6 +48,13 @@
                                  value="#{usuarioBean.usuario.usuario}" 
                                  title="Usuario" />
 
+                    <p:outputLabel value="Grupo" for="itGrupo" />
+                    <p:selectOneMenu id="itGrupo" 
+                                     value="#{usuarioBean.usuario.grupo}"
+                                     >
+                        <f:selectItem itemLabel="Seleccionar" noSelectionOption="true"/>
+                        <f:selectItems value="#{grupoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
 
 
                     <h:outputText value="*Contraseña:"/>
@@ -153,7 +160,7 @@
 
             </p:column>
             <p:column 
-                      style="word-wrap:break-word;">
+                style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Nombre"/>
                 </f:facet>
@@ -161,7 +168,7 @@
             </p:column>
 
             <p:column 
-                      style="word-wrap:break-word;">
+                style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Apellido"/>
                 </f:facet>
@@ -169,13 +176,19 @@
             </p:column>
 
             <p:column 
-                      style="word-wrap:break-word;">
+                style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Usuario"/>
                 </f:facet>
                 <h:outputText value="#{item.usuario}"/>
             </p:column>
-
+            <p:column 
+                style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Grupo"/>
+                </f:facet>
+                <h:outputText value="#{item.grupo.descripcion}"/>
+            </p:column>
         </p:dataTable>
     </ui:define>
 </ui:composition>

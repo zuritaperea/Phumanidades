@@ -13,6 +13,8 @@
                 <p:menubar>
                     <p:submenu label="Gestiones" icon="ui-icon-plus" >
                         <p:menuitem value="Usuarios" action="#{navegarBean.frmUsuario()}"></p:menuitem>
+                        <p:menuitem value="Grupos" ajax="false" action="/paginas/grupo/List.xhtml?faces-redirect=true"></p:menuitem>    
+
                         <p:separator />
                         <p:menuitem value="Docentes" action="#{navegarBean.frmDocente()}"></p:menuitem>
                         <p:menuitem value="Alumnos" action="#{navegarBean.frmAlumno()}"></p:menuitem>

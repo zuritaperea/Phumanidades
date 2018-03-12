@@ -166,10 +166,10 @@
             <h:form id="frmPri" enctype="multipart/form-data">
 
                 <ui:include src="dialogosSesion.xhtml"/>
-                <c:if test="#{!usuarioLogerBean.usuario.usuario.equals('consulta')}" >
+                <c:if test="#{!usuarioLogerBean.isGrupo('consulta')}" >
                     <ui:include src="menu.xhtml"/>
                 </c:if>
-                <c:if test="#{usuarioLogerBean.usuario.usuario.equals('consulta')}" >
+                <c:if test="#{usuarioLogerBean.isGrupo('consulta')}" >
                     <ui:include src="menuSoloConsulta.xhtml"/>
                 </c:if>
                 <b:panel>

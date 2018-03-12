@@ -47,5 +47,15 @@ public class UsuarioLogerBean implements Serializable {
             String loginURL = baseURL + "login.xhtml?faces-redirect=true";
             response.sendRedirect(loginURL);
         }
+
     }
+
+    public boolean isGrupo(String descripcion) {
+        try {
+            return this.usuario.getGrupo().getDescripcion().equals(descripcion);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

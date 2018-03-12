@@ -26,6 +26,11 @@
     <class>Entidades.Persona.Telefono</class>
     <class>Entidades.Usuarios.Usuarios</class>
     <class>Entidades.Ingresos.Ingreso</class>
+    <class>Entidades.Base.Base</class>
+    <class>Entidades.Egresos.PagosDocente</class>
+    <class>Entidades.Egresos.TipoEgreso</class>
+    <class>Entidades.Ingresos.TipoIngreso</class>
+    <class>Entidades.Usuarios.Grupo</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>
