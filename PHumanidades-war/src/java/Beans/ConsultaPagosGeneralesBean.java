@@ -571,7 +571,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + " LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                                 + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                                + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "')) ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "')) ORDER BY e.NUMEROORDENPAGO, e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
                         System.out.println(query);
                         parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
@@ -585,7 +585,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
                                 + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                                + "AND (e.CUENTA_ID = %d )) ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + "AND (e.CUENTA_ID = %d )) ORDER BY e.NUMEROORDENPAGO, e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
                         System.out.println(query);
                         parametros.put("descripcion", this.getCuentaLstBean().getCuenta().toString());
@@ -614,7 +614,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                                 + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO = '" + tipo + "'))"
-                                + ") ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + ") ORDER BY e.NUMEROORDENPAGO, e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
                     } else {
                         query = String.format("SELECT  e.ANULADO, e.BORRADO, e.CONCEPTO, e.FECHACOMPROBANTE, "
@@ -624,7 +624,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                                 + "d.nombre, p.razonsocial FROM egresos e LEFT OUTER JOIN docente d ON  e.DOCENTE_ID = d.ID "
                                 + "LEFT JOIN proveedor p ON e.PROVEEDOR_ID = p.ID WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
                                 + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' ))"
-                                + ") ORDER BY e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                                + ") ORDER BY e.NUMEROORDENPAGO, e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                                 new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
                     }
                     parametros.put("descripcion", "005-0025");
