@@ -943,12 +943,12 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
             if (pagoDocente.getCarrera() != null) {
                 pagoDocente3.setCarrera(pagoDocente.getCarrera());
-
-                pagosDocenteRNLocal.create(pagoDocente3);
             }
             if (pagoDocente.getDocente() != null) {
                 pagoDocente3.setDocente(pagoDocente.getDocente());
             }
+            pagosDocenteRNLocal.create(pagoDocente3);
+
             if (pagoDocente4.getFechaComprobante() != null && !pagoDocente4.getNumeroComprobante().isEmpty()) {
                 pagoDocente4.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
                 pagoDocente4.setFechaCreado(pagoDocente.getFechaCreado());
