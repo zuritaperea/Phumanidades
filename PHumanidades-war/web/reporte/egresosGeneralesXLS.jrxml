@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="egresosGenerales" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="832" leftMargin="5" rightMargin="5" topMargin="10" bottomMargin="10" uuid="71d6fb3f-57ba-48bd-bab1-dd4d782992cb">
-	<property name="ireport.zoom" value="2.657341500000016"/>
-	<property name="ireport.x" value="1276"/>
+	<property name="ireport.zoom" value="1.8150000000000104"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fecha_inicio" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -85,6 +85,16 @@
 	<variable name="importecomprobante_2" class="java.lang.Integer" calculation="Sum">
 		<variableExpression><![CDATA[$F{importecomprobante}]]></variableExpression>
 	</variable>
+	<group name="OrdenPago">
+		<groupExpression><![CDATA[$F{numeroordenpago}]]></groupExpression>
+		<groupFooter>
+			<band height="1">
+				<line>
+					<reportElement x="0" y="0" width="842" height="1" uuid="cd9a228d-51a1-4c66-bf26-1690104ddc83"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
 	<title>
 		<band height="70" splitType="Stretch">
 			<textField>
@@ -108,24 +118,24 @@
 				<imageExpression><![CDATA[$P{escudo}]]></imageExpression>
 			</image>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="294" y="50" width="88" height="20" uuid="11cbbbed-93bf-4950-90a0-dbd8df9804d5"/>
-				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
-			</textField>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="170" y="50" width="100" height="20" uuid="fc0dec4f-b969-4d87-97af-aabff67309e1"/>
+				<reportElement x="146" y="50" width="100" height="20" uuid="df032b0b-0327-4b41-b479-531a320a4b87"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
 			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="270" y="50" width="88" height="20" uuid="ce3cd21b-a781-4c5e-a2c3-9baeaa915314"/>
+				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="278" y="50" width="16" height="20" uuid="a51622a3-97b6-4267-b159-7ff9b7bb7f46"/>
+				<reportElement x="254" y="50" width="16" height="20" uuid="f12fa732-5228-4df4-9780-f960143e6b4b"/>
 				<text><![CDATA[al]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="27" splitType="Stretch">
+		<band height="28" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="4" width="832" height="23" uuid="0c049f57-847f-4745-8eba-98329f847f7f"/>
+				<reportElement x="0" y="0" width="832" height="28" uuid="0c049f57-847f-4745-8eba-98329f847f7f"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -360,9 +370,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="60" height="20" uuid="627eb7ed-eb72-4bef-99ec-bbc31dbd386b"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
@@ -374,9 +384,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="60" y="0" width="63" height="20" uuid="5728240f-1fd8-45f7-8e80-2d73b1fb5f23"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
@@ -388,9 +398,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="781" y="0" width="51" height="20" uuid="d1470776-244f-4a63-8256-f3dae638c514"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -402,9 +412,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="455" y="0" width="45" height="20" uuid="1f112424-f345-40be-8d2d-b823b71149f8"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -416,9 +426,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="330" y="0" width="67" height="20" uuid="102ac9f4-c2e4-4d79-8533-69a7c49795dc"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
@@ -430,9 +440,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="123" y="0" width="42" height="20" uuid="be2c2b34-29aa-4ed9-8281-5b6900f01e80"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
@@ -444,9 +454,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="590" y="0" width="47" height="20" uuid="a49ca0ba-f082-4caa-8050-718b7c5dda42"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -458,9 +468,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="637" y="0" width="48" height="20" uuid="41c20100-ad25-4585-8503-0ad71a7f96d4"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -472,9 +482,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="685" y="0" width="46" height="20" uuid="3934f76e-5c2d-4e58-b3fa-33e24970073d"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -486,9 +496,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="542" y="0" width="48" height="20" uuid="0561c796-c084-4442-a879-c5a0224b35eb"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -496,13 +506,13 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{montocondescuentos}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
+			<textField isStretchWithOverflow="true" pattern="">
 				<reportElement stretchType="RelativeToTallestObject" x="258" y="0" width="72" height="20" uuid="2fb67fbe-761f-4285-b11a-e9c48e0e09e4"/>
-				<box topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">
@@ -514,9 +524,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="731" y="0" width="50" height="20" uuid="ba1f8de6-5d6e-45f9-92f2-705698e6b616"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.0"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -528,9 +538,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="397" y="0" width="58" height="20" uuid="45ad7096-a6ac-4997-8c8e-33fc2820eb93"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -542,9 +552,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="500" y="0" width="42" height="20" uuid="485604ff-e282-4810-90b7-bef5e8786f76"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -556,9 +566,9 @@
 				<reportElement stretchType="RelativeToTallestObject" x="165" y="0" width="93" height="20" uuid="29b426e8-465c-4943-b2c6-b3489be51942"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
+					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
+					<bottomPen lineWidth="0.5"/>
 					<rightPen lineWidth="0.75"/>
 				</box>
 				<textElement verticalAlignment="Middle">

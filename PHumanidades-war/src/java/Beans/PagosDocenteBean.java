@@ -926,11 +926,14 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente2.setAnulado(false);
             pagoDocente2.setBorrado(false);
             pagoDocente2.setFechaRegistro(pagoDocente.getFechaRegistro());
-            if (pagoDocente.getCarrera() != null) {
-                pagoDocente2.setCarrera(pagoDocente.getCarrera());
-            }
-            if (pagoDocente.getDocente() != null) {
-                pagoDocente2.setDocente(pagoDocente.getDocente());
+
+            if (pagoDocente2.getProveedor() == null) {
+                if (pagoDocente.getDocente() != null) {
+                    pagoDocente2.setDocente(pagoDocente.getDocente());
+                    if (pagoDocente.getCarrera() != null) {
+                        pagoDocente2.setCarrera(pagoDocente.getCarrera());
+                    }
+                }
             }
             pagosDocenteRNLocal.create(pagoDocente2);
         }
@@ -941,11 +944,13 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente3.setAnulado(false);
             pagoDocente3.setBorrado(false);
             pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
-            if (pagoDocente.getCarrera() != null) {
-                pagoDocente3.setCarrera(pagoDocente.getCarrera());
-            }
-            if (pagoDocente.getDocente() != null) {
-                pagoDocente3.setDocente(pagoDocente.getDocente());
+            if (pagoDocente3.getProveedor() == null) {
+                if (pagoDocente.getDocente() != null) {
+                    pagoDocente3.setDocente(pagoDocente.getDocente());
+                    if (pagoDocente.getCarrera() != null) {
+                        pagoDocente3.setCarrera(pagoDocente.getCarrera());
+                    }
+                }
             }
             pagosDocenteRNLocal.create(pagoDocente3);
 
@@ -956,11 +961,13 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente4.setAnulado(false);
                 pagoDocente4.setBorrado(false);
                 pagoDocente4.setFechaRegistro(pagoDocente.getFechaRegistro());
-                if (pagoDocente.getCarrera() != null) {
-                    pagoDocente4.setCarrera(pagoDocente.getCarrera());
-                }
-                if (pagoDocente.getDocente() != null) {
-                    pagoDocente4.setDocente(pagoDocente.getDocente());
+                if (pagoDocente4.getProveedor() == null) {
+                    if (pagoDocente.getDocente() != null) {
+                        pagoDocente4.setDocente(pagoDocente.getDocente());
+                        if (pagoDocente.getCarrera() != null) {
+                            pagoDocente4.setCarrera(pagoDocente.getCarrera());
+                        }
+                    }
                 }
                 pagosDocenteRNLocal.create(pagoDocente4);
             }
@@ -971,11 +978,13 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente5.setAnulado(false);
                 pagoDocente5.setBorrado(false);
                 pagoDocente5.setFechaRegistro(pagoDocente.getFechaRegistro());
-                if (pagoDocente.getCarrera() != null) {
-                    pagoDocente5.setCarrera(pagoDocente.getCarrera());
-                }
-                if (pagoDocente.getDocente() != null) {
-                    pagoDocente5.setDocente(pagoDocente.getDocente());
+                if (pagoDocente5.getProveedor() == null) {
+                    if (pagoDocente.getDocente() != null) {
+                        pagoDocente5.setDocente(pagoDocente.getDocente());
+                        if (pagoDocente.getCarrera() != null) {
+                            pagoDocente5.setCarrera(pagoDocente.getCarrera());
+                        }
+                    }
                 }
                 pagosDocenteRNLocal.create(pagoDocente5);
             }
@@ -986,11 +995,13 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente6.setAnulado(false);
                 pagoDocente6.setBorrado(false);
                 pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
-                if (pagoDocente.getCarrera() != null) {
-                    pagoDocente6.setCarrera(pagoDocente.getCarrera());
-                }
-                if (pagoDocente.getDocente() != null) {
-                    pagoDocente6.setDocente(pagoDocente.getDocente());
+                if (pagoDocente6.getProveedor() == null) {
+                    if (pagoDocente.getDocente() != null) {
+                        pagoDocente6.setDocente(pagoDocente.getDocente());
+                        if (pagoDocente.getCarrera() != null) {
+                            pagoDocente6.setCarrera(pagoDocente.getCarrera());
+                        }
+                    }
                 }
                 pagosDocenteRNLocal.create(pagoDocente6);
             }

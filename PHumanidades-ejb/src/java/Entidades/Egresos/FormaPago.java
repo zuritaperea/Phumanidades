@@ -14,7 +14,8 @@ public enum FormaPago {
     CHEQUE("Cheque"),
     DEPOSITO("Deposito"),
     TARJETA("Tarjeta"),
-    RAPIPAGO("Rapipago");
+    RAPIPAGO("Rapipago"),
+    DEBITO("Debito");
     private String name;
 
     private FormaPago(String name) {

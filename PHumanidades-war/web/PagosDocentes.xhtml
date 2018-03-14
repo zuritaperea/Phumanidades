@@ -34,8 +34,8 @@
                     </h:panelGrid>
 
 
-                    <h:panelGrid cellpadding="0" cellspacing="0" columns="13"                                  
-                                 columnClasses="contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla ">
+                    <h:panelGrid cellpadding="0" cellspacing="0" columns="15"                                  
+                                 columnClasses="contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla,contenidoTabla ">
                         <h:outputText value="Fecha Comp." styleClass="headerTabla" />
                         <h:outputText value="Tipo de Egreso" styleClass="headerTabla" />
                         <h:outputText value="Tipo Compr" styleClass="headerTabla" />
@@ -49,6 +49,7 @@
                         <h:outputText value="Nro. Cheque" styleClass="headerTabla" />
                         <h:outputText value="Nro Comp." styleClass="headerTabla" />
                         <h:outputText value="Concepto" styleClass="headerTabla" />
+                        <h:outputText value="Docente" styleClass="headerTabla" />
                         <h:outputText value="Proveedor" styleClass="headerTabla" />
 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.fechaComprobante}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -66,8 +67,8 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroCheque}" />
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.numeroComprobante}" />
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.concepto}" />                   
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente.docente.apellido}, #{pagosDocenteBean.pagoDocente.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente.docente!=null}" />
-                        <h:outputText value=" #{pagosDocenteBean.pagoDocente.proveedor.razonSocial}"  rendered="#{pagosDocenteBean.pagoDocente.proveedor!=null}"/>
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.docente.apellido}, #{pagosDocenteBean.pagoDocente.docente.nombre}"  />
+                        <h:outputText value=" #{pagosDocenteBean.pagoDocente.proveedor.razonSocial}" />
 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente2.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -84,8 +85,8 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente2.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente2.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente2.concepto}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}"/>                   
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.docente.apellido}, #{pagosDocenteBean.pagoDocente2.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente2.docente!=null}" />
-                        <h:outputText value=" #{pagosDocenteBean.pagoDocente2.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente2.proveedor!=null}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente2.docente.apellido}, #{pagosDocenteBean.pagoDocente2.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}" />
+                        <h:outputText value=" #{pagosDocenteBean.pagoDocente2.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente2.id!=null}" />
 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente3.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -102,8 +103,8 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente3.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente3.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}" />
                         <h:outputText value="#{pagosDocenteBean.pagoDocente3.concepto}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}"/>                   
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.docente.apellido}, #{pagosDocenteBean.pagoDocente3.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente3.docente!=null}" />
-                        <h:outputText value=" #{pagosDocenteBean.pagoDocente3.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente3.proveedor!=null}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente3.docente.apellido}, #{pagosDocenteBean.pagoDocente3.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}" />
+                        <h:outputText value=" #{pagosDocenteBean.pagoDocente3.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente3.id!=null}" />
 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente4.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}">                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -120,8 +121,8 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente4.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente4.concepto}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}"/>                   
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.docente.apellido}, #{pagosDocenteBean.pagoDocente4.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente4.docente!=null}" />
-                        <h:outputText value=" #{pagosDocenteBean.pagoDocente4.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente4.proveedor!=null}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente4.docente.apellido}, #{pagosDocenteBean.pagoDocente4.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}" />
+                        <h:outputText value=" #{pagosDocenteBean.pagoDocente4.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente4.id!=null}" />
 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente5.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}" >                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -138,8 +139,8 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente5.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente5.concepto}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}" />                   
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.docente.apellido}, #{pagosDocenteBean.pagoDocente5.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente5.docente!=null}" />
-                        <h:outputText value=" #{pagosDocenteBean.pagoDocente5.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente5.proveedor!=null}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente5.docente.apellido}, #{pagosDocenteBean.pagoDocente5.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}" />
+                        <h:outputText value=" #{pagosDocenteBean.pagoDocente5.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente5.id!=null}" />
 
                         <h:outputText value="#{pagosDocenteBean.pagoDocente6.fechaComprobante}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}">                                  <f:convertDateTime pattern="dd/MM/yyyy"/>
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -156,8 +157,8 @@
                         <h:outputText value="#{pagosDocenteBean.pagoDocente6.numeroCheque}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>
                         <h:outputText value="#{pagosDocenteBean.pagoDocente6.concepto}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}"/>                   
-                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.docente.apellido}, #{pagosDocenteBean.pagoDocente6.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente6.docente!=null}" />
-                        <h:outputText value=" #{pagosDocenteBean.pagoDocente6.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente6.proveedor!=null}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente6.docente.apellido}, #{pagosDocenteBean.pagoDocente6.docente.nombre}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}" />
+                        <h:outputText value=" #{pagosDocenteBean.pagoDocente6.proveedor.razonSocial}" rendered="#{pagosDocenteBean.pagoDocente6.id!=null}" />
                     </h:panelGrid>
 
 

@@ -70,12 +70,12 @@
             </div>
             <p:growl id="message" showDetail="true"  />
             <p:panel header="Por fecha de Registro">
-                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('pdf')}" value="Ver PDF" /> 
-                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('excel')}" value="Ver Excel" />
-            </p:panel>
-            <p:panel header="Por fecha de Comprobante">
                 <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienesFechaRegistro('pdf')}" value="Ver PDF" /> 
                 <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienesFechaRegistro('excel')}" value="Ver Excel" />
+            </p:panel>
+            <p:panel header="Por fecha de Comprobante">
+                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('pdf')}" value="Ver PDF" /> 
+                <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienes('excel')}" value="Ver Excel" />
             </p:panel>
         </p:tab>
 
