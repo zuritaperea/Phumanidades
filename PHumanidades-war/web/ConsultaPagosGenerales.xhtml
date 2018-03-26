@@ -49,9 +49,9 @@
                                              value="#{cuentaLstBean.cuenta}"
                                              converter="ConversorCuenta"
                                              >
-                                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
 
-                                                        <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
+                                <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
                             </p:selectOneMenu>
 
                         </td>
@@ -160,7 +160,7 @@
             </p:column>
 
             <p:column 
-                       filterBy="#{item.numeroOrdenPago}" >
+                filterBy="#{item.numeroOrdenPago}" >
                 <f:facet name="header">
                     <h:outputText value="N°"/>
                 </f:facet>
@@ -180,21 +180,22 @@
 
         <h3>Exportar</h3>
 
-
-        <h:commandButton action="#{consultaPagosGeneralesBean.generarConsultaPagosExcel()}"
-                         image="./Imagenes/excel.png" title="Exportar Egresos Filtrados">
-            
-        </h:commandButton>
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Egresos Filtrados"/>
+            <p:dataExporter type="xls" postProcessor="#{consultaCobrosGeneralesBean.postProcessXLS}" 
+                            target="dtPagosGenerales" fileName="egresosconsulta"   pageOnly="false"/>
+        </h:commandLink>
 
         <h:commandLink >
             <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Egresos Filtrados"/>
             <pe:exporter type="pdf" target="dtPagosGenerales" orientation="Landscape"
-                         fileName="egresos" datasetPadding="4"  cellFontSize="10" 
-                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"
-                         preProcessor="#{consultaPagosGeneralesBean.generarConsultaPagos()}"/>  
+                         fileName="egresosconsulta" datasetPadding="2"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel" 
+                         preProcessor="#{consultaCobrosGeneralesBean.preProcessPDF}"/>  
 
 
         </h:commandLink>
+
 
         <p:messages autoUpdate="true"/>
 

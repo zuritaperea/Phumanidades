@@ -187,8 +187,9 @@
         <h:commandLink >
             <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ingresos Filtrados"/>
             <pe:exporter type="pdf" target="dtCobrosAlumnos" orientation="Landscape"
-                         fileName="ingresosconsulta" datasetPadding="4"  cellFontSize="10" 
-                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"/>  
+                         fileName="ingresosconsulta" datasetPadding="2"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel"  
+                         preProcessor="#{consultaCobrosGeneralesBean.preProcessPDF}"/>  
 
 
         </h:commandLink>

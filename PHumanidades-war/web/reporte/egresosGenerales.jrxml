@@ -96,39 +96,46 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="77" splitType="Stretch">
 			<textField>
-				<reportElement x="716" y="50" width="80" height="20" uuid="ddf0703c-cdd5-4658-98d2-67ccc334a11a"/>
+				<reportElement x="716" y="56" width="80" height="20" uuid="ddf0703c-cdd5-4658-98d2-67ccc334a11a"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página"+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="796" y="50" width="35" height="20" uuid="cb422b24-ccf4-4a7d-86a3-e8a5d69921ce"/>
+				<reportElement x="796" y="56" width="35" height="20" uuid="cb422b24-ccf4-4a7d-86a3-e8a5d69921ce"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="382" y="50" width="185" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
-				<textElement>
+				<reportElement x="136" y="35" width="569" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
+				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{descripcion}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="1" y="0" width="831" height="50" uuid="1f0132a7-2feb-4aa4-8a77-ea211e4ba609"/>
+				<reportElement x="1" y="0" width="244" height="36" uuid="1f0132a7-2feb-4aa4-8a77-ea211e4ba609"/>
 				<imageExpression><![CDATA[$P{escudo}]]></imageExpression>
 			</image>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="146" y="50" width="100" height="20" uuid="df032b0b-0327-4b41-b479-531a320a4b87"/>
+				<reportElement x="522" y="56" width="100" height="20" uuid="df032b0b-0327-4b41-b479-531a320a4b87"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$P{fecha_inicio}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="270" y="50" width="88" height="20" uuid="ce3cd21b-a781-4c5e-a2c3-9baeaa915314"/>
+				<reportElement x="646" y="56" width="88" height="20" uuid="ce3cd21b-a781-4c5e-a2c3-9baeaa915314"/>
 				<textFieldExpression><![CDATA[$P{fecha_fin}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="254" y="50" width="16" height="20" uuid="f12fa732-5228-4df4-9780-f960143e6b4b"/>
+				<reportElement x="630" y="56" width="16" height="20" uuid="f12fa732-5228-4df4-9780-f960143e6b4b"/>
 				<text><![CDATA[al]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="16" width="240" height="20" uuid="cbd30ad9-136f-470d-8543-8cccf39b6300"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Facultad de Humanidades-UNCa.]]></text>
 			</staticText>
 		</band>
 	</title>

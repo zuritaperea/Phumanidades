@@ -53,12 +53,19 @@
 
                     </td>
                     <td>
+                        <h:outputText value="Excluir bienes de Capital:   "/><br/>
+                        <p:selectBooleanCheckbox value="#{consultaPagosGeneralesBean.noBienesCapital}" >   
+                            <p:ajax event="change" update="somIDType" /> 
+                        </p:selectBooleanCheckbox>
+
+                    </td>
+                    <td>
                         <h:outputText value="Rubro Presupuestario:   "/><br/>
                         <p:selectOneMenu id="somIDType"                                           
-                                         value="#{consultaPagosGeneralesBean.rubroPresupuestario}"                                                     
+                                         value="#{consultaPagosGeneralesBean.rubroPresupuestario}"   
+                                         disabled="#{!consultaPagosGeneralesBean.noBienesCapital}"
                                          >
-                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
-
+                            <f:selectItem itemLabel="Todos los Rubros"  noSelectionOption="true"/>
                             <f:selectItems value="#{pagosDocenteBean.lstRubroPresupuestario}"/>
                         </p:selectOneMenu>
                     </td>

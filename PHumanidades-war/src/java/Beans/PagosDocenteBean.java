@@ -689,6 +689,9 @@ public class PagosDocenteBean implements Serializable {
             if (montoDesc.equals(0)) {
                 throw new Exception("Debe consignar el monto");
             }
+            if (pagoDocente.getCuenta() != null && pagoDocente.getCuenta().getId() != null) {
+                throw new Exception("Debe seleccionar una cuenta");
+            }
             if (pagoDocente.getDocente() != null) {
                 if (pagoDocente.getCarrera() != null) {
                     pagosDocenteRNLocal.create(pagoDocente);
@@ -926,7 +929,7 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente2.setAnulado(false);
             pagoDocente2.setBorrado(false);
             pagoDocente2.setFechaRegistro(pagoDocente.getFechaRegistro());
-
+            pagoDocente2.setCuenta(pagoDocente.getCuenta());
             if (pagoDocente2.getProveedor() == null) {
                 if (pagoDocente.getDocente() != null) {
                     pagoDocente2.setDocente(pagoDocente.getDocente());
@@ -944,6 +947,7 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente3.setAnulado(false);
             pagoDocente3.setBorrado(false);
             pagoDocente3.setFechaRegistro(pagoDocente.getFechaRegistro());
+            pagoDocente3.setCuenta(pagoDocente.getCuenta());
             if (pagoDocente3.getProveedor() == null) {
                 if (pagoDocente.getDocente() != null) {
                     pagoDocente3.setDocente(pagoDocente.getDocente());
@@ -961,6 +965,7 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente4.setAnulado(false);
                 pagoDocente4.setBorrado(false);
                 pagoDocente4.setFechaRegistro(pagoDocente.getFechaRegistro());
+                pagoDocente4.setCuenta(pagoDocente.getCuenta());
                 if (pagoDocente4.getProveedor() == null) {
                     if (pagoDocente.getDocente() != null) {
                         pagoDocente4.setDocente(pagoDocente.getDocente());
@@ -978,6 +983,8 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente5.setAnulado(false);
                 pagoDocente5.setBorrado(false);
                 pagoDocente5.setFechaRegistro(pagoDocente.getFechaRegistro());
+                pagoDocente5.setCuenta(pagoDocente.getCuenta());
+
                 if (pagoDocente5.getProveedor() == null) {
                     if (pagoDocente.getDocente() != null) {
                         pagoDocente5.setDocente(pagoDocente.getDocente());
@@ -995,6 +1002,7 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente6.setAnulado(false);
                 pagoDocente6.setBorrado(false);
                 pagoDocente6.setFechaRegistro(pagoDocente.getFechaRegistro());
+                pagoDocente6.setCuenta(pagoDocente.getCuenta());
                 if (pagoDocente6.getProveedor() == null) {
                     if (pagoDocente.getDocente() != null) {
                         pagoDocente6.setDocente(pagoDocente.getDocente());
