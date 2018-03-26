@@ -107,7 +107,7 @@
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="136" y="35" width="569" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
+				<reportElement x="1" y="35" width="829" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -139,24 +139,6 @@
 			</staticText>
 		</band>
 	</title>
-	<pageHeader>
-		<band height="28" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="832" height="28" uuid="0c049f57-847f-4745-8eba-98329f847f7f"/>
-				<box leftPadding="1">
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[ANEXO II: GASTOS CORRIENTES]]></text>
-			</staticText>
-		</band>
-	</pageHeader>
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>

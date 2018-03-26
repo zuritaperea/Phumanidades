@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -39,6 +40,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -58,7 +60,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "logo2.jpg";
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
-
 
     @ManagedProperty(value = "#{usuarioLogerBean}")
     private UsuarioLogerBean usuarioLogerBean;
@@ -157,7 +158,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     public void setIngresoCuotaRNLocal(IngresoRNLocal ingresoCuotaRNLocal) {
         this.ingresoCuotaRNLocal = ingresoCuotaRNLocal;
     }
-
 
     public UsuarioLogerBean getUsuarioLogerBean() {
         return usuarioLogerBean;
@@ -281,8 +281,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     public void setNumeroCuentaBean(NumeroCuentaBean numeroCuentaBean) {
         this.numeroCuentaBean = numeroCuentaBean;
     }
-
- 
 
     public NavegarBean getNavegarBean() {
         return navegarBean;
@@ -607,7 +605,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                     ingresoCuotaRNLocal.create(ingreso, true);
                                 }
 
-                              
                                 cobroCuotasAlumnosLstBean.cargarIngresos();
                                 sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
                                 severity = FacesMessage.SEVERITY_INFO;
@@ -728,7 +725,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 ingresoCuotaRNLocal.create(ingreso);
                 this.alumnoLstBean.setAlumnoSelect(new Alumno());
                 this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
-        
+
                 cobroCuotasAlumnosLstBean.cargarIngresos();
                 sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
                 severity = FacesMessage.SEVERITY_INFO;
@@ -1007,13 +1004,15 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     this.feha_fin_real = this.fechaFin;
                     c.setTime(this.fechaFin);
                     c.add(Calendar.DATE, 1);  // number of days to add
-                   // this.fechaFin = c.getTime();  // fechaFin is now the new date
+                    // this.fechaFin = c.getTime();  // fechaFin is now the new date
                     parametros.put("fechaIni", this.fechaIni);
                     parametros.put("fechaFin", this.fechaFin);
                     parametros.put("cuenta_id", this.cuentaLstBean.getCuenta().getId().intValue());
                     parametros.put("escudo1", huma);
                     parametros.put("feha_fin_real", this.feha_fin_real);
                     parametros.put("cuenta", cue);
+                    Locale locale = new Locale("es", "AR");
+                    parametros.put(JRParameter.REPORT_LOCALE, locale);
                     //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
                     //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
                 }
@@ -1090,6 +1089,8 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
                     //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
                 }
+                Locale locale = new Locale("es", "AR");
+                parametros.put(JRParameter.REPORT_LOCALE, locale);
                 if (cuentaLstBean.getCuenta() != null) {
                     parametros.put("fechaIni", this.fechaIni);
                     parametros.put("fechaFin", this.fechaFin);
@@ -1169,13 +1170,15 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     this.feha_fin_real = this.fechaFin;
                     c.setTime(this.fechaFin);
                     c.add(Calendar.DATE, 1);  // number of days to add
-                  //  this.fechaFin = c.getTime();  // fechaFin is now the new date
+                    //  this.fechaFin = c.getTime();  // fechaFin is now the new date
                     parametros.put("fechaIni", this.fechaIni);
                     parametros.put("fechaFin", this.fechaFin);
                     parametros.put("cuenta_id", this.cuentaLstBean.getCuenta().getId().intValue());
                     parametros.put("escudo1", huma);
                     parametros.put("feha_fin_real", this.feha_fin_real);
                     parametros.put("cuenta", cue);
+                    Locale locale = new Locale("es", "AR");
+                    parametros.put(JRParameter.REPORT_LOCALE, locale);
                     //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
                     //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
                 }

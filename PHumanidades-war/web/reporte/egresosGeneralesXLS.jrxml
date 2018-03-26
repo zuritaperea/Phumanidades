@@ -96,7 +96,7 @@
 		</groupFooter>
 	</group>
 	<title>
-		<band height="136" splitType="Stretch">
+		<band height="113" splitType="Stretch">
 			<textField>
 				<reportElement x="716" y="68" width="80" height="20" uuid="ddf0703c-cdd5-4658-98d2-67ccc334a11a"/>
 				<textElement textAlignment="Right"/>
@@ -107,7 +107,7 @@
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="89" y="36" width="642" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
+				<reportElement x="1" y="36" width="830" height="20" uuid="e32a7484-b78b-45fe-af08-8665403107db"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -131,7 +131,7 @@
 				<text><![CDATA[al]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="60" y="116" width="63" height="20" uuid="b521792d-e809-436e-9bc4-560c806a8d53"/>
+				<reportElement x="60" y="93" width="63" height="20" uuid="b521792d-e809-436e-9bc4-560c806a8d53"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -145,7 +145,7 @@
 				<text><![CDATA[NUMERO COMPROBANTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="165" y="116" width="93" height="20" uuid="ae8e9ab7-4a7e-4295-a4b4-87e147ca1b1b"/>
+				<reportElement x="165" y="93" width="93" height="20" uuid="ae8e9ab7-4a7e-4295-a4b4-87e147ca1b1b"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -159,7 +159,7 @@
 				<text><![CDATA[TITULAR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="542" y="116" width="48" height="20" uuid="63044d5f-8f27-4b56-8d74-55ecfbd0fcf3"/>
+				<reportElement x="542" y="93" width="48" height="20" uuid="63044d5f-8f27-4b56-8d74-55ecfbd0fcf3"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -173,7 +173,7 @@
 				<text><![CDATA[IMPORTE NETO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="455" y="116" width="45" height="20" uuid="45c90a3c-ef45-4b39-8c85-0538d73bd966"/>
+				<reportElement x="455" y="93" width="45" height="20" uuid="45c90a3c-ef45-4b39-8c85-0538d73bd966"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -187,7 +187,7 @@
 				<text><![CDATA[FORMA PAGO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="330" y="116" width="67" height="20" uuid="75b2fdc3-45cf-46be-9209-87fcd19df8af"/>
+				<reportElement x="330" y="93" width="67" height="20" uuid="75b2fdc3-45cf-46be-9209-87fcd19df8af"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -201,7 +201,7 @@
 				<text><![CDATA[RUBRO PRESUPUESTARIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="258" y="116" width="72" height="20" uuid="4347ba05-79cb-4f46-921c-3e6b3e7eda38"/>
+				<reportElement x="258" y="93" width="72" height="20" uuid="4347ba05-79cb-4f46-921c-3e6b3e7eda38"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -215,7 +215,7 @@
 				<text><![CDATA[CONCEPTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="123" y="116" width="42" height="20" uuid="d6d972e9-c89d-4d19-acfc-793a9c5070e5"/>
+				<reportElement x="123" y="93" width="42" height="20" uuid="d6d972e9-c89d-4d19-acfc-793a9c5070e5"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -229,7 +229,7 @@
 				<text><![CDATA[FECHA COMP.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="500" y="116" width="42" height="20" uuid="e089b22c-d793-46d2-a922-5460114f58a3"/>
+				<reportElement x="500" y="93" width="42" height="20" uuid="e089b22c-d793-46d2-a922-5460114f58a3"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -243,7 +243,7 @@
 				<text><![CDATA[NUMERO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="590" y="116" width="47" height="20" uuid="6d5d6d47-133e-42b1-8321-20b1a77b5ff2"/>
+				<reportElement x="590" y="93" width="47" height="20" uuid="6d5d6d47-133e-42b1-8321-20b1a77b5ff2"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -257,7 +257,7 @@
 				<text><![CDATA[IB]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="637" y="116" width="48" height="20" uuid="fb2c5fa0-29c1-4726-91fd-356795296243"/>
+				<reportElement x="637" y="93" width="48" height="20" uuid="fb2c5fa0-29c1-4726-91fd-356795296243"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -271,7 +271,7 @@
 				<text><![CDATA[IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="685" y="116" width="46" height="20" uuid="d0b5f0e8-34c3-4114-a19c-83e44a20b4a2"/>
+				<reportElement x="685" y="93" width="46" height="20" uuid="d0b5f0e8-34c3-4114-a19c-83e44a20b4a2"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -285,7 +285,7 @@
 				<text><![CDATA[SUSS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="781" y="116" width="51" height="20" uuid="59c94d73-4fb2-4533-b675-2e6f8d696484"/>
+				<reportElement x="781" y="93" width="51" height="20" uuid="59c94d73-4fb2-4533-b675-2e6f8d696484"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -299,7 +299,7 @@
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="731" y="116" width="50" height="20" uuid="2d33e5fe-3ce2-4733-8959-10fdf6642f2b"/>
+				<reportElement x="731" y="93" width="50" height="20" uuid="2d33e5fe-3ce2-4733-8959-10fdf6642f2b"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -313,7 +313,7 @@
 				<text><![CDATA[IMPUESTO GANANCIA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="397" y="116" width="58" height="20" uuid="007e60ca-1dbd-4d6d-8bee-e06afcf2763f"/>
+				<reportElement x="397" y="93" width="58" height="20" uuid="007e60ca-1dbd-4d6d-8bee-e06afcf2763f"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>
@@ -327,21 +327,7 @@
 				<text><![CDATA[IMPORTE COMPROBANTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="88" width="832" height="28" uuid="0c049f57-847f-4745-8eba-98329f847f7f"/>
-				<box leftPadding="1">
-					<pen lineWidth="0.75"/>
-					<topPen lineWidth="0.75"/>
-					<leftPen lineWidth="0.75"/>
-					<bottomPen lineWidth="0.75"/>
-					<rightPen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[ANEXO II: GASTOS CORRIENTES]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="116" width="60" height="20" uuid="cbb0f95d-075b-462d-8764-af25eb651bb4"/>
+				<reportElement x="0" y="93" width="60" height="20" uuid="cbb0f95d-075b-462d-8764-af25eb651bb4"/>
 				<box leftPadding="1">
 					<pen lineWidth="0.75"/>
 					<topPen lineWidth="0.75"/>

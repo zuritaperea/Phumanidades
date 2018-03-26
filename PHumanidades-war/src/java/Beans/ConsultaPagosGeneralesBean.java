@@ -383,8 +383,8 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                     //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
                     //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
                 }
-                parametros.put(JRParameter.REPORT_LOCALE, Locale.GERMAN);
-
+                Locale locale = new Locale("es","AR");
+                parametros.put(JRParameter.REPORT_LOCALE, locale);
                 parametros.put("fecha_inicio", this.fechaIni);
                 parametros.put("fecha_fin", this.feha_fin_real);
                 parametros.put("escudo", escudo1);
