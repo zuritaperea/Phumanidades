@@ -110,8 +110,8 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
     }
 
     @Override
-    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta, TipoEgreso tipoEgreso) throws Exception {
-        return pagosDocenteFacadeLocal.findPagosByPredicates(ini, fin, cuenta, tipoEgreso);
+    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta, TipoEgreso tipoEgreso, Carrera carrera) throws Exception {
+        return pagosDocenteFacadeLocal.findPagosByPredicates(ini, fin, cuenta, tipoEgreso, carrera);
     }
 
     @Override

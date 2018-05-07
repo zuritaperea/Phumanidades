@@ -7,6 +7,7 @@ package Beans;
 
 import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.Cuenta;
+import Entidades.Egresos.FormaPago;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
 import RN.IngresoRNLocal;
@@ -92,8 +93,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private Date fechaIni;
     private Date fechaFin;
     private Date feha_fin_real;
-    private Date fechaPago;
-    private Date fechaDeposito;
     int ultimaCuota;
 //Inicio Busqueda Carrera   
     String dni; //USADO PARA LA CONSULTA INICIAL - MEDIANTE ESTE DNI TRAEMOS LOS PAGOS
@@ -111,9 +110,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
         //cargarLstFormaPago();
         //cargarLstTipoComprobante();
         dni = "";
-        fechaPago = new Date();
-        fechaDeposito = new Date();
-
         if (cobroCuotasAlumnosLstBean.getCuenta() != null && cobroCuotasAlumnosLstBean.getCuenta().getCodigo() != null) {
             try {
                 cobroCuotasAlumnosLstBean.cargarIngresos(Integer.parseInt(cobroCuotasAlumnosLstBean.getCuenta().getCodigo()));
@@ -173,14 +169,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
     public void setInscripcionAlumnosRNLocal(InscripcionAlumnosRNLocal inscripcionAlumnosRNLocal) {
         this.inscripcionAlumnosRNLocal = inscripcionAlumnosRNLocal;
-    }
-
-    public Date getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(Date fechaPago) {
-        this.fechaPago = fechaPago;
     }
 
     public CobroCuotasAlumnosBean() {
@@ -290,14 +278,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.navegarBean = navegarBean;
     }
 
-    public Date getFechaDeposito() {
-        return fechaDeposito;
-    }
-
-    public void setFechaDeposito(Date fechaDeposito) {
-        this.fechaDeposito = fechaDeposito;
-    }
-
     public void nuevoCobroGeneral() {
         this.alumnoLstBean.setAlumnoSelect(new Alumno());
         this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
@@ -306,6 +286,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
     public void nuevoCobroCuota() {
         try {
+            this.getCobroCuotasAlumnosLstBean().setFechaDeposito(null);
             this.cohorteLstBean.setCohorte(null);
             this.cohorteLstBean.setCantidadCuotas(1);
             this.getCbAction().setValue("Guardar");
@@ -371,6 +352,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     this.getIngreso().setBorrado(Boolean.FALSE);
                     this.getAlumnoLstBean().setAlumnoSelect(new Alumno());
                     this.getAlumnoLstBean().setAlumnoSelectConsulta(new Alumno());
+                    this.getCobroCuotasAlumnosLstBean().setFechaDeposito(null);
                     ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                     context.redirect(context.getRequestContextPath() + "CobroCuotas.xhtml");
                     break;
@@ -578,6 +560,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
             int cuota = ingresoCuotaRNLocal.findUltimaCuotaAlumnoCohorte(alumno, cohorte);
             cuota++;
             int ultimaCuotaAPagar = cuota + cohorteLstBean.getCantidadCuotas() - 1;
+            //   if (ingreso.getImporte().compareTo(BigDecimal.ZERO) > 0) {
             if (alumno != null) {
                 if (cohorte != null && cohorte.getId() != null) {
                     if (this.cobroCuotasAlumnosLstBean.getFechaPago() != null) {
@@ -585,7 +568,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
                             if (!cohorteLstBean.isFlag()) {
                                 ingreso.setCuota(cuota);
                                 ingreso.setFechaPago(cobroCuotasAlumnosLstBean.getFechaPago());
-                                ingreso.setFechaDeposito(cobroCuotasAlumnosLstBean.getFechaDeposito());
+                                if (ingreso.getFormaPago().equals(FormaPago.DEPOSITO)) {
+                                    ingreso.setFechaDeposito(this.cobroCuotasAlumnosLstBean.getFechaDeposito());
+                                }
                                 ingreso.setAlumno(alumno);
                                 ingreso.setBorrado(false);
                                 ingreso.setAnulado(false);
@@ -631,10 +616,12 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 sMensaje = "No se ha Seleccionado un alumno";
                 severity = FacesMessage.SEVERITY_ERROR;
             }
+
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
         } finally {
+            limpiar();
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
@@ -711,32 +698,39 @@ public class CobroCuotasAlumnosBean implements Serializable {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-            if (this.ingreso.getFechaPago() != null) {
-                System.out.println("fecha depositooooooooooooooo" + this.getFechaDeposito() + "fecha pagooooooooooo" + this.ingreso.getFechaPago());
-                ingreso.setAlumno(this.getAlumnoLstBean().getAlumnoSelect());
-                ingreso.setBorrado(false);
-                ingreso.setAnulado(false);
-                ingreso.setCuenta(this.getCuentaLstBean().getCuenta());
-                ingreso.setNumeroRecibo(this.numeroCuentaBean.getNumero());
-                ingreso.setCuota(0);
-                ingreso.setFechaCreado(new Date());
-                ingreso.setFechaDeposito(this.getFechaDeposito());
-                ingreso.setCreadoPor(this.usuarioLogerBean.getUsuario().getUsuario());
-                ingresoCuotaRNLocal.create(ingreso);
-                this.alumnoLstBean.setAlumnoSelect(new Alumno());
-                this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
+            if (ingreso.getImporte() != null) {
 
-                cobroCuotasAlumnosLstBean.cargarIngresos();
-                sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
-                severity = FacesMessage.SEVERITY_INFO;
+                if (this.ingreso.getFechaPago() != null) {
+                    ingreso.setAlumno(this.getAlumnoLstBean().getAlumnoSelect());
+                    ingreso.setBorrado(false);
+                    ingreso.setAnulado(false);
+                    ingreso.setCuenta(this.getCuentaLstBean().getCuenta());
+                    ingreso.setNumeroRecibo(this.numeroCuentaBean.getNumero());
+                    ingreso.setCuota(0);
+                    ingreso.setFechaCreado(new Date());
+                    ingreso.setCreadoPor(this.usuarioLogerBean.getUsuario().getUsuario());
+                    if (ingreso.getFormaPago().equals(FormaPago.DEPOSITO)) {
+                        ingreso.setFechaDeposito(this.cobroCuotasAlumnosLstBean.getFechaDeposito());
+                    }
+                    ingresoCuotaRNLocal.create(ingreso);
+                    this.alumnoLstBean.setAlumnoSelect(new Alumno());
+                    this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
 
-                limpiar();
+                    cobroCuotasAlumnosLstBean.cargarIngresos();
+                    sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
+                    severity = FacesMessage.SEVERITY_INFO;
 
-                //RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
-                RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
+                    limpiar();
 
+                    //RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
+                    RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
+
+                } else {
+                    sMensaje = "No se ha Seleccionado la fecha del pago";
+                    severity = FacesMessage.SEVERITY_ERROR;
+                }
             } else {
-                sMensaje = "No se ha Seleccionado la fecha del pago";
+                sMensaje = "Ingrese el importe";
                 severity = FacesMessage.SEVERITY_ERROR;
             }
 
@@ -847,6 +841,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.getAlumnoLstBean().setAlumnoSelectConsulta(new Alumno());
         this.getCohorteLstBean().setUltimaCuota(1);
         this.getCohorteLstBean().setCohorteSeleccionada(new Cohorte());
+        this.getCobroCuotasAlumnosLstBean().setFechaDeposito(null);
         this.cuentaLstBean.setCuenta(new Cuenta());
         this.numeroCuentaBean.setNumero(0);
         this.cohorteLstBean.setNumeroRecibo(0);

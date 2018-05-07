@@ -47,7 +47,7 @@ public interface PagosDocenteFacadeLocal {
     
     public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo);
     
-    public List<PagosDocente> findPagosByPredicates(Date FechaInicio,Date FechaFin,Cuenta cuenta,TipoEgreso tipoEgreso);
+    public List<PagosDocente> findPagosByPredicates(Date FechaInicio,Date FechaFin,Cuenta cuenta,TipoEgreso tipoEgreso, Carrera carrera);
     
     public PagosDocente buscarPagosDocenteId(Long id);
 

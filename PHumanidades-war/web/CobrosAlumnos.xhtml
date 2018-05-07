@@ -426,9 +426,17 @@
             <p:column visible="false"
                       style="word-wrap:break-word;">
                 <f:facet name="header">
-                    <h:outputText value="Formado de Pago"/>
+                    <h:outputText value="Forma de Pago"/>
                 </f:facet>
                 <h:outputText value="#{item.formaPago}"/>
+            </p:column>
+             <p:column visible="false">
+                <f:facet name="header">
+                    <h:outputText value="Fecha Deposito"/>
+                </f:facet>
+                 <h:outputText value="#{item.fechaDeposito}">
+                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                </h:outputText>    
             </p:column>
             <p:column visible="false"
                       style="word-wrap:break-word;">

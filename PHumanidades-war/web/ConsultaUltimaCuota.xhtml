@@ -27,6 +27,13 @@
                      binding="#{consultaCobrosAlumnosBean.tablaAlumnos}"
 
                      rowsPerPageTemplate="20,50,100,500">
+            <p:column width="50"
+                      >
+                <f:facet name="header">
+                    <h:outputText value="Orden"/>
+                </f:facet>
+                <h:outputText value="#{consultaCobrosAlumnosBean.tablaAlumnos.rowIndex + 1}"/>
+            </p:column>
 
             <p:column width="150"
                       style="word-wrap:break-word;"
@@ -118,12 +125,12 @@
             <pe:exporter type="pdf" target="dtAlumnosCohorte" orientation="Landscape"
                          fileName="ultima_cuota" datasetPadding="4"  cellFontSize="10" 
                          skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel" />
-                           
-    </h:commandLink>
+
+        </h:commandLink>
 
 
 
-</ui:define>
+    </ui:define>
 </ui:composition>
 
 

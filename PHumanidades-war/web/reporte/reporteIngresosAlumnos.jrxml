@@ -56,7 +56,7 @@ SELECT
      COALESCE(alumno."apellido"||' '||alumno."nombre",'') AS alumno,
      ingresos."cuenta_id",
      ingresos."tipoingreso_id",
-     ingresos."importe",
+     0 as "importe",
      ingresos."alumno_id",
      ingresos."anulado",
      ingresos."formapago" ,
@@ -69,7 +69,7 @@ COALESCE(carrera.descripcion,'') as carerra,
 
 
 ingresos.formapago,
-ingresos.importe
+0 as importe
 FROM
      ingresos left JOIN  alumno ON ingresos."alumno_id" = alumno."id"
      left JOIN ingresos_tipo_ingreso ON ingresos."tipoingreso_id" = ingresos_tipo_ingreso."id"

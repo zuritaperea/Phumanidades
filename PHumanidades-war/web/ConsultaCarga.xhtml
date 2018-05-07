@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+    <ui:define name="content">
+        <h2>Cargas Realizadas</h2>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{cantidadCargaBean.getCantidadCarga()}" />
+        </f:metadata>
+        <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+            <p:printer target="dtAlumnosCohorte" /></p:commandButton>
+        <p:dataTable id="dtAlumnosCohorte"
+                     value="#{cantidadCargaBean.cargas}" 
+                     var="item"
+                     filterEvent="enter" 
+                     paginator="true"
+                     rows="20"
+                     widgetVar="tablaAlumnos"
+                     binding="#{consultaCobrosAlumnosBean.tablaAlumnos}"
+
+                     rowsPerPageTemplate="20,50,100,500">
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      >
+                <f:facet name="header">
+                    <h:outputText value="Usuario"/>
+                </f:facet>
+                <h:outputText value="#{item[0]}"/>
+            </p:column>
+
+            <p:column width="150"
+                      style="word-wrap:break-word;"
+                      >
+                <f:facet name="header">
+                    <h:outputText value="Cantidad"/>
+                </f:facet>
+                <h:outputText value="#{item[1]}"/>
+            </p:column>
+
+
+            <p:column width="150"
+                      style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Operación"/>
+                </f:facet>              
+                <h:outputText value="#{item[2]}"/>
+            </p:column>
+
+
+        </p:dataTable>
+
+
+        <p:messages autoUpdate="true"/>
+
+        <h3>Exportar</h3>
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar a Excel todos" />
+            <p:dataExporter type="xls" target="dtAlumnosCohorte" fileName="carga"/>
+        </h:commandLink>
+
+
+        <h:commandLink>
+            <p:graphicImage value="./Imagenes/csv.png" title="Exportar a CSV todos" />
+            <p:dataExporter type="csv" target="dtAlumnosCohorte" fileName="carga"/>
+        </h:commandLink>
+
+
+        <h:commandLink >
+            <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Ultima Cuota"/>
+            <pe:exporter type="pdf" target="dtAlumnosCohorte" orientation="Landscape"
+                         fileName="carga" datasetPadding="4"  cellFontSize="10" 
+                         skipComponents="org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox,org.primefaces.component.spacer.Spacer,org.primefaces.component.outputpanel.OutputPanel" />
+
+        </h:commandLink>
+
+
+
+    </ui:define>
+</ui:composition>
+
+

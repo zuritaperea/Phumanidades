@@ -295,8 +295,7 @@
                             <h:outputText value="Cuenta" />
                             <p:selectOneMenu id="soCuentasCobroGeneral" 
                                              value="#{pagosDocenteBean.pagoDocente.cuenta}"
-                                             converter="ConversorCuenta"
-                                             required="false">
+                                             converter="ConversorCuenta">
                                 <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
                                 <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
                             </p:selectOneMenu>

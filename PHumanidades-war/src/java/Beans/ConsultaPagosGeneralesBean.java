@@ -63,6 +63,9 @@ public class ConsultaPagosGeneralesBean implements Serializable {
     @ManagedProperty(value = "#{cuentaLstBean}")
     private CuentaLstBean cuentaLstBean;
 
+    @ManagedProperty(value = "#{carreraLstBean}")
+    private CarreraLstBean carreraLstBean;
+
     private List<PagosDocente> lstGastoGeneral;
     private Date fechaFin;
     private Date fechaIni;
@@ -195,6 +198,16 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         }
     }
 
+    public CarreraLstBean getCarreraLstBean() {
+        return carreraLstBean;
+    }
+
+    public void setCarreraLstBean(CarreraLstBean carreraLstBean) {
+        this.carreraLstBean = carreraLstBean;
+    }
+    
+     
+
     /**
      * Buscar historial de operaciones entre dos fechas
      */
@@ -204,7 +217,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             //verifico que no sean nulas las fechas
             totalXGastoGeneral = BigDecimal.ZERO;
 
-            this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosByPredicates(fechaIni, fechaFin, this.getCuentaLstBean().getCuenta(), tipoEgreso));
+            this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosByPredicates(fechaIni, fechaFin, this.getCuentaLstBean().getCuenta(), tipoEgreso, this.getCarreraLstBean().getCarreraSelect()));
             for (PagosDocente gg : this.getLstGastoGeneral()) {
                 totalXGastoGeneral = totalXGastoGeneral.add(gg.getMonto());
             }
@@ -251,7 +264,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             } else if (this.noBienesCapital) {
                 query = String.format(selectFromConsulta + "WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                         + " AND (e.FECHACOMPROBANTE BETWEEN '%s' AND '%s' )) "
-                        + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL')) ORDER BY e.FECHACOMPROBANTE ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                        + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL' OR e.RUBROPRESUPUESTARIO IS NULL)) ORDER BY e.FECHACOMPROBANTE ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                         new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
             } else {
                 query = String.format(selectFromConsulta + "WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
@@ -275,7 +288,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                         new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
             } else if (this.noBienesCapital) {
                 query = String.format(selectFromConsulta + " WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
-                        + " AND (e.FECHACOMPROBANTE BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL'))"
+                        + " AND (e.FECHACOMPROBANTE BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL' OR e.RUBROPRESUPUESTARIO IS NULL))"
                         + ") ORDER BY e.FECHACOMPROBANTE ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                         new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
 
@@ -319,9 +332,8 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             } else if (this.noBienesCapital) {
                 query = String.format(selectFromConsulta + " WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
                         + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
-                        + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL')) ORDER BY e.NUMEROORDENPAGO, e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
+                        + "AND (e.CUENTA_ID = %d )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL' OR e.RUBROPRESUPUESTARIO IS NULL)) ORDER BY e.NUMEROORDENPAGO, e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                         new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()), this.getCuentaLstBean().getCuenta().getId());
-
             } else {
                 query = String.format(selectFromConsulta + " WHERE ((((e.BORRADO = false) AND (e.ANULADO = false)) "
                         + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) "
@@ -344,7 +356,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                         new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
             } else if (this.noBienesCapital) {
                 query = String.format(selectFromConsulta + " WHERE (((((e.BORRADO = false) AND (e.ANULADO = false)) "
-                        + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL')) "
+                        + " AND (e.FECHAREGISTRO BETWEEN '%s' AND '%s' )) AND (e.RUBROPRESUPUESTARIO <> 'BIENES_DE_CAPITAL' OR e.RUBROPRESUPUESTARIO IS NULL)) "
                         + ") ORDER BY e.NUMEROORDENPAGO, e.FECHAREGISTRO ASC", new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaIni()),
                         new SimpleDateFormat("yyyy-MM-dd").format(this.getFechaFin()));
             } else {
@@ -383,7 +395,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                     //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
                     //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
                 }
-                Locale locale = new Locale("es","AR");
+                Locale locale = new Locale("es", "AR");
                 parametros.put(JRParameter.REPORT_LOCALE, locale);
                 parametros.put("fecha_inicio", this.fechaIni);
                 parametros.put("fecha_fin", this.feha_fin_real);

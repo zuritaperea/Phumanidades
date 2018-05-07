@@ -16,7 +16,7 @@
         <p:growl id="grConsultaPagosGenerales" showDetail="true" sticky="true" />
         <h1>
 
-            <h:outputText value="Consultas Egresos por Pagos Generales"
+            <h:outputText value="Consultas Egresos"
                           class="Bienvenido"/>  
         </h1>
         <p:tabView id="tvConsultaGastosGenerales" dynamic="true" cache="true">  
@@ -65,7 +65,19 @@
                                 <f:selectItems value="#{tipoEgresoController.itemsAvailableSelectOne}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
                             </p:selectOneMenu>
                         </td>
+                        <td>
 
+                            <h:outputText value="Carrera"/><br/>
+                            <p:selectOneMenu id="somCarrera" 
+                                             value="#{carreraLstBean.carreraSelect}"
+                                             converter="ConversorCarrera"
+                                             >
+                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+
+                                <f:selectItems value="#{carreraLstBean.lstSICarrera}"/>
+                            </p:selectOneMenu>
+
+                        </td>
                         <td>
                             <br/>
                             <p:commandButton id="cbConsultarGastos"
@@ -105,7 +117,32 @@
                     <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
                 </h:outputText>                 
             </f:facet>
+            <p:column
+                style="word-wrap:break-word;"
+                filterBy="#{item.docente.apellido}">
+                <f:facet name="header">
+                    <h:outputText value="Apellido"/>
+                </f:facet>
+                <h:outputText value="#{item.docente.apellido}"/>
+            </p:column>
 
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.docente.nombre}">
+                <f:facet name="header">
+                    <h:outputText value="Nombre"/>
+                </f:facet>
+                <h:outputText value="#{item.docente.nombre}"/>
+            </p:column>
+
+            <p:column 
+                style="word-wrap:break-word;"
+                filterBy="#{item.carrera.descripcion}">
+                <f:facet name="header">
+                    <h:outputText value="Carrera"/>
+                </f:facet>
+                <h:outputText value="#{item.carrera.descripcion}"/>
+            </p:column>
 
             <p:column width="80"
                       style="word-wrap:break-word;"

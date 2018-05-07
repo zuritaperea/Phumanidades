@@ -5,6 +5,7 @@
                  template="./Templates/adminTemplate.xhtml"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:b="http://bootsfaces.net/ui"
                  xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="content">
         <h:inputHidden value="#{cobroCuotasAlumnosBean.ingreso.id }" />
@@ -109,61 +110,60 @@
                                      required="false"
                                      >
                         <f:selectItems  value="#{pagosDocenteBean.lstFormaPago}"/>
-                        <f:ajax render="input" rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"  />
-                        </p:selectOneMenu>
+                    </p:selectOneMenu>
                     <br></br>
                     <h:panelGroup  style="border-left: 5px"  id="input">
-                            <h:outputText value="Fecha de Deposito: " rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"/>
-                            <p:calendar value="#{cobroCuotasAlumnosBean.ingreso.fechaDeposito}" 
-                                        rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}" 
-                                        placeholder="Fecha de deposito"
-                                         mode="popup"
-                                        />
-                        </h:panelGroup>
+                        <h:outputText  value="Fecha de Deposito: "/>
+                        <p:calendar value="#{cobroCuotasAlumnosLstBean.fechaDeposito}" 
+                                    mode="popup"
+                                    placeholder="Fecha de deposito"
+                                    navigator="true"/>
 
-                        <h:outputText value="Nro Cuota:"/>
+                    </h:panelGroup>
 
-                        <p:inputText id="itCuota" 
-                                     value="#{cohorteLstBean.ultimaCuota}"
-                                     disabled="true"/>
-                        <h:outputText value="Cantidad Cuotas:"/>
+                    <h:outputText value="Nro Cuota:"/>
 
-                        <p:selectOneMenu id="cantCuota" value="#{cohorteLstBean.cantidadCuotas}" >
-                            <f:selectItem itemLabel="1" itemValue="1" />
-                            <f:selectItem itemLabel="2" itemValue="2" />
-                            <f:selectItem itemLabel="3" itemValue="3" />
-                            <f:selectItem itemLabel="4" itemValue="4" />
-                            <f:selectItem itemLabel="5" itemValue="5" />
-                            <f:selectItem itemLabel="6" itemValue="6" />
-                            <f:selectItem itemLabel="7" itemValue="7" />
-                            <f:selectItem itemLabel="8" itemValue="8" />
-                            <f:selectItem itemLabel="9" itemValue="9" />
-                            <f:selectItem itemLabel="10" itemValue="10" />
-                            <f:selectItem itemLabel="11" itemValue="11" />
-                            <f:selectItem itemLabel="12" itemValue="12" />
-                            <f:selectItem itemLabel="13" itemValue="13" />
-                            <f:selectItem itemLabel="14" itemValue="14" />
-                            <f:selectItem itemLabel="15" itemValue="15" />
-                            <f:selectItem itemLabel="16" itemValue="16" />
-                            <f:selectItem itemLabel="17" itemValue="17" />
-                            <f:selectItem itemLabel="18" itemValue="18" />
-                            <f:selectItem itemLabel="19" itemValue="19" />
-                        </p:selectOneMenu>
+                    <p:inputText id="itCuota" 
+                                 value="#{cohorteLstBean.ultimaCuota}"
+                                 disabled="true"/>
+                    <h:outputText value="Cantidad Cuotas:"/>
 
-
-
-                        <h:outputText id="soCuentas"
-                                      value="Cuenta:"/>
+                    <p:selectOneMenu id="cantCuota" value="#{cohorteLstBean.cantidadCuotas}" >
+                        <f:selectItem itemLabel="1" itemValue="1" />
+                        <f:selectItem itemLabel="2" itemValue="2" />
+                        <f:selectItem itemLabel="3" itemValue="3" />
+                        <f:selectItem itemLabel="4" itemValue="4" />
+                        <f:selectItem itemLabel="5" itemValue="5" />
+                        <f:selectItem itemLabel="6" itemValue="6" />
+                        <f:selectItem itemLabel="7" itemValue="7" />
+                        <f:selectItem itemLabel="8" itemValue="8" />
+                        <f:selectItem itemLabel="9" itemValue="9" />
+                        <f:selectItem itemLabel="10" itemValue="10" />
+                        <f:selectItem itemLabel="11" itemValue="11" />
+                        <f:selectItem itemLabel="12" itemValue="12" />
+                        <f:selectItem itemLabel="13" itemValue="13" />
+                        <f:selectItem itemLabel="14" itemValue="14" />
+                        <f:selectItem itemLabel="15" itemValue="15" />
+                        <f:selectItem itemLabel="16" itemValue="16" />
+                        <f:selectItem itemLabel="17" itemValue="17" />
+                        <f:selectItem itemLabel="18" itemValue="18" />
+                        <f:selectItem itemLabel="19" itemValue="19" />
+                    </p:selectOneMenu>
 
 
-                        <h:outputText id="otCuenta"
-                                      value="#{cohorteLstBean.cohorteSeleccionada.carrera.cuenta}" style="font-weight: bold"/>
-                        <h:outputText id="soRecibo"
-                                      value="Nro. Recibo:" />
 
-                        <p:inputText id="itNumeroCuenta" 
-                                     value="#{cohorteLstBean.numeroRecibo}"
-                                     />
+                    <h:outputText id="soCuentas"
+                                  value="Cuenta:"/>
+
+
+                    <h:outputText id="otCuenta"
+                                  value="#{cohorteLstBean.cohorteSeleccionada.carrera.cuenta}" style="font-weight: bold"/>
+                    <h:outputText id="soRecibo"
+                                  value="Nro. Recibo:" />
+
+                    <p:inputText id="itNumeroCuenta" 
+                                 value="#{cohorteLstBean.numeroRecibo}"
+                                 />
 
 
 

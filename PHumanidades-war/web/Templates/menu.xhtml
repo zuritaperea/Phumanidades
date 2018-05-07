@@ -37,17 +37,17 @@
 
                     </p:submenu> 
                     <p:submenu label="Consultas" icon="ui-icon-search" >
-                        <p:menuitem value="Egresos por Pagos Docentes" action="#{navegarBean.frmConsultaPagosDocentes()}"></p:menuitem>
-                        <p:menuitem value="Egresos Generales" action="#{navegarBean.frmConsultaPagosGenerales()}"></p:menuitem>
+                        <p:menuitem value="Egresos" action="#{navegarBean.frmConsultaPagosGenerales()}"></p:menuitem>
                         <p:menuitem value="Ingresos por Cuotas Alumnos" action="#{navegarBean.frmConsultaCobrosAlumnos()}"></p:menuitem>
                         <p:menuitem value="Ingresos Generales" action="#{navegarBean.frmConsultaCobrosGenerales()}"></p:menuitem>
                         <p:menuitem value="Ingresos por Alumno" action="#{navegarBean.frmConsultaIngresoAlumnos()}"></p:menuitem>                               
                         <p:menuitem value="Alumnos por Cohorte" action="#{navegarBean.frmConsultaAlumnosPorCohorte()}"></p:menuitem>                               
                         <p:menuitem value="Última Cuota Alumnos" action="/ConsultaUltimaCuota.xhtml"></p:menuitem>              
-                        <p:separator />
                         <p:menuitem value="Reporte de Ingresos" action="#{navegarBean.frmConsultaCuentas()}"></p:menuitem> 
                         <p:menuitem value="Reporte de Ingresos Por Mes" action="#{navegarBean.frmConsultaIngresosPeriodo()}"></p:menuitem> 
-                        <p:menuitem value="Reporte Egresos Generales" action="#{navegarBean.frmConsultaPagosGeneralesRubro()}"></p:menuitem>
+                        <p:menuitem value="Reporte de Egresos" action="#{navegarBean.frmConsultaPagosGeneralesRubro()}"></p:menuitem>
+                        <p:separator />
+                        <p:menuitem value="Cargas" action="/ConsultaCarga.xhtml"></p:menuitem>
                     </p:submenu>         
                 </p:menubar>                              
             </b:navbarLinks>

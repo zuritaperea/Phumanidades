@@ -35,14 +35,14 @@ public class ConversorTipoIngreso implements Converter{
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if(value == null){
+       
+        try{
+             if(value == null){
             return null;
         }
-        try{
             TipoIngreso te = tipoIngresoFacadeLocal.find(Long.parseLong(value));
             return te;
         }catch(Exception ex){
-            ex.printStackTrace();
             return null;
         }
     }

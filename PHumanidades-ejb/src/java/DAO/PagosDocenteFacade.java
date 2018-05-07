@@ -148,7 +148,7 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
     }
 
     @Override
-    public List<PagosDocente> findPagosByPredicates(Date FechaInicio, Date FechaFin, Cuenta cuenta, TipoEgreso tipoEgreso) {
+    public List<PagosDocente> findPagosByPredicates(Date FechaInicio, Date FechaFin, Cuenta cuenta, TipoEgreso tipoEgreso, Carrera carrera) {
 
         CriteriaBuilder qb = em.getCriteriaBuilder();
         CriteriaQuery cq = qb.createQuery();
@@ -169,6 +169,10 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         if (tipoEgreso != null) {
             predicates.add(
                     qb.equal(pagos.get("tipoEgreso"), tipoEgreso));
+        }
+         if (carrera != null) {
+            predicates.add(
+                    qb.equal(pagos.get("carrera"), carrera));
         }
         Predicate[] predicatesarr = predicates.toArray(new Predicate[predicates.size()]);
         cq.select(pagos)

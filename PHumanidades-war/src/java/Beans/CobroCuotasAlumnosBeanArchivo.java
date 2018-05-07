@@ -43,7 +43,7 @@ import org.primefaces.model.UploadedFile;
  */
 @ManagedBean
 @SessionScoped
-public class CobroCuotasAlumnosBeanArchivo implements Serializable{
+public class CobroCuotasAlumnosBeanArchivo implements Serializable {
 
     private UploadedFile file;
     private String fileContent;
@@ -168,17 +168,14 @@ public class CobroCuotasAlumnosBeanArchivo implements Serializable{
     }
 
     public void updaterow(ValueChangeEvent event) {
-        System.out.println("funcionando" + event.getNewValue());
         if (event.getNewValue() instanceof InscripcionAlumnos) {
-            System.out.println(((InscripcionAlumnos) event.getNewValue()).getAlumno());
             InscripcionAlumnos iaLocal = (InscripcionAlumnos) event.getNewValue();
             for (DataFile df : dataList) {
-                System.out.println(df);
                 if (df.getDni().equals(iaLocal.getAlumno().getDni())) {
-
-                    df.setCuota(String.valueOf(ingresoRNLocal.findUltimaCuotaAlumnoCohorte(iaLocal.getAlumno(),
-                            iaLocal.getCohorte()) + 1));
-
+                    if (df.getTipoIngreso() != null) {
+                        df.setCuota(String.valueOf(ingresoRNLocal.findUltimaCuotaAlumnoCohorte(iaLocal.getAlumno(),
+                                iaLocal.getCohorte()) + 1));
+                    }
                     Cuenta codigoCuenta = iaLocal.getCohorte().getCarrera().getCuenta();
                     try {
                         df.setNumRecibo(String.valueOf(ingresoRNLocal.numeroReciboSegunCuenta(codigoCuenta) + 1));

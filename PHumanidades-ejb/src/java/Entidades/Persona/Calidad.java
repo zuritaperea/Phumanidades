@@ -11,7 +11,8 @@ package Entidades.Persona;
 public enum Calidad {
 
     ACTIVO("Activo/a"),
-    EGRESADO("Egresado/a");
+    EGRESADO("Egresado/a"),
+    INACTIVO("Inactivo/a");
 
     private String name;
 

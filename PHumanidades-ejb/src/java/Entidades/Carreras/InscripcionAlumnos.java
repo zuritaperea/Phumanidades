@@ -113,7 +113,11 @@ public class InscripcionAlumnos implements Serializable {
 
     @Override
     public String toString() {
-        return alumno + " - " + cohorte + " - " + fechaInscripcion;
+        try {
+            return alumno + " - " + cohorte + " - " + cohorte.getCarrera().getDescripcion();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
 }

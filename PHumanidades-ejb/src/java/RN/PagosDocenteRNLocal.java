@@ -39,7 +39,7 @@ public interface PagosDocenteRNLocal {
 
     public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo) throws Exception;
 
-    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta, TipoEgreso tipoEgreso) throws Exception;
+    public List<PagosDocente> findPagosByPredicates(Date ini, Date fin, Cuenta cuenta, TipoEgreso tipoEgreso, Carrera carrera) throws Exception;
 
     public List<PagosDocente> findPagosGeneralXFecha(Date ini, Date fin);
 

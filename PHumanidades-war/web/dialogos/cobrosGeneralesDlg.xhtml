@@ -58,21 +58,15 @@
                                          value="#{cobroCuotasAlumnosBean.ingreso.formaPago}"
                                          required="false" >
                             <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
-                            <p:ajax update="input" /> 
-
                         </p:selectOneMenu>
 
-                        <br></br>
-                        <h:panelGroup   id="input">
 
-                            <h:outputText  value="Fecha de Deposito: " rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"/>
-                            <p:calendar value="#{cobroCuotasAlumnosBean.fechaDeposito}" 
-                                        rendered="#{cobroCuotasAlumnosBean.ingreso.formaPago.name == 'Deposito'}"
-                                        mode="popup"
-                                        placeholder="Fecha de deposito"
-                                        navigator="true"/>
+                        <h:outputText  value="Fecha de Deposito: "/>
+                        <p:calendar value="#{cobroCuotasAlumnosLstBean.fechaDeposito}" 
+                                    mode="popup"
+                                    placeholder="Fecha de deposito"
+                                    navigator="true"/>
 
-                        </h:panelGroup>
 
 
                         <h:outputText value="Cuentas"/>
