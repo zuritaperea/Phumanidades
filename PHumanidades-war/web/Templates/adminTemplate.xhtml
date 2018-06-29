@@ -122,8 +122,10 @@
 
             if (isNaN(new_value))
                 alert("Debe ingresar solo valores numéricos");
-            else
+            else {
                 document.getElementById('frmPri:monto').value = Math.round(new_value * 100) / 100;
+                calcularTotal();
+            }
         }
 
         function calcularTotal() {

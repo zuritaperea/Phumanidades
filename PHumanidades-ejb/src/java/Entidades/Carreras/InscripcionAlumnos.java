@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -37,10 +38,10 @@ public class InscripcionAlumnos implements Serializable {
     private Boolean activo;
     private String matricula;
 
-    @OneToOne
+    @ManyToOne
     private Alumno alumno;
 
-    @OneToOne
+    @ManyToOne
     private Cohorte cohorte;
 
     public Long getId() {

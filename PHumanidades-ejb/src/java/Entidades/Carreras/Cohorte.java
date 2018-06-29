@@ -5,7 +5,6 @@
  */
 package Entidades.Carreras;
 
-import Entidades.Persona.Alumno;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,9 +27,11 @@ import javax.persistence.OneToOne;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "Cohorte.findCohorteNombre", query = "SELECT c FROM Cohorte c WHERE upper(c.descripcion) LIKE :cadena ORDER BY c.descripcion"),
-    @NamedQuery(name = "Cohorte.findAlumnoCohorte", query = "SELECT Alumno FROM Cohorte c JOIN c.alumnos Alumno WHERE c.id = :cohorteId"),
     @NamedQuery(name = "Cohorte.findAlumnoCohorte2", query = "SELECT i FROM InscripcionAlumnos i WHERE i.cohorte = :cohorte")})
 public class Cohorte implements Serializable {
+
+    @OneToMany(mappedBy = "cohorte")
+    private List<InscripcionAlumnos> inscripcionesAlumnos;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,14 +42,19 @@ public class Cohorte implements Serializable {
     private int cantidadCuotas;
     @Column(scale = 2, precision = 10)
     private BigDecimal importeCuota;
-    @OneToMany
-    private List<Alumno> alumnos;
-
     @ManyToOne
     private Carrera carrera;
 
     @OneToOne
     private Anio anio;
+
+    public List<InscripcionAlumnos> getInscripcionesAlumnos() {
+        return inscripcionesAlumnos;
+    }
+
+    public void setInscripcionesAlumnos(List<InscripcionAlumnos> inscripcionesAlumnos) {
+        this.inscripcionesAlumnos = inscripcionesAlumnos;
+    }
 
     public BigDecimal getImporteCuota() {
         return importeCuota;
@@ -72,14 +78,6 @@ public class Cohorte implements Serializable {
 
     public void setCantidadCuotas(int cantidadCuotas) {
         this.cantidadCuotas = cantidadCuotas;
-    }
-
-    public List<Alumno> getAlumnos() {
-        return alumnos;
-    }
-
-    public void setAlumnos(List<Alumno> alumnos) {
-        this.alumnos = alumnos;
     }
 
     public Carrera getCarrera() {

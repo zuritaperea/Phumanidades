@@ -272,13 +272,14 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
     }
 
     public void generar() throws SQLException {
+        Connection conect = null;
 
         try {
 
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
 
-            Connection conect = dataSource.getConnection();
+            conect = dataSource.getConnection();
             String path;
             System.out.println("funcionando");
 
@@ -305,6 +306,10 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
             } catch (Exception ex) {
                 System.out.println(ex + "CAUSA: " + ex.getCause());
 
+            } finally {
+                if (conect != null) {
+                    conect.close();
+                }
             }
 
         }//fin generar
@@ -316,11 +321,12 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
     }
 
     public void generarCobrosGenerales() throws SQLException {
+        Connection conect = null;
 
         try {
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
-            Connection conect = dataSource.getConnection();
+            conect = dataSource.getConnection();
             String path;
             System.out.println("funcionando");
 
@@ -358,6 +364,10 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
         }//fin generar 
         catch (NamingException ex) {
             Logger.getLogger(ConsultaCobrosGeneralesBean.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conect != null) {
+                conect.close();
+            }
         }
 
     }

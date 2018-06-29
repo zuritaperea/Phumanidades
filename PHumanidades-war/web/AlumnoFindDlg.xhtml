@@ -65,6 +65,9 @@ and open the template in the editor.
                              selectionMode="single"
                              >
 
+                    <p:column style="width:26px">
+                        <p:rowToggler />
+                    </p:column>
 
                     <p:column style="word-wrap:break-word;">
                         <f:facet name="header">
@@ -92,7 +95,32 @@ and open the template in the editor.
                         <h:outputText value="#{te.nombre}"/>
 
                     </p:column>
+                    <p:rowExpansion>
+                        <p:panelGrid  columns="2" columnClasses="label,value" style="width:300px">
 
+                            <p:dataTable  id="dtCortesCobrosInicial"
+                                          value="#{te.inscripcionesAlumnos}"
+                                          var="cort"
+                                          >
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Carrera"/>
+                                    </f:facet>
+                                    <h:outputText value="#{cort.cohorte.carrera.descripcion}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Cohorte"/>
+                                    </f:facet>
+                                    <h:outputText value="#{cort.cohorte.descripcion}"/>
+                                </p:column>
+
+
+                            </p:dataTable> 
+
+                        </p:panelGrid>
+                    </p:rowExpansion>
                     <f:facet name="footer">  
                         <p:commandButton id="cbSelectAlumno"
                                          value="Seleccionar"

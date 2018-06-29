@@ -11,6 +11,7 @@
 	<parameter name="cuenta" class="java.lang.String"/>
 	<parameter name="feha_fin_real" class="java.util.Date"/>
 	<parameter name="escudo1" class="java.lang.String"/>
+	<parameter name="formaPago" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
     char_length(trim(to_char(numero_recibo,'999999999'))) as cant,trim(to_char(numero_recibo,'999999999')) as num_rec,
@@ -116,6 +117,8 @@ order by numero_recibo asc]]>
 	<variable name="importe_4" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
 	</variable>
+	<filterExpression><![CDATA[($P{formaPago}!=null?new Boolean($F{formapago}.equals($P{formaPago})):Boolean.TRUE)
+]]></filterExpression>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

@@ -353,23 +353,24 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
     }
 
     public void generar() throws SQLException {
+        Connection conect = null;
 
         try {
-            
+
             InitialContext initialContext;
             initialContext = new InitialContext();
-            
+
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
-            Connection conect = dataSource.getConnection();
+            conect = dataSource.getConnection();
             System.out.println("funcionando");
-            
+
             try {
-                
+
                 HashMap parametros = new HashMap();
-                
+
                 parametros.put("escudo1", escudo1);
                 parametros.put("escudo2", escudo2);
-                
+
 //funcionando
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ultima_cuota.jasper";
@@ -384,14 +385,19 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
                 servletOutputStream.flush();
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
-                
+                conect.close();
+
             } catch (Exception ex) {
                 System.out.println(ex + "CAUSA: " + ex.getCause());
                 ex.printStackTrace();
+            } finally {
+                if (conect != null) {
+                    conect.close();
+                }
             }
-            
+
         }//fin generar
- catch (NamingException ex) {
+        catch (NamingException ex) {
             Logger.getLogger(ConsultaCobrosAlumnosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 

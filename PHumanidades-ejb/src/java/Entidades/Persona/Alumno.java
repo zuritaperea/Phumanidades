@@ -5,6 +5,8 @@
  */
 package Entidades.Persona;
 
+import Entidades.Carreras.Cohorte;
+import Entidades.Carreras.InscripcionAlumnos;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +17,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -59,6 +62,17 @@ public class Alumno implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<CorreoElectronico> correosElectronicos;
+
+    @OneToMany(mappedBy = "alumno")
+    private List<InscripcionAlumnos> inscripcionesAlumnos;
+
+    public List<InscripcionAlumnos> getInscripcionesAlumnos() {
+        return inscripcionesAlumnos;
+    }
+
+    public void setInscripcionesAlumnos(List<InscripcionAlumnos> inscripcionesAlumnos) {
+        this.inscripcionesAlumnos = inscripcionesAlumnos;
+    }
 
     public Long getId() {
         return id;

@@ -172,7 +172,7 @@ public class CobroCuotasAlumnosBeanArchivo implements Serializable {
             InscripcionAlumnos iaLocal = (InscripcionAlumnos) event.getNewValue();
             for (DataFile df : dataList) {
                 if (df.getDni().equals(iaLocal.getAlumno().getDni())) {
-                    if (df.getTipoIngreso() != null) {
+                    if (df.getTipoIngreso() == null) {
                         df.setCuota(String.valueOf(ingresoRNLocal.findUltimaCuotaAlumnoCohorte(iaLocal.getAlumno(),
                                 iaLocal.getCohorte()) + 1));
                     }

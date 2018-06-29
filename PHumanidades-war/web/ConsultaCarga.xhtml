@@ -15,6 +15,14 @@
         <f:metadata>
             <f:event type="preRenderView" listener="#{cantidadCargaBean.getCantidadCarga()}" />
         </f:metadata>
+
+        <p:outputLabel for="desde" value="Desde" />
+        <p:calendar id="desde" value="#{cantidadCargaBean.fechaInicio}" locale="es" navigator="true" pattern="dd/MM/yyyy" />
+        <p:outputLabel for="hasta" value="Hasta" />
+        <p:calendar id="hasta" value="#{cantidadCargaBean.fechaFin}" locale="es" navigator="true" pattern="dd/MM/yyyy" />
+        <p:commandButton value="Consultar" update=":frmPri:dtAlumnosCohorte" actionListener="#{cantidadCargaBean.getCantidadCarga()}" icon="ui-icon-check" />
+
+
         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="dtAlumnosCohorte" /></p:commandButton>
         <p:dataTable id="dtAlumnosCohorte"
@@ -30,6 +38,8 @@
 
             <p:column width="150"
                       style="word-wrap:break-word;"
+                      sortBy="#{item[0]}"
+
                       >
                 <f:facet name="header">
                     <h:outputText value="Usuario"/>
@@ -39,6 +49,7 @@
 
             <p:column width="150"
                       style="word-wrap:break-word;"
+                      sortBy="#{item[1]}"
                       >
                 <f:facet name="header">
                     <h:outputText value="Cantidad"/>
@@ -48,7 +59,9 @@
 
 
             <p:column width="150"
-                      style="word-wrap:break-word;">
+                      style="word-wrap:break-word;"                      
+                      sortBy="#{item[2]}"
+                      >
                 <f:facet name="header">
                     <h:outputText value="Operación"/>
                 </f:facet>              

@@ -205,8 +205,6 @@ public class ConsultaPagosGeneralesBean implements Serializable {
     public void setCarreraLstBean(CarreraLstBean carreraLstBean) {
         this.carreraLstBean = carreraLstBean;
     }
-    
-     
 
     /**
      * Buscar historial de operaciones entre dos fechas
@@ -377,11 +375,12 @@ public class ConsultaPagosGeneralesBean implements Serializable {
     }
 
     private void generarReporte(String query, String type, HashMap parametros) throws SQLException {
+        Connection conect = null;
         try {
 
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
-            Connection conect = dataSource.getConnection();
+            conect = dataSource.getConnection();
 
             try {
 
@@ -430,6 +429,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                 servletOutputStream.flush();
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
+                conect.close();
 
             } catch (Exception ex) {
                 System.out.println(ex + "CAUSA: " + ex.getCause());
@@ -439,6 +439,10 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         }//fin generar
         catch (NamingException ex) {
             Logger.getLogger(ConsultaPagosGeneralesBean.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (conect != null) {
+                conect.close();
+            }
         }
 
     }

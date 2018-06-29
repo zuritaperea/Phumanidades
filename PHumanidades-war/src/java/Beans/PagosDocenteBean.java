@@ -537,7 +537,6 @@ public class PagosDocenteBean implements Serializable {
             
             if (this.proveedorLstBean.getProveedorSelect() == null && this.docenteLstBean.getDocenteSeleccionado() == null) {
                 pagoDocenteAux = this.pagosDocenteRNLocal.buscarPagosDocenteId(this.pagoDocente.getId());
-                //System.out.println("proveedor " + this.pagoDocenteAux.getProveedor().getRazonSocial());
                 if (this.pagoDocenteAux.getProveedor() != null) {
                     this.proveedorLstBean.setProveedorSelect(this.pagoDocenteAux.getProveedor());
                 }
@@ -566,7 +565,10 @@ public class PagosDocenteBean implements Serializable {
             }
             
             BigDecimal montoDesc = new BigDecimal(0);
-            montoDesc = montoDesc.add(pagoDocente.getMonto());
+            try {
+                montoDesc = montoDesc.add(pagoDocente.getMonto());
+            } catch (Exception e) {
+            }
             try {
                 montoDesc = montoDesc.subtract(pagoDocente.getIva());
             } catch (Exception e) {

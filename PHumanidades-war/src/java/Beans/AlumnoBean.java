@@ -678,29 +678,30 @@ public class AlumnoBean {
     }
 
     public void generar() throws SQLException {
+        Connection conect = null;
 
         try {
-            
+
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
-            Connection conect = dataSource.getConnection();
+            conect = dataSource.getConnection();
             String path;
             System.out.println("funcionando" + conect);
-            
+
             try {
-                
+
                 HashMap parametros = new HashMap();
-                
+
                 parametros.put("escudo1", escudo1);
                 parametros.put("escudo2", escudo2);
                 parametros.put("apellido", this.alumnoLstBean.getAlumnoSelect().getApellido());
                 parametros.put("nombre", this.alumnoLstBean.getAlumnoSelect().getNombre());
                 parametros.put("dni", this.alumnoLstBean.getAlumnoSelect().getDni());
-                
+
                 parametros.put("codigo", this.getCodigoRapipago(alumnoLstBean.getAlumnoSelect()));
                 parametros.put("alumno_id", this.alumnoLstBean.getAlumnoSelect().getId());
                 parametros.put("cohorte_id", this.cohorteLstBean.getCohorteSeleccionada().getId());
-                
+
 //funcionando
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ingresosPorPagodeCuotas.jasper";
@@ -713,43 +714,47 @@ public class AlumnoBean {
                 servletOutputStream.flush();
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
-                
+
             } catch (Exception ex) {
                 System.out.println(ex + "CAUSA: " + ex.getCause());
-                
+
             }
-            
+
         }//fin generar
- catch (NamingException ex) {
+        catch (NamingException ex) {
             Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
 
+        } finally {
+            if (conect != null) {
+                conect.close();
+            }
         }
-
     }
 
     public void generarCuotasGeneral() throws SQLException {
+        Connection conect = null;
 
         try {
-            
+
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
-            Connection conect = dataSource.getConnection();
+            conect = dataSource.getConnection();
             String path;
             System.out.println("funcionando");
-            
+
             try {
-                
+
                 HashMap parametros = new HashMap();
-                
+
                 parametros.put("escudo1", escudo1);
                 parametros.put("escudo2", escudo2);
                 parametros.put("apellido", this.alumnoLstBean.getAlumnoSelect().getApellido());
                 parametros.put("nombre", this.alumnoLstBean.getAlumnoSelect().getNombre());
                 parametros.put("dni", this.alumnoLstBean.getAlumnoSelect().getDni());
-                
+
                 parametros.put("codigo", this.getCodigoRapipago(alumnoLstBean.getAlumnoSelect()));
                 parametros.put("alumno_id", this.alumnoLstBean.getAlumnoSelect().getId());
-                
+
                 ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
                 String reportPath = context.getRealPath("") + File.separator + "reporte" + File.separator + "ingresosPorPagosGenerales.jasper";
                 JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
@@ -760,14 +765,18 @@ public class AlumnoBean {
                 servletOutputStream.flush();
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
-                
+
             } catch (Exception ex) {
                 System.out.println(ex + "CAUSA: " + ex.getCause());
-                
+
+            } finally {
+                if (conect != null) {
+                    conect.close();
+                }
             }
-            
+
         }//fin generar
- catch (NamingException ex) {
+        catch (NamingException ex) {
             Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
