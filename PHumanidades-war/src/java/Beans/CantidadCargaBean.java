@@ -9,13 +9,9 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -98,7 +94,7 @@ public class CantidadCargaBean implements Serializable {
             conect.close();
         } catch (Exception ex) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Error: " + ex,
+                    "Error: " + ex.getMessage(),
                     null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);

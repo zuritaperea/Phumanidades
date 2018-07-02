@@ -13,7 +13,7 @@
         <!--Dialogos que se van a usar-->
         <ui:include src="DomicilioDlg.xhtml"/>
         <ui:include src="TelefonosDlg.xhtml" />
-
+        <p:growl id="growl2" />  
         <!--Inicio Dialogo Proveedor ABM -->
 
         <p:dialog id="dProveedor"
@@ -35,6 +35,7 @@
                                  value="#{proveedorBean.proveedor.cuit}"
                                  title="C.U.I.T"
                                  size="11"
+                                 placeholder="12345678901"
                                  maxlength="11"/>
 
                     <p:outputLabel value="Razon Social:" for="itRazonSocial" />
@@ -42,6 +43,7 @@
                                  value="#{proveedorBean.proveedor.razonSocial}" 
                                  title="Razon Social" 
                                  size="50"
+                                 placeholder="Ingrese aquí el nombre o la razón social"
                                  maxlength="100"/>
 
                 </h:panelGrid>
@@ -124,6 +126,7 @@
                                      actionListener="#{proveedorBean.actionBtn()}" 
                                      update=":frmPri:pPriProveedor, :frmPri:dtProveedor, @this"
                                      binding="#{proveedorBean.cbAction}"
+                                     oncomplete="PF('dtProveedor').filter();"
                                      styleClass="boton"/>
 
 
@@ -132,7 +135,7 @@
                                      actionListener="#{proveedorBean.limpiar()}"
                                      oncomplete="PF('dlgProveedor').hide()"
                                      icon="ui-icon-cancel"
-                                     update=":frmPri:dProveedor, :frmPri:dtProveedor"
+                                     update=":frmPri:dProveedor, :frmPri:dtProveedor" 
                                      styleClass="boton"/>
 
                 </div>
@@ -149,68 +152,72 @@
                            class="Bienvenido"/></h1>
 
 
-            <p:commandButton id="cbCreate"
-                             value="Nuevo" 
-                             icon="ui-icon-circle-plus" 
-                             oncomplete="PF('dlgProveedor').show();"
-                             actionListener="#{proveedorBean.setBtnSelect}"
-                             update=":frmPri:dtProveedor, dProveedor"
-                             />
+        <p:commandButton id="cbCreate"
+                         value="Nuevo" 
+                         icon="ui-icon-circle-plus" 
+                         oncomplete="PF('dlgProveedor').show();"
+                         actionListener="#{proveedorBean.setBtnSelect}"
+                         update=":frmPri:dtProveedor, dProveedor"
+                         />
         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
             <p:printer target="dtProveedor" />
         </p:commandButton>      
-        <p></p>            <p:dataTable id="dtProveedor"
-                         value="#{proveedorLstBean.lstProveedor}" 
-                         var="item"
-                         style="overflow-x: auto;"
-                         paginator="true"
-                         rows="20"
-                         binding="#{proveedorLstBean.tablaProveedor}"
-                         rowsPerPageTemplate="20,50,100,500">
+        <p>                    
+        </p>           
+        <p:dataTable id="dtProveedor"
+                     widgetVar="dtProveedor"
+                     value="#{proveedorLstBean.lstProveedor}" 
+                     var="item"
+                     style="overflow-x: auto;"
+                     paginator="true"
+                     rows="20"
+                     binding="#{proveedorLstBean.tablaProveedor}"
+                     filterEvent="enter"
+                     rowsPerPageTemplate="20,50,100,500">
 
-                <p:column >
-                    <p:commandButton id="cbEdit"
-                                     title="Editar"
-                                     icon="ui-icon-pencil" 
-                                     update=":frmPri:dProveedor"
-                                     oncomplete="PF('dlgProveedor').show();"
-                                     actionListener="#{proveedorBean.setBtnSelect}"
-                                     process="@form">                    
+            <p:column >
+                <p:commandButton id="cbEdit"
+                                 title="Editar"
+                                 icon="ui-icon-pencil" 
+                                 update=":frmPri:dProveedor"
+                                 oncomplete="PF('dlgProveedor').show();"
+                                 actionListener="#{proveedorBean.setBtnSelect}"
+                                 process="@form">                    
 
-                        <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
+                    <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
 
-                    </p:commandButton>
+                </p:commandButton>
 
-                    <p:commandButton id="cbDelete"
-                                     title="Eliminar"
-                                     icon="ui-icon-circle-close" 
-                                     update=":frmPri:dProveedor"
-                                     oncomplete="PF('dlgProveedor').show();"
-                                     actionListener="#{proveedorBean.setBtnSelect}">
-                        <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
+                <p:commandButton id="cbDelete"
+                                 title="Eliminar"
+                                 icon="ui-icon-circle-close" 
+                                 update=":frmPri:dProveedor"
+                                 oncomplete="PF('dlgProveedor').show();"
+                                 actionListener="#{proveedorBean.setBtnSelect}">
+                    <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
 
-                    </p:commandButton>
+                </p:commandButton>
 
-                </p:column>
-                <p:column 
-                    filterBy="#{item.cuit}"
-                    style="word-wrap:break-word;">
-                    <f:facet name="header">
-                        <h:outputText value="CUIT"/>
-                    </f:facet>
-                    <h:outputText value="#{item.cuit}"/>
-                </p:column>
+            </p:column>
+            <p:column 
+                filterBy="#{item.cuit}"
+                style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="CUIT"/>
+                </f:facet>
+                <h:outputText value="#{item.cuit}"/>
+            </p:column>
 
-                <p:column 
-                    filterBy="#{item.razonSocial}"
-                    style="word-wrap:break-word;">
-                    <f:facet name="header">
-                        <h:outputText value="Razon Social"/>
-                    </f:facet>
-                    <h:outputText value="#{item.razonSocial}"/>
-                </p:column>
+            <p:column 
+                filterBy="#{item.razonSocial}"
+                style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Razon Social"/>
+                </f:facet>
+                <h:outputText value="#{item.razonSocial}"/>
+            </p:column>
 
-            </p:dataTable>
+        </p:dataTable>
 
     </ui:define>
 </ui:composition>
