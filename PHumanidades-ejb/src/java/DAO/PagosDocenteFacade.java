@@ -188,4 +188,13 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         return q.getResultList();
     }
 
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year) {
+Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosByNumeroOrdenPagoAnio");
+        q.setParameter("numeroOrdenPago", numeroOrdenPago);
+                q.setParameter("anio", year);
+
+        return q.getResultList();    }
+
 }

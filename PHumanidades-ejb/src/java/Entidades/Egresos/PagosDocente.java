@@ -39,6 +39,8 @@ import javax.persistence.Temporal;
             + "AND c.borrado = false"),
     @NamedQuery(name = "PagosDocente.findPagosByNumeroOrdenPago", query = "SELECT p FROM PagosDocente p WHERE p.numeroOrdenPago=:numeroOrdenPago "
             + "AND p.borrado=false AND p.anulado=false ORDER BY p.id ASC"),
+    @NamedQuery(name = "PagosDocente.findPagosByNumeroOrdenPagoAnio", query = "SELECT p FROM PagosDocente p WHERE p.numeroOrdenPago=:numeroOrdenPago "
+            + "AND p.borrado=false AND p.anulado=false AND FUNC('DATE_PART','YEAR', p.fechaRegistro) =:anio  ORDER BY p.id ASC"),
     @NamedQuery(name = "PagosDocente.findByFechaCarrera", query = "SELECT p FROM PagosDocente p WHERE p.carrera=:carrera "
             + "AND p.borrado=false AND p.fechaRegistro BETWEEN :fechaIni AND :fechaFin ORDER BY p.fechaRegistro"),
     @NamedQuery(name = "PagosDocente.findByFechaCarreraDocente", query = "SELECT p FROM PagosDocente p WHERE p.carrera=:carrera "

@@ -56,5 +56,6 @@ public interface PagosDocenteRNLocal {
     public List<PagosDocente> findPagosXFechaDocente(Date ini, Date fin);
 
     public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago) throws Exception;
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year) throws Exception;
 
 }

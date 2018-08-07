@@ -119,4 +119,9 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
         return pagosDocenteFacadeLocal.findPagosByNumeroOrdenPago(numeroOrdenPago);
     }
 
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year) throws Exception {
+        return pagosDocenteFacadeLocal.findPagosByNumeroOrdenPagoAnio(numeroOrdenPago,year);
+    }
+
 }

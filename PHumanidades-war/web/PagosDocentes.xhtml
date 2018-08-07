@@ -671,16 +671,7 @@
                                  disabled="#{item.borrado}"
                                  >
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
-                    <f:setPropertyActionListener value="#{item.docente}" target="#{docenteLstBean.docenteSeleccionado}" />  
-
-                    <f:setPropertyActionListener value="#{item.proveedor}" target="#{proveedorLstBean.proveedorSelect}" />  
-
-                    <f:setPropertyActionListener value="#{item.carrera}" target="#{carreraLstBean.carreraSelect}" />  
-                    <f:setPropertyActionListener value="#{item.carrera}" target="#{carreraLstBean.carreraSeleccionada}" />  
-
-                    <f:setPropertyActionListener value="#{item.docente.carreras}" target="#{carreraLstBean.lstCarrera}" />  
-                    <f:setPropertyActionListener value="#{item.docente.carreras}" target="#{carreraLstBean.lstCarrerasAsoc}" />  
-                    <f:setPropertyActionListener value="#{item.docente.carreras}" target="#{carreraLstBean.lstCarrerasDocente}" />  
+                   
 
 
                 </p:commandButton>

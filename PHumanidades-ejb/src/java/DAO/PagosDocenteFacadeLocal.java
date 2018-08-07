@@ -63,4 +63,6 @@ public interface PagosDocenteFacadeLocal {
 
     public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago);
 
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year);
+
 }

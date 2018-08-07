@@ -117,22 +117,40 @@
                     <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
                 </h:outputText>                 
             </f:facet>
+
+            <p:column
+                style="word-wrap:break-word;"
+                filterBy="#{item.numeroComprobante}">
+                <f:facet name="header">
+                    <h:outputText value="Comprabante"/>
+                </f:facet>
+                <h:outputText value="#{item.numeroComprobante} " />
+                <h:outputText value="#{item.fechaComprobante}">                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
+                </h:outputText>
+
+            </p:column>   
+
             <p:column
                 style="word-wrap:break-word;"
                 filterBy="#{item.docente.apellido}">
                 <f:facet name="header">
-                    <h:outputText value="Apellido"/>
+                    <h:outputText value="Docente"/>
                 </f:facet>
-                <h:outputText value="#{item.docente.apellido}"/>
-            </p:column>
+                <h:outputText value="#{item.docente.apellido} , " />
+                <h:outputText value="#{item.docente.nombre}"/>
+
+            </p:column>         
+
 
             <p:column 
                 style="word-wrap:break-word;"
-                filterBy="#{item.docente.nombre}">
+                filterBy="#{item.proveedor.razonSocial}"
+                filterMatchMode="contains">
                 <f:facet name="header">
-                    <h:outputText value="Nombre"/>
+                    <h:outputText value="Proveedor"/>
                 </f:facet>
-                <h:outputText value="#{item.docente.nombre}"/>
+                <h:outputText value="#{item.proveedor.cuit} - " />
+                <h:outputText value="#{item.proveedor.razonSocial}"/>
             </p:column>
 
             <p:column 
@@ -143,26 +161,6 @@
                 </f:facet>
                 <h:outputText value="#{item.carrera.descripcion}"/>
             </p:column>
-
-            <p:column width="80"
-                      style="word-wrap:break-word;"
-                      filterBy="#{item.proveedor.cuit}">
-                <f:facet name="header">
-                    <h:outputText value="CUIT"/>
-                </f:facet>
-                <h:outputText value="#{item.proveedor.cuit}"/>
-            </p:column>
-
-            <p:column 
-                style="word-wrap:break-word;"
-                filterBy="#{item.proveedor.razonSocial}">
-                <f:facet name="header">
-                    <h:outputText value="Razon Social"/>
-                </f:facet>
-                <h:outputText value="#{item.proveedor.razonSocial}"/>
-            </p:column>
-
-
 
             <p:column width="100"
                       style="word-wrap:break-word;"

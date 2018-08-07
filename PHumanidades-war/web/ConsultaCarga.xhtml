@@ -17,9 +17,9 @@
         </f:metadata>
 
         <p:outputLabel for="desde" value="Desde" />
-        <p:calendar id="desde" value="#{cantidadCargaBean.fechaInicio}" locale="es" navigator="true" pattern="dd/MM/yyyy" />
+        <p:calendar id="desde" value="#{cantidadCargaBean.fechaInicio}" locale="es_ES" navigator="true" pattern="dd/MM/yyyy" />
         <p:outputLabel for="hasta" value="Hasta" />
-        <p:calendar id="hasta" value="#{cantidadCargaBean.fechaFin}" locale="es" navigator="true" pattern="dd/MM/yyyy" />
+        <p:calendar id="hasta" value="#{cantidadCargaBean.fechaFin}" locale="es_ES" navigator="true" pattern="dd/MM/yyyy" />
         <p:commandButton value="Consultar" update=":frmPri:dtAlumnosCohorte" actionListener="#{cantidadCargaBean.getCantidadCarga()}" icon="ui-icon-check" />
 
 
