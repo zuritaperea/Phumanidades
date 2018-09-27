@@ -54,6 +54,10 @@ import javax.persistence.Temporal;
     @NamedQuery(name = "Ingreso.findByFecha", query = "SELECT i FROM Ingreso i WHERE i.borrado=false "
             + "and i.cohorte is not null AND (i.fechaPago BETWEEN :fechaIni AND :fechaFin) "
             + "and i.importe > 0 ORDER BY i.fechaPago"),
+    @NamedQuery(name = "Ingreso.findAllNoCerrados", query = "SELECT g FROM Ingreso g WHERE g.borrado=false AND g.anulado=false "
+            + " and g.fechaCierre IS NULL ORDER BY g.fechaPago DESC"),
+    @NamedQuery(name = "Ingreso.findNoCerradosFecha", query = "SELECT g FROM Ingreso g WHERE g.borrado=false AND g.anulado=false "
+            + " and g.fechaCierre IS NULL AND g.fechaPago <= :fechaCierre ORDER BY g.fechaPago DESC"),
     @NamedQuery(name = "Ingreso.findByFechaGenerales", query = "SELECT i FROM Ingreso i WHERE i.borrado=false AND i.anulado=false "
             + "AND (i.fechaPago BETWEEN :fechaIni AND :fechaFin) and i.importe > 0 ORDER BY i.fechaPago"),
     @NamedQuery(name = "Ingreso.findCobrosByDni",
@@ -128,6 +132,17 @@ public class Ingreso extends Base implements Serializable {
 
     @OneToOne
     private TipoIngreso tipoIngreso;
+
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaCierre;
+
+    public Date getFechaCierre() {
+        return fechaCierre;
+    }
+
+    public void setFechaCierre(Date fechaCierre) {
+        this.fechaCierre = fechaCierre;
+    }
 
     public TipoIngreso getTipoIngreso() {
         return tipoIngreso;

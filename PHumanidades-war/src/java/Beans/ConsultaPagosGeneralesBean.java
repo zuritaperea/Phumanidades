@@ -1,7 +1,6 @@
 package Beans;
 
 import DAO.TipoEgresoFacadeLocal;
-import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import Entidades.Egresos.RubroPresupuestario;
 import Entidades.Egresos.TipoEgreso;
@@ -10,7 +9,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,11 +21,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.el.ELContext;
+import javax.el.ELResolver;
+import javax.el.ValueExpression;
+import javax.el.ValueReference;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -35,7 +37,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.criteria.Predicate;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -44,7 +45,10 @@ import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import org.primefaces.component.api.UIColumn;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
+import org.primefaces.el.ValueExpressionAnalyzer;
 import org.primefaces.event.TabChangeEvent;
 
 /**
@@ -463,4 +467,35 @@ public class ConsultaPagosGeneralesBean implements Serializable {
         }
         return tipo;
     }
+
+    public void onSummaryRow(Object filter) {
+        try {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ELContext elContext = facesContext.getELContext();
+            ELResolver elResolver = elContext.getELResolver();
+            
+            DataTable table = (DataTable) UIComponent.getCurrentComponent(facesContext);
+            
+            UIColumn sortColumn = table.getSortColumn();
+            ValueExpression expression = sortColumn.getValueExpression("sortBy");
+            ValueReference reference = ValueExpressionAnalyzer.getReference(elContext, expression);
+            String property = (String) reference.getProperty();
+            
+            BigDecimal total = BigDecimal.ZERO;
+            List<?> rowList = (List<?>) table.getValue();
+            for (Object row : rowList) {
+                Object value = elResolver.getValue(elContext, row, property);
+                if (filter.equals(value)) {
+                    // THIS IS THE ONLY POINT TO CUSTOMIZE
+                    total = total.add((BigDecimal) row);
+                }
+            }
+            
+            List<UIComponent> children = table.getSummaryRow().getChildren();
+            UIComponent column = children.get(children.size() - 1);
+            column.getAttributes().put("total", total);
+        } catch (Exception e) {
+        }
+    }
+
 }

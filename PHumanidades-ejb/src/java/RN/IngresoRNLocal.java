@@ -63,7 +63,7 @@ public interface IngresoRNLocal {
     public Ingreso find(Long id);
 
     public Ingreso getByNumeroRecibo(Cuenta cuenta, int numero, int anio);
-    
+
     public int findUltimoNumero(Cuenta cuenta, int anio);
 
     public List<Object[]> consultaUltimaCuotaAlumno();
@@ -73,6 +73,8 @@ public interface IngresoRNLocal {
     public List<Ingreso> findAllByNumeroRecibo(Cuenta cuenta, int numero, int anio);
 
     public List<Ingreso> findAllByCuenta(Cuenta cuenta, int anio);
+
+    public List<Ingreso> findAllNoCerrados();
 
     public void anular(Ingreso ingreso, Usuarios usuario);
 

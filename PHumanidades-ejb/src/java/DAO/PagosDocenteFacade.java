@@ -170,7 +170,7 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
             predicates.add(
                     qb.equal(pagos.get("tipoEgreso"), tipoEgreso));
         }
-         if (carrera != null) {
+        if (carrera != null) {
             predicates.add(
                     qb.equal(pagos.get("carrera"), carrera));
         }
@@ -190,11 +190,47 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
 
     @Override
     public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year) {
-Query q = null;
+        Query q = null;
         q = em.createNamedQuery("PagosDocente.findPagosByNumeroOrdenPagoAnio");
         q.setParameter("numeroOrdenPago", numeroOrdenPago);
-                q.setParameter("anio", year);
+        q.setParameter("anio", year);
 
-        return q.getResultList();    }
+        return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioAnulado(int numeroOrdenPago, int year) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosByNumeroOrdenPagoAnioAnulado");
+        q.setParameter("numeroOrdenPago", numeroOrdenPago);
+        q.setParameter("anio", year);
+
+        return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioBorrado(int numeroOrdenPago, int year) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosByNumeroOrdenPagoAnioBorrado");
+        q.setParameter("numeroOrdenPago", numeroOrdenPago);
+        q.setParameter("anio", year);
+
+        return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findAllNoCerrados() {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findAllNoCerrados");
+        return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findNoCerradosFecha(Date fechaCierre) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findNoCerradosFecha");
+        q.setParameter("fechaCierre", fechaCierre);
+        return q.getResultList();
+    }
 
 }

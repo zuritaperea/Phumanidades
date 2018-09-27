@@ -45,7 +45,6 @@
                                  size="50"
                                  placeholder="Ingrese aquí el nombre o la razón social"
                                  maxlength="100"/>
-
                 </h:panelGrid>
 
                 <p:panel header="Domicilio"
@@ -201,7 +200,8 @@
             </p:column>
             <p:column 
                 filterBy="#{item.cuit}"
-                style="word-wrap:break-word;">
+                style="word-wrap:break-word;"
+                sortBy="#{item.cuit}">
                 <f:facet name="header">
                     <h:outputText value="CUIT"/>
                 </f:facet>
@@ -210,6 +210,7 @@
 
             <p:column 
                 filterBy="#{item.razonSocial}"
+                sortBy="#{item.razonSocial}"
                 style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Razon Social"/>

@@ -104,6 +104,7 @@
                      var="item"
                      paginator="true"
                      filterEvent="enter"
+                     sortBy="#{item.id}"
                      rows="20">
 
             <f:facet name="header">
@@ -122,7 +123,7 @@
                 style="word-wrap:break-word;"
                 filterBy="#{item.numeroComprobante}">
                 <f:facet name="header">
-                    <h:outputText value="Comprabante"/>
+                    <h:outputText value="Comprobante"/>
                 </f:facet>
                 <h:outputText value="#{item.numeroComprobante} " />
                 <h:outputText value="#{item.fechaComprobante}">                    <f:convertDateTime pattern="dd/MM/yyyy"></f:convertDateTime>  
@@ -201,7 +202,8 @@
                 </f:facet>
                 <h:outputText value="#{item.numeroOrdenPago}"/>
             </p:column>
-            <f:facet name="footer" id="pnTotalPagoGeneral">
+
+            <f:facet name="footer" id="pnTotalPagoGeneral" >
                 <h:outputLabel value="Importe Total: $ " />
                 <h:outputText id="otTotalPagoGeneral"
                               value="#{consultaPagosGeneralesBean.totalXGastoGeneral}"/>  
@@ -209,7 +211,6 @@
                 <h:outputText  value="#{consultaCobrosAlumnosBean.now}">
                     <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES"/>
                 </h:outputText>
-
             </f:facet>
         </p:dataTable>
 

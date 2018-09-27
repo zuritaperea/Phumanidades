@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CierreDlg" widgetVar="CajaCierreDlg" modal="true" position="top" header="Realizar Cierre">
+            <p:panel id="pCajaCierre" header="Saldo" >
+                <p:panelGrid columns="2" styleClass="noBorders">
+                    <p:outputLabel value="Ingresos: "/>
+                    <h:outputText value="#{cierreBean.totalIngresos}" title="Importe Ingresos" >            
+                        <f:convertNumber currencySymbol="$" type="currency" />
+                    </h:outputText>
+                    <p:outputLabel value="Egresos: "/>
+                    <h:outputText value="#{cierreBean.totalEgresos}" title="Importe Egresos" >
+                        <f:convertNumber currencySymbol="$" type="currency" />
+                    </h:outputText>
+                    <p:outputLabel value="Saldo: "/>
+                    <h:outputText  value="#{cierreBean.saldo}" title="Saldo" >
+                        <f:convertNumber currencySymbol="$" type="currency" />
+                    </h:outputText>
+                    <p:outputLabel value="Fecha Cierre: "/>
+
+                    <p:calendar id="fechaCobroInicial" 
+                                value="#{cierreBean.fechaCierre}"
+                                mode="popup"
+                                showOn="button"
+                                navigator="true" />
+
+                </p:panelGrid>
+            </p:panel>
+
+            <p:commandButton actionListener="#{cierreBean.cerrarCaja()}" value="Aceptar" update="frmPri:growl"/>
+
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -53,7 +53,7 @@
                         <p:commandButton id="createButtonE" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoEgresoController.prepareCreate}" update=":TipoEgresoCreateForm" oncomplete="PF('TipoEgresoCreateDialog').show()"/>
                         <p:commandButton id="viewButtonE"   icon="ui-icon-search" value="#{bundle.View}" update=":TipoEgresoViewForm" oncomplete="PF('TipoEgresoViewDialog').show()" disabled="#{empty tipoEgresoController.selected}"/>
                         <p:commandButton id="editButtonE"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoEgresoEditForm" oncomplete="PF('TipoEgresoEditDialog').show()" disabled="#{empty tipoEgresoController.selected}"/>
-                        <p:commandButton id="deleteButtonE" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoEgresoController.destroy}" update=":growl,datalistE" disabled="#{empty tipoEgresoController.selected}"/>
+                        <p:commandButton id="deleteButtonE" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoEgresoController.destroy}" update=":frmPri:growl,datalistE" disabled="#{empty tipoEgresoController.selected}"/>
                     </f:facet>
                 </p:dataTable>
             </p:panel>

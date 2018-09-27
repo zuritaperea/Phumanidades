@@ -38,22 +38,26 @@ public interface PagosDocenteFacadeLocal {
     public List<PagosDocente> findByFechaCarrera(Date ini, Date fin, Carrera carrera);
 
     public List<PagosDocente> findPagosGeneralXFecha(Date ini, Date fin);
-    
+
     public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta);
 
     public void updateBorrado(Boolean bEstado, Long id) throws Exception;
 
     public List<PagosDocente> findPagosByDni(String dni);
-    
+
     public List<PagosDocente> findPagosByTipoEgreso(TipoEgreso tipo);
-    
-    public List<PagosDocente> findPagosByPredicates(Date FechaInicio,Date FechaFin,Cuenta cuenta,TipoEgreso tipoEgreso, Carrera carrera);
-    
+
+    public List<PagosDocente> findPagosByPredicates(Date FechaInicio, Date FechaFin, Cuenta cuenta, TipoEgreso tipoEgreso, Carrera carrera);
+
     public PagosDocente buscarPagosDocenteId(Long id);
 
     public int findUltimoNumero();
 
     public List<PagosDocente> findAllDesc();
+
+    public List<PagosDocente> findAllNoCerrados();
+
+    public List<PagosDocente> findNoCerradosFecha(Date fechaCierre);
 
     public List<PagosDocente> findByFechaCarreraDocente(Date fechaIni, Date fechaFin, Carrera carrera);
 
@@ -64,5 +68,9 @@ public interface PagosDocenteFacadeLocal {
     public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago);
 
     public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year);
+
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioAnulado(int numeroOrdenPago, int year);
+
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioBorrado(int numeroOrdenPago, int year);
 
 }

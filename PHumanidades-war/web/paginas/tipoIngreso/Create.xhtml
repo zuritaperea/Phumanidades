@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundle.CreateTipoIngresoLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{tipoIngresoController.selected.descripcion}" title="#{bundle.CreateTipoIngresoTitle_descripcion}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tipoIngresoController.create}" value="#{bundle.Save}" update="display,:TipoIngresoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TipoIngresoCreateDialog');"/>
+                    <p:commandButton actionListener="#{tipoIngresoController.create}" value="#{bundle.Save}" update="display,:TipoIngresoListForm:datalist,:frmPri:growl" oncomplete="handleSubmit(args,'TipoIngresoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TipoIngresoCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

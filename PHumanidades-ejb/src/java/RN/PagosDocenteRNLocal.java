@@ -26,6 +26,8 @@ public interface PagosDocenteRNLocal {
 
     public void remove(PagosDocente pagosDocente, Boolean bEstado) throws Exception;
 
+    public void removeTotal(PagosDocente pagosDocente) throws Exception;
+
     public List<PagosDocente> findAll() throws Exception;
 
     public PagosDocente buscarPagosDocente(PagosDocente pagosDocente);
@@ -56,6 +58,11 @@ public interface PagosDocenteRNLocal {
     public List<PagosDocente> findPagosXFechaDocente(Date ini, Date fin);
 
     public List<PagosDocente> findPagosByNumeroOrdenPago(int numeroOrdenPago) throws Exception;
+
     public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year) throws Exception;
+
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioBorrado(int numeroOrdenPago, int year) throws Exception;
+
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioAnulado(int numeroOrdenPago, int year) throws Exception;
 
 }

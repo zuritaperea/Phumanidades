@@ -52,7 +52,7 @@
                         <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tipoIngresoController.prepareCreate}" update=":TipoIngresoCreateForm" oncomplete="PF('TipoIngresoCreateDialog').show()"/>
                         <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TipoIngresoViewForm" oncomplete="PF('TipoIngresoViewDialog').show()" disabled="#{empty tipoIngresoController.selected}"/>
                         <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TipoIngresoEditForm" oncomplete="PF('TipoIngresoEditDialog').show()" disabled="#{empty tipoIngresoController.selected}"/>
-                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoIngresoController.destroy}" update=":growl,datalist" disabled="#{empty tipoIngresoController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tipoIngresoController.destroy}" update=":frmPri:growl,datalist" disabled="#{empty tipoIngresoController.selected}"/>
                     </f:facet>
                 </p:dataTable>
             </p:panel>

@@ -257,7 +257,7 @@
                 <p:commandButton id="btnEditCA"
                                  action="CobroCuotasEdit.xhtml"                                 
                                  icon="ui-icon-pencil"                            
-                                 disabled="#{item.borrado}"
+                                 disabled="#{item.borrado or item.fechaCierre!=null}"
                                  ajax="false"
                                  title="Modificar Ingreso Cuotas">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosLstBean.ingreso}" />  
@@ -265,7 +265,7 @@
                 <p:commandButton id="btnEditCobroCA"
                                  action="IngresosModificarGeneral.xhtml"                                 
                                  icon="ui-icon-pencil"                            
-                                 disabled="#{item.borrado}"
+                                 disabled="#{item.borrado or item.fechaCierre!=null}"
                                  ajax="false"
                                  title="Modificar Ingreso General">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosLstBean.ingreso}" />  
@@ -275,7 +275,7 @@
                                  update=":frmPri, @this"
                                  icon="ui-icon-close"
                                  title="Borrar"
-                                 disabled="#{item.borrado}"
+                                 disabled="#{item.borrado or item.fechaCierre!=null}"
                                  oncomplete="PF('dtCobroCuotas').filter();">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosBean.ingreso}" />  
 
@@ -286,7 +286,7 @@
                                  icon="ui-icon-unlocked" 
                                  update=":frmPri, @this"
                                  action="#{cobroCuotasAlumnosBean.borrar(false)}"                     
-                                 disabled="#{not item.borrado}"
+                                 disabled="#{not item.borrado or item.fechaCierre!=null}"
                                  oncomplete="PF('dtCobroCuotas').filter();">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosBean.ingreso}" />  
 
@@ -296,7 +296,7 @@
                                  update=":frmPri, @this"
                                  icon="ui-icon-close"
                                  title="Anular"
-                                 disabled="#{item.anulado}"
+                                 disabled="#{item.anulado or item.fechaCierre!=null}"
                                  oncomplete="PF('dtCobroCuotas').filter();">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosBean.ingreso}" />  
 
@@ -307,7 +307,7 @@
                                  update=":frmPri:dtCobroCuotas, @this"
                                  title="Recuperar Anulado"
                                  action="#{cobroCuotasAlumnosBean.anular(false)}"                     
-                                 disabled="#{not item.anulado}"
+                                 disabled="#{not item.anulado or item.fechaCierre!=null}"
                                  oncomplete="PF('dtCobroCuotas').filter();">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosBean.ingreso}" />  
 

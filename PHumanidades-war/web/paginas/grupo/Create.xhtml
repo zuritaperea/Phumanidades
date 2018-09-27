@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundleGrupo.CreateGrupoLabel_id}" for="id" />
                         <p:inputText id="id" value="#{grupoController.selected.id}" title="#{bundleGrupo.CreateGrupoTitle_id}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{grupoController.create}" value="#{bundleGrupo.Save}" update="display,:GrupoListForm:datalist,:growl" oncomplete="handleSubmit(args,'GrupoCreateDialog');"/>
+                    <p:commandButton actionListener="#{grupoController.create}" value="#{bundleGrupo.Save}" update="display,:GrupoListForm:datalist,frmPri:growl" oncomplete="handleSubmit(args,'GrupoCreateDialog');"/>
                     <p:commandButton value="#{bundleGrupo.Cancel}" onclick="GrupoCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

@@ -299,4 +299,27 @@ public class IngresoFacade extends AbstractFacade<Ingreso> implements IngresoFac
         }
     }
 
+    @Override
+    public List<Ingreso> findAllNoCerrados() {
+        try {
+            Query q = em.createNamedQuery("Ingreso.findAllNoCerrados");
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.println("exception " + e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Ingreso> findNoCerradosFecha(Date fechaCierre) {
+        try {
+            Query q = em.createNamedQuery("Ingreso.findNoCerradosFecha");
+            q.setParameter("fechaCierre", fechaCierre);
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.println("exception " + e);
+            return null;
+        }
+    }
+
 }

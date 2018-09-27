@@ -20,7 +20,7 @@
                         <p:selectBooleanCheckbox id="borrado" value="#{tipoEgresoController.selected.borrado}" />
 
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{tipoEgresoController.update}" value="#{bundle.Save}" update="display,:TipoEgresoListForm:datalistE,:growl" oncomplete="handleSubmit(args, 'TipoEgresoEditDialog');"/>
+                    <p:commandButton actionListener="#{tipoEgresoController.update}" value="#{bundle.Save}" update="display,:TipoEgresoListForm:datalistE,:frmPri:growl" oncomplete="handleSubmit(args, 'TipoEgresoEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TipoEgresoEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

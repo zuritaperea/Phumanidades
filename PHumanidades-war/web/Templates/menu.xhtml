@@ -22,10 +22,13 @@
                         <p:menuitem value="Proveedores" action="#{navegarBean.frmProveedor()}"></p:menuitem>
                         <p:menuitem value="Cohortes" action="#{navegarBean.frmCohorte()}"></p:menuitem>
                         <p:menuitem value="Inscripcion Alumnos" action="#{navegarBean.frmInscripcionAlumnos()}"></p:menuitem>
+                        <p:menuitem value="Realizar Cierre" update="growl,frmPri:pCajaCierre" icon="ui-icon-circle-close" actionListener="#{cierreBean.calcularSaldo()}"></p:menuitem>
+
                     </p:submenu>
                     <p:submenu label="Egresos" icon="ui-icon-arrowreturnthick-1-n">
                         <p:menuitem value="Egresos"  action="#{navegarBean.frmPagosDocentes()}"></p:menuitem> 
                         <p:menuitem value="Tipos de Egreso" ajax="false" action="/paginas/tipoEgreso/List.xhtml?faces-redirect=true"></p:menuitem>    
+
                     </p:submenu>
                     <p:submenu label="Ingresos" icon="ui-icon-arrowreturnthick-1-s">
                         <p:menuitem value="Todos" action="#{navegarBean.frmIngresos()}"></p:menuitem>
@@ -59,4 +62,7 @@
             </b:navbarLinks>
 
         </b:navBar> 
+
+        <ui:include src="cierre.xhtml"/>
+
     </ui:composition></html>

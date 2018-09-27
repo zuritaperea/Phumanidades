@@ -283,4 +283,9 @@ public class IngresoRN implements IngresoRNLocal {
         return ingresoCuotaFacadeLocal.findUltimoNumero(cuenta, anio);
     }
 
+    @Override
+    public List<Ingreso> findAllNoCerrados() {
+        return ingresoCuotaFacadeLocal.findAllNoCerrados();
+    }
+
 }

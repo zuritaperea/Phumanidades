@@ -351,7 +351,13 @@
                         </h:panelGrid>                        <div style="float:none;clear: both"></div>
 
                         <p:accordionPanel activeIndex="-1" id="masComprobantes">
+
                             <p:tab title="Más Comprobantes" >
+                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente2.id}" />
+                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente3.id}" />
+                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente4.id}" />
+                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente5.id}" />
+                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente6.id}" />
                                 <h:panelGrid columns="7" cellpadding="2">
                                     <h:outputText value="Tipo Egreso" />
                                     <h:outputText value="Fecha"/>
@@ -630,12 +636,8 @@
         <p:commandButton id="btnNuevoPago"
                          value="Nuevo" 
                          icon="ui-icon-circle-plus" 
-                         oncomplete="PF('dlgPagosDocentes').show();"
                          actionListener="#{pagosDocenteBean.definirActionBoton}" 
                          update=":frmPri:dtPagosDocente,:frmPri:dRegistrarPagosDocentes"/>
-
-
-
 
         <p> <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                 <p:printer target="dtPagosDocente" />
@@ -664,16 +666,13 @@
             <!--INICIO BOTONES EDITAR, ELIMINAR RECUPERAR -->
             <p:column width="150" exportable="false">
                 <p:commandButton id="btnEdit"
-                                 actionListener="#{pagosDocenteBean.definirActionBoton}"                                 
+                                 actionListener="#{pagosDocenteBean.definirActionBoton}"   
+                                 action="#{pagosDocenteBean.cargar()}"                    
                                  update=":frmPri:dRegistrarPagosDocentes"
-                                 oncomplete="PF('dlgPagosDocentes').show();"
                                  icon="ui-icon-pencil"
-                                 disabled="#{item.borrado}"
+                                 disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}"
                                  >
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
-                   
-
-
                 </p:commandButton>
 
                 <p:commandButton id="btnDelete" 
@@ -682,7 +681,8 @@
                                  oncomplete="PF('dlgPagosDocentes').show();"
                                  icon="ui-icon-close"
                                  title="Borrar"
-                                 disabled="#{item.borrado}">
+                                 disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}"
+                                 >
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
 
                 </p:commandButton>
@@ -693,7 +693,7 @@
                                  update=":frmPri:dRegistrarPagosDocentes, @this"
                                  oncomplete="PF('dlgPagosDocentes').show();"
                                  actionListener="#{pagosDocenteBean.definirActionBoton}"
-                                 disabled="#{not item.borrado}">
+                                 disabled="#{not item.borrado or item.fechaCierre!=null}">
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
 
                 </p:commandButton>
@@ -702,7 +702,7 @@
                                  update=":frmPri:dRegistrarPagosDocentes, @this"
                                  icon="ui-icon-close"
                                  title="Anular"
-                                 disabled="#{item.anulado}">
+                                 disabled="#{item.anulado or item.fechaCierre!=null or item.borrado}">
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
 
                 </p:commandButton>
@@ -712,7 +712,7 @@
                                  icon="ui-icon-unlocked" 
                                  update=":frmPri:dRegistrarPagosDocentes, @this"
                                  action="#{pagosDocenteBean.anular(false)}"                     
-                                 disabled="#{not item.anulado}">
+                                 disabled="#{not item.anulado or item.fechaCierre!=null}">
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
 
                 </p:commandButton>
@@ -722,7 +722,7 @@
                                  update=":frmPri:dReciboPagoDocente, @this"
                                  oncomplete="PF('dlgReciboPagoDocente').show();"
                                  action="#{pagosDocenteBean.cargar()}"                    
-                                 disabled="#{item.borrado}">
+                                 disabled="#{item.borrado or item.anulado}">
                     <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
 
                 </p:commandButton>

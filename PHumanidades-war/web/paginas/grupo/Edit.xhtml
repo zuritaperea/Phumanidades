@@ -17,7 +17,7 @@
                         <p:outputLabel value="#{bundleGrupo.EditGrupoLabel_id}" for="id" />
                         <p:inputText id="id" value="#{grupoController.selected.id}" title="#{bundleGrupo.EditGrupoTitle_id}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{grupoController.update}" value="#{bundleGrupo.Save}" update="display,:GrupoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'GrupoEditDialog');"/>
+                    <p:commandButton actionListener="#{grupoController.update}" value="#{bundleGrupo.Save}" update="display,:GrupoListForm:datalist,frmPri:growl" oncomplete="handleSubmit(args, 'GrupoEditDialog');"/>
                     <p:commandButton value="#{bundleGrupo.Cancel}" onclick="GrupoEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

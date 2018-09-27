@@ -28,6 +28,7 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
     @Override
     public void create(PagosDocente pagosDocente) throws Exception {
         pagosDocente.setBorrado(Boolean.FALSE);
+        pagosDocente.setAnulado(Boolean.FALSE);
         pagosDocenteFacadeLocal.create(pagosDocente);
     }
 
@@ -121,7 +122,22 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
 
     @Override
     public List<PagosDocente> findPagosByNumeroOrdenPagoAnio(int numeroOrdenPago, int year) throws Exception {
-        return pagosDocenteFacadeLocal.findPagosByNumeroOrdenPagoAnio(numeroOrdenPago,year);
+        return pagosDocenteFacadeLocal.findPagosByNumeroOrdenPagoAnio(numeroOrdenPago, year);
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioAnulado(int numeroOrdenPago, int year) throws Exception {
+        return pagosDocenteFacadeLocal.findPagosByNumeroOrdenPagoAnioAnulado(numeroOrdenPago, year);
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByNumeroOrdenPagoAnioBorrado(int numeroOrdenPago, int year) throws Exception {
+        return pagosDocenteFacadeLocal.findPagosByNumeroOrdenPagoAnioBorrado(numeroOrdenPago, year);
+    }
+
+    @Override
+    public void removeTotal(PagosDocente pagosDocente) throws Exception {
+        pagosDocenteFacadeLocal.remove(pagosDocente);
     }
 
 }

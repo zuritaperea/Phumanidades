@@ -42,7 +42,7 @@
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundleGrupo.Create}" actionListener="#{grupoController.prepareCreate}" update=":GrupoCreateForm" oncomplete="PF('GrupoCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundleGrupo.View}" update=":GrupoViewForm" oncomplete="PF('GrupoViewDialog').show()" disabled="#{empty grupoController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundleGrupo.Edit}" update=":GrupoEditForm" oncomplete="PF('GrupoEditDialog').show()" disabled="#{empty grupoController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundleGrupo.Delete}" actionListener="#{grupoController.destroy}" update=":growl,datalist" disabled="#{empty grupoController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundleGrupo.Delete}" actionListener="#{grupoController.destroy}" update=":frmPri:growl,datalist" disabled="#{empty grupoController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
