@@ -268,7 +268,7 @@ public class ProveedorBean implements Serializable {
             severity = FacesMessage.SEVERITY_INFO;
             getProveedorLstBean().findAllProveedores();
             RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:growl2");
+            RequestContext.getCurrentInstance().update("frmPri:growl");
 
             //agregar a la lista
             // this.getUsuarioLstBean().getLstUsuario().add(this.getUsuario());
@@ -301,7 +301,7 @@ public class ProveedorBean implements Serializable {
             severity = FacesMessage.SEVERITY_INFO;
             getProveedorLstBean().findAllProveedores();
             RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:growl2");
+            RequestContext.getCurrentInstance().update("frmPri:growl");
 
             //elimino y agrego  a la lista
 //            int iPos = this.getProveedorLstBean().getLstProveedor().indexOf(this.getProveedor());
@@ -344,7 +344,7 @@ public class ProveedorBean implements Serializable {
 //            this.getProveedorLstBean().getLstProveedor().remove(this.getProveedor());
             getProveedorLstBean().findAllProveedores();
             RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:growl2");
+            RequestContext.getCurrentInstance().update("frmPri:growl");
 
             this.getCbAction().setValue("Eliminar");
             this.getCbAction().setDisabled(true);

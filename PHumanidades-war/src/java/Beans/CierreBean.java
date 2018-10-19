@@ -114,12 +114,15 @@ public class CierreBean implements Serializable {
             egreso.setFechaCierre(fechaCierre);
             pagosDocenteFacadeLocal.edit(egreso);
         }
-        for (Ingreso ingreso : ingresoFacadeLocal.findAllNoCerrados()) {
+        for (Ingreso ingreso : ingresoFacadeLocal.findNoCerradosFecha(fechaCierre)) {
             ingreso.setFechaCierre(fechaCierre);
             ingresoFacadeLocal.edit(ingreso);
         }
         //selected.setCajaFinal(cajaArqueo);
+        RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
+        RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
         RequestContext.getCurrentInstance().execute("PF('CajaCierreDlg').hide();");
+
         FacesMessage facesMsg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cierre Realizado", null);
         FacesContext.getCurrentInstance().addMessage(null, facesMsg);
     }

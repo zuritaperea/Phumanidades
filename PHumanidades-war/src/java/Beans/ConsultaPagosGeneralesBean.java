@@ -221,7 +221,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
 
             this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosByPredicates(fechaIni, fechaFin, this.getCuentaLstBean().getCuenta(), tipoEgreso, this.getCarreraLstBean().getCarreraSelect()));
             for (PagosDocente gg : this.getLstGastoGeneral()) {
-                totalXGastoGeneral = totalXGastoGeneral.add(gg.getMonto());
+                totalXGastoGeneral = totalXGastoGeneral.add(gg.getImporteComprobante());
             }
 
             if (this.getLstGastoGeneral().isEmpty()) {

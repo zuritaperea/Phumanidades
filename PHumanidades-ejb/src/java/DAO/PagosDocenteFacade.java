@@ -153,7 +153,7 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         CriteriaBuilder qb = em.getCriteriaBuilder();
         CriteriaQuery cq = qb.createQuery();
         Root<PagosDocente> pagos = cq.from(PagosDocente.class);
-        List<Predicate> predicates = new ArrayList<Predicate>();
+        List<Predicate> predicates = new ArrayList<>();
         if (FechaInicio != null) {
             predicates.add(
                     qb.greaterThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaInicio));
@@ -174,6 +174,12 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
             predicates.add(
                     qb.equal(pagos.get("carrera"), carrera));
         }
+        predicates.add(
+                qb.equal(pagos.get("borrado"), false));
+
+        predicates.add(
+                qb.equal(pagos.get("anulado"), false));
+
         Predicate[] predicatesarr = predicates.toArray(new Predicate[predicates.size()]);
         cq.select(pagos)
                 .where(predicatesarr);

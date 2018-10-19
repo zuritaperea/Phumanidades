@@ -13,14 +13,13 @@
 
     <ui:define name="content">
 
-        <p:growl id="grConsultaPagosGenerales" showDetail="true" sticky="true" />
         <h1>
 
             <h:outputText value="Consultas Egresos"
                           class="Bienvenido"/>  
         </h1>
         <p:tabView id="tvConsultaGastosGenerales" dynamic="true" cache="true">  
-            <p:ajax event="tabChange" listener="#{consultaPagosGeneralesBean.onTabChange}" update=":frmPri:grConsultaPagosGenerales"/>
+            <p:ajax event="tabChange" listener="#{consultaPagosGeneralesBean.onTabChange}" update=":frmPri:growl"/>
             <p:tab id="tabPagosGeneralesFecha" title="Pagos entre Fechas"> 
 
                 <table>
@@ -165,11 +164,11 @@
 
             <p:column width="100"
                       style="word-wrap:break-word;"
-                      filterBy="#{item.monto}">
+                      filterBy="#{item.importeComprobante}">
                 <f:facet name="header">
-                    <h:outputText value="Monto"/>
+                    <h:outputText value="Importe"/>
                 </f:facet>
-                <h:outputText value="#{item.monto}"/>
+                <h:outputText value="#{item.importeComprobante}"/>
             </p:column>
 
             <p:column

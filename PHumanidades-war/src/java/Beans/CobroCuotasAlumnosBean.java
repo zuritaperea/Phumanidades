@@ -1057,20 +1057,20 @@ public class CobroCuotasAlumnosBean implements Serializable {
             } catch (Exception ex) {
                 severity = FacesMessage.SEVERITY_ERROR;
                 sMensaje = "Error al crear: " + ex.getMessage();
-                RequestContext.getCurrentInstance().update(":frmPri:message");
+                RequestContext.getCurrentInstance().update(":frmPri:growl");
 
             }
 
         } catch (NamingException ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error al crear: " + ex.getMessage();
-            RequestContext.getCurrentInstance().update(":frmPri:message");
+            RequestContext.getCurrentInstance().update(":frmPri:growl");
         } finally {
             if (conect != null) {
                 conect.close();
             }
             severity = FacesMessage.SEVERITY_ERROR;
-            RequestContext.getCurrentInstance().update(":frmPri:message");
+            RequestContext.getCurrentInstance().update(":frmPri:growl");
         }
 
     }
@@ -1160,7 +1160,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
             } catch (Exception ex) {
                 severity = FacesMessage.SEVERITY_ERROR;
                 sMensaje = "Error al crear: " + ex.getMessage();
-                RequestContext.getCurrentInstance().update(":frmPri:message");
+                RequestContext.getCurrentInstance().update(":frmPri:growl");
 
             }
 
@@ -1251,20 +1251,20 @@ public class CobroCuotasAlumnosBean implements Serializable {
             } catch (Exception ex) {
                 severity = FacesMessage.SEVERITY_ERROR;
                 sMensaje = "Error al crear: " + ex.getMessage();
-                RequestContext.getCurrentInstance().update(":frmPri:message");
+                RequestContext.getCurrentInstance().update(":frmPri:growl");
 
             }
 
         } catch (NamingException ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error al crear: " + ex.getMessage();
-            RequestContext.getCurrentInstance().update(":frmPri:message");
+            RequestContext.getCurrentInstance().update(":frmPri:growl");
         } finally {
             if (conect != null) {
                 conect.close();
             }
             severity = FacesMessage.SEVERITY_ERROR;
-            RequestContext.getCurrentInstance().update(":frmPri:message");
+            RequestContext.getCurrentInstance().update(":frmPri:growl");
         }
 
     }

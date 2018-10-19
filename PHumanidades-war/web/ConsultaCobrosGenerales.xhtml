@@ -12,14 +12,13 @@
 
     <ui:define name="content">
 
-        <p:growl id="grConsultaCobrosGenerales" showDetail="true" sticky="true" />
         <h1>
 
             <h:outputText value="Consultas Ingresos Generales"
                           class="Bienvenido"/>  
         </h1>
         <p:tabView id="tvConsultaCobrosGenerales" dynamic="true" cache="true">  
-            <p:ajax event="tabChange" listener="#{consultaCobrosGeneralesBean.onTabChange}" update=":frmPri:grConsultaCobrosGenerales"/>
+            <p:ajax event="tabChange" listener="#{consultaCobrosGeneralesBean.onTabChange}" update=":frmPri:growl"/>
             <p:tab id="tabCobrosGeneralesFecha" title="Cobros entre Fechas"> 
 
                 <p:panelGrid columns="4">

@@ -22,7 +22,7 @@
                         <p:menuitem value="Proveedores" action="#{navegarBean.frmProveedor()}"></p:menuitem>
                         <p:menuitem value="Cohortes" action="#{navegarBean.frmCohorte()}"></p:menuitem>
                         <p:menuitem value="Inscripcion Alumnos" action="#{navegarBean.frmInscripcionAlumnos()}"></p:menuitem>
-                        <p:menuitem value="Realizar Cierre" update="growl,frmPri:pCajaCierre" icon="ui-icon-circle-close" actionListener="#{cierreBean.calcularSaldo()}"></p:menuitem>
+                        <p:menuitem value="Realizar Cierre" update="frmPri:growl,frmPri:pCajaCierre" icon="ui-icon-circle-close" actionListener="#{cierreBean.calcularSaldo()}"></p:menuitem>
 
                     </p:submenu>
                     <p:submenu label="Egresos" icon="ui-icon-arrowreturnthick-1-n">

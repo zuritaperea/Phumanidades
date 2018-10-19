@@ -12,7 +12,6 @@
 
 
     <ui:define name="content">
-        <p:growl id="grConsultaPagosGenerales" showDetail="true" sticky="true" />
         <h1>
 
             <h:outputText value="Reporte egresos por Pagos Generales"
@@ -75,7 +74,6 @@
             <div>
                 <p:messages autoUpdate="true"/>
             </div>
-            <p:growl id="message" showDetail="true"  />
             <p:panel header="Por fecha de Registro">
                 <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienesFechaRegistro('pdf')}" value="Ver PDF" /> 
                 <h:commandButton  action="#{consultaPagosGeneralesBean.generarConsultaPagosBienesFechaRegistro('excel')}" value="Ver Excel" />
