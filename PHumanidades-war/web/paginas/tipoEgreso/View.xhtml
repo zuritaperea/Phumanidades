@@ -10,19 +10,23 @@
 
         <p:dialog id="TipoEgresoViewDlg" widgetVar="TipoEgresoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTipoEgresoTitle}">
             <h:form id="TipoEgresoViewForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{tipoEgresoController.selected != null}">
-                        <h:outputText value="#{bundle.ViewTipoEgresoLabel_id}"/>
-                        <h:outputText value="#{tipoEgresoController.selected.id}" title="#{bundle.ViewTipoEgresoTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewTipoEgresoLabel_descripcion}"/>
-                        <h:outputText value="#{tipoEgresoController.selected.descripcion}" title="#{bundle.ViewTipoEgresoTitle_descripcion}"/>
-                        <p:outputLabel value="Borrado"/>
-                        <p:selectBooleanCheckbox value="#{tipoEgresoController.selected.borrado}" disabled="true"/>
+                <p:scrollPanel mode="native" style="max-height:680px">    
 
-                    </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="TipoEgresoViewDialog.hide()"/>
-                </h:panelGroup>
-            </h:form>
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" rendered="#{tipoEgresoController.selected != null}">
+                            <h:outputText value="#{bundle.ViewTipoEgresoLabel_id}"/>
+                            <h:outputText value="#{tipoEgresoController.selected.id}" title="#{bundle.ViewTipoEgresoTitle_id}"/>
+                            <h:outputText value="#{bundle.ViewTipoEgresoLabel_descripcion}"/>
+                            <h:outputText value="#{tipoEgresoController.selected.descripcion}" title="#{bundle.ViewTipoEgresoTitle_descripcion}"/>
+                            <p:outputLabel value="Borrado"/>
+                            <p:selectBooleanCheckbox value="#{tipoEgresoController.selected.borrado}" disabled="true"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="#{bundle.Close}" onclick="TipoEgresoViewDialog.hide()"/>
+                    </h:panelGroup>
+            </p:scrollPanel>
+			            </h:form>
+
         </p:dialog>
 
     </ui:composition>
