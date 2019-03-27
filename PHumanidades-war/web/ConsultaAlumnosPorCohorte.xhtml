@@ -12,7 +12,46 @@
 
 
     <ui:define name="content">
+ <!-- Dialogo Impresión codigo alumno -->
+        <p:dialog id="dCodigo"
+                  widgetVar="dlgCodigo"
+                  closable="true" position="top" header="Alumnos">
 
+            <h:inputHidden value="#{alumnoBean.alumno.id}" />
+            <p:scrollPanel mode="native" style="max-height:600px">    
+
+                <p:panel id="pCodigo" styleClass="contenidoTabla">
+                    <img src="Imagenes/logo.jpg "/>
+
+                    <h:panelGrid cellpadding="0" cellspacing="0" columns="2"                                  
+                                 columnClasses="contenidoTabla,contenidoTabla">
+                        <h:outputText value="Alumno: " styleClass="headerTabla" />
+                        <h:outputText value="#{alumnoBean.alumno}" />
+                        <h:outputText value="DNI: " styleClass="headerTabla" />
+                        <h:outputText value="#{alumnoBean.alumno.dni}" />    
+                        <h:outputText value="Fecha Nacimiento: " styleClass="headerTabla" />
+                        <h:outputText value="#{alumnoBean.alumno.fechaNacimiento}" >
+                                          <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        <h:outputText  value="Localidad:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoBean.alumno.domicilio.localidad}"/> 
+                        <h:outputText  value="Barrio:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoBean.alumno.domicilio.barrio}"/>
+                        <h:outputText  value="Calle:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoBean.alumno.domicilio.calle}"/>
+                        <h:outputText  value="Numero:  " styleClass="headerTabla" />
+                        <h:outputText  value="#{alumnoBean.alumno.domicilio.numero}"/>
+
+                        <h:outputText value="Codigo RAPIPAGO" styleClass="headerTabla" />
+                        <p:barcode value="#{alumnoBean.getCodigoRapipago(alumnoBean.alumno)}" type="int2of5"/>
+
+                    </h:panelGrid>
+                </p:panel>
+                <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                    <p:printer target="pCodigo" />
+                </p:commandButton><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></p:scrollPanel>
+        </p:dialog>
+        <!-- Inicio Formulario Alta Principal-->
         <h1>
 
             <h:outputText value="Alumnos Por Cohorte"
@@ -70,6 +109,22 @@
                 <h:outputText value="#{cohorteLstBean.cohorteSelect}"/>  
 
             </f:facet> 
+            
+            <p:column width="30" exportable="false">
+               
+                <p:commandButton id="cbCodigo"
+                                 title="Código"
+                                 icon="ui-icon-print" 
+                                 update=":frmPri:dCodigo, @this"
+                                 oncomplete="PF('dlgCodigo').show();"
+                                 >
+                    <f:setPropertyActionListener value="#{item.alumno}" target="#{alumnoBean.alumno}"/> 
+
+                </p:commandButton>
+            </p:column>
+
+            
+            
             <p:column width="50"
                       >
                 <f:facet name="header">
