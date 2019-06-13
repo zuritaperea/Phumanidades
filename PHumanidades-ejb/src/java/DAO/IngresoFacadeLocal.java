@@ -73,6 +73,8 @@ public interface IngresoFacadeLocal {
 
     public List<Object[]> consultaUltimaCuotaAlumno();
 
+    public List<Object[]> consultaUltimaCuotaAlumno(Cohorte cohorte);
+
     public List<Ingreso> findAllByNumeroRecibo(Cuenta cuenta, int numero, int anio);
 
     public List<Ingreso> findAllByCuenta(Cuenta cuenta, int anio);

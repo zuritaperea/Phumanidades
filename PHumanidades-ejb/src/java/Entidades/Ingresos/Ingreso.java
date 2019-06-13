@@ -76,7 +76,16 @@ import javax.persistence.Temporal;
     @NamedQuery(name = "Ingreso.findCobrosXFecha", query = "SELECT c FROM Ingreso c "
             + "WHERE (c.fechaPago BETWEEN :fechaIni AND :fechaFin) and c.importe > 0 "
             + "ORDER BY c.fechaPago"),
-    @NamedQuery(name = "Ingreso.ConsultaUltimaCuotaAlumno", query = "select distinct todos.alumno, todos.cohorte, todos.fechaPago, todos.cuota from Ingreso todos where todos.cuota = (select max(latest.cuota) from Ingreso latest where latest.alumno = todos.alumno and latest.cuota > 0)"),
+    @NamedQuery(name = "Ingreso.ConsultaUltimaCuotaAlumno",
+            query = "select distinct todos.alumno, todos.cohorte, todos.fechaPago, "
+            + "todos.cuota from Ingreso todos where "
+            + "todos.cuota = (select max(latest.cuota) "
+            + "from Ingreso latest where latest.alumno = todos.alumno and latest.cuota > 0)"),
+    @NamedQuery(name = "Ingreso.ConsultaUltimaCuotaAlumnoCohorte",
+            query = "select distinct todos.alumno, todos.cohorte, todos.fechaPago, "
+            + "todos.cuota from Ingreso todos where "
+            + "todos.cuota = (select max(latest.cuota) "
+            + "from Ingreso latest where latest.alumno = todos.alumno and latest.cuota > 0) AND todos.cohorte=:cohorte"),
     @NamedQuery(name = "Ingreso.existeNumeroRecibo", query = "SELECT i FROM Ingreso i "
             + "WHERE i.numeroRecibo =:numero AND i.cuenta=:cuenta AND "
             + "i.borrado=false AND FUNC('DATE_PART','YEAR', i.fechaPago) =:anio "

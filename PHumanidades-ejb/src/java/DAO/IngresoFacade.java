@@ -266,6 +266,18 @@ public class IngresoFacade extends AbstractFacade<Ingreso> implements IngresoFac
     }
 
     @Override
+    public List<Object[]> consultaUltimaCuotaAlumno(Cohorte cohorte) {
+        Query q = em.createNamedQuery("Ingreso.ConsultaUltimaCuotaAlumnoCohorte");
+        q.setParameter("cohorte", cohorte);
+
+        try {
+            return q.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<Object[]>();
+        }
+    }
+
+    @Override
     public int findUltimaCuotaAlumno(Alumno alumno) {
         Query q = em.createNamedQuery("Ingreso.findUltimaCuotaAlumno");
         q.setParameter("alumno", alumno);

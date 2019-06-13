@@ -68,6 +68,8 @@ public interface IngresoRNLocal {
 
     public List<Object[]> consultaUltimaCuotaAlumno();
 
+    public List<Object[]> consultaUltimaCuotaAlumno(Cohorte cohorte);
+
     public void create(Ingreso ingresoCuota, boolean multiCuota) throws Exception;
 
     public List<Ingreso> findAllByNumeroRecibo(Cuenta cuenta, int numero, int anio);

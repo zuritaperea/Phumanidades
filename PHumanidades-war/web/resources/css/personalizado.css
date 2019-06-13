@@ -36,3 +36,10 @@ h3,h1 {margin-top:4px}
     overflow: hidden;
 }
 
+.ui-selectonemenu {
+    padding-right: 0 !important;
+}
+
+.ui-selectonemenu label {
+    width: auto !important;
+}

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="../../Templates/paginasTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:b="http://bootsfaces.net/ui"
+                 >
+    <ui:define name="content">
+
+
+        <h3>
+            <h:outputText value="#{bundle.ListPagosDocenteTitle}"></h:outputText>
+        </h3>
+
+
+        <h:form id="PagosDocenteListForm">
+            <p:panel header="#{bundle.ListPagosDocenteTitle}">
+                <p:dataTable id="datalist" value="#{pagosDocenteController.items}" var="item"
+                             selectionMode="single" selection="#{pagosDocenteController.selected}"
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             filterEvent="enter"
+                             sortBy="#{item.numeroOrdenPago}"
+                             sortOrder="descending"
+                             >
+
+                    <p:ajax event="rowSelect"   update="viewButtonP editButtonP deleteButtonP"/>
+                    <p:ajax event="rowUnselect" update="viewButtonP editButtonP deleteButtonP"/>
+                    <p:column  width="80"
+                               style="word-wrap:break-word;"
+                               filterBy="#{item.numeroOrdenPago}" 
+                               sortBy="#{item.numeroOrdenPago}"
+                               >
+                        <f:facet name="header">
+                            <h:outputText value="N°"/>
+                        </f:facet>
+                        <h:outputText value="#{item.numeroOrdenPago}"/>
+                    </p:column>
+
+                    <p:column 
+                        style="word-wrap:break-word;"
+                        filterBy="#{item.docente.apellido}" 
+                        filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="Docente"/>
+                        </f:facet>
+                        <h:outputText value="#{item.docente.apellido}, #{item.docente.nombre}"/>
+                    </p:column>
+
+
+
+                    <p:column
+                        style="word-wrap:break-word;"
+                        filterBy="#{item.carrera.descripcion}">
+                        <f:facet name="header">
+                            <h:outputText value="Carrera"/>
+                        </f:facet>
+                        <h:outputText value="#{item.carrera.descripcion}"/>
+                    </p:column>
+
+                    <p:column
+                        style="word-wrap:break-word;"
+                        filterBy="#{item.proveedor.razonSocial}"
+                        filterMatchMode="contains">
+                        <f:facet name="header">
+                            <h:outputText value="Proveedor"/>
+                        </f:facet>
+                        <h:outputText value="#{item.proveedor.razonSocial}"/>
+                    </p:column>
+                    <p:column width="80"
+                              style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Monto"/>
+                        </f:facet>
+                        <h:outputText value="#{item.monto}"/>
+                    </p:column>
+
+                    <p:column headerText="Fecha Registro" filterBy="#{item.fechaRegistro}" filterFunction="#{dateRangeFilter.filterByDate}">
+                        <f:facet name="filter">
+                            <h:inputHidden id="filter" />
+                        </f:facet>
+
+                        <f:facet name="header">
+                            <h:outputText value="Fecha Registro" />                  
+                        </f:facet>
+                        <f:facet name="header">
+
+                            <p:calendar id="from" pattern="dd/MM/yyyy">
+                                <p:ajax event="dateSelect" 
+                                        onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                        oncomplete="PF('dtPagosDocente').filter()" />
+                            </p:calendar>
+                            <p:calendar id="to" pattern="dd/MM/yyyy">
+                                <p:ajax event="dateSelect" 
+                                        onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                        oncomplete="PF('dtPagosDocente').filter()" />
+                            </p:calendar>
+
+                        </f:facet>
+                        <h:outputText value="#{item.fechaRegistro}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>    
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="viewButtonP"   icon="ui-icon-search" value="#{bundle.View}" update=":PagosDocenteViewForm" oncomplete="PF('PagosDocenteViewDialog').show()" disabled="#{empty pagosDocenteController.selected}"/>
+                        <p:commandButton id="editButtonP"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PagosDocenteEditForm" oncomplete="PF('PagosDocenteEditDialog').show()" disabled="#{empty pagosDocenteController.selected}"/>
+                        <p:commandButton id="deleteButtonP" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{pagosDocenteController.destroy}" update=":frmPri:growl,datalist" disabled="#{empty pagosDocenteController.selected}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="View.xhtml"/>
+    </ui:define>
+</ui:composition>
+

@@ -11,10 +11,29 @@
 
 
     <ui:define name="content">
-        <h2>Consultar última cuota pagada por alumno</h2>
-        <f:metadata>
-            <f:event type="preRenderView" listener="#{consultaCobrosAlumnosBean.consultarUltimaCuotaPagada()}" />
-        </f:metadata>
+        <h1>
+            <h:outputText value="Consultar última cuota pagada por alumno"
+                          class="Bienvenido"/>  
+        </h1>
+
+        <p:panelGrid columns="3">
+            <h:outputText value="Cohorte"/>
+
+            <p:selectOneMenu id="somCohorte" 
+                             value="#{cohorteLstBean.cohorteSelect}"
+                             converter="ConversorCohorte"                               >
+                <f:selectItems value="#{cohorteLstBean.lstSICohorte}"/>
+            </p:selectOneMenu>
+
+
+
+            <p:commandButton id="cbConsultarAlumnosCohorte"
+                             value="Buscar" 
+                             icon="ui-icon-search" 
+                             update=":frmPri:dtAlumnosCohorte,:frmPri:msg"
+                             actionListener="#{consultaCobrosAlumnosBean.consultarUltimaCuotaPagadaCohorte()}"
+                             /> </p:panelGrid>
+
         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
             <p:printer target="dtAlumnosCohorte" /></p:commandButton>
         <p:dataTable id="dtAlumnosCohorte"
@@ -27,6 +46,12 @@
                      binding="#{consultaCobrosAlumnosBean.tablaAlumnos}"
 
                      rowsPerPageTemplate="20,50,100,500">
+              <f:facet name="header">  
+                <h:outputText value="Última cuota "/>                
+                <h:outputText value=" Cohorte: "/>  
+                <h:outputText value="#{cohorteLstBean.cohorteSelect}"/>  
+
+            </f:facet> 
             <p:column width="50"
                       >
                 <f:facet name="header">
@@ -57,7 +82,7 @@
 
             <p:column width="150"
                       style="word-wrap:break-word;"
-                      filterBy="#{item.cohorte.carrera}">
+                      >
                 <f:facet name="header">
                     <h:outputText value="Carrera"/>
                 </f:facet>              
@@ -65,7 +90,7 @@
             </p:column>
             <p:column width="150"
                       style="word-wrap:break-word;"
-                      filterBy="#{item.cohorte}">
+                      >
                 <f:facet name="header">
                     <h:outputText value="Cohorte"/>
                 </f:facet>
@@ -79,7 +104,8 @@
             </p:column>
             <p:column width="80"
                       style="word-wrap:break-word;"
-                      filterBy="#{item.cuota}">
+                      filterBy="#{item.cuota}"
+                      sortBy="#{item.cuota}">
                 <f:facet name="header">
                     <h:outputText value="Cuota"/>
                 </f:facet>
@@ -89,7 +115,9 @@
 
             <p:column width="80"
                       style="word-wrap:break-word;"
-                      filterBy="#{item.fechaPago}">
+                      filterBy="#{item.fechaPago}"
+                      sortBy="#{item.fechaPago}"
+                      >
                 <f:facet name="header">
                     <h:outputText value="Fecha Pago"/>
                 </f:facet>
@@ -101,7 +129,7 @@
         </p:dataTable>
 
 
-        <p:messages autoUpdate="true"/>
+        <p:messages autoUpdate="true" id="msg"/>
 
         <h3>Exportar</h3>
         <h:commandLink>
@@ -116,7 +144,7 @@
         </h:commandLink>
 
         <h:commandLink>
-            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Ingresos Filtrados"/>
+            <p:graphicImage value="./Imagenes/excel.png" title="Exportar Filtrados"/>
             <p:dataExporter type="xls" target="dtAlumnosCohorte" fileName="cuotaalumnosfiltrada" pageOnly="true"/>
         </h:commandLink>
 

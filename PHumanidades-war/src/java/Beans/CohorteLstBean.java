@@ -4,10 +4,12 @@
  */
 package Beans;
 
+import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
+import RN.CarrerasRNLocal;
 import RN.CohorteRNLocal;
 import RN.IngresoRNLocal;
 import java.io.Serializable;
@@ -23,6 +25,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.faces.model.SelectItemGroup;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.context.RequestContext;
@@ -37,6 +40,9 @@ public class CohorteLstBean implements Serializable {
 
     @EJB
     private CohorteRNLocal cohorteRNLocal;//hacemos la referencia para poder utilizar el metodo findall
+
+    @EJB
+    private CarrerasRNLocal carreraRNLocal;//hacemos la referencia para poder utilizar el metodo findall
 
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
@@ -270,8 +276,16 @@ public class CohorteLstBean implements Serializable {
         try {
             this.setLstCohorte(this.cohorteRNLocal.findCohortes());
             this.setLstSICohorte(new ArrayList<SelectItem>());
-            for (Cohorte cor : this.getLstCohorte()) {
-                this.getLstSICohorte().add(new SelectItem(cor, cor.getDescripcion()));
+            List<Carrera> findCarreras = this.carreraRNLocal.findCarreras();
+            for (Carrera car : findCarreras) {
+                List<SelectItem> selectItems = new ArrayList<>();
+                SelectItemGroup group = new SelectItemGroup(car.getDescripcion());
+                for (Cohorte cor : car.getCohortes()) {
+                    SelectItem selectItem = new SelectItem(cor, cor.getDescripcion());
+                    selectItems.add(selectItem);
+                }
+                group.setSelectItems(selectItems.toArray(new SelectItem[selectItems.size()]));
+                this.getLstSICohorte().add(group);
             }
         } catch (Exception ex) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,

@@ -666,13 +666,10 @@
             <!--INICIO BOTONES EDITAR, ELIMINAR RECUPERAR -->
             <p:column width="150" exportable="false">
                 <p:commandButton id="btnEdit"
-                                 actionListener="#{pagosDocenteBean.definirActionBoton}"   
-                                 action="#{pagosDocenteBean.cargar()}"                    
-                                 update=":frmPri:dRegistrarPagosDocentes"
+                                 action="#{pagosDocenteBean.prepararModificar()}"   
                                  icon="ui-icon-pencil"
-                                 disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}"
-                                 >
-                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
+                                 disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}" >
+                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
                 </p:commandButton>
 
                 <p:commandButton id="btnDelete" 

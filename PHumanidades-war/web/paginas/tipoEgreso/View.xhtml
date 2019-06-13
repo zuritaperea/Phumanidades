@@ -20,15 +20,12 @@
                             <h:outputText value="#{tipoEgresoController.selected.descripcion}" title="#{bundle.ViewTipoEgresoTitle_descripcion}"/>
                             <p:outputLabel value="Borrado"/>
                             <p:selectBooleanCheckbox value="#{tipoEgresoController.selected.borrado}" disabled="true"/>
-
                         </p:panelGrid>
                         <p:commandButton value="#{bundle.Close}" onclick="TipoEgresoViewDialog.hide()"/>
                     </h:panelGroup>
-            </p:scrollPanel>
-			            </h:form>
-
+                </p:scrollPanel>
+            </h:form>
         </p:dialog>
-
     </ui:composition>
 </html>
 

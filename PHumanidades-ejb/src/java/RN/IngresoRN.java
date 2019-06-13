@@ -259,6 +259,11 @@ public class IngresoRN implements IngresoRNLocal {
     public List<Object[]> consultaUltimaCuotaAlumno() {
         return ingresoCuotaFacadeLocal.consultaUltimaCuotaAlumno();
     }
+    
+      @Override
+    public List<Object[]> consultaUltimaCuotaAlumno(Cohorte cohorte) {
+        return ingresoCuotaFacadeLocal.consultaUltimaCuotaAlumno(cohorte);
+    }
 
     @Override
     public List<Ingreso> findAllByNumeroRecibo(Cuenta cuenta, int numero, int anio) {

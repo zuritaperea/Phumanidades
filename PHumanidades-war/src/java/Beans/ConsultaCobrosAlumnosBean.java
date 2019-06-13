@@ -303,6 +303,42 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
         }//fin catch
     }
 
+    public void consultarUltimaCuotaPagadaCohorte() {
+        //System.out.println("entro buscarFechaCohortes");
+        FacesMessage fm;
+        try {
+            //verifico que no sean nulas las fechas
+
+            //System.out.println("entro if buscarFechaCarrera" + this.getCohorteLstBean().getCohorteSelect());
+            //aumento un dia a la fecha fin para que la busqueda sea menor o igual
+//Sumamos el total de los cobros por cohorte
+//                for (Alumno al : this.getLstAlumnos()) {
+//                    totalXCohorte = totalXCohorte.add(ic.getImporte());
+//                }
+            List<Object[]> consultaUltimaCuotaAlumno = ingresoCuotaRNLocal.consultaUltimaCuotaAlumno(this.getCohorteLstBean().getCohorteSelect());
+            listaUltimaCuota = new ArrayList<>();
+            for (Object[] row : consultaUltimaCuotaAlumno) {
+                Ingreso i = new Ingreso();
+                i.setAlumno((Alumno) row[0]);
+                i.setCohorte((Cohorte) row[1]);
+                i.setFechaPago((Date) row[2]);
+                i.setCuota((int) row[3]);
+                listaUltimaCuota.add(i);
+            }
+
+            if (this.getLstInscripcionAlumnos().isEmpty()) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
+            }//fin if
+
+        } catch (Exception ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage("frmPri:cbConsultarAlumnosCohorte", fm);
+        }//fin catch
+    }
+
     public void buscarFecha() {
         //System.out.println("entro buscarFechaCohortes");
         FacesMessage fm;
