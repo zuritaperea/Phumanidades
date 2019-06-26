@@ -16,4 +16,5 @@
     <application>
         <el-resolver>ManagedBeans.util.JsfCrudELResolver</el-resolver>
     </application>
+    
 </faces-config>
