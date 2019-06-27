@@ -5,7 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:composition>
         <b:navBar brandAlign="left" brand="Facultad de Humanidades" brandHref="index.xhtml" inverse="true" >
@@ -28,6 +29,9 @@
                     <p:submenu label="Egresos" icon="ui-icon-arrowreturnthick-1-n">
                         <p:menuitem value="Egresos"  action="#{navegarBean.frmPagosDocentes()}"></p:menuitem> 
                         <p:menuitem value="Tipos de Egreso" ajax="false" action="/paginas/tipoEgreso/List.xhtml?faces-redirect=true"></p:menuitem>    
+                        <c:if test="#{usuarioLogerBean.isGrupo('superadmin')}" >
+                            <p:menuitem value="Modificar Egreso" ajax="false" action="/paginas/pagosDocente/List.xhtml?faces-redirect=true"></p:menuitem>   
+                        </c:if>
 
                     </p:submenu>
                     <p:submenu label="Ingresos" icon="ui-icon-arrowreturnthick-1-s">

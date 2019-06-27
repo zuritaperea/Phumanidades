@@ -12,25 +12,25 @@
             <h:form id="PagosDocenteViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pagosDocenteController.selected != null}">
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_fechaCierre}"/>
+                        <h:outputText value="Fecha de Cierre"/>
                         <h:outputText value="#{pagosDocenteController.selected.fechaCierre}" title="#{bundle.ViewPagosDocenteTitle_fechaCierre}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_tipoEgreso}"/>
+                        <h:outputText value="Tipo de Egresos"/>
                         <h:outputText value="#{pagosDocenteController.selected.tipoEgreso}" title="#{bundle.ViewPagosDocenteTitle_tipoEgreso}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_rubroPresupuestario}"/>
+                        <h:outputText value="Rubro Presupuestario"/>
                         <h:outputText value="#{pagosDocenteController.selected.rubroPresupuestario}" title="#{bundle.ViewPagosDocenteTitle_rubroPresupuestario}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_fechaComprobante}"/>
+                        <h:outputText value="Fecha Comprobante"/>
                         <h:outputText value="#{pagosDocenteController.selected.fechaComprobante}" title="#{bundle.ViewPagosDocenteTitle_fechaComprobante}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_numeroOrdenPago}"/>
+                        <h:outputText value="N° Orden de Pago"/>
                         <h:outputText value="#{pagosDocenteController.selected.numeroOrdenPago}" title="#{bundle.ViewPagosDocenteTitle_numeroOrdenPago}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_anulado}"/>
+                        <h:outputText value="Anulado"/>
                         <p:selectBooleanCheckbox value="#{pagosDocenteController.selected.anulado}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_cuenta}"/>
+                        <h:outputText value="Cuenta"/>
                         <h:outputText value="#{pagosDocenteController.selected.cuenta}" title="#{bundle.ViewPagosDocenteTitle_cuenta}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_proveedor}"/>
+                        <h:outputText value="Proveedor"/>
                         <h:outputText value="#{pagosDocenteController.selected.proveedor}" title="#{bundle.ViewPagosDocenteTitle_proveedor}"/>
                         <h:outputText value="#{bundle.ViewPagosDocenteLabel_id}"/>
                         <h:outputText value="#{pagosDocenteController.selected.id}" title="#{bundle.ViewPagosDocenteTitle_id}"/>
