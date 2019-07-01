@@ -8,82 +8,82 @@
 
     <ui:composition>
 
-        <p:dialog id="PagosDocenteViewDlg" widgetVar="PagosDocenteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewPagosDocenteTitle}">
+        <p:dialog id="PagosDocenteViewDlg" widgetVar="PagosDocenteViewDialog" modal="true" resizable="false" appendTo="@(body)" header="Ver Egreso">
             <h:form id="PagosDocenteViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pagosDocenteController.selected != null}">
                         <h:outputText value="Fecha de Cierre"/>
-                        <h:outputText value="#{pagosDocenteController.selected.fechaCierre}" title="#{bundle.ViewPagosDocenteTitle_fechaCierre}">
+                        <h:outputText value="#{pagosDocenteController.selected.fechaCierre}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_fechaCierre}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
                         </h:outputText>
                         <h:outputText value="Tipo de Egresos"/>
-                        <h:outputText value="#{pagosDocenteController.selected.tipoEgreso}" title="#{bundle.ViewPagosDocenteTitle_tipoEgreso}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.tipoEgreso.descripcion}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_tipoEgreso}"/>
                         <h:outputText value="Rubro Presupuestario"/>
-                        <h:outputText value="#{pagosDocenteController.selected.rubroPresupuestario}" title="#{bundle.ViewPagosDocenteTitle_rubroPresupuestario}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.rubroPresupuestario}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_rubroPresupuestario}"/>
                         <h:outputText value="Fecha Comprobante"/>
-                        <h:outputText value="#{pagosDocenteController.selected.fechaComprobante}" title="#{bundle.ViewPagosDocenteTitle_fechaComprobante}">
+                        <h:outputText value="#{pagosDocenteController.selected.fechaComprobante}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_fechaComprobante}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
                         </h:outputText>
                         <h:outputText value="N° Orden de Pago"/>
-                        <h:outputText value="#{pagosDocenteController.selected.numeroOrdenPago}" title="#{bundle.ViewPagosDocenteTitle_numeroOrdenPago}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.numeroOrdenPago}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_numeroOrdenPago}"/>
                         <h:outputText value="Anulado"/>
                         <p:selectBooleanCheckbox value="#{pagosDocenteController.selected.anulado}" disabled="true"/>
                         <h:outputText value="Cuenta"/>
-                        <h:outputText value="#{pagosDocenteController.selected.cuenta}" title="#{bundle.ViewPagosDocenteTitle_cuenta}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.cuenta}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_cuenta}"/>
                         <h:outputText value="Proveedor"/>
-                        <h:outputText value="#{pagosDocenteController.selected.proveedor}" title="#{bundle.ViewPagosDocenteTitle_proveedor}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_id}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.id}" title="#{bundle.ViewPagosDocenteTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_importeComprobante}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.importeComprobante}" title="#{bundle.ViewPagosDocenteTitle_importeComprobante}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_numeroCheque}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.numeroCheque}" title="#{bundle.ViewPagosDocenteTitle_numeroCheque}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_monto}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.monto}" title="#{bundle.ViewPagosDocenteTitle_monto}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_retencionIB}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.retencionIB}" title="#{bundle.ViewPagosDocenteTitle_retencionIB}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_iva}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.iva}" title="#{bundle.ViewPagosDocenteTitle_iva}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_impuestoGanancia}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.impuestoGanancia}" title="#{bundle.ViewPagosDocenteTitle_impuestoGanancia}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_suss}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.suss}" title="#{bundle.ViewPagosDocenteTitle_suss}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_montoConDescuentos}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.montoConDescuentos}" title="#{bundle.ViewPagosDocenteTitle_montoConDescuentos}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_concepto}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.concepto}" title="#{bundle.ViewPagosDocenteTitle_concepto}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_formapago}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.formapago}" title="#{bundle.ViewPagosDocenteTitle_formapago}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_tipocomprobante}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.tipocomprobante}" title="#{bundle.ViewPagosDocenteTitle_tipocomprobante}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_numeroComprobante}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.numeroComprobante}" title="#{bundle.ViewPagosDocenteTitle_numeroComprobante}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_fechaRegistro}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.fechaRegistro}" title="#{bundle.ViewPagosDocenteTitle_fechaRegistro}">
+                        <h:outputText value="#{pagosDocenteController.selected.proveedor}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_proveedor}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_id}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.id}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_id}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_importeComprobante}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.importeComprobante}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_importeComprobante}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_numeroCheque}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.numeroCheque}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_numeroCheque}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_monto}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.monto}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_monto}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_retencionIB}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.retencionIB}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_retencionIB}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_iva}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.iva}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_iva}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_impuestoGanancia}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.impuestoGanancia}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_impuestoGanancia}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_suss}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.suss}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_suss}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_montoConDescuentos}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.montoConDescuentos}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_montoConDescuentos}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_concepto}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.concepto}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_concepto}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_formapago}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.formapago}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_formapago}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_tipocomprobante}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.tipocomprobante}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_tipocomprobante}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_numeroComprobante}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.numeroComprobante}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_numeroComprobante}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_fechaRegistro}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.fechaRegistro}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_fechaRegistro}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_docente}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.docente}" title="#{bundle.ViewPagosDocenteTitle_docente}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_carrera}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.carrera}" title="#{bundle.ViewPagosDocenteTitle_carrera}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_borrado}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_docente}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.docente}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_docente}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_carrera}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.carrera}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_carrera}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_borrado}"/>
                         <p:selectBooleanCheckbox value="#{pagosDocenteController.selected.borrado}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_creadoPor}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.creadoPor}" title="#{bundle.ViewPagosDocenteTitle_creadoPor}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_fechaCreado}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.fechaCreado}" title="#{bundle.ViewPagosDocenteTitle_fechaCreado}">
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_creadoPor}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.creadoPor}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_creadoPor}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_fechaCreado}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.fechaCreado}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_fechaCreado}">
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_fechaModificado}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.fechaModificado}" title="#{bundle.ViewPagosDocenteTitle_fechaModificado}">
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_fechaModificado}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.fechaModificado}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_fechaModificado}">
                             <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_modificadoPor}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.modificadoPor}" title="#{bundle.ViewPagosDocenteTitle_modificadoPor}"/>
-                        <h:outputText value="#{bundle.ViewPagosDocenteLabel_id}"/>
-                        <h:outputText value="#{pagosDocenteController.selected.id}" title="#{bundle.ViewPagosDocenteTitle_id}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_modificadoPor}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.modificadoPor}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_modificadoPor}"/>
+                        <h:outputText value="#{bundlePagosDocentes.ViewPagosDocenteLabel_id}"/>
+                        <h:outputText value="#{pagosDocenteController.selected.id}" title="#{bundlePagosDocentes.ViewPagosDocenteTitle_id}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="PagosDocenteViewDialog.hide()"/>
+                    <p:commandButton value="Cerrar" onclick="PagosDocenteViewDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

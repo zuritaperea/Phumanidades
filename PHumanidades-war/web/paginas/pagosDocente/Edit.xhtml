@@ -8,26 +8,26 @@
 
     <ui:composition>
 
-        <p:dialog id="PagosDocenteEditDlg" widgetVar="PagosDocenteEditDialog" position="top" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPagosDocenteTitle}">
+        <p:dialog id="PagosDocenteEditDlg" widgetVar="PagosDocenteEditDialog" position="top" modal="true" resizable="false" appendTo="@(body)" header="Modificar Egreso">
             <h:form id="PagosDocenteEditForm">
                 <p:scrollPanel mode="native" style="max-height:680px">    
                     <h:panelGroup id="display">
                         <p:panelGrid columns="2" rendered="#{pagosDocenteController.selected != null}">
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_id}" for="idP" />
-                            <p:inputText id="idP" value="#{pagosDocenteController.selected.id}" title="#{bundle.EditPagosDocenteTitle_id}" disabled="true" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_id}" for="idP" />
+                            <p:inputText id="idP" value="#{pagosDocenteController.selected.id}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_id}" disabled="true" />
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_numeroOrdenPago}" for="numeroOrdenPago" />
-                            <p:inputText id="numeroOrdenPago" value="#{pagosDocenteController.selected.numeroOrdenPago}" title="#{bundle.EditPagosDocenteTitle_numeroOrdenPago}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_numeroOrdenPago}" for="numeroOrdenPago" />
+                            <p:inputText id="numeroOrdenPago" value="#{pagosDocenteController.selected.numeroOrdenPago}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_numeroOrdenPago}" />
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_tipoEgreso}" for="tipoEgreso" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_tipoEgreso}" for="tipoEgreso" />
                             <p:selectOneMenu id="tipoEgreso" value="#{pagosDocenteController.selected.tipoEgreso}" >
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItem itemLabel="Seleccionar Tipo"/>
                                 <f:selectItems value="#{tipoEgresoController.itemsAvailableSelectOne}"
                                                var="tipoEgresoItem"
                                                itemValue="#{tipoEgresoItem}"/>
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_formapago}" for="formapago" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_formapago}" for="formapago" />
                             <p:selectOneMenu id="formapago" 
                                              value="#{pagosDocenteController.selected.formapago}"
                                              required="false"
@@ -37,11 +37,11 @@
                                 <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_numeroCheque}" for="numeroCheque" />
-                            <p:inputText id="numeroCheque" value="#{pagosDocenteController.selected.numeroCheque}" title="#{bundle.EditPagosDocenteTitle_numeroCheque}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_numeroCheque}" for="numeroCheque" />
+                            <p:inputText id="numeroCheque" value="#{pagosDocenteController.selected.numeroCheque}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_numeroCheque}" />
 
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_rubroPresupuestario}" for="rubroPresupuestario" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_rubroPresupuestario}" for="rubroPresupuestario" />
                             <p:selectOneMenu id="rubroPresupuestario" 
                                              value="#{pagosDocenteController.selected.rubroPresupuestario}"
                                              required="false">                            
@@ -49,10 +49,10 @@
                                 <f:selectItems value="#{pagosDocenteBean.lstRubroPresupuestario}"/>
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_fechaComprobante}" for="fechaComprobante" />
-                            <p:calendar id="fechaComprobante" pattern="dd/MM/yyyy" value="#{pagosDocenteController.selected.fechaComprobante}" title="#{bundle.EditPagosDocenteTitle_fechaComprobante}"  showOn="button"/>
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_fechaComprobante}" for="fechaComprobante" />
+                            <p:calendar id="fechaComprobante" pattern="dd/MM/yyyy" value="#{pagosDocenteController.selected.fechaComprobante}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_fechaComprobante}"  showOn="button"/>
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_cuenta}" for="cuenta" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_cuenta}" for="cuenta" />
 
                             <p:selectOneMenu id="cuenta"
                                              converter="ConversorGenerico"
@@ -66,29 +66,29 @@
 
 
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_importeComprobante}" for="importeComprobante" />
-                            <p:inputText id="importeComprobante" value="#{pagosDocenteController.selected.importeComprobante}" title="#{bundle.EditPagosDocenteTitle_importeComprobante}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_importeComprobante}" for="importeComprobante" />
+                            <p:inputText id="importeComprobante" value="#{pagosDocenteController.selected.importeComprobante}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_importeComprobante}" />
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_monto}" for="monto" />
-                            <p:inputText id="monto" value="#{pagosDocenteController.selected.monto}" title="#{bundle.EditPagosDocenteTitle_monto}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_monto}" for="monto" />
+                            <p:inputText id="monto" value="#{pagosDocenteController.selected.monto}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_monto}" />
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_retencionIB}" for="retencionIB" />
-                            <p:inputText id="retencionIB" value="#{pagosDocenteController.selected.retencionIB}" title="#{bundle.EditPagosDocenteTitle_retencionIB}" />
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_iva}" for="iva" />
-                            <p:inputText id="iva" value="#{pagosDocenteController.selected.iva}" title="#{bundle.EditPagosDocenteTitle_iva}" />
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_impuestoGanancia}" for="impuestoGanancia" />
-                            <p:inputText id="impuestoGanancia" value="#{pagosDocenteController.selected.impuestoGanancia}" title="#{bundle.EditPagosDocenteTitle_impuestoGanancia}" />
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_suss}" for="suss" />
-                            <p:inputText id="suss" value="#{pagosDocenteController.selected.suss}" title="#{bundle.EditPagosDocenteTitle_suss}" />
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_montoConDescuentos}" for="montoConDescuentos" />
-                            <p:inputText id="montoConDescuentos" value="#{pagosDocenteController.selected.montoConDescuentos}" title="#{bundle.EditPagosDocenteTitle_montoConDescuentos}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_retencionIB}" for="retencionIB" />
+                            <p:inputText id="retencionIB" value="#{pagosDocenteController.selected.retencionIB}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_retencionIB}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_iva}" for="iva" />
+                            <p:inputText id="iva" value="#{pagosDocenteController.selected.iva}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_iva}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_impuestoGanancia}" for="impuestoGanancia" />
+                            <p:inputText id="impuestoGanancia" value="#{pagosDocenteController.selected.impuestoGanancia}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_impuestoGanancia}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_suss}" for="suss" />
+                            <p:inputText id="suss" value="#{pagosDocenteController.selected.suss}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_suss}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_montoConDescuentos}" for="montoConDescuentos" />
+                            <p:inputText id="montoConDescuentos" value="#{pagosDocenteController.selected.montoConDescuentos}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_montoConDescuentos}" />
 
 
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_concepto}" for="concepto" />
-                            <p:inputTextarea rows="4" cols="30" id="concepto" value="#{pagosDocenteController.selected.concepto}" title="#{bundle.EditPagosDocenteTitle_concepto}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_concepto}" for="concepto" />
+                            <p:inputTextarea rows="4" cols="30" id="concepto" value="#{pagosDocenteController.selected.concepto}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_concepto}" />
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_tipocomprobante}" for="tipocomprobante" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_tipocomprobante}" for="tipocomprobante" />
                             <p:selectOneMenu id="tipocomprobante" 
                                              value="#{pagosDocenteController.selected.tipocomprobante}"
                                              required="false">                             
@@ -98,43 +98,43 @@
                             </p:selectOneMenu>
 
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_numeroComprobante}" for="numeroComprobante" />
-                            <p:inputText id="numeroComprobante" value="#{pagosDocenteController.selected.numeroComprobante}" title="#{bundle.EditPagosDocenteTitle_numeroComprobante}" />
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_fechaRegistro}" for="fechaRegistro" />
-                            <p:calendar id="fechaRegistro" pattern="dd/MM/yyyy" value="#{pagosDocenteController.selected.fechaRegistro}" title="#{bundle.EditPagosDocenteTitle_fechaRegistro}"  showOn="button"/>
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_numeroComprobante}" for="numeroComprobante" />
+                            <p:inputText id="numeroComprobante" value="#{pagosDocenteController.selected.numeroComprobante}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_numeroComprobante}" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_fechaRegistro}" for="fechaRegistro" />
+                            <p:calendar id="fechaRegistro" pattern="dd/MM/yyyy" value="#{pagosDocenteController.selected.fechaRegistro}" title="#{bundlePagosDocentes.EditPagosDocenteTitle_fechaRegistro}"  showOn="button"/>
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_docente}" for="docente" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_docente}" for="docente" />
                             <p:selectOneMenu id="docente" value="#{pagosDocenteController.selected.docente}" filter="true" filterMatchMode="contains"
                                              converter="ConversorGenerico"  >
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItem itemLabel="Seleccionar Docente"/>
                                 <f:selectItems value="#{docenteLstBean.lstSIDocente}"
                                                />
                             </p:selectOneMenu>
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_carrera}" for="carrera" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_carrera}" for="carrera" />
                             <p:selectOneMenu id="carrera" value="#{pagosDocenteController.selected.carrera}" filter="true" filterMatchMode="contains" 
                                              converter="ConversorGenerico"   >
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItem itemLabel="Seleccionar carrera"/>
                                 <f:selectItems value="#{carreraLstBean.lstSICarrera}"
                                                />
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_proveedor}" for="proveedor" />
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_proveedor}" for="proveedor" />
                             <p:selectOneMenu id="proveedor" value="#{pagosDocenteController.selected.proveedor}" filter="true" filterMatchMode="contains" 
                                              converter="ConversorGenerico"  
                                              >
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                                <f:selectItem itemLabel="Seleccionar Proveedor"/>
                                 <f:selectItems value="#{pagosDocenteBean.lstProveedor}"
                                                />
                             </p:selectOneMenu>
 
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_borrado}" for="borrado" />
-                            <p:selectBooleanCheckbox id="borrado" value="#{pagosDocenteController.selected.borrado}" required="true" requiredMessage="#{bundle.EditPagosDocenteRequiredMessage_borrado}"/>
-                            <p:outputLabel value="#{bundle.EditPagosDocenteLabel_anulado}" for="anulado" />
-                            <p:selectBooleanCheckbox id="anulado" value="#{pagosDocenteController.selected.anulado}" required="true" requiredMessage="#{bundle.EditPagosDocenteRequiredMessage_anulado}"/>
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_borrado}" for="borrado" />
+                            <p:selectBooleanCheckbox id="borrado" value="#{pagosDocenteController.selected.borrado}" required="true" requiredMessage="#{bundlePagosDocentes.EditPagosDocenteRequiredMessage_borrado}"/>
+                            <p:outputLabel value="#{bundlePagosDocentes.EditPagosDocenteLabel_anulado}" for="anulado" />
+                            <p:selectBooleanCheckbox id="anulado" value="#{pagosDocenteController.selected.anulado}" required="true" requiredMessage="#{bundlePagosDocentes.EditPagosDocenteRequiredMessage_anulado}"/>
 
                         </p:panelGrid>
-                        <p:commandButton actionListener="#{pagosDocenteController.update}" value="#{bundle.Save}" update="display,:PagosDocenteListForm:datalist,:frmPri:growl" oncomplete="handleSubmit(args, 'PagosDocenteEditDialog');"/>
-                        <p:commandButton value="#{bundle.Cancel}" onclick="PagosDocenteEditDialog.hide()"/>
+                        <p:commandButton actionListener="#{pagosDocenteController.update}" value="Guardar" update="display,:PagosDocenteListForm:datalist,:frmPri:growl" oncomplete="handleSubmit(args, 'PagosDocenteEditDialog');"/>
+                        <p:commandButton value="Cancelar" onclick="PagosDocenteEditDialog.hide()"/>
                     </h:panelGroup></p:scrollPanel>
             </h:form>
         </p:dialog>

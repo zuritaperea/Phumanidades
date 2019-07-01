@@ -8,6 +8,7 @@ package Beans;
 import Entidades.Persona.Docente;
 import RN.DocenteRNLocal;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -90,6 +91,14 @@ public class DocenteLstBean implements Serializable {
     public void cargarDocente() {
         try {
             this.setLstDocente(this.docenteRNLocal.findAll());
+            this.setLstSIDocente(new ArrayList<SelectItem>());
+
+            for (Docente docente : this.getLstDocente()) {
+                try {
+                    this.getLstSIDocente().add(new SelectItem(docente, docente.toString()));
+                } catch (Exception e) {
+                }
+            }
             //this.setLstDocente(new ArrayList<Docente>());
         } catch (Exception ex) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex, null);

@@ -87,6 +87,7 @@ public class CuentaLstBean implements Serializable {
     public void cargarCuentas() {
         try {
             this.setLstCuenta(this.cuentaRNLocal.findAll());
+            cargar_SI_Cuenta();
         } catch (Exception ex) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     "Error: " + ex,

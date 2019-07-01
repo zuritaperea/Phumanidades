@@ -12,6 +12,14 @@
             <base-name>/BundleGrupo</base-name>
             <var>bundleGrupo</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePagosDocentes</base-name>
+            <var>bundlePagosDocentes</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundlePagosDocentes</base-name>
+            <var>bundlePagosDocentes</var>
+        </resource-bundle>
     </application>
     <application>
         <el-resolver>ManagedBeans.util.JsfCrudELResolver</el-resolver>
