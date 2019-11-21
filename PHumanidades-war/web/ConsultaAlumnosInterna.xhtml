@@ -85,7 +85,7 @@
             </tr>
         </table>
 
-        
+
 
         <h2>
 
@@ -167,15 +167,20 @@
                 </f:facet>
                 <h:outputText value="#{item.cohorte}"/>
             </p:column>
-            <p:column 
-                >
+            <p:column                >
                 <f:facet name="header">
                     <h:outputText value="Tipo Ingreso"/>
                 </f:facet>
                 <h:outputText value="#{item.tipoIngreso.descripcion}"/>
             </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Importe"/>
+                </f:facet>
+                <h:outputText value="#{item.importe}"/>
+            </p:column>
         </p:dataTable>
-       
+
         <h:commandLink >
             <p:graphicImage value="./Imagenes/pdf.png" title="Exportar Pago de Cuotas"/>
             <pe:exporter type="pdf" target="dtCobroCuotasConsulta" orientation="Landscape"
@@ -185,7 +190,7 @@
                          />  
         </h:commandLink>
 
-        
+
         <p:messages autoUpdate="true"/>
 
         <h2>
@@ -204,8 +209,8 @@
                      {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                      filterEvent="enter"
                      >
-            <p:column 
-                width="60">
+             <p:column 
+                width="100">
                 <f:facet name="header">
                     <h:outputText value="Nro Recibo"/>
                 </f:facet>
@@ -213,15 +218,14 @@
             </p:column>
 
             <p:column 
-                width="60">
+                width="120">
                 <f:facet name="header">
                     <h:outputText value="Dni"/>
                 </f:facet>
                 <h:outputText value="#{itemm.alumno.dni}"/>
             </p:column>
 
-            <p:column 
-                width="60">
+              <p:column >
                 <f:facet name="header">
                     <h:outputText value="Apellido"/>
                 </f:facet>
@@ -229,7 +233,7 @@
             </p:column>
 
             <p:column 
-                width="60">
+               >
                 <f:facet name="header">
                     <h:outputText value="Nombre"/>
                 </f:facet>
@@ -237,7 +241,7 @@
             </p:column>
 
             <p:column 
-                width="60">
+                >
                 <f:facet name="header">
                     <h:outputText value="Nombre/Opc"/>
                 </f:facet>
@@ -245,7 +249,7 @@
             </p:column>
 
             <p:column 
-                width="60">
+                >
                 <f:facet name="header">
                     <h:outputText value="Concepto"/>
                 </f:facet>
@@ -254,7 +258,7 @@
 
 
             <p:column 
-                width="60">
+                >
                 <f:facet name="header">
                     <h:outputText value="Fecha Pago"/>
                 </f:facet>
@@ -263,11 +267,17 @@
                 </h:outputText>
             </p:column>
             <p:column 
-                width="60">
+                >
                 <f:facet name="header">
                     <h:outputText value="Tipo Ingreso"/>
                 </f:facet>
                 <h:outputText value="#{itemm.tipoIngreso.descripcion}"/>
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Importe"/>
+                </f:facet>
+                <h:outputText value="#{item.importe}"/>
             </p:column>
 
         </p:dataTable>

@@ -30,6 +30,7 @@ public class UsuarioBean implements Serializable {
     @ManagedProperty("#{usuarioLstBean}")
     private UsuarioLstBean usuarioLstBean;
     private Usuarios usuario;
+    private String contrasena;
     private String sConfirmarContrasena;
     private Boolean bCamposSoloLectura;
     private int iActionBtnSelect;
@@ -37,15 +38,32 @@ public class UsuarioBean implements Serializable {
 
     public UsuarioBean() {
         usuario = new Usuarios();
+        contrasena = new String();
+        sConfirmarContrasena = new String();
+    }
+
+    public UsuariosRNLocal getUsuarioRNLocal() {
+        return usuarioRNLocal;
+    }
+
+    public void setUsuarioRNLocal(UsuariosRNLocal usuarioRNLocal) {
+        this.usuarioRNLocal = usuarioRNLocal;
+    }
+
+    public String getContrasena() {
+        return contrasena;
     }
 
     /*   public UsuarioLstBean getUsuarioLstBean() {
      return usuarioLstBean;
      }*/
-
     /*   public void setUsuarioLstBean(UsuarioLstBean usuarioLstBean) {
      this.usuarioLstBean = usuarioLstBean;
      }*/
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
     public Usuarios getUsuario() {
         return usuario;
     }
@@ -144,11 +162,10 @@ public class UsuarioBean implements Serializable {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
+            this.validarContrasena();
 
-            this.getUsuario().setPassword(Encrypter.encriptar(this.getUsuario().getPassword()));
-
+            this.getUsuario().setPassword(Encrypter.encriptar(this.getContrasena()));
 //validar si ingreso contrasenas y si son iguales
-            this.validarContrasena(this.getUsuario().getPassword());
             /*Creo un usuario de forma manual
              usuario.setApellido("Aguirre");
              usuario.setNombre("Franco");
@@ -181,8 +198,10 @@ public class UsuarioBean implements Serializable {
         FacesMessage.Severity severity = null;
         try {
             //valida si el password no es vacion y si el password y la confirmacion so iguales
-            this.validarContrasena(Encrypter.encriptar(this.getUsuario().getPassword()));
-            this.getUsuario().setPassword(Encrypter.encriptar(this.getUsuario().getPassword()));
+            if (!this.getContrasena().isEmpty()) {
+                this.validarContrasena();
+                this.getUsuario().setPassword(Encrypter.encriptar(this.getContrasena()));
+            }
             usuarioRNLocal.edit(this.getUsuario());
 
             sMensaje = "El dato fue modificado";
@@ -249,16 +268,15 @@ public class UsuarioBean implements Serializable {
         this.setbCamposSoloLectura(false);
     }//fin limpiar
 
-    private void validarContrasena(String contrasena) throws Exception {
+    private void validarContrasena() throws Exception {
 
-        if (contrasena.isEmpty()) {
+        if (getContrasena().isEmpty()) {
             throw new Exception("No ingreso la contraseña");
         }//fin if
 
-        System.out.println("metodo validar password: " + contrasena + " " + this.getsConfirmarContrasena());
-
-        if (!contrasena.equals(Encrypter.encriptar(this.getsConfirmarContrasena()))) {
+        if (!Encrypter.encriptar(getContrasena()).equals(Encrypter.encriptar(this.getsConfirmarContrasena()))) {
             throw new Exception("La contraseña y la confirmacion no son iguales");
         }
     }//fin validarContrasena
+
 }

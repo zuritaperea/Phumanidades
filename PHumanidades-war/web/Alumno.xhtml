@@ -12,6 +12,9 @@
 
     <ui:define name="content">
 
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{alumnoLstBean.cargarAlumnos}" />
+        </f:metadata>
 
         <ui:include src="DomicilioDlg.xhtml"/>
         <ui:include src="TelefonosDlg.xhtml" />
@@ -36,7 +39,7 @@
                         <h:outputText value="#{alumnoBean.alumno.dni}" />    
                         <h:outputText value="Fecha Nacimiento: " styleClass="headerTabla" />
                         <h:outputText value="#{alumnoBean.alumno.fechaNacimiento}" >
-                                          <f:convertDateTime pattern="dd/MM/yyyy" />
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                         <h:outputText  value="Localidad:  " styleClass="headerTabla" />
                         <h:outputText  value="#{alumnoBean.alumno.domicilio.localidad}"/> 
@@ -390,7 +393,7 @@
                 </p:commandButton>
             </p:column>
 
-            
+
             <p:column filterBy="#{item.dni}"
                       style="word-wrap:break-word;">
                 <f:facet name="header">

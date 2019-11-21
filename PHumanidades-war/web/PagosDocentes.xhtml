@@ -5,7 +5,8 @@
                 template="./Templates/adminTemplate.xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="top"> Datos Personales </ui:define>    
 
@@ -665,13 +666,14 @@
             </f:facet>
             <!--INICIO BOTONES EDITAR, ELIMINAR RECUPERAR -->
             <p:column width="150" exportable="false">
-                <p:commandButton id="btnEdit"
-                                 action="#{pagosDocenteBean.prepararModificar()}"   
-                                 icon="ui-icon-pencil"
-                                 disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}" >
-                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
-                </p:commandButton>
-
+                <c:if test="#{usuarioLogerBean.isGrupo('superadmin')}" >
+                    <p:commandButton id="btnEdit"
+                                     action="/paginas/pagosDocente/List.xhtml?faces-redirect=true"
+                                     icon="ui-icon-pencil"
+                                     disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}" >
+                        <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
+                    </p:commandButton>                
+                </c:if>
                 <p:commandButton id="btnDelete" 
                                  actionListener="#{pagosDocenteBean.definirActionBoton}"                                 
                                  update=":frmPri:dRegistrarPagosDocentes"

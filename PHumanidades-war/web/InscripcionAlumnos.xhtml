@@ -103,6 +103,7 @@
                      style="overflow-x: auto;"
                      paginator="true"
                      rows="20"
+                     filterEvent="enter"
                      binding="#{inscripcionAlumnosLstBean.tablaInscripciones}"
                      rowsPerPageTemplate="20,50,100,500">   
 
@@ -154,17 +155,17 @@
                 </f:facet>
                 <h:outputText value="#{item.cohorte}"/>
             </p:column>            
-            <p:column
+            <p:column  filterBy="#{item.matricula}"
                 style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Matricula"/>
                 </f:facet>
                 <h:outputText value="#{item.matricula}"/>
             </p:column>  
-            <p:column
+            <p:column sortBy="#{item.fechaInscripcion}"
                 style="word-wrap:break-word;">
                 <f:facet name="header">
-                    <h:outputText value="Fecha Inscripción"/>
+                    <h:outputText value="Fecha Inscripción" />
                 </f:facet>
                 <h:outputText value="#{item.fechaInscripcion}">  <f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
                 </h:outputText>

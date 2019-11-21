@@ -616,16 +616,20 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                 sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
                                 severity = FacesMessage.SEVERITY_INFO;
                                 cuota++;
+
+
                             } else {
                                 sMensaje = "Ya se ha abonado la totalidad de las cuotas";
                                 severity = FacesMessage.SEVERITY_ERROR;
                             }
                         }
-                        // limpiar();
-                        RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
-                        RequestContext.getCurrentInstance().update("frmPri:growl");
-                        salir();
-
+                        
+                                RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
+                                RequestContext.getCurrentInstance().update("frmPri:growl");
+                                fm = new FacesMessage(severity, sMensaje, null);
+                                FacesContext fc = FacesContext.getCurrentInstance();
+                                fc.addMessage(null, fm);
+                                salir();
                     } else {
                         sMensaje = "No se ha Seleccionado la fecha del pago";
                         severity = FacesMessage.SEVERITY_ERROR;
@@ -1005,7 +1009,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             conect = dataSource.getConnection();
             String path;
-
 
             try {
 

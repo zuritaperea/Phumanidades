@@ -23,6 +23,8 @@
             <h:inputHidden value="#{usuarioBean.usuario.id}" />
             <h:inputHidden value="#{usuarioBean.iActionBtnSelect}"/>
             <h:inputHidden value="#{usuarioBean.bCamposSoloLectura}"/>
+            <h:inputHidden value="#{usuarioBean.usuario.password}" />
+
 
             <p:panel id="pPri">
 
@@ -65,7 +67,7 @@
                                 feedback="true"
                                 id="pContrasena"
                                 label="Contraseña"
-                                value="#{usuarioBean.usuario.password}"
+                                value="#{usuarioBean.contrasena}"
                                 size="30"
                                 maxlength="30"/>
 
