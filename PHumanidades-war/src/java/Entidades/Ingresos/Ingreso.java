@@ -85,7 +85,9 @@ import javax.persistence.Temporal;
             query = "select distinct todos.alumno, todos.cohorte, todos.fechaPago, "
             + "todos.cuota from Ingreso todos where "
             + "todos.cuota = (select max(latest.cuota) "
-            + "from Ingreso latest where latest.alumno = todos.alumno and latest.cuota > 0) AND todos.cohorte=:cohorte"),
+            + "from Ingreso latest where latest.alumno = todos.alumno and latest.cuota > 0) AND todos.cohorte=:cohorte "
+                    + "UNION select distinct a.alumno, a.cohorte, CAST(NULL AS TIMESTAMP), 0 from InscripcionAlumnos a WHERE a.cohorte=:cohorte "
+                    + "and a.alumno not in (select i.alumno from Ingreso i where i.cohorte=:cohorte)"),
     @NamedQuery(name = "Ingreso.existeNumeroRecibo", query = "SELECT i FROM Ingreso i "
             + "WHERE i.numeroRecibo =:numero AND i.cuenta=:cuenta AND "
             + "i.borrado=false AND FUNC('DATE_PART','YEAR', i.fechaPago) =:anio "
