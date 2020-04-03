@@ -3,16 +3,18 @@
   <persistence-unit name="PHumanidades-ejbPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>jdbc/Phumanidades</jta-data-source>
+    <class>Entidades.Base.Base</class>
     <class>Entidades.Carreras.Anio</class>
     <class>Entidades.Carreras.Carrera</class>
     <class>Entidades.Carreras.Cohorte</class>
-    <class>Entidades.Carreras.Contador005</class>
-    <class>Entidades.Carreras.Contador025</class>
     <class>Entidades.Carreras.Cuenta</class>
     <class>Entidades.Carreras.InscripcionAlumnos</class>
     <class>Entidades.Carreras.Materia</class>
     <class>Entidades.Carreras.TipoCarrera</class>
-    <class>Entidades.Egresos.GastoGeneral</class>
+    <class>Entidades.Egresos.PagosDocente</class>
+    <class>Entidades.Egresos.TipoEgreso</class>
+    <class>Entidades.Ingresos.Ingreso</class>
+    <class>Entidades.Ingresos.TipoIngreso</class>
     <class>Entidades.Localidades.Departamento</class>
     <class>Entidades.Localidades.Localidad</class>
     <class>Entidades.Localidades.Pais</class>
@@ -24,13 +26,8 @@
     <class>Entidades.Persona.Persona</class>
     <class>Entidades.Persona.Proveedor</class>
     <class>Entidades.Persona.Telefono</class>
-    <class>Entidades.Usuarios.Usuarios</class>
-    <class>Entidades.Ingresos.Ingreso</class>
-    <class>Entidades.Base.Base</class>
-    <class>Entidades.Egresos.PagosDocente</class>
-    <class>Entidades.Egresos.TipoEgreso</class>
-    <class>Entidades.Ingresos.TipoIngreso</class>
     <class>Entidades.Usuarios.Grupo</class>
+    <class>Entidades.Usuarios.Usuarios</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>

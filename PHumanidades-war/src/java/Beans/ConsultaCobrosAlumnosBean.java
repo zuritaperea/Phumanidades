@@ -1,5 +1,6 @@
 package Beans;
 
+import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.InscripcionAlumnos;
 import Entidades.Ingresos.Ingreso;
@@ -77,6 +78,9 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
     @ManagedProperty(value = "#{cohorteLstBean}")
     private CohorteLstBean cohorteLstBean;
 
+    @ManagedProperty(value = "#{carreraLstBean}")
+    private CarreraLstBean carreraLstBean;
+
     private List<Ingreso> lstIngresos;
     private List<InscripcionAlumnos> lstInscripcionAlumnos;
     private Date fechaFin;
@@ -96,7 +100,31 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
         fechaIni = new Date();
         fechaFin = c.getTime();
         totalXCohorte = new BigDecimal(0);
+        try {
+            this.getCarreraLstBean().setCarreraSeleccionada(new Carrera());
+        } catch (Exception ex) {
+        }
+        try {
+            this.getCarreraLstBean().setCarreraSelect(new Carrera());
+        } catch (Exception ex) {
+        }
+        try {
+            this.getCohorteLstBean().setCohorteSeleccionada(new Cohorte());
+        } catch (Exception ex) {
+        }
+        try {
+            this.getCarreraLstBean().cargarCarrera();
+        } catch (Exception ex) {
+        }
     }//fin init
+
+    public CarreraLstBean getCarreraLstBean() {
+        return carreraLstBean;
+    }
+
+    public void setCarreraLstBean(CarreraLstBean carreraLstBean) {
+        this.carreraLstBean = carreraLstBean;
+    }
 
     public IngresoRNLocal getIngresoCuotaRNLocal() {
         return ingresoCuotaRNLocal;
@@ -242,9 +270,55 @@ public class ConsultaCobrosAlumnosBean implements Serializable {
         pdf.add(pdfTable);
     }
 
+    public void buscarFechaCarreras() {
+        FacesMessage fm;
+        String mensaje = null;
+        FacesMessage.Severity severity = FacesMessage.SEVERITY_INFO;
+        try {
+            //verifico que no sean nulas las fechas
+            totalXCohorte = new BigDecimal(BigInteger.ZERO);
+            //System.out.println("entro if buscarFechaCarrera" + this.getCohorteLstBean().getCohorteSelect());
+            //aumento un dia a la fecha fin para que la busqueda sea menor o igual
+            if (fechaIni != null && fechaFin != null) {
+                if (carreraLstBean.getCarreraSelect() != null) {
+                    this.setLstIngresos(ingresoCuotaRNLocal.findByFechaCarrera(this.getFechaIni(), this.getFechaFin(), carreraLstBean.getCarreraSelect()));
+                    if (this.getLstIngresos().isEmpty()) {
+                        mensaje = "No se encontraron ingresos";
+                        severity = FacesMessage.SEVERITY_ERROR;
+                    } else {
+                        for (Ingreso ic : this.getLstIngresos()) {
+                            totalXCohorte = totalXCohorte.add(ic.getImporte());
+                        }
+                    }
+
+                } else {
+                    mensaje = "Debe Seleccionar una carrera";
+                    severity = FacesMessage.SEVERITY_ERROR;
+                }
+//Sumamos el total de los cobros por cohorte
+                //fin if
+            } else {
+                mensaje = "Debe seleccionar las fechas";
+                severity = FacesMessage.SEVERITY_ERROR;
+            }
+            if (mensaje != null) {
+                fm = new FacesMessage(severity, mensaje, null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
+                RequestContext.getCurrentInstance().update("frmPri:growl");
+            }
+
+        } catch (Exception ex) {
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage("frmPri:cbConsultar", fm);
+            RequestContext.getCurrentInstance().update("frmPri:growl");
+
+        }//fin catch
+    }
+
     public void buscarFechaCohortes() {
         //System.out.println("entro buscarFechaCohortes");
-
         FacesMessage fm;
         try {
             //verifico que no sean nulas las fechas

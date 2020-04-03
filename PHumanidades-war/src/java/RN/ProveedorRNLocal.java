@@ -5,6 +5,7 @@
  */
 package RN;
 
+import Entidades.Egresos.PagosDocente;
 import Entidades.Persona.Proveedor;
 import java.util.List;
 import javax.ejb.Local;
@@ -36,5 +37,7 @@ public interface ProveedorRNLocal {
     public List<Proveedor> buscarProveedorRazonSocial(String cadena) throws Exception;
 
     public Proveedor findByRazonSocial(String razonSocial);
+
+    public List<PagosDocente> buscarEgresosProveedor(Proveedor proveedor) throws Exception;
 
 }

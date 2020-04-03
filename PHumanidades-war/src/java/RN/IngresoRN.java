@@ -7,6 +7,7 @@ package RN;
 
 import Entidades.Carreras.Cohorte;
 import DAO.IngresoFacadeLocal;
+import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Ingresos.TipoIngreso;
@@ -78,6 +79,11 @@ public class IngresoRN implements IngresoRNLocal {
         return ingresoCuotaFacadeLocal.findByFechaCohorte(ini, fin, cohorte);
     }
 
+       @Override
+    public List<Ingreso> findByFechaCarrera(Date ini, Date fin, Carrera carrera) throws Exception {
+        return ingresoCuotaFacadeLocal.findByFechaCarrera(ini, fin, carrera);
+    }
+    
     @Override
     public List<Ingreso> findByFecha(Date ini, Date fin) {
         return ingresoCuotaFacadeLocal.findByFecha(ini, fin);

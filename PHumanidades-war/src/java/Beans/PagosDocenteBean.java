@@ -96,7 +96,7 @@ public class PagosDocenteBean implements Serializable {
     private PagosDocente pagoDocente4;
     private PagosDocente pagoDocente5;
     private PagosDocente pagoDocente6;
-
+    List<PagosDocente> pagosDocentes;
 //Inicio Busqueda Carrera   
     private CommandButton cbAction;
 
@@ -124,18 +124,28 @@ public class PagosDocenteBean implements Serializable {
      */
     @PostConstruct
     private void init() {
+        pagosDocentes = new ArrayList<>();
+
         pagoDocente = new PagosDocente();
         pagoDocente2 = new PagosDocente();
         pagoDocente3 = new PagosDocente();
         pagoDocente4 = new PagosDocente();
         pagoDocente5 = new PagosDocente();
         pagoDocente6 = new PagosDocente();
-
+        cargarPagosDocentes();
         cargarLstFormaPago();
         cargarLstRubroPresupuestario();
         cargarLstProveedor();
         cargarLstTipoComprobante();
         cargarLstTipoEgresos();
+    }
+
+    public List<PagosDocente> getPagosDocentes() {
+        return pagosDocentes;
+    }
+
+    public void setPagosDocentes(List<PagosDocente> pagosDocentes) {
+        this.pagosDocentes = pagosDocentes;
     }
 
     public PagosDocente getPagoDocente6() {
@@ -659,6 +669,11 @@ public class PagosDocenteBean implements Serializable {
             if (pagoDocente.getNumeroOrdenPago() < 1) {
                 throw new Exception("Debe corroborar el número de la orden de pago");
             }
+            if (comprobanteDuplicado(pagoDocente.getDocente(),
+                    pagoDocente.getProveedor(), pagoDocente.getNumeroComprobante(),
+                    pagoDocente.getFechaComprobante())) {
+                throw new Exception("El comprobante N° " + pagoDocente.getNumeroComprobante() + "ya se encuentra cargado en el sistema");
+            }
 
             if (pagoDocente.getDocente() != null) {
                 if (pagoDocente.getCarrera() != null) {
@@ -808,6 +823,7 @@ public class PagosDocenteBean implements Serializable {
             int year = cal.get(Calendar.YEAR);
             findPagosByNumeroOrdenPago = pagosDocenteRNLocal.findPagosByNumeroOrdenPagoAnio(pagoDocente.getNumeroOrdenPago(), year);
             setPagoDocente(new PagosDocente());
+            setPagosDocentes(findPagosByNumeroOrdenPago);
             try {
                 setPagoDocente(findPagosByNumeroOrdenPago.get(0));
             } catch (Exception e) {
@@ -928,14 +944,10 @@ public class PagosDocenteBean implements Serializable {
             this.getProveedorLstBean().setTablaProveedor(new DataTable());
         } catch (Exception ex) {
         }
-
-        this.setPagoDocente2(new PagosDocente());
-        this.setPagoDocente3(new PagosDocente());
-        this.setPagoDocente4(new PagosDocente());
-        this.setPagoDocente5(new PagosDocente());
-        this.setPagoDocente6(new PagosDocente());
-
-    }//fin limpiar
+        
+        cargarPagosDocentes();
+        
+         }//fin limpiar
 
     private void cargarUltimoNumero() {
         int numeroOrdenPago = pagosDocenteRNLocal.findUltimoNumero();
@@ -1032,5 +1044,27 @@ public class PagosDocenteBean implements Serializable {
         crearModificarOtroComprobante(pagoDocente4, crear);
         crearModificarOtroComprobante(pagoDocente5, crear);
         crearModificarOtroComprobante(pagoDocente6, crear);
+    }
+
+    private boolean comprobanteDuplicado(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante) {
+        return pagosDocenteRNLocal.comprobanteDuplicado(docente, proveedor, numeroComprobante, fechaComprobante);
+    }
+
+    private void cargarPagosDocentes() {
+        pagosDocentes = new ArrayList<>();
+
+        pagoDocente = new PagosDocente();
+        pagoDocente2 = new PagosDocente();
+        pagoDocente3 = new PagosDocente();
+        pagoDocente4 = new PagosDocente();
+        pagoDocente5 = new PagosDocente();
+        pagoDocente6 = new PagosDocente();
+
+        pagosDocentes.add(pagoDocente);
+        pagosDocentes.add(pagoDocente2);
+        pagosDocentes.add(pagoDocente3);
+        pagosDocentes.add(pagoDocente4);
+        pagosDocentes.add(pagoDocente5);
+        pagosDocentes.add(pagoDocente6);
     }
 }

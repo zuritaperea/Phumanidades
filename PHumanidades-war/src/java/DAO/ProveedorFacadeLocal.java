@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Entidades.Egresos.PagosDocente;
 import Entidades.Persona.Proveedor;
 import java.util.List;
 import javax.ejb.Local;
@@ -35,5 +36,7 @@ public interface ProveedorFacadeLocal {
     public List<Proveedor> buscarProveedorRazonSocial(String razon);
 
     public Proveedor findByRazonSocial(String razonSocial);
+
+    public List<PagosDocente> buscarEgresosProveedor(Proveedor proveedor);
 
 }

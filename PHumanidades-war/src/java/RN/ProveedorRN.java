@@ -6,6 +6,7 @@
 package RN;
 
 import DAO.ProveedorFacadeLocal;
+import Entidades.Egresos.PagosDocente;
 import Entidades.Persona.Proveedor;
 import java.util.List;
 import javax.ejb.EJB;
@@ -69,5 +70,10 @@ public class ProveedorRN implements ProveedorRNLocal {
     @Override
     public Proveedor findById(Long id) {
         return proveedorFacadeLocal.find(id);
+    }
+
+    @Override
+    public List<PagosDocente> buscarEgresosProveedor(Proveedor proveedor) throws Exception {
+        return proveedorFacadeLocal.buscarEgresosProveedor(proveedor);
     }
 }

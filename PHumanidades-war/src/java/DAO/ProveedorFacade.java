@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Entidades.Egresos.PagosDocente;
 import Entidades.Persona.Proveedor;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -34,10 +35,10 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> implements Provee
     @Override
     public List<Proveedor> findByCuit(String cuit) {
         Query q = em.createNamedQuery("Proveedor.findByCuit");
-        q.setParameter("cuit",  "%" + cuit + "%");
+        q.setParameter("cuit", "%" + cuit + "%");
         return q.getResultList();
     }
-    
+
     @Override
     public Proveedor findByRazonSocial(String razonSocial) {
         Query q = em.createNamedQuery("Proveedor.findByRazonSocial");
@@ -52,6 +53,13 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> implements Provee
         q.setParameter("razonSocial", "%" + razonSocial + "%");
         return q.getResultList();
 
+    }
+
+    @Override
+    public List<PagosDocente> buscarEgresosProveedor(Proveedor proveedor) {
+        Query q = em.createNamedQuery("PagosDocente.findProveedorTodos");
+        q.setParameter("proveedor", proveedor);
+        return q.getResultList();
     }
 
 }

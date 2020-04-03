@@ -10,6 +10,8 @@ import DAO.PagosDocenteFacadeLocal;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import Entidades.Egresos.TipoEgreso;
+import Entidades.Persona.Docente;
+import Entidades.Persona.Proveedor;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -138,6 +140,11 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
     @Override
     public void removeTotal(PagosDocente pagosDocente) throws Exception {
         pagosDocenteFacadeLocal.remove(pagosDocente);
+    }
+
+    @Override
+    public boolean comprobanteDuplicado(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante) {
+       return pagosDocenteFacadeLocal.comprobanteDuplicado(docente,proveedor,numeroComprobante,fechaComprobante);
     }
 
 }

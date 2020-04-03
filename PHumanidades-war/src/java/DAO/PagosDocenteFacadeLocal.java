@@ -9,6 +9,8 @@ import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import Entidades.Egresos.TipoEgreso;
+import Entidades.Persona.Docente;
+import Entidades.Persona.Proveedor;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
@@ -72,5 +74,9 @@ public interface PagosDocenteFacadeLocal {
     public List<PagosDocente> findPagosByNumeroOrdenPagoAnioAnulado(int numeroOrdenPago, int year);
 
     public List<PagosDocente> findPagosByNumeroOrdenPagoAnioBorrado(int numeroOrdenPago, int year);
+
+    public boolean comprobanteDuplicado(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante);
+
+    public  List<PagosDocente>  findPagosByComprobante(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante);
 
 }

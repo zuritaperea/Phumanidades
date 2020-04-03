@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
@@ -86,5 +87,7 @@ public interface IngresoFacadeLocal {
     public List<Ingreso> findAllNoCerrados();
 
     public List<Ingreso> findNoCerradosFecha(Date fechaCierre);
+
+    public List<Ingreso> findByFechaCarrera(Date ini, Date fin, Carrera carrera);
 
 }

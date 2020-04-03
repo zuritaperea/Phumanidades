@@ -19,7 +19,7 @@
 
         <p:dialog id="dCarrera"
                   widgetVar="dlgCarrera"
-                  closable="false" position="top" header="Carreras">
+                  closable="false" position="top" header="Carreras" width="50%">
 
             <h3><h:outputText value="Alta / Modificacion Carreras"/></h3>
             <h:inputHidden value="#{carreraBean.carrera.id}" />
@@ -29,140 +29,28 @@
 
                 <h:panelGrid columns="2">
 
-                    <div class="encabezado">
-                        <p:outputLabel value="Nombre de la Carrera:" for="itNombre" />
-                    </div>
+                    <p:outputLabel value="Nombre de la Carrera:" for="itNombre" />
                     <p:inputText id="itDescripcion" 
                                  value="#{carreraBean.carrera.descripcion}"
                                  title="Nombre"
                                  size="50"
                                  maxlength="100"/>
-
-
-                </h:panelGrid>
-
-                <!--Inicio Panel Materias -->   
-
-
-                <p:panel header="Materias"
-                         style="height: 200px ; overflow: auto">
-                    <div class="flotar">
-
-                        <h:panelGrid columns="2"
-                                     width="700px">
-                            <p:dataTable var="materias"
-                                         id="dtMaterias"
-                                         value="#{listadoMateriasBean.lstMateria}"
-                                         binding="#{listadoMateriasBean.dtMateria}">  
-                                <p:column>
-
-
-                                    <p:commandButton id="btnDeleteMateria" 
-                                                     onclick="PF('confirmationMat').show()"
-                                                     type="button"
-                                                     icon="ui-icon-close">
-                                    </p:commandButton>
-                                </p:column>  
-
-                                <p:column headerText="Nombre">  
-                                    <h:outputText value="#{materias.descripcion}" />  
-                                </p:column>  
-                            </p:dataTable>
-
-                            <p:commandButton id="btnCreateMateria"
-                                             value="Agregar" 
-                                             actionListener="#{listadoMateriasBean.definirActionBotonMaterias}"
-                                             oncomplete="PF('dlgMaterias').show();"
-                                             icon="ui-icon-disk"/>
-                        </h:panelGrid>
-                    </div>
-                </p:panel>
-
-
-
-                <!--Fin Panel Materias -->  
-
-
-
-                <!--Inicio Panel Tipo Carrera -->   
-
-
-                <p:panel header="Tipo Carrera"
-                         style="height: 100px;width: 700px">
-                    <div class="flotar">
-
-                        <h:panelGrid columns="3"
-                                     width="700px"
-                                     >
-
-
-                            <h:outputText value="Tipo de Carreras"/>
-                            <p:selectOneMenu id="soTipoCarrera" 
-                                             value="#{tipoCarreraLstBean.tipoCarrera}"
-                                             converter="ConversorTipoCarrera"
-                                             required="false">
-                                <f:selectItems value="#{tipoCarreraLstBean.lstTipoCarrera}"/>
-                            </p:selectOneMenu>
-
-
-                            <p:commandButton id="btnAgregarTipo"
-                                             value="Agregar" 
-                                             actionListener="#{tipoCarreraBean.abrirDlgTipoCarrera}"
-                                             oncomplete="PF('dlgTipoCarreras').show();"
-                                             icon="ui-icon-disk"
-                                             update="dTipoCarreras"/>
-
-                        </h:panelGrid>
-                    </div>
-                </p:panel>
-
-
-
-                <!--Fin Panel Tipo Carrera-->
-
-                <!--Inicio Panel Cuenta -->   
-
-
-                <p:panel header="Cuenta"
-                         style="height: 100px;width: 700px">
-                    <div class="flotar">
-                        <h:panelGrid columns="3"
-                                     width="700px"
-                                     cellpadding="10px">
-
-
-                            <h:outputText value="Cuentas"/>
-                            <p:selectOneMenu id="soCuentas" 
-                                             value="#{cuentaLstBean.cuenta}"
-                                             converter="ConversorCuenta"
-                                             required="false">
-                                <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
-                            </p:selectOneMenu>
-
-                            <p:commandButton id="btnAgregarCuenta"
-                                             value="Agregar" 
-                                             actionListener="#{cuentaBean.abrirDlgCuenta()}"
-                                             oncomplete="PF('dlgCuentas').show();"
-                                             icon="ui-icon-disk"
-                                             update="dCuentas"/>
-
-
-                        </h:panelGrid>
-                    </div>
-                </p:panel>
-
-
-
-                <!--Fin Panel Tipo Carrera--> 
-
-
-                <div style=" float: left;">
+                    <p:outputLabel value="Tipo de Carreras" for="soTipoCarrera"/>
+                    <p:selectOneMenu id="soTipoCarrera" 
+                                     value="#{tipoCarreraLstBean.tipoCarrera}"
+                                     converter="ConversorTipoCarrera"
+                                     required="false">
+                        <f:selectItems value="#{tipoCarreraLstBean.lstTipoCarrera}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Puntos de Venta"/>
+                    <p:selectOneMenu id="soCuentas" 
+                                     value="#{cuentaLstBean.cuenta}"
+                                     converter="ConversorCuenta"
+                                     required="false">
+                        <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
+                    </p:selectOneMenu>
+                    <!--Fin Panel Tipo Carrera--> 
                     <p:messages autoUpdate="true"/>
-                </div>
-
-                <div style="clear: both;"/>
-
-                <div class="divboton">
 
                     <p:commandButton id="RegistrarCarrera"
                                      value=" " 
@@ -180,7 +68,7 @@
                                      update=":frmPri:dCarrera, :frmPri:dtCarreras"
                                      styleClass="boton"/>
 
-                </div>
+                </h:panelGrid>
             </p:panel>
 
         </p:dialog>
@@ -189,20 +77,7 @@
 
 
         <!--Inicio Dialogo Confirmar Borrar Materias-->  
-        <p:confirmDialog id="confirmDialogMaterias" message="Seguro Desea Eliminar la materia Seleccionada?"  
-                         header="Proceso de Eliminacion" severity="alert" widgetVar="confirmationMat">  
 
-            <table cellpadding="5" cellspacing="5" width="350">
-                <tr>
-                    <td align="right">
-                        <p:commandButton id="confirmMat" value="Aceptar" oncomplete="PF('confirmationMat').hide()" actionListener="#{listadoMateriasBean.quitarMateria}" update=":frmPri:dtMaterias"/> 
-                    </td>  
-                    <td align="left">
-                        <p:commandButton id="declineMat" value="Cancelar" onclick="PF('confirmationMat').hide()" type="button" />   
-                    </td>
-                </tr>
-            </table>
-        </p:confirmDialog> 
         <!--Fin Dialogo Confirmar Borrar Materias--> 
 
 
@@ -229,11 +104,14 @@
 
         <p></p>
         <p:dataTable id="dtCarreras"
+                     widgetVar="dtCarreras"
                      value="#{carreraLstBean.lstCarrera}" 
                      var="item"
                      style="overflow-x: auto;"
                      paginator="true"
-                     rows="20">
+                     filterEvent="enter"
+                     rows="20"
+                     rowsPerPageTemplate="20,50,100,500">
 
             <p:column width="50">
 
@@ -255,9 +133,6 @@
                     <f:setPropertyActionListener value="#{item}" target="#{carreraBean.carrera}"/> 
 
                 </p:commandButton>
-
-
-
             </p:column>
             <p:column
                 filterBy="#{item.descripcion}">
@@ -268,9 +143,9 @@
             </p:column>
             <p:column >
                 <f:facet name="header">
-                    <h:outputText value="Cuenta"/>
+                    <h:outputText value="Punto de Venta"/>
                 </f:facet>
-                <h:outputText value="#{item.cuenta}"/>
+                <h:outputText value="#{item.cuenta.descripcion}"/>
             </p:column>
             <p:column >
                 <f:facet name="header">

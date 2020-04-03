@@ -124,7 +124,6 @@
                                      actionListener="#{proveedorBean.actionBtn()}" 
                                      update=":frmPri:pPriProveedor, :frmPri:dtProveedor, @this"
                                      binding="#{proveedorBean.cbAction}"
-                                     oncomplete="PF('dtProveedor').filter();"
                                      styleClass="boton"/>
 
 
@@ -160,7 +159,9 @@
         <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
             <p:printer target="dtProveedor" />
         </p:commandButton>      
-        <p>                    
+        <p>   
+            <p:messages autoUpdate="true"/>
+
         </p>           
         <p:dataTable id="dtProveedor"
                      widgetVar="dtProveedor"

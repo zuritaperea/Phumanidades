@@ -180,9 +180,8 @@ public class CarreraBean implements Serializable {
             carrerasRNLocal.create(this.getCarrera());
             sMensaje = "La Carrera fue Creada";
             severity = FacesMessage.SEVERITY_INFO;
-            //agregar a la lista
-            this.getCarreraLstBean().getLstCarrera().add(this.getCarrera());
-            //limpíar campos
+            this.getCarreraLstBean().cargarCarrera();
+           //limpíar campos
             this.limpiar();
 
         } catch (Exception ex) {
@@ -207,10 +206,10 @@ public class CarreraBean implements Serializable {
 
             sMensaje = "La Carrera fue Borrada";
             severity = FacesMessage.SEVERITY_INFO;
-
             //remover de la lista
-            this.getCarreraLstBean().getLstCarrera().remove(this.getCarrera());
+            this.getCarreraLstBean().cargarCarrera();
 
+            limpiar();
             this.getCbAction().setValue("Eliminar");
             this.getCbAction().setDisabled(true);
 
@@ -228,7 +227,9 @@ public class CarreraBean implements Serializable {
 
     public void limpiar() {
         this.setCarrera(new Carrera());
+        RequestContext.getCurrentInstance().execute("PF('dtCarreras').filter();");
         RequestContext.getCurrentInstance().update("frmPri:dtCarreras");
+        RequestContext.getCurrentInstance().update("frmPri:growl");
 
     }//fin limpiar
 

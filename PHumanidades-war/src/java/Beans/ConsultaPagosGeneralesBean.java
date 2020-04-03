@@ -87,7 +87,6 @@ public class ConsultaPagosGeneralesBean implements Serializable {
 
     @PostConstruct
     private void init() {
-
         lstGastoGeneral = new ArrayList<>();
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -220,14 +219,15 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             totalXGastoGeneral = BigDecimal.ZERO;
 
             this.setLstGastoGeneral(pagoGeneralRNLocal.findPagosByPredicates(fechaIni, fechaFin, this.getCuentaLstBean().getCuenta(), tipoEgreso, this.getCarreraLstBean().getCarreraSelect()));
-            for (PagosDocente gg : this.getLstGastoGeneral()) {
-                totalXGastoGeneral = totalXGastoGeneral.add(gg.getImporteComprobante());
-            }
 
             if (this.getLstGastoGeneral().isEmpty()) {
-                fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se encontraron egresos", null);
                 FacesContext fc = FacesContext.getCurrentInstance();
                 fc.addMessage(null, fm);
+            } else {
+                for (PagosDocente gg : this.getLstGastoGeneral()) {
+                    totalXGastoGeneral = totalXGastoGeneral.add(gg.getImporteComprobante());
+                }
             }
         } catch (Exception ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
@@ -473,14 +473,14 @@ public class ConsultaPagosGeneralesBean implements Serializable {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ELContext elContext = facesContext.getELContext();
             ELResolver elResolver = elContext.getELResolver();
-            
+
             DataTable table = (DataTable) UIComponent.getCurrentComponent(facesContext);
-            
+
             UIColumn sortColumn = table.getSortColumn();
             ValueExpression expression = sortColumn.getValueExpression("sortBy");
             ValueReference reference = ValueExpressionAnalyzer.getReference(elContext, expression);
             String property = (String) reference.getProperty();
-            
+
             BigDecimal total = BigDecimal.ZERO;
             List<?> rowList = (List<?>) table.getValue();
             for (Object row : rowList) {
@@ -490,7 +490,7 @@ public class ConsultaPagosGeneralesBean implements Serializable {
                     total = total.add((BigDecimal) row);
                 }
             }
-            
+
             List<UIComponent> children = table.getSummaryRow().getChildren();
             UIComponent column = children.get(children.size() - 1);
             column.getAttributes().put("total", total);

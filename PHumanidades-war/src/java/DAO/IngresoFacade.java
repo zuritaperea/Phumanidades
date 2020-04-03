@@ -5,6 +5,7 @@
  */
 package DAO;
 
+import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
@@ -79,6 +80,16 @@ public class IngresoFacade extends AbstractFacade<Ingreso> implements IngresoFac
         q.setParameter("fechaIni", ini);
         q.setParameter("fechaFin", fin);
         q.setParameter("cohorte", cohorte);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<Ingreso> findByFechaCarrera(Date ini, Date fin, Carrera carrera) {
+        Query q = null;
+        q = em.createNamedQuery("Ingreso.findByFechaCarrera");
+        q.setParameter("fechaIni", ini);
+        q.setParameter("fechaFin", fin);
+        q.setParameter("carrera", carrera);
         return q.getResultList();
     }
 

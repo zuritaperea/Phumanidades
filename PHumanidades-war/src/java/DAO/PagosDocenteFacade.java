@@ -9,6 +9,8 @@ import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.PagosDocente;
 import Entidades.Egresos.TipoEgreso;
+import Entidades.Persona.Docente;
+import Entidades.Persona.Proveedor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -162,15 +164,15 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
             predicates.add(
                     qb.lessThanOrEqualTo(pagos.<Date>get("fechaRegistro"), FechaFin));
         }
-        if (cuenta != null) {
+        if (cuenta != null && cuenta.getId() != null) {
             predicates.add(
                     qb.equal(pagos.get("cuenta"), cuenta));
         }
-        if (tipoEgreso != null) {
+        if (tipoEgreso != null && tipoEgreso.getId() != null) {
             predicates.add(
                     qb.equal(pagos.get("tipoEgreso"), tipoEgreso));
         }
-        if (carrera != null) {
+        if (carrera != null && carrera.getId() != null) {
             predicates.add(
                     qb.equal(pagos.get("carrera"), carrera));
         }
@@ -237,6 +239,28 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         q = em.createNamedQuery("PagosDocente.findNoCerradosFecha");
         q.setParameter("fechaCierre", fechaCierre);
         return q.getResultList();
+    }
+
+    @Override
+    public List<PagosDocente> findPagosByComprobante(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosByComprobante");
+        q.setParameter("docente", docente);
+        q.setParameter("proveedor", proveedor);
+        q.setParameter("numeroComprobante", numeroComprobante);
+        q.setParameter("fechaComprobante", fechaComprobante);
+        return q.getResultList();
+    }
+
+    @Override
+    public boolean comprobanteDuplicado(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findPagosByComprobante");
+        q.setParameter("docente", docente);
+        q.setParameter("proveedor", proveedor);
+        q.setParameter("numeroComprobante", numeroComprobante);
+        q.setParameter("fechaComprobante", fechaComprobante);
+        return !q.getResultList().isEmpty();
     }
 
 }

@@ -22,73 +22,63 @@
             <p:ajax event="tabChange" listener="#{consultaPagosGeneralesBean.onTabChange}" update=":frmPri:growl"/>
             <p:tab id="tabPagosGeneralesFecha" title="Pagos entre Fechas"> 
 
-                <table>
-                    <tr>
-                        <td>
-                            <h:outputText value="Desde"/><br/>
-                            <p:calendar id="cIniTab1"
-                                        label="Desde" locale="es_ES"
-                                        pattern="dd/MM/yyyy"
-                                        value="#{consultaPagosGeneralesBean.fechaIni}">
-                            </p:calendar>
-                        </td>
+                <h:panelGrid columns="4">
+                    <h:outputText value="Desde: "/>
+                    <p:calendar id="cIniTab1"
+                                label="Desde" locale="es_ES"
+                                pattern="dd/MM/yyyy"  showOn="button" 
+                                value="#{consultaPagosGeneralesBean.fechaIni}">
+                    </p:calendar>
 
-                        <td>
-                            <h:outputText value="Hasta"/><br/>
-                            <p:calendar id="cFinTab1" locale="es_ES"
-                                        label="Hasta"
-                                        pattern="dd/MM/yyyy"
-                                        value="#{consultaPagosGeneralesBean.fechaFin}">
-                            </p:calendar>
-                        </td>
-                        <td>
+                    <h:outputText value="Hasta: "/>
+                    <p:calendar id="cFinTab1" locale="es_ES"
+                                label="Hasta"
+                                pattern="dd/MM/yyyy"  showOn="button" 
+                                value="#{consultaPagosGeneralesBean.fechaFin}">
+                    </p:calendar>
 
-                            <h:outputText value="Cuenta"/><br/>
-                            <p:selectOneMenu id="somCuenta" 
-                                             value="#{cuentaLstBean.cuenta}"
-                                             converter="ConversorCuenta"
-                                             >
-                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                    <h:outputText value="Cuenta: "/>
+                    <p:selectOneMenu id="somCuenta" 
+                                     value="#{cuentaLstBean.cuenta}"
+                                     converter="ConversorCuenta"
+                                     >
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
 
-                                <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
-                            </p:selectOneMenu>
+                        <f:selectItems value="#{cuentaLstBean.lstCuenta}"/>
+                    </p:selectOneMenu>
 
-                        </td>
-                        <td>
-                            <h:outputText value="Tipo Egreso" /><br/>
-                            <p:selectOneMenu id="tipoEgreso" 
-                                             value="#{consultaPagosGeneralesBean.tipoEgreso}"
-                                             required="false">
-                                <f:converter binding="#{conversorTipoEgreso}"/>
-                                <f:selectItem itemLabel="Seleccionar" itemValue="#{null}"/>
-                                <f:selectItems value="#{tipoEgresoController.itemsAvailableSelectOne}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
-                            </p:selectOneMenu>
-                        </td>
-                        <td>
 
-                            <h:outputText value="Carrera"/><br/>
-                            <p:selectOneMenu id="somCarrera" 
-                                             value="#{carreraLstBean.carreraSelect}"
-                                             converter="ConversorCarrera"
-                                             >
-                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                    <h:outputText value="Tipo Egreso: " />
+                    <p:selectOneMenu id="tipoEgreso" 
+                                     value="#{consultaPagosGeneralesBean.tipoEgreso}"
+                                     required="false" filter="true" filterMatchMode="contains">
+                        <f:converter binding="#{conversorTipoEgreso}"/>
+                        <f:selectItem itemLabel="Todos" itemValue="#{null}"/>
+                        <f:selectItems value="#{tipoEgresoController.itemsAvailableSelectOne}" var="man" itemLabel="#{man}" itemValue="#{man}"/>
+                    </p:selectOneMenu>
 
-                                <f:selectItems value="#{carreraLstBean.lstSICarrera}"/>
-                            </p:selectOneMenu>
 
-                        </td>
-                        <td>
-                            <br/>
-                            <p:commandButton id="cbConsultarGastos"
-                                             value="Buscar" 
-                                             icon="ui-icon-search" 
-                                             update=":frmPri:dtPagosGenerales, :frmPri:dtPagosGenerales:otTotalPagoGeneral"
-                                             actionListener="#{consultaPagosGeneralesBean.buscarGastosGeneralesFechas()}"
-                                             /> 
+                    <h:outputText value="Carrera: "/>
+                    <p:selectOneMenu id="somCarrera" 
+                                     value="#{carreraLstBean.carreraSelect}"
+                                     converter="ConversorCarrera"
+                                     filter="true" filterMatchMode="contains"
+                                     >
+                        <f:selectItem itemLabel="Todas" itemValue="null" noSelectionOption="true"/>
 
-                        </td>
-                    </tr>
-                </table>
+                        <f:selectItems value="#{carreraLstBean.lstSICarrera}"/>
+                    </p:selectOneMenu>
+
+
+
+                    <p:commandButton id="cbConsultarGastos"
+                                     value="Buscar" 
+                                     icon="ui-icon-search" 
+                                     update=":frmPri:dtPagosGenerales, :frmPri:dtPagosGenerales:otTotalPagoGeneral"
+                                     actionListener="#{consultaPagosGeneralesBean.buscarGastosGeneralesFechas()}"
+                                     /> 
+
+                </h:panelGrid>
             </p:tab>
 
         </p:tabView>

@@ -10,7 +10,6 @@ import Entidades.Persona.Telefono;
 import RN.ProveedorRNLocal;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -256,24 +255,56 @@ public class ProveedorBean implements Serializable {
 
     }//fin setBtnSelect
 
+    private boolean existeCuit(String cuit) {
+        try {
+            return !proveedorRNLocal.findByCuit(cuit).isEmpty();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean existeRazonSocial(String razon) {
+        try {
+            return proveedorRNLocal.findByRazonSocial(razon) != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public void create() {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-            this.getProveedor().setDomicilio(this.getDomicilioBean().getDomicilio());
-            this.getProveedor().setTelefonos(this.getListadoTelefonosBean().getLstTelefonos());
-            proveedorRNLocal.create(this.getProveedor());
-            sMensaje = "El Proveedor fue guardado";
-            severity = FacesMessage.SEVERITY_INFO;
-            getProveedorLstBean().findAllProveedores();
-            RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:growl");
-
-            //agregar a la lista
-            // this.getUsuarioLstBean().getLstUsuario().add(this.getUsuario());
-            //limíar campos
-            this.limpiar();
+            if (this.getProveedor().getCuit().isEmpty() || this.getProveedor().getCuit().equals("")) {
+                sMensaje = "Debe ingresar un CUIT";
+                severity = FacesMessage.SEVERITY_ERROR;
+            } else if (this.getProveedor().getRazonSocial().isEmpty() || this.getProveedor().getRazonSocial().equals("")) {
+                sMensaje = "Debe ingresar una razon Social";
+                severity = FacesMessage.SEVERITY_ERROR;
+            } else if (existeCuit(this.getProveedor().getCuit())) {
+                sMensaje = "Ya existe un proveedor con el cuit: " + this.getProveedor().getCuit();
+                severity = FacesMessage.SEVERITY_ERROR;
+            } else {
+                if (existeRazonSocial(this.getProveedor().getRazonSocial())) {
+                    sMensaje = "Cuidado: Ya existe un proveedor con la razón social: " + this.getProveedor().getCuit();
+                    sMensaje += " \n";
+                }
+                this.getProveedor().setDomicilio(this.getDomicilioBean().getDomicilio());
+                this.getProveedor().setTelefonos(this.getListadoTelefonosBean().getLstTelefonos());
+                proveedorRNLocal.create(this.getProveedor());
+                sMensaje += "El Proveedor fue guardado";
+                severity = FacesMessage.SEVERITY_INFO;
+                getProveedorLstBean().findAllProveedores();
+                RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
+                RequestContext.getCurrentInstance().update("frmPri:growl");
+                this.getCbAction().setValue("Agregar");
+                this.getCbAction().setDisabled(true);
+                //agregar a la lista
+                // this.getUsuarioLstBean().getLstUsuario().add(this.getUsuario());
+                //limíar campos
+                this.limpiar();
+            }
 
         } catch (Exception ex) {
 
@@ -301,7 +332,6 @@ public class ProveedorBean implements Serializable {
             severity = FacesMessage.SEVERITY_INFO;
             getProveedorLstBean().findAllProveedores();
             RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:growl");
 
             //elimino y agrego  a la lista
 //            int iPos = this.getProveedorLstBean().getLstProveedor().indexOf(this.getProveedor());
@@ -310,6 +340,7 @@ public class ProveedorBean implements Serializable {
 //            this.getProveedorLstBean().getLstProveedor().add(iPos, this.getProveedor());
             this.getCbAction().setValue("Editar");
             this.getCbAction().setDisabled(true);
+            limpiar();
 
         } catch (Exception ex) {
 
@@ -335,24 +366,28 @@ public class ProveedorBean implements Serializable {
         FacesMessage.Severity severity = null;
         try {
 
-            proveedorRNLocal.remove(this.getProveedor());
-
-            sMensaje = "El dato fue eliminado";
             severity = FacesMessage.SEVERITY_INFO;
 
-            //remover de la lista
-//            this.getProveedorLstBean().getLstProveedor().remove(this.getProveedor());
-            getProveedorLstBean().findAllProveedores();
-            RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:growl");
+            if (proveedorRNLocal.buscarEgresosProveedor(this.getProveedor()).isEmpty()) {
+                sMensaje = "El dato fue eliminado";
+                proveedorRNLocal.remove(this.getProveedor());
+                getProveedorLstBean().findAllProveedores();
+
+                limpiar();
+
+            } else {
+                sMensaje = "Error: No se puede eliminar, ya tiene egresos cargados";
+            }
 
             this.getCbAction().setValue("Eliminar");
             this.getCbAction().setDisabled(true);
-
         } catch (Exception ex) {
-
+            if (ex.getMessage().trim().toLowerCase().equals("transaction aborted")) {
+                sMensaje = "Error: No se puede eliminar, ya tiene egresos cargados";
+            } else {
+                sMensaje = "Error: " + ex.getMessage();
+            }
             severity = FacesMessage.SEVERITY_ERROR;
-            sMensaje = "Error: " + ex.getMessage();
 
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
@@ -364,6 +399,9 @@ public class ProveedorBean implements Serializable {
     public void limpiar() {
         this.setProveedor(new Proveedor());
         this.setbCamposSoloLectura(false);
+        RequestContext.getCurrentInstance().update("frmPri:growl");
+        RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
+        RequestContext.getCurrentInstance().execute("PF('dtProveedor').filter();");
     }//fin limpiar
 
     public void buscarCuitRazon() {

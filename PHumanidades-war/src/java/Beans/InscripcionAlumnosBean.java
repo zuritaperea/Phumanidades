@@ -21,6 +21,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -34,16 +36,12 @@ public class InscripcionAlumnosBean implements Serializable {
     @EJB
     private InscripcionAlumnosRNLocal inscripcionAlumnosRNLocal;
 
-    @ManagedProperty(value = "#{alumnoLstBean}")
-    private AlumnoLstBean alumnoLstBean;
-
-    @ManagedProperty(value = "#{cohorteLstBean}")
-    private CohorteLstBean cohorteLstBean;
-
     @ManagedProperty(value = "#{inscripcionAlumnosLstBean}")
     private InscripcionAlumnosLstBean inscripcionAlumnosLstBean;
 
     private InscripcionAlumnos inscripcion;
+    private int iActionBtnSelect;
+    private CommandButton cbAction;
 
     public InscripcionAlumnosRNLocal getInscripcionAlumnosRNLocal() {
         return inscripcionAlumnosRNLocal;
@@ -61,22 +59,6 @@ public class InscripcionAlumnosBean implements Serializable {
         this.inscripcionAlumnosLstBean = inscripcionAlumnosLstBean;
     }
 
-    public AlumnoLstBean getAlumnoLstBean() {
-        return alumnoLstBean;
-    }
-
-    public void setAlumnoLstBean(AlumnoLstBean alumnoLstBean) {
-        this.alumnoLstBean = alumnoLstBean;
-    }
-
-    public CohorteLstBean getCohorteLstBean() {
-        return cohorteLstBean;
-    }
-
-    public void setCohorteLstBean(CohorteLstBean cohorteLstBean) {
-        this.cohorteLstBean = cohorteLstBean;
-    }
-
     public InscripcionAlumnos getInscripcion() {
         return inscripcion;
     }
@@ -85,12 +67,25 @@ public class InscripcionAlumnosBean implements Serializable {
         this.inscripcion = inscripcion;
     }
 
-    /**
-     * Creates a new instance of DocenteBean
-     */
-    @PostConstruct
-    private void init() {
+    public InscripcionAlumnosBean() {
         inscripcion = new InscripcionAlumnos();
+
+    }
+
+    public int getiActionBtnSelect() {
+        return iActionBtnSelect;
+    }
+
+    public void setiActionBtnSelect(int iActionBtnSelect) {
+        this.iActionBtnSelect = iActionBtnSelect;
+    }
+
+    public CommandButton getCbAction() {
+        return cbAction;
+    }
+
+    public void setCbAction(CommandButton cbAction) {
+        this.cbAction = cbAction;
     }
 
     /**
@@ -116,34 +111,34 @@ public class InscripcionAlumnosBean implements Serializable {
         }
     }// fin definirActionBoton
 
-    public InscripcionAlumnosBean() {
-    }
-
     public void alta() {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-            if (this.getAlumnoLstBean().getAlumnoSelect() != null 
-                    && this.getAlumnoLstBean().getAlumnoSelect().getId() != null) {
-                if (this.getCohorteLstBean().getCohorteSelect() != null 
-                        && this.getCohorteLstBean().getCohorteSelect().getId() != null) {
-                    if (validar(this.getAlumnoLstBean().getAlumnoSelect().getDni(), this.getCohorteLstBean().getCohorteSelect().getId())) {
+            if (this.getInscripcionAlumnosLstBean().getAlumnoLstBean().getAlumnoSelect() != null
+                    && this.getInscripcionAlumnosLstBean().getAlumnoLstBean().getAlumnoSelect().getId() != null) {
+                if (this.getInscripcionAlumnosLstBean().getCohorteLstBean().getCohorteSelect() != null
+                        && this.getInscripcionAlumnosLstBean().getCohorteLstBean().getCohorteSelect().getId() != null) {
+                    if (validar(this.getInscripcionAlumnosLstBean().getAlumnoLstBean().getAlumnoSelect().getDni(),
+                            this.getInscripcionAlumnosLstBean().getCohorteLstBean().getCohorteSelect().getId())) {
                         sMensaje = "El Alumno ya se encuentra inscripto el la Cohorte Seleccionada";
                         severity = FacesMessage.SEVERITY_ERROR;
                     } else {
-                        inscripcion.setAlumno(this.getAlumnoLstBean().getAlumnoSelect());
-                        inscripcion.setCohorte(this.getCohorteLstBean().getCohorteSelect());
+                        inscripcion.setAlumno(this.getInscripcionAlumnosLstBean().getAlumnoLstBean().getAlumnoSelect());
+                        inscripcion.setCohorte(this.getInscripcionAlumnosLstBean().getCohorteLstBean().getCohorteSelect());
+
                         inscripcion.setActivo(true);
                         inscripcionAlumnosRNLocal.create(inscripcion);
-                        inscripcionAlumnosLstBean.getInscripcionesAlumnos().add(inscripcion);
-                        RequestContext.getCurrentInstance().update("frmPri:otAlumno");
-                        RequestContext.getCurrentInstance().update("frmPri:otCohorte");
-                        RequestContext.getCurrentInstance().update("frmPri:dInscripcion");
-                        RequestContext.getCurrentInstance().update("frmPri:dtInscripciones");
-                        System.out.println("Inscripcion Registrada");
+
+                        this.inscripcionAlumnosLstBean.cargarInscripciones();
+
                         sMensaje = "Inscripcion Registrada";
+
                         severity = FacesMessage.SEVERITY_INFO;
+                        limpiar();
+                        this.setInscripcion(new InscripcionAlumnos());
+
                     }
                 } else {
                     sMensaje = "Debe seleccionar una cohorte";
@@ -166,24 +161,64 @@ public class InscripcionAlumnosBean implements Serializable {
 
     }
 
+    public void actionBtn() {
+
+        switch (this.getiActionBtnSelect()) {
+            case 0:
+                //System.out.println("Entro opcion 0 create()");
+                this.alta();
+                break;
+            case 1:
+                this.modificar(inscripcion);
+                break;
+            case 2:
+                //borra el campo
+                this.eliminar(inscripcion);
+                //this.delete(Boolean.TRUE);
+                break;
+        }//fin switch
+
+    }//fin actionBtn
+
+    public void setBtnSelect(ActionEvent e) {
+        CommandButton btnSelect = (CommandButton) e.getSource();
+
+        //activo el boton
+        try {
+            this.getCbAction().setDisabled(false);
+            switch (btnSelect.getId()) {
+                case "cbCreate":
+                    this.setiActionBtnSelect(0);
+                    this.getCbAction().setValue("Guardar");
+                    break;
+                case "cbDelete":
+                    this.setiActionBtnSelect(2);
+                    this.getCbAction().setValue("Eliminar");
+                    break;
+                case "cbEdit":
+                    this.setiActionBtnSelect(1);
+                    this.getCbAction().setValue("Modificar");
+                    break;
+            }
+        } catch (Exception ex) {
+        }
+
+    }
+
     public void modificar(InscripcionAlumnos i) {
         this.inscripcion = i;
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
+            inscripcion.setAlumno(this.getInscripcionAlumnosLstBean().getAlumnoLstBean().getAlumnoSelect());
+            inscripcion.setCohorte(this.getInscripcionAlumnosLstBean().getCohorteLstBean().getCohorteSelect());
 
             inscripcionAlumnosRNLocal.edit(inscripcion);
             inscripcionAlumnosLstBean.cargarInscripciones();
+            limpiar();
 
-            this.setInscripcion(new InscripcionAlumnos());
-
-            //RequestContext.getCurrentInstance().update("frmPri:itDescripcionCohorte");
-            //RequestContext.getCurrentInstance().update("frmPri:itCantidadCuotas");
-            //RequestContext.getCurrentInstance().update("frmPri:itImporteCuota");
-            RequestContext.getCurrentInstance().update("frmPri:dtInscripciones");
-
-            sMensaje = "La Inscripcion del Alumno seleccionado ha sido Modificada, Click en Salir";
+            sMensaje = "La Inscripcion del Alumno seleccionado ha sido Modificada";
             severity = FacesMessage.SEVERITY_INFO;
 
         } catch (Exception ex) {
@@ -211,15 +246,13 @@ public class InscripcionAlumnosBean implements Serializable {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-
             inscripcionAlumnosRNLocal.remove(ia);
             this.inscripcionAlumnosLstBean.cargarInscripciones();
-            RequestContext.getCurrentInstance().update("frmPri:otAlumno");
-            RequestContext.getCurrentInstance().update("frmPri:otCohorte");
-            RequestContext.getCurrentInstance().update("frmPri:dInscripcion");
-            RequestContext.getCurrentInstance().update("frmPri:dtInscripciones");
+            limpiar();
             severity = FacesMessage.SEVERITY_INFO;
             sMensaje = "Se eliminó la inscripcion";
+            this.getCbAction().setValue("Eliminar");
+            this.getCbAction().setDisabled(true);
 
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
@@ -234,8 +267,14 @@ public class InscripcionAlumnosBean implements Serializable {
 
     public void limpiar() {
         this.setInscripcion(new InscripcionAlumnos());
-        this.alumnoLstBean.setAlumnoSelect(new Alumno());
-        this.cohorteLstBean.setCohorteSelect(new Cohorte());
+        this.getInscripcionAlumnosLstBean().getAlumnoLstBean().setAlumnoSelect(new Alumno());
+        this.getInscripcionAlumnosLstBean().getCohorteLstBean().setCohorteSelect(new Cohorte());
+        RequestContext.getCurrentInstance().update("frmPri:otAlumno");
+        RequestContext.getCurrentInstance().update("frmPri:otCohorte");
+        RequestContext.getCurrentInstance().update("frmPri:dInscripcion");
+        RequestContext.getCurrentInstance().update("frmPri:dtInscripciones");
+        RequestContext.getCurrentInstance().execute("PF('dtInscripciones').filter();");
+
     }//fin limpiar
 
     private boolean validar(String dni, Long id) {
@@ -255,5 +294,5 @@ public class InscripcionAlumnosBean implements Serializable {
         return existeInscripto;
 
     }
-    
+
 }

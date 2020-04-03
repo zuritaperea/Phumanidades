@@ -5,6 +5,7 @@
  */
 package RN;
 
+import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.Cuenta;
 import Entidades.Ingresos.Ingreso;
@@ -37,6 +38,8 @@ public interface IngresoRNLocal {
     public List<Ingreso> findCuotasAlumnoGeneral(Alumno alumno) throws Exception;
 
     public List<Ingreso> findByFechaCohorte(Date ini, Date fin, Cohorte cohorte) throws Exception;
+
+    public List<Ingreso> findByFechaCarrera(Date ini, Date fin, Carrera carrera) throws Exception;
 
     public List<Ingreso> findByFecha(Date ini, Date fin);
 

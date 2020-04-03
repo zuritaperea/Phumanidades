@@ -57,7 +57,12 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 /**
  *
@@ -188,17 +193,34 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
             cell.setCellStyle(cellStyle);
         }
     }
+    
+     public void postProcessXLSX(Object document) {
+        XSSFWorkbook wb = (XSSFWorkbook) document;
+        XSSFSheet sheet = wb.getSheetAt(0);
+        XSSFRow header = sheet.getRow(0);
+
+        XSSFCellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.AQUA.index);
+        cellStyle.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+
+        for (int i = 0; i < header.getPhysicalNumberOfCells(); i++) {
+            XSSFCell cell = header.getCell(i);
+
+            cell.setCellStyle(cellStyle);
+        }
+    }
 
     public void preProcessPDF(Object document) throws IOException, BadElementException, DocumentException {
         Document pdf = (Document) document;
         pdf.open();
         pdf.newPage();
         pdf.setPageSize(PageSize.A4.rotate());
+       // pdf.setMargins(2, 2, 10, 10);
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         String logo = externalContext.getRealPath("") + File.separator + "Imagenes" + File.separator + "LogoFacultadHumanidades70x70.png";
         //SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         // pdf.add(new Phrase("Fecha: " + formato.format(new Date())));
-        pdf.add(Image.getInstance(logo));
+        pdf.add(Image.getInstance(logo));        
     }
 
     /**
@@ -225,7 +247,7 @@ public class ConsultaCobrosGeneralesBean implements Serializable {
                 }
 
                 if (this.getLstCobroGeneral().isEmpty()) {
-                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                    fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "No se encontraron egresos", null);
                     FacesContext fc = FacesContext.getCurrentInstance();
                     fc.addMessage(null, fm);
                 }//fin if

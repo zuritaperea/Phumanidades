@@ -1,7 +1,6 @@
 .headerTabla{font-weight: bold;
 }
-
-.contenidoTabla{border:1px solid #000; padding: 3px}
+.contenidoTabla, .contenidoTabla thead tr th, .contenidoTabla tbody tr td {border:1px solid #000; padding: 3px}
 
 .anulado {background-color: #fcf8e3; color: #c09853}
 
