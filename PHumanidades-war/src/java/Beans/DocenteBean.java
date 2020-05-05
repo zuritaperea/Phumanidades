@@ -53,10 +53,10 @@ public class DocenteBean implements Serializable {
 
     @ManagedProperty(value = "#{carreraLstBean}")
     private CarreraLstBean carreraLstBean;
-    
+
     @ManagedProperty(value = "#{pagosDocenteLstBean}")
     private PagosDocenteLstBean pagosDocenteLstBean;
-    
+
     @ManagedProperty(value = "#{proveedorLstBean}")
     private ProveedorLstBean proveedorLstBean;
 
@@ -287,8 +287,6 @@ public class DocenteBean implements Serializable {
     public void setProveedorLstBean(ProveedorLstBean proveedorLstBean) {
         this.proveedorLstBean = proveedorLstBean;
     }
-    
-    
 
     public void accion() {
         //System.out.println(this.tipoOperacion);
@@ -316,9 +314,7 @@ public class DocenteBean implements Serializable {
     //BOTON CREAR DOCENTE
     public void setBtnSelect(ActionEvent e) {
         CommandButton btnSelect = (CommandButton) e.getSource();
-        System.out.println("boton select: " + btnSelect.getId());
         //activo el boton
-        System.out.println("Boton: " + btnSelect.getId().equals("cbCreate"));
         this.getCbAction().setDisabled(false);
         switch (btnSelect.getId()) {
             case "cbCreate":
@@ -336,36 +332,21 @@ public class DocenteBean implements Serializable {
                 this.setiActionBtnSelect(2);
                 this.setbCamposSoloLectura(true);
                 this.getCbAction().setValue("Eliminar");
+                if (this.docente.getId() != null) {
+                    cargar();
+                    RequestContext.getCurrentInstance().execute("PF('dlgDocente').show();");
+                }
                 break;
             case "cbEditarDocente":
 
                 this.setiActionBtnSelect(1);
                 this.getCbAction().setValue("Modificar");
-
+                if (this.docente.getId() != null) {
+                    cargar();
+                    RequestContext.getCurrentInstance().execute("PF('dlgDocente').show();");
+                }
                 //Inicio- traemos el docente seleccionado de la tabla
-                FacesContext context = FacesContext.getCurrentInstance();
-                DocenteLstBean lstDocentes = (DocenteLstBean) context.getApplication().evaluateExpressionGet(context, "#{docenteLstBean}", DocenteLstBean.class);
-                this.docente = lstDocentes.getDocenteSeleccionadoDeTabla();
 
-                //fin traer docente
-                if (docente.getDomicilio() != null) {
-                    this.domicilioBean.setDomicilio(docente.getDomicilio());
-                }
-                if (docente.getTelefonos() != null && !docente.getTelefonos().isEmpty()) {
-                    docente.getTelefonos().get(0);
-                    this.listadoTelefonosBean.setLstTelefonos(this.docente.getTelefonos());
-                }
-                if (docente.getCorreosElectronicos() != null && !docente.getCorreosElectronicos().isEmpty()) {
-                    docente.getCorreosElectronicos().get(0);
-                    this.listadoEmailBean.setLstCorreoElectronico(this.docente.getCorreosElectronicos());
-                }
-
-                if (docente.getCarreras() != null && !docente.getCarreras().isEmpty()) {
-                    docente.getCarreras().get(0);
-                    this.carreraLstBean.setLstCarrerasAsoc(this.docente.getCarreras());
-                } else {
-                    this.carreraLstBean.setLstCarrerasAsoc(null);
-                }
                 break;
         }
 
@@ -558,7 +539,7 @@ public class DocenteBean implements Serializable {
         btnSelect = (CommandButton) e.getSource();
 
         //RequestContext.getCurrentInstance().update("dFindTurnoExamen");
-        this.getDocenteLstBean().setLstDocente(new ArrayList<Docente>());
+        // this.getDocenteLstBean().setLstDocente(new ArrayList<Docente>());
         RequestContext.getCurrentInstance().execute("PF('dlgFindDocente').show();");
     }
 
@@ -568,8 +549,6 @@ public class DocenteBean implements Serializable {
             if (this.docenteLstBean.getDocenteSeleccionado().getCarreras() != null && !this.docenteLstBean.getDocenteSeleccionado().getCarreras().isEmpty()) {
                 this.docenteLstBean.getDocenteSeleccionado().getCarreras().get(0);
                 this.carreraLstBean.setLstCarrerasDocente(this.docenteLstBean.getDocenteSeleccionado().getCarreras());
-                this.proveedorLstBean.setProveedorSelect(null);
-                this.pagosDocenteLstBean.setDocProv(1);
             }
         } catch (Exception e) {
         }
@@ -577,6 +556,38 @@ public class DocenteBean implements Serializable {
         RequestContext.getCurrentInstance().update("frmPri:otDocente4");
         RequestContext.getCurrentInstance().update("frmPri:dtCarrerasPagos");
         RequestContext.getCurrentInstance().update("frmPri:otProveedor");
+    }
+
+    private void cargar() {
+        this.getDomicilioBean().setDomicilio(new Domicilio());
+        //Al clickear boton nuevo reseteamos las lista de telefonos y correos
+        //Solo al Boton create en edit y remove necesitamos mantener los datos
+        this.getCarreraLstBean().setLstCarrerasAsoc(new ArrayList<Carrera>());
+        this.getListadoTelefonosBean().setLstTelefonos(new ArrayList<Telefono>());
+        this.getListadoEmailBean().setLstCorreoElectronico(new ArrayList<CorreoElectronico>());
+
+        this.docente = docenteRnLocal.buscarDocente(this.docente);
+        //fin traer docente
+        if (docente.getDomicilio() != null) {
+            this.domicilioBean.setDomicilio(docente.getDomicilio());
+        }
+        if (docente.getTelefonos() != null && !docente.getTelefonos().isEmpty()) {
+            docente.getTelefonos().get(0);
+            this.listadoTelefonosBean.setLstTelefonos(this.docente.getTelefonos());
+        }
+        if (docente.getCorreosElectronicos() != null && !docente.getCorreosElectronicos().isEmpty()) {
+            docente.getCorreosElectronicos().get(0);
+            this.listadoEmailBean.setLstCorreoElectronico(this.docente.getCorreosElectronicos());
+        }
+
+        if (docente.getCarreras() != null && !docente.getCarreras().isEmpty()) {
+            docente.getCarreras().get(0);
+            this.carreraLstBean.setLstCarrerasAsoc(this.docente.getCarreras());
+        } else {
+            this.carreraLstBean.setLstCarrerasAsoc(null);
+        }
+
+        RequestContext.getCurrentInstance().update("frmPri:dDocente");
     }
 
 }

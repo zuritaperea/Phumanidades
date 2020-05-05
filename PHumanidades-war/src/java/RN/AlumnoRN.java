@@ -19,41 +19,41 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class AlumnoRN implements AlumnoRNLocal {
-
+    
     @EJB
     private AlumnoFacadeLocal alumnoFacadeLocal;
-
+    
     @Override
     public void create(Alumno alumno) throws Exception {
         this.validar(alumno);
         alumnoFacadeLocal.create(alumno);
     }
-
+    
     @Override
     public void edit(Alumno alumno) throws Exception {
         alumnoFacadeLocal.edit(alumno);
     }
-
+    
     @Override
     public void remove(Alumno alumno) throws Exception {
         alumnoFacadeLocal.remove(alumno);
     }
-
+    
     @Override
     public List<Alumno> findAll() throws Exception {
         return alumnoFacadeLocal.findAll();
     }
-
+    
     @Override
     public Alumno buscarAlumno(Alumno alumno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return alumnoFacadeLocal.find(alumno.getId());
     }
-
+    
     @Override
     public List<Alumno> buscarAlumnoNombre(String cadena) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public List<Alumno> findLikeNombreApellido(String cadena) throws Exception {
         return alumnoFacadeLocal.findLikeNombreApellido(cadena);
@@ -62,7 +62,7 @@ public class AlumnoRN implements AlumnoRNLocal {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     private void validar(Alumno alumno) throws Exception {
-
+        
         if (alumno.getNombre().isEmpty()) {
             throw new Exception("No ingreso el nombre");
         }//fin if
@@ -86,7 +86,7 @@ public class AlumnoRN implements AlumnoRNLocal {
         if (alumnoFacadeLocal.findAlumnoDni(alumno.getDni().trim()) != null) {
             throw new Exception("Ya existe una persona con el DNI ingresado");
         }
-
+        
     }//fin validar
 
     @Override
@@ -98,7 +98,7 @@ public class AlumnoRN implements AlumnoRNLocal {
             return al;
         }
     }
-
+    
     public static boolean validarDni(String dni) {
         boolean flag = false;
         Pattern patron = Pattern.compile("[0-9]{6,9}");
@@ -127,5 +127,5 @@ public class AlumnoRN implements AlumnoRNLocal {
         }
         return flag;
     }
-
+    
 }

@@ -8,31 +8,32 @@ package Beans;
 import Entidades.Egresos.PagosDocente;
 import RN.PagosDocenteRNLocal;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import org.primefaces.component.datatable.DataTable;
-import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author vouilloz
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class PagosDocenteLstBean implements Serializable {
 
     @EJB
     private PagosDocenteRNLocal pagosDocenteRNLocal;//hacemos la referencia para poder utilizar el metodo findall
+
+    @ManagedProperty(value = "#{usuarioLogerBean}")
+    private UsuarioLogerBean usuarioLogerBean;
+
     private List<PagosDocente> lstPagosDocente; //Cargamos la lista de Usuarios retornada po el metodo findAll del usuarioRNLocal
     private List<SelectItem> lstSIPagoDocente;//Aca se guarda el item seleccionado de la lista
 
@@ -40,10 +41,9 @@ public class PagosDocenteLstBean implements Serializable {
 
     private int iTipoBoton;
 
-    private int docProv; //docente=1, proveedor=2  en alta pagos docente
+    private String dni;
     private Date fechaFin;
     private Date fechaIni;
-    private String dni;
 
     /**
      * Creates a new instance of DocenteLstBean
@@ -52,28 +52,20 @@ public class PagosDocenteLstBean implements Serializable {
 
     }
 
+    public UsuarioLogerBean getUsuarioLogerBean() {
+        return usuarioLogerBean;
+    }
+
+    public void setUsuarioLogerBean(UsuarioLogerBean usuarioLogerBean) {
+        this.usuarioLogerBean = usuarioLogerBean;
+    }
+
     public String getDni() {
         return dni;
     }
 
     public void setDni(String dni) {
         this.dni = dni;
-    }
-
-    public Date getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
-
-    public Date getFechaIni() {
-        return fechaIni;
-    }
-
-    public void setFechaIni(Date fechaIni) {
-        this.fechaIni = fechaIni;
     }
 
     @PostConstruct
@@ -121,14 +113,6 @@ public class PagosDocenteLstBean implements Serializable {
         this.iTipoBoton = iTipoBoton;
     }
 
-    public int getDocProv() {
-        return docProv;
-    }
-
-    public void setDocProv(int docProv) {
-        this.docProv = docProv;
-    }
-
     public void cargarPagosDocente() {
         try {
             this.setLstPagosDocente(this.pagosDocenteRNLocal.findAllDesc());
@@ -138,7 +122,6 @@ public class PagosDocenteLstBean implements Serializable {
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
-
     }//FIN CARGAR DOCENTES
 
     /*   public Docente getDocenteSeleccionadoDeTabla() {
@@ -153,7 +136,7 @@ public class PagosDocenteLstBean implements Serializable {
         try {
             //aumento un dia a la fecha fin para que la busqueda sea menor o igual
             if (fechaIni != null && fechaFin != null) {
-                this.setLstPagosDocente(pagosDocenteRNLocal.findPagosGeneralXFecha(this.getFechaIni(), this.getFechaFin()));
+                this.setLstPagosDocente(pagosDocenteRNLocal.findPagosGeneralXFecha(this.fechaIni, this.fechaFin));
                 tablaPagoDocente = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("frmPri:dtPagosDocente");
                 tablaPagoDocente.resetValue();
                 if (this.getLstPagosDocente().isEmpty()) {

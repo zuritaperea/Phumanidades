@@ -79,7 +79,7 @@ public class IngresoRN implements IngresoRNLocal {
         return ingresoCuotaFacadeLocal.findByFechaCohorte(ini, fin, cohorte);
     }
 
-       @Override
+     @Override
     public List<Ingreso> findByFechaCarrera(Date ini, Date fin, Carrera carrera) throws Exception {
         return ingresoCuotaFacadeLocal.findByFechaCarrera(ini, fin, carrera);
     }

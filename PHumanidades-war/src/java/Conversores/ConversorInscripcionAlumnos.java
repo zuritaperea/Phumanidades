@@ -35,12 +35,8 @@ public class ConversorInscripcionAlumnos implements Converter{
         if(value == null){
             return null;
         }
-        System.out.println("converter ia");
-        System.out.println(value);
         try{
-            System.out.println(Long.parseLong(value));
             InscripcionAlumnos ia = inscripcionAlumnosRNLocal.find(Long.parseLong(value));
-            System.out.println(ia);
             return ia;
         }catch(Exception ex){
             ex.printStackTrace();
@@ -51,9 +47,7 @@ public class ConversorInscripcionAlumnos implements Converter{
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         try {
-            System.out.println("converter ia 2");
-            System.out.println(value);
-            return String.valueOf(((InscripcionAlumnos) value).getId());
+           return String.valueOf(((InscripcionAlumnos) value).getId());
         } catch (Exception e) {
             return "";
         }

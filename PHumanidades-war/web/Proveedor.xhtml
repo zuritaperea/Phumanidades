@@ -7,7 +7,7 @@
                  xmlns:h="http://java.sun.com/jsf/html"
                  xmlns:f="http://java.sun.com/jsf/core">
 
-
+    <f:event type="preRenderView" listener="#{proveedorLstBean.cargarProveedor()}" />
 
     <ui:define name="content">
         <!--Dialogos que se van a usar-->
@@ -17,7 +17,7 @@
 
         <p:dialog id="dProveedor"
                   widgetVar="dlgProveedor"
-                  closable="false" position="top">
+                  closable="false" position="top" modal="true">
 
             <h1><h:outputText value="Crear/Modificar/Eliminar"/></h1>
             <h:inputHidden value="#{proveedorBean.proveedor.id }" />
@@ -170,7 +170,6 @@
                      style="overflow-x: auto;"
                      paginator="true"
                      rows="20"
-                     binding="#{proveedorLstBean.tablaProveedor}"
                      filterEvent="enter"
                      rowsPerPageTemplate="20,50,100,500">
 
@@ -179,11 +178,11 @@
                                  title="Editar"
                                  icon="ui-icon-pencil" 
                                  update=":frmPri:dProveedor"
-                                 oncomplete="PF('dlgProveedor').show();"
                                  actionListener="#{proveedorBean.setBtnSelect}"
                                  process="@form">                    
 
                     <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
+
 
                 </p:commandButton>
 
@@ -191,10 +190,8 @@
                                  title="Eliminar"
                                  icon="ui-icon-circle-close" 
                                  update=":frmPri:dProveedor"
-                                 oncomplete="PF('dlgProveedor').show();"
                                  actionListener="#{proveedorBean.setBtnSelect}">
                     <f:setPropertyActionListener value="#{item}" target="#{proveedorBean.proveedor}"/> 
-
                 </p:commandButton>
 
             </p:column>

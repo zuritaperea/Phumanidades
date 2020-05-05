@@ -14,9 +14,17 @@
         <h1>            <h:outputText value="Bienvenido"                          />
         </h1>
         Bienvenidos al Sistema de Gestión de la Facultad de Humanidades
-        <br /><p></p>
-        <br /><p></p>
-        <br /><p></p>
-        <br /><p></p>
+        <p:panelGrid columns="1"> </p:panelGrid>     
+
+        <b:container fluid="true">
+            <b:row>
+                <b:column col-md="6" col-xs="12" col-lg="6">
+                    <p:chart type="bar" model="#{graficosBean.barModeIngresos}" responsive="true" style="height:600px; "/>
+                </b:column>       
+                <b:column col-md="6" col-xs="12" col-lg="6">
+                    <p:chart type="bar" model="#{graficosBean.barModelEgresos}" responsive="true" style="height:600px;"/>
+                </b:column>
+            </b:row>
+        </b:container>
     </ui:define>
 </ui:composition>

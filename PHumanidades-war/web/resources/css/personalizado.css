@@ -42,3 +42,11 @@ h3,h1 {margin-top:4px}
 .ui-selectonemenu label {
     width: auto !important;
 }
+
+.ui-datatable-reflow .ui-datatable-data td {
+    border: 1px solid #f1f1f1 !important;
+}
+
+.ui-datatable-reflow .ui-datatable-data td .ui-column-title {
+    font-weight: 600 !important;
+}

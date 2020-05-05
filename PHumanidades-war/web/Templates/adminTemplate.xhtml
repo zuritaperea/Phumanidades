@@ -5,9 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:b="http://bootsfaces.net/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="personalizado.css"/>
@@ -17,7 +15,7 @@
         <title>Facultad de Humanidades</title>
     </h:head>
 
-     <script type="text/javascript">
+    <script type="text/javascript">
         var startFrom = #{sessionControlerBean.getiTimeSession()}; // Total session time out setting eg 10 sec, Real implementation assign values from jsf controller
         var loopTill = 20;//#{systemController.getSessionTimeoutAlertDuration()}; //Count down degins from 6 sec and starts after 4 sec ie 10-6
         var reduce = 1;
@@ -168,12 +166,9 @@
             <h:form id="frmPri" enctype="multipart/form-data">
 
                 <ui:include src="dialogosSesion.xhtml"/>
-                <c:if test="#{!usuarioLogerBean.isGrupo('consulta')}" >
-                    <ui:include src="menu.xhtml"/>
-                </c:if>
-                <c:if test="#{usuarioLogerBean.isGrupo('consulta')}" >
-                    <ui:include src="menuSoloConsulta.xhtml"/>
-                </c:if>
+                
+                <ui:include src="menu.xhtml" />                
+
                 <b:panel>
                     <p:growl id="growl" life="3000" />
                     <ui:insert name="content">Content</ui:insert>

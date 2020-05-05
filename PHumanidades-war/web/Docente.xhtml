@@ -20,7 +20,7 @@
 
         <p:dialog id="dDocente"
                   widgetVar="dlgDocente"
-                  closable="true" position="top" header="Docente"
+                  closable="false" position="top" header="Docente" modal="true"
                   height="700px">    
 
             <h:inputHidden value="#{docenteBean.docente.id}" />
@@ -61,30 +61,30 @@
                                      /> 
                     </h:panelGrid>
                     <br></br>
-                 
 
-                        <p:panel header="Domicilio"
-                                 style="height: 160px;width: 100%;overflow:auto">
-                            <h:panelGrid columns="2" width="550">
-                                <p:commandButton id="btnDomicilioDocentes" 
-                                                 value="Cargar Datos"
-                                                 oncomplete="PF('dgDomicilio').show();"
-                                                 actionListener="#{domicilioBean.definirActionBoton}"
-                                                 icon="ui-icon-disk"
-                                                 /> 
 
-                                <p:panel id="pnDomicilio" >
-                                    <h:outputText  value="Localidad:  "/>
-                                    <h:outputText  value="#{domicilioBean.domicilio.localidad}"/> <br></br>
-                                    <h:outputText  value="Barrio:  "/>
-                                    <h:outputText  value="#{domicilioBean.domicilio.barrio}"/> <br></br>
-                                    <h:outputText  value="Calle:  "/>
-                                    <h:outputText  value="#{domicilioBean.domicilio.calle}"/><br></br>
-                                    <h:outputText  value="Numero:  "/>
-                                    <h:outputText  value="#{domicilioBean.domicilio.numero}"/><br></br>
-                                </p:panel>
-                            </h:panelGrid>
-                        </p:panel>
+                    <p:panel header="Domicilio"
+                             style="height: 160px;width: 100%;overflow:auto">
+                        <h:panelGrid columns="2" width="550">
+                            <p:commandButton id="btnDomicilioDocentes" 
+                                             value="Cargar Datos"
+                                             oncomplete="PF('dgDomicilio').show();"
+                                             actionListener="#{domicilioBean.definirActionBoton}"
+                                             icon="ui-icon-disk"
+                                             /> 
+
+                            <p:panel id="pnDomicilio" >
+                                <h:outputText  value="Localidad:  "/>
+                                <h:outputText  value="#{domicilioBean.domicilio.localidad}"/> <br></br>
+                                <h:outputText  value="Barrio:  "/>
+                                <h:outputText  value="#{domicilioBean.domicilio.barrio}"/> <br></br>
+                                <h:outputText  value="Calle:  "/>
+                                <h:outputText  value="#{domicilioBean.domicilio.calle}"/><br></br>
+                                <h:outputText  value="Numero:  "/>
+                                <h:outputText  value="#{domicilioBean.domicilio.numero}"/><br></br>
+                            </p:panel>
+                        </h:panelGrid>
+                    </p:panel>
 
                     <br></br> 
                     <p:panel header="Telefonos"
@@ -206,8 +206,8 @@
                                                  update=":frmPri:dtCarrerasSeleccion"
                                                  process="@this"
                                                  actionListener="#{carreraLstBean.definirActionBoton}"/>     
-                               </h:panelGrid> <h:outputText value="En el cuadro de búsqueda puede seleccionar más de una carrera, para ello mantenga presionadal la tecla CTRL"/>
-                            
+                            </h:panelGrid> <h:outputText value="En el cuadro de búsqueda puede seleccionar más de una carrera, para ello mantenga presionadal la tecla CTRL"/>
+
                         </div>
                     </p:panel>
 
@@ -328,17 +328,17 @@
 
         <b:row><b:column span="1">
 
-            <p:commandButton id="cbCreate"
-                                     value="Nuevo" 
-                             icon="ui-icon-circle-plus" 
-                             oncomplete="PF('dlgDocente').show();"
-                                     actionListener="#{docenteBean.setBtnSelect}"
-                                     update=":frmPri:dtDocente,dDocente, dtTelefonosDocentes"
-                                     />
+                <p:commandButton id="cbCreate"
+                                 value="Nuevo" 
+                                 icon="ui-icon-circle-plus" 
+                                 oncomplete="PF('dlgDocente').show();"
+                                 actionListener="#{docenteBean.setBtnSelect}"
+                                 update=":frmPri:dtDocente,dDocente, dtTelefonosDocentes"
+                                 />
             </b:column><b:column span="2">
-                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
-                        <p:printer target="dtDocente" />
-                    </p:commandButton>    </b:column>
+                <p:commandButton value="Imprimir" type="button" icon="ui-icon-print">
+                    <p:printer target="dtDocente" />
+                </p:commandButton>    </b:column>
         </b:row>        <p>&nbsp;</p>
 
         <b:row><b:column>
@@ -348,17 +348,15 @@
                              style="overflow-x: auto;"
                              paginator="true"
                              rows="20"
-                             binding="#{docenteLstBean.tablaDocente}"
                              rowsPerPageTemplate="20,50,100,500"
                              filterEvent="enter">   
 
 
-                    <p:column >
+                    <p:column width="110">
                         <p:commandButton id="cbEditarDocente"
                                          title="Editar"
                                          icon="ui-icon-pencil" 
                                          update=":frmPri:dDocente"
-                                         oncomplete="PF('dlgDocente').show();"
                                          actionListener="#{docenteBean.setBtnSelect}"
                                          process="@form">                    
 
@@ -370,7 +368,6 @@
                                          title="Eliminar"
                                          icon="ui-icon-circle-close" 
                                          update=":frmPri:dDocente"
-                                         oncomplete="PF('dlgDocente').show();"
                                          actionListener="#{docenteBean.setBtnSelect}">
                             <f:setPropertyActionListener value="#{item}" target="#{docenteBean.docente}"/> 
 
@@ -378,7 +375,7 @@
 
                     </p:column>
 
-                 
+
 
                     <p:column 
                         filterBy="#{item.dni}"

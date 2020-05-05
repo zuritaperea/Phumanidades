@@ -23,7 +23,7 @@
         </h1>
         <p:dialog id="dInscripcion"
                   widgetVar="dlgInscripcion"
-                  closable="false" position="top" header="Inscripciones"
+                  closable="false" position="top" header="Inscripciones" modal="true"
                   >      
             <h:panelGrid columns="3">
                 <h:inputHidden value="#{inscripcionAlumnosBean.inscripcion.id}" />
@@ -126,10 +126,9 @@
                      paginator="true"
                      rows="20"
                      filterEvent="enter"
-                     binding="#{inscripcionAlumnosLstBean.tablaInscripciones}"
                      rowsPerPageTemplate="20,50,100,500">   
 
-            <p:column width="50">
+            <p:column width="120">
 
                 <p:commandButton id="cbEdit"
                                  actionListener="#{inscripcionAlumnosBean.setBtnSelect}"

@@ -239,16 +239,10 @@ public class NavegarBean {
 
     public String frmPagosDocentes() {
         this.getDocenteLstBean().setDocenteSeleccionado(new Docente());
-        this.getProveedorLstBean().setProveedorSelect(new Proveedor());
-        this.getPagosGeneralesLstBean().setFechaIni(new Date());
-        this.getPagosGeneralesLstBean().setFechaFin(new Date());
+        this.getProveedorLstBean().limpiarProveedorSelect();
         this.cuentaLstBean.setCuenta(new Cuenta());
         this.numeroCuentaBean.setNumero(0);
         carreraLstBean.setLstCarrerasDocente(new ArrayList<Carrera>());
-        this.pagosDocenteLstBean.setFechaIni(new Date());
-        this.pagosDocenteLstBean.setFechaFin(new Date());
-        this.pagosDocenteLstBean.setLstPagosDocente(new ArrayList<PagosDocente>());
-        RequestContext.getCurrentInstance().update(":frmPri:dtPagosDocente");
         return "/PagosDocentes.xhtml?faces-redirect=true";
     }
 

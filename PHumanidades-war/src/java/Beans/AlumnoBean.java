@@ -320,27 +320,18 @@ public class AlumnoBean {
                 this.setiActionBtnSelect(2);
                 this.setbCamposSoloLectura(true);
                 this.getCbAction().setValue("Eliminar");
+                if (this.alumno.getId() != null) {
+                    cargar();
+                    RequestContext.getCurrentInstance().execute("PF('dlgAlumno').show();");
+                }
                 break;
             case "cbEdit":
                 this.setiActionBtnSelect(1);
                 this.getCbAction().setValue("Modificar");
                 //Inicio- traemos el alumno seleccionado de la tabla
-                FacesContext context = FacesContext.getCurrentInstance();
-                AlumnoLstBean lstAlumnos = (AlumnoLstBean) context.getApplication().evaluateExpressionGet(context, "#{alumnoLstBean}", AlumnoLstBean.class);
-                this.alumno = lstAlumnos.getAlumnoSeleccionado();
-                if (alumno.getDomicilio() != null) {
-                    //fin traer alumno
-                    //seteamos domicilio bean con el domicilio del alumno
-                    this.domicilioBean.setDomicilio(alumno.getDomicilio());
-
-                }
-                if (alumno.getTelefonos() != null && !alumno.getTelefonos().isEmpty()) {
-                    alumno.getTelefonos().get(0);
-                    this.listadoTelefonosBean.setLstTelefonos(this.alumno.getTelefonos());
-                }
-                if (alumno.getCorreosElectronicos() != null && !alumno.getCorreosElectronicos().isEmpty()) {
-                    alumno.getCorreosElectronicos().get(0);
-                    this.listadoEmailBean.setLstCorreoElectronico(this.alumno.getCorreosElectronicos());
+                if (this.alumno.getId() != null) {
+                    cargar();
+                    RequestContext.getCurrentInstance().execute("PF('dlgAlumno').show();");
                 }
                 break;
         }
@@ -362,7 +353,6 @@ public class AlumnoBean {
                 break;
             case 1:
                 this.edit();
-                System.out.println("switch edit");
                 break;
             case 2:
                 //borra el campo
@@ -780,6 +770,33 @@ public class AlumnoBean {
             Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
 
         }
+
+    }
+
+    private void cargar() {
+        this.setDomicilio(new Domicilio());
+        //Al clickear boton nuevo reseteamos las lista de telefonos y correos
+        //Solo al Boton create en edit y remove necesitamos mantener los datos
+        this.getDomicilioBean().setDomicilio(new Domicilio());
+        this.getListadoTelefonosBean().setLstTelefonos(new ArrayList<Telefono>());
+        this.getListadoEmailBean().setLstCorreoElectronico(new ArrayList<CorreoElectronico>());
+
+        this.alumno = this.alumnoRNLocal.buscarAlumno(this.alumno);
+        if (alumno.getDomicilio() != null) {
+            //fin traer alumno
+            //seteamos domicilio bean con el domicilio del alumno
+            this.domicilioBean.setDomicilio(alumno.getDomicilio());
+
+        }
+        if (alumno.getTelefonos() != null && !alumno.getTelefonos().isEmpty()) {
+            alumno.getTelefonos().get(0);
+            this.listadoTelefonosBean.setLstTelefonos(this.alumno.getTelefonos());
+        }
+        if (alumno.getCorreosElectronicos() != null && !alumno.getCorreosElectronicos().isEmpty()) {
+            alumno.getCorreosElectronicos().get(0);
+            this.listadoEmailBean.setLstCorreoElectronico(this.alumno.getCorreosElectronicos());
+        }
+        RequestContext.getCurrentInstance().update("frmPri:dAlumno");
 
     }
 

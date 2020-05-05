@@ -215,25 +215,17 @@ public class ProveedorBean implements Serializable {
                 this.setiActionBtnSelect(2);
                 this.setbCamposSoloLectura(true);
                 this.getCbAction().setValue("Eliminar");
+                if (this.proveedor.getId() != null) {
+                    cargar();
+                    RequestContext.getCurrentInstance().execute("PF('dlgProveedor').show();");
+                }
                 break;
             case "cbEdit":
                 this.setiActionBtnSelect(1);
                 this.getCbAction().setValue("Modificar");
-                FacesContext context = FacesContext.getCurrentInstance();
-                ProveedorLstBean lstProveedor = (ProveedorLstBean) context.getApplication().evaluateExpressionGet(context, "#{proveedorLstBean}", ProveedorLstBean.class);
-                this.setProveedor(lstProveedor.getProveedorSeleccionado());
-
-                if (proveedor.getDomicilio() != null) {
-                    this.domicilioBean.setDomicilio(proveedor.getDomicilio());
-                } else {
-                    this.domicilioBean.setDomicilio(new Domicilio());
-                }
-
-                if (proveedor.getTelefonos() != null && !proveedor.getTelefonos().isEmpty()) {
-                    proveedor.getTelefonos().get(0);
-                    this.listadoTelefonosBean.setLstTelefonos(this.proveedor.getTelefonos());
-                } else {
-                    this.listadoTelefonosBean.setLstTelefonos(new ArrayList<Telefono>());
+                if (this.proveedor.getId() != null) {
+                    cargar();
+                    RequestContext.getCurrentInstance().execute("PF('dlgProveedor').show();");
                 }
 
 //                FacesContext context = FacesContext.getCurrentInstance();
@@ -398,6 +390,9 @@ public class ProveedorBean implements Serializable {
 
     public void limpiar() {
         this.setProveedor(new Proveedor());
+        this.getProveedor().setDomicilio(new Domicilio());
+        this.domicilioBean.setDomicilio(new Domicilio());
+        this.listadoTelefonosBean.setLstTelefonos(new ArrayList<Telefono>());
         this.setbCamposSoloLectura(false);
         RequestContext.getCurrentInstance().update("frmPri:growl");
         RequestContext.getCurrentInstance().update("frmPri:dtProveedor");
@@ -429,18 +424,17 @@ public class ProveedorBean implements Serializable {
     }
 
     //metodo cargar selectOneMenu DocenteFindDlg (opciones DNI, Apellido)  
-    public void cargarLstTipoBusqueda() {
+    private void cargarLstTipoBusqueda() {
         lstTipoBusqueda = new ArrayList();
         lstTipoBusqueda.add("CUIT");
         lstTipoBusqueda.add("Razon Social");
     }
 
     public void actualizarProveedor() {
-        this.pagosDocenteLstBean.setDocProv(2);
-        this.docenteLstBean.setDocenteSeleccionado(null);
         RequestContext.getCurrentInstance().update("frmPri:otProveedor");
         RequestContext.getCurrentInstance().update("frmPri:otDocente");
-
+        this.getProveedorLstBean().setLstProveedor(new ArrayList<Proveedor>());
+        this.getProveedorLstBean().cargarProveedor();
     }
 
     public void abrirDlgFindProveedor(ActionEvent e) {
@@ -474,4 +468,25 @@ public class ProveedorBean implements Serializable {
         }
         return null;
     }//fin dinfByid
+
+    private void cargar() {
+        this.proveedor = this.proveedorRNLocal.findById(this.getProveedor().getId());
+        this.domicilioBean.setDomicilio(new Domicilio());
+        this.listadoTelefonosBean.setLstTelefonos(new ArrayList<Telefono>());
+
+        if (this.proveedor.getDomicilio() != null) {
+            this.domicilioBean.setDomicilio(proveedor.getDomicilio());
+        } else {
+            this.domicilioBean.setDomicilio(new Domicilio());
+        }
+
+        if (this.proveedor.getTelefonos() != null && !proveedor.getTelefonos().isEmpty()) {
+            this.proveedor.getTelefonos().get(0);
+            this.listadoTelefonosBean.setLstTelefonos(this.proveedor.getTelefonos());
+        } else {
+            this.listadoTelefonosBean.setLstTelefonos(new ArrayList<Telefono>());
+        }
+        RequestContext.getCurrentInstance().update("frmPri:dProveedor");
+
+    }
 }

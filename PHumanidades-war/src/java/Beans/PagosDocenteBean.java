@@ -5,13 +5,12 @@
  */
 package Beans;
 
-import DAO.TipoEgresoFacadeLocal;
 import Entidades.Carreras.Carrera;
+import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.FormaPago;
 import Entidades.Egresos.PagosDocente;
 import Entidades.Egresos.RubroPresupuestario;
 import Entidades.Egresos.TipoComprobante;
-import Entidades.Egresos.TipoEgreso;
 import Entidades.Persona.Docente;
 import Entidades.Persona.Proveedor;
 import RN.PagosDocenteRNLocal;
@@ -25,12 +24,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -74,12 +71,6 @@ public class PagosDocenteBean implements Serializable {
     @ManagedProperty(value = "#{carreraLstBean}")
     private CarreraLstBean carreraLstBean;
 
-    @ManagedProperty(value = "#{navegarBean}")
-    private NavegarBean navegarBean;
-
-    @ManagedProperty(value = "#{docenteBean}")
-    private DocenteBean docenteBean;
-
     @ManagedProperty(value = "#{pagosDocenteLstBean}")
     private PagosDocenteLstBean pagosDocenteLstBean;
 
@@ -89,7 +80,6 @@ public class PagosDocenteBean implements Serializable {
     private String busquedaCarrera;
 
     private PagosDocente pagoDocente;
-    private PagosDocente pagoDocenteAux;
     //Pagos docentes para comprobantes
     private PagosDocente pagoDocente2;
     private PagosDocente pagoDocente3;
@@ -112,33 +102,6 @@ public class PagosDocenteBean implements Serializable {
     private List<SelectItem> lstRubroPresupuestario;
 
     private List<SelectItem> lstProveedor;
-
-    @EJB
-    private TipoEgresoFacadeLocal tipoEgresoFacadeLocal;
-
-    private TipoEgreso tipoEgreso;
-    private List<SelectItem> lstTipoEgreso;
-
-    /**
-     * Creates a new instance of DocenteBean
-     */
-    @PostConstruct
-    private void init() {
-        pagosDocentes = new ArrayList<>();
-
-        pagoDocente = new PagosDocente();
-        pagoDocente2 = new PagosDocente();
-        pagoDocente3 = new PagosDocente();
-        pagoDocente4 = new PagosDocente();
-        pagoDocente5 = new PagosDocente();
-        pagoDocente6 = new PagosDocente();
-        cargarPagosDocentes();
-        cargarLstFormaPago();
-        cargarLstRubroPresupuestario();
-        cargarLstProveedor();
-        cargarLstTipoComprobante();
-        cargarLstTipoEgresos();
-    }
 
     public List<PagosDocente> getPagosDocentes() {
         return pagosDocentes;
@@ -188,38 +151,6 @@ public class PagosDocenteBean implements Serializable {
         this.pagoDocente5 = pagoDocente5;
     }
 
-    public TipoEgresoFacadeLocal getTipoEgresoFacadeLocal() {
-        return tipoEgresoFacadeLocal;
-    }
-
-    public void setTipoEgresoFacadeLocal(TipoEgresoFacadeLocal tipoEgresoFacadeLocal) {
-        this.tipoEgresoFacadeLocal = tipoEgresoFacadeLocal;
-    }
-
-    public TipoEgresoFacadeLocal getEgresoFacadeLocal() {
-        return tipoEgresoFacadeLocal;
-    }
-
-    public void setEgresoFacadeLocal(TipoEgresoFacadeLocal egresoFacadeLocal) {
-        this.tipoEgresoFacadeLocal = egresoFacadeLocal;
-    }
-
-    public TipoEgreso getTipoEgreso() {
-        return tipoEgreso;
-    }
-
-    public void setTipoEgreso(TipoEgreso tipoEgreso) {
-        this.tipoEgreso = tipoEgreso;
-    }
-
-    public List<SelectItem> getLstTipoEgreso() {
-        return lstTipoEgreso;
-    }
-
-    public void setLstTipoEgreso(List<SelectItem> lstTipoEgreso) {
-        this.lstTipoEgreso = lstTipoEgreso;
-    }
-
     public PagosDocenteRNLocal getPagosDocenteRNLocal() {
         return pagosDocenteRNLocal;
     }
@@ -245,6 +176,17 @@ public class PagosDocenteBean implements Serializable {
     }
 
     public PagosDocenteBean() {
+        pagosDocentes = new ArrayList<>();
+        pagoDocente = new PagosDocente();
+        pagoDocente2 = new PagosDocente();
+        pagoDocente3 = new PagosDocente();
+        pagoDocente4 = new PagosDocente();
+        pagoDocente5 = new PagosDocente();
+        pagoDocente6 = new PagosDocente();
+        cargarNuevosPagosDocentes();
+        cargarLstFormaPago();
+        cargarLstRubroPresupuestario();
+        cargarLstTipoComprobante();
     }
 
     public DocenteLstBean getDocenteLstBean() {
@@ -271,14 +213,6 @@ public class PagosDocenteBean implements Serializable {
         this.carreraLstBean = carreraLstBean;
     }
 
-    public NavegarBean getNavegarBean() {
-        return navegarBean;
-    }
-
-    public void setNavegarBean(NavegarBean navegarBean) {
-        this.navegarBean = navegarBean;
-    }
-
     public String getBusquedaCarrera() {
         return busquedaCarrera;
     }
@@ -293,14 +227,6 @@ public class PagosDocenteBean implements Serializable {
 
     public void setPagoDocente(PagosDocente pagoDocente) {
         this.pagoDocente = pagoDocente;
-    }
-
-    public PagosDocente getPagoDocenteAux() {
-        return pagoDocenteAux;
-    }
-
-    public void setPagoDocenteAux(PagosDocente pagoDocenteAux) {
-        this.pagoDocenteAux = pagoDocenteAux;
     }
 
     public List<SelectItem> getLstTipoComprobante() {
@@ -351,14 +277,6 @@ public class PagosDocenteBean implements Serializable {
         this.rubroPresupuestario = rubroPresupuestario;
     }
 
-    public DocenteBean getDocenteBean() {
-        return docenteBean;
-    }
-
-    public void setDocenteBean(DocenteBean docenteBean) {
-        this.docenteBean = docenteBean;
-    }
-
     public CommandButton getCbAction() {
         return cbAction;
     }
@@ -375,22 +293,15 @@ public class PagosDocenteBean implements Serializable {
         this.pagosDocenteLstBean = pagosDocenteLstBean;
     }
 
-    public void cargarLstFormaPago() {
-        lstFormaPago = new ArrayList<SelectItem>();
+    private void cargarLstFormaPago() {
+        lstFormaPago = new ArrayList<>();
         for (FormaPago fp : FormaPago.values()) {
             lstFormaPago.add(new SelectItem(fp, fp.toString()));
         }
     }
 
-    public void cargarLstProveedor() {
-        lstProveedor = new ArrayList<SelectItem>();
-        for (Proveedor p : proveedorLstBean.getLstProveedor()) {
-            lstProveedor.add(new SelectItem(p, p.toString()));
-        }
-    }
-
     public List<Proveedor> completeText(String query) {
-        List<Proveedor> results = new ArrayList<Proveedor>();
+        List<Proveedor> results = new ArrayList<>();
         try {
             results = proveedorRNLocal.buscarProveedorRazonSocial(query);
         } catch (Exception exception) {
@@ -398,8 +309,8 @@ public class PagosDocenteBean implements Serializable {
         return results;
     }
 
-    public void cargarLstTipoComprobante() {
-        lstTipoComprobante = new ArrayList<SelectItem>();
+    private void cargarLstTipoComprobante() {
+        lstTipoComprobante = new ArrayList<>();
         for (TipoComprobante tc : TipoComprobante.values()) {
             lstTipoComprobante.add(new SelectItem(tc, tc.toString()));
         }
@@ -411,76 +322,58 @@ public class PagosDocenteBean implements Serializable {
 
         this.getCbAction().setDisabled(false);
 
-        if (btnSelect.getId().equals("btnEdit")) {
-            if (this.pagoDocente.getId() != null) {
-                limpiar();
-                cargar();
-                this.getCbAction().setValue("Editar");
-                this.getPagosDocenteLstBean().setiTipoBoton(1);
-                if (this.docenteLstBean.getDocenteSeleccionado() != null) {
-                    this.pagosDocenteLstBean.setDocProv(1);
-                }
-                if (this.proveedorLstBean.getProveedorSelect() != null) {
-                    this.pagosDocenteLstBean.setDocProv(2);
-                }
-                RequestContext.getCurrentInstance().update("frmPri:dRegistrarPagosDocentes");
-                RequestContext.getCurrentInstance().update("frmPri:pnComprobante");
-                RequestContext.getCurrentInstance().update("frmPri:pPriPagoDocente");
-                RequestContext.getCurrentInstance().execute("PF('dlgPagosDocentes').show();");
+        if (btnSelect.getId() != null) {
+            switch (btnSelect.getId()) {
+                case "btnEdit":
+                    if (this.pagoDocente.getId() != null) {
+                        cargar();
+                        RequestContext.getCurrentInstance().execute("PF('dlgPagosDocentes').show();");
+                    }
+                    this.getCbAction().setValue("Editar");
+                    this.getPagosDocenteLstBean().setiTipoBoton(1);
+
+                    break;
+                case "btnDelete":
+                    if (this.pagoDocente.getId() != null) {
+                        cargar();
+                    }
+                    this.getCbAction().setValue("Eliminar");
+                    this.getPagosDocenteLstBean().setiTipoBoton(2);
+
+                    break;
+                case "btnNuevoPago":
+                    this.getCbAction().setValue("Guardar");
+                    this.getPagosDocenteLstBean().setiTipoBoton(0);
+                    limpiar();
+                    cargarUltimoNumero();
+                    if (getPagoDocente().getNumeroOrdenPago() > 0) {
+                        RequestContext.getCurrentInstance().execute("PF('dlgPagosDocentes').show();");
+                    }
+                    break;
+                case "cbRecuperarBorrado":
+                    if (this.pagoDocente.getId() != null) {
+                        cargar();
+                    }
+                    this.getPagosDocenteLstBean().setiTipoBoton(3);
+                    this.getCbAction().setValue("Recuperar");
+
+                    break;
+                case "btnAnularCA":
+                    if (this.pagoDocente.getId() != null) {
+                        cargar();
+                    }
+                    this.getPagosDocenteLstBean().setiTipoBoton(4);
+                    this.getCbAction().setValue("Anular");
+                    break;
+                case "cbRecuperarAnuladoCA":
+                    if (this.pagoDocente.getId() != null) {
+                        cargar();
+                    }
+                    this.getPagosDocenteLstBean().setiTipoBoton(5);
+                    this.getCbAction().setValue("Recuperar");
+                    break;
             }
         }
-        if (btnSelect.getId().equals("btnDelete")) {
-            limpiar();
-            cargar();
-            this.getCbAction().setValue("Eliminar");
-
-            try {
-                this.carreraLstBean.setCarreraSeleccionada(this.getPagoDocente().getCarrera());
-            } catch (Exception ex) {
-            }
-            try {
-                this.docenteLstBean.setDocenteSeleccionado(this.getPagoDocente().getDocente());
-            } catch (Exception ex) {
-            }
-            try {
-                this.proveedorLstBean.setProveedorSelect(this.getPagoDocente().getProveedor());
-            } catch (Exception ex) {
-            }
-            try {
-                this.carreraLstBean.setLstCarrerasDocente(this.getPagoDocente().getDocente().getCarreras());
-            } catch (Exception ex) {
-            }
-            this.getPagosDocenteLstBean().setiTipoBoton(2);
-
-        }
-
-        if (btnSelect.getId().equals("btnNuevoPago")) {
-            this.getCbAction().setValue("Guardar");
-            this.getPagosDocenteLstBean().setiTipoBoton(0);
-
-            this.setPagoDocente(new PagosDocente());
-
-            limpiar();
-
-            cargarUltimoNumero();
-            if (getPagoDocente().getNumeroOrdenPago() > 0) {
-                RequestContext.getCurrentInstance().update("frmPri:dRegistrarPagosDocentes");
-                RequestContext.getCurrentInstance().update("frmPri:otProveedor");
-                RequestContext.getCurrentInstance().update("frmPri:pnComprobante");
-                RequestContext.getCurrentInstance().update("frmPri:pPriPagoDocente");
-                RequestContext.getCurrentInstance().execute("PF('dlgPagosDocentes').show();");
-            }
-
-        }//fin if
-
-        if (btnSelect.getId().equals("cbRecuperarBorrado")) {
-            limpiar();
-            cargar();
-            this.getPagosDocenteLstBean().setiTipoBoton(3);
-            this.getCbAction().setValue("Recuperar");
-
-        }//fin if
-
     }// fin definirActionBoton
 
     public void actionButton(ActionEvent e) {
@@ -506,6 +399,12 @@ public class PagosDocenteBean implements Serializable {
             case 3:
                 this.eliminar(Boolean.FALSE);
                 break;
+            case 4:
+                this.anular(Boolean.TRUE);
+                break;
+            case 5:
+                this.anular(Boolean.FALSE);
+                break;
         }//fin switch
 
     }//fin actionButton
@@ -515,35 +414,6 @@ public class PagosDocenteBean implements Serializable {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-
-            if (this.proveedorLstBean.getProveedorSelect() == null && this.docenteLstBean.getDocenteSeleccionado() == null) {
-                pagoDocenteAux = this.pagosDocenteRNLocal.buscarPagosDocenteId(this.pagoDocente.getId());
-                if (this.pagoDocenteAux.getProveedor() != null) {
-                    this.proveedorLstBean.setProveedorSelect(this.pagoDocenteAux.getProveedor());
-                }
-                if (this.pagoDocenteAux.getDocente() != null) {
-                    this.docenteLstBean.setDocenteSeleccionado(pagoDocenteAux.getDocente());
-                }
-            }
-
-            if (this.pagosDocenteLstBean.getDocProv() == 1) {
-                this.proveedorLstBean.setProveedorSelect(null);
-            }
-
-            if (this.pagosDocenteLstBean.getDocProv() == 2) {
-                this.docenteLstBean.setDocenteSeleccionado(null);
-            }
-
-            if (this.getDocenteLstBean().getDocenteSeleccionado() != null) {
-                pagoDocente.setDocente(this.getDocenteLstBean().getDocenteSeleccionado());
-            }
-
-            if (this.getProveedorLstBean().getProveedorSelect() != null) {
-                pagoDocente.setProveedor(this.getProveedorLstBean().getProveedorSelect());
-            }
-            if (this.getCarreraLstBean().getCarreraSeleccionada() != null) {
-                pagoDocente.setCarrera(this.getCarreraLstBean().getCarreraSeleccionada());
-            }
 
             BigDecimal montoDesc = new BigDecimal(0);
             try {
@@ -566,32 +436,35 @@ public class PagosDocenteBean implements Serializable {
                 montoDesc = montoDesc.subtract(pagoDocente.getSuss());
             } catch (Exception e) {
             }
+            if (this.pagoDocente.getDocente() != null && this.pagoDocente.getProveedor() != null) {
+                throw new Exception("No puede seleccionar un Docente y un Proveedor");
+            }
+            if (this.pagoDocente.getDocente() == null && this.pagoDocente.getProveedor() == null) {
+                throw new Exception("Debe seleccionar un docente o un proveedor");
+            }
+            if (montoDesc.equals(0)) {
+                throw new Exception("Debe consignar el monto");
+            }
+            if (pagoDocente.getCuenta() == null) {
+                throw new Exception("Debe seleccionar una cuenta");
+            }
+            if (pagoDocente.getNumeroOrdenPago() < 1) {
+                throw new Exception("Debe corroborar el número de la orden de pago");
+            }
+            if (pagoDocente.getProveedor() != null) {
+                pagoDocente.setCarrera(null);
+            }
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaModificado(new Date());
             pagoDocente.setModificadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
             pagosDocenteRNLocal.edit(pagoDocente);
             crearModificarOtrosComprobantes(false);
-            this.setPagoDocente(new PagosDocente());
-
-            limpiar();
-            this.pagosDocenteLstBean.setDocProv(0);
-
             pagosDocenteLstBean.cargarPagosDocente();
-
-            RequestContext.getCurrentInstance().update("frmPri:otDocente");
-            RequestContext.getCurrentInstance().update("frmPri:pnDetalle");
-            RequestContext.getCurrentInstance().update("frmPri:otProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:pnInformacion");
+            limpiar();
 
             sMensaje = "Los Datos del Egreso fueron modificados";
             severity = FacesMessage.SEVERITY_INFO;
             //elimino y agrego  a la lista
-
-//            int iPos = this.getPagosDocenteLstBean().getLstPagosDocente().indexOf(this.getPagoDocente());
-//            this.getPagosDocenteLstBean().getLstPagosDocente().remove(iPos);
-//            this.getPagosDocenteLstBean().getLstPagosDocente().add(iPos, this.getPagoDocente());
-            RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
-            RequestContext.getCurrentInstance().execute("PF('dlgPagosDocentes').hide();");
 
         } catch (Exception ex) {
 
@@ -600,7 +473,6 @@ public class PagosDocenteBean implements Serializable {
             } else {
                 sMensaje = "Error: " + ex.getMessage();
             }
-
             severity = FacesMessage.SEVERITY_ERROR;
 
         } finally {
@@ -616,12 +488,28 @@ public class PagosDocenteBean implements Serializable {
         FacesMessage.Severity severity = null;
         try {
             BigDecimal montoDesc = new BigDecimal(0);
-            if (this.pagosDocenteLstBean.getDocProv() == 1) {
-                this.proveedorLstBean.setProveedorSelect(null);
+            if (docenteLstBean.getDocenteSeleccionado() != null && proveedorLstBean.getProveedorSelect() != null && proveedorLstBean.getProveedorSelect().getId() != null) {
+                throw new Exception("No puede seleccionar un Docente y un Proveedor");
             }
-
-            if (this.pagosDocenteLstBean.getDocProv() == 2) {
-                this.docenteLstBean.setDocenteSeleccionado(null);
+            if (this.docenteLstBean.getDocenteSeleccionado() == null && (this.proveedorLstBean.getProveedorSelect() == null || proveedorLstBean.getProveedorSelect().getId() == null)) {
+                throw new Exception("Debe seleccionar un docente o un proveedor");
+            }
+            if (montoDesc.equals(0)) {
+                throw new Exception("Debe consignar el monto");
+            }
+            if (pagoDocente.getCuenta() == null) {
+                throw new Exception("Debe seleccionar una cuenta");
+            }
+            if (pagoDocente.getNumeroOrdenPago() < 1) {
+                throw new Exception("Debe corroborar el número de la orden de pago");
+            }
+            if (comprobanteDuplicado(pagoDocente.getDocente(),
+                    pagoDocente.getProveedor(), pagoDocente.getNumeroComprobante(),
+                    pagoDocente.getFechaComprobante())) {
+                throw new Exception("El comprobante N° " + pagoDocente.getNumeroComprobante() + "ya se encuentra cargado en el sistema");
+            }
+            if (existeNumeroOrdenPago(pagoDocente.getNumeroOrdenPago())) {
+                throw new Exception("Ya existe orden de pago " + pagoDocente.getNumeroOrdenPago());
             }
 
             if (docenteLstBean.getDocenteSeleccionado() != null) {
@@ -631,7 +519,7 @@ public class PagosDocenteBean implements Serializable {
                 pagoDocente.setCarrera(carreraLstBean.getCarreraSeleccionada());
             }
 
-            if (proveedorLstBean.getProveedorSelect() != null) {
+            if (proveedorLstBean.getProveedorSelect() != null && proveedorLstBean.getProveedorSelect().getId() != null) {
                 pagoDocente.setProveedor(proveedorLstBean.getProveedorSelect());
             }
 
@@ -657,23 +545,6 @@ public class PagosDocenteBean implements Serializable {
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaCreado(new Date());
             pagoDocente.setCreadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
-            if (docenteLstBean.getDocenteSeleccionado() == null && proveedorLstBean.getProveedorSelect() == null) {
-                throw new Exception("Debe escoger un Docente o un Proveedor");
-            }
-            if (montoDesc.equals(0)) {
-                throw new Exception("Debe consignar el monto");
-            }
-            if (pagoDocente.getCuenta() == null) {
-                throw new Exception("Debe seleccionar una cuenta");
-            }
-            if (pagoDocente.getNumeroOrdenPago() < 1) {
-                throw new Exception("Debe corroborar el número de la orden de pago");
-            }
-            if (comprobanteDuplicado(pagoDocente.getDocente(),
-                    pagoDocente.getProveedor(), pagoDocente.getNumeroComprobante(),
-                    pagoDocente.getFechaComprobante())) {
-                throw new Exception("El comprobante N° " + pagoDocente.getNumeroComprobante() + "ya se encuentra cargado en el sistema");
-            }
 
             if (pagoDocente.getDocente() != null) {
                 if (pagoDocente.getCarrera() != null) {
@@ -687,27 +558,16 @@ public class PagosDocenteBean implements Serializable {
             } else {
                 pagosDocenteRNLocal.create(pagoDocente);
                 crearModificarOtrosComprobantes(true);
-                sMensaje = "El Pago fue Registrado";
+                sMensaje = "El Egreso fue Registrado";
                 severity = FacesMessage.SEVERITY_INFO;
             }
 
             //Agregar el pago a la lista
-            this.getPagosDocenteLstBean().getLstPagosDocente().add(pagoDocente);
-            this.setPagoDocente(new PagosDocente());
-
+            this.getPagosDocenteLstBean().cargarPagosDocente();
             limpiar();
 
-            this.pagosDocenteLstBean.setDocProv(0);
-
-            pagosDocenteLstBean.cargarPagosDocente();
-
-            RequestContext.getCurrentInstance().update("frmPri:otDocente");
-            RequestContext.getCurrentInstance().update("frmPri:pnDetalle");
-            RequestContext.getCurrentInstance().update("frmPri:otProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:pnInformacion");
-            RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
-
-            RequestContext.getCurrentInstance().execute("PF('dlgPagosDocentes').hide();");
+            this.getCbAction().setValue("Guardar");
+            this.getCbAction().setDisabled(true);
 
         } catch (Exception ex) {
 
@@ -748,26 +608,31 @@ public class PagosDocenteBean implements Serializable {
             }
             //envia el mensaje segun sea true o false bEstado
             if (b) {
-                sMensaje = "El dato fue eliminado, Click salir";
+                sMensaje = "El dato fue eliminado";
             } else {
-                sMensaje = "El dato fue recuperado, Click salir";
+                sMensaje = "El dato fue recuperado";
             }
 
             this.getPagosDocenteLstBean().cargarPagosDocente();
-            RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
 
-            this.getCbAction().setValue("Eliminar");
+            if (b) {
+                this.getCbAction().setValue("Eliminar");
+            } else {
+                this.getCbAction().setValue("Recuperar");
+            }
             this.getCbAction().setDisabled(true);
-
             severity = FacesMessage.SEVERITY_INFO;
+            limpiar();
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error al eliminar el pago: " + ex.getMessage();
 
         } finally {
-            fm = new FacesMessage(severity, sMensaje, null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, fm);
+            if (!sMensaje.isEmpty()) {
+                fm = new FacesMessage(severity, sMensaje, null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
+            }
         }
     }//fin eliminar
 
@@ -797,17 +662,23 @@ public class PagosDocenteBean implements Serializable {
                 sMensaje = "El dato fue recuperado";
             }
             this.getPagosDocenteLstBean().cargarPagosDocente();
-            RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
-
+            if (b) {
+                this.getCbAction().setValue("Eliminar");
+            } else {
+                this.getCbAction().setValue("Recuperar");
+            }
+            this.getCbAction().setDisabled(true);
+            limpiar();
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
-            System.out.println(sMensaje);
 
         } finally {
-            fm = new FacesMessage(severity, sMensaje, null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, fm);
+            if (!sMensaje.isEmpty()) {
+                fm = new FacesMessage(severity, sMensaje, null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
+            }
 
         }
     }
@@ -819,107 +690,75 @@ public class PagosDocenteBean implements Serializable {
         List<PagosDocente> findPagosByNumeroOrdenPago = new ArrayList<>();
         try {
             Calendar cal = Calendar.getInstance();
-            cal.setTime(pagoDocente.getFechaRegistro());
+            cal.setTime(this.pagoDocente.getFechaRegistro());
             int year = cal.get(Calendar.YEAR);
             findPagosByNumeroOrdenPago = pagosDocenteRNLocal.findPagosByNumeroOrdenPagoAnio(pagoDocente.getNumeroOrdenPago(), year);
             setPagoDocente(new PagosDocente());
-            setPagosDocentes(findPagosByNumeroOrdenPago);
+            setPagosDocentes(new ArrayList<PagosDocente>());
+
+            this.getProveedorLstBean().cargarProveedor();
             try {
                 setPagoDocente(findPagosByNumeroOrdenPago.get(0));
+                getPagosDocentes().add(getPagoDocente());
             } catch (Exception e) {
                 setPagoDocente(new PagosDocente());
             }
             try {
                 setPagoDocente2(findPagosByNumeroOrdenPago.get(1));
+                getPagosDocentes().add(getPagoDocente2());
+
             } catch (Exception e) {
                 setPagoDocente2(new PagosDocente());
             }
             try {
                 setPagoDocente3(findPagosByNumeroOrdenPago.get(2));
+                getPagosDocentes().add(getPagoDocente3());
+
             } catch (Exception e) {
                 setPagoDocente3(new PagosDocente());
             }
             try {
                 setPagoDocente4(findPagosByNumeroOrdenPago.get(3));
+                getPagosDocentes().add(getPagoDocente4());
+
             } catch (Exception e) {
                 setPagoDocente4(new PagosDocente());
             }
             try {
                 setPagoDocente5(findPagosByNumeroOrdenPago.get(4));
+                getPagosDocentes().add(getPagoDocente5());
+
             } catch (Exception e) {
                 setPagoDocente5(new PagosDocente());
             }
             try {
                 setPagoDocente6(findPagosByNumeroOrdenPago.get(5));
+                getPagosDocentes().add(getPagoDocente6());
+
             } catch (Exception e) {
                 setPagoDocente6(new PagosDocente());
             }
-
-            try {
-                getDocenteLstBean().setDocenteSeleccionado(findPagosByNumeroOrdenPago.get(0).getDocente());
-            } catch (Exception e) {
-                getDocenteLstBean().setDocenteSeleccionado(new Docente());
-            }
-            try {
-                getProveedorLstBean().setProveedorSelect(findPagosByNumeroOrdenPago.get(0).getProveedor());
-            } catch (Exception e) {
-                getProveedorLstBean().setProveedorSelect(new Proveedor());
-            }
-            try {
-                getCarreraLstBean().setCarreraSelect(findPagosByNumeroOrdenPago.get(0).getCarrera());
-            } catch (Exception e) {
-                getCarreraLstBean().setCarreraSelect(new Carrera());
-
-            }
-
-            try {
-                getCarreraLstBean().setCarreraSeleccionada(findPagosByNumeroOrdenPago.get(0).getCarrera());
-            } catch (Exception e) {
-                getCarreraLstBean().setCarreraSeleccionada(new Carrera());
-
-            }
-
-            try {
-                getCarreraLstBean().setLstCarrera(findPagosByNumeroOrdenPago.get(0).getDocente().getCarreras());
-            } catch (Exception e) {
-                getCarreraLstBean().setLstCarrera(new ArrayList<Carrera>());
-
-            }
-
-            try {
-                getCarreraLstBean().setLstCarrerasAsoc(findPagosByNumeroOrdenPago.get(0).getDocente().getCarreras());
-            } catch (Exception e) {
-                getCarreraLstBean().setLstCarrerasAsoc(new ArrayList<Carrera>());
-
-            }
-            try {
-                getCarreraLstBean().setLstCarrerasDocente(findPagosByNumeroOrdenPago.get(0).getDocente().getCarreras());
-            } catch (Exception e) {
-                getCarreraLstBean().setLstCarrerasDocente(new ArrayList<Carrera>());
-
-            }
-            RequestContext.getCurrentInstance().update("frmPri:otDocente");
-            RequestContext.getCurrentInstance().update("frmPri:pnDetalle");
-            RequestContext.getCurrentInstance().update("frmPri:otProveedor");
-            RequestContext.getCurrentInstance().update("frmPri:pnInformacion");
-            RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
-            RequestContext.getCurrentInstance().update("frmPri:pPriPagoDocente");
-            RequestContext.getCurrentInstance().update("frmPri:pnComprobante");
+            RequestContext.getCurrentInstance().update("frmPri:dRegistrarPagosDocentes");
 
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
-            sMensaje = "Error: " + ex.getMessage();
-            System.out.println(sMensaje);
+            sMensaje = "Error cargando pagos: " + ex;
 
         } finally {
-            fm = new FacesMessage(severity, sMensaje, null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, fm);
+            if (!sMensaje.isEmpty()) {
+                fm = new FacesMessage(severity, sMensaje, null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
+            }
 
         }
     }
 
     public void limpiar() {
+        try {
+            this.getCarreraLstBean().setCarreraSelect(new Carrera());
+        } catch (Exception ex) {
+        }
         try {
             this.getCarreraLstBean().setCarreraSeleccionada(new Carrera());
         } catch (Exception ex) {
@@ -929,25 +768,31 @@ public class PagosDocenteBean implements Serializable {
         } catch (Exception ex) {
         }
         try {
-            this.getProveedorLstBean().setProveedorSelect(new Proveedor());
+            this.getDocenteLstBean().cargarDocente();
+        } catch (Exception ex) {
+        }
+        try {
+            this.getProveedorLstBean().limpiarProveedorSelect();
         } catch (Exception ex) {
         }
         try {
             this.getCarreraLstBean().setLstCarrerasDocente(new ArrayList<Carrera>());
         } catch (Exception ex) {
         }
-        try {
-            this.getDocenteLstBean().setTablaDocente(new DataTable());
-        } catch (Exception ex) {
-        }
-        try {
-            this.getProveedorLstBean().setTablaProveedor(new DataTable());
-        } catch (Exception ex) {
-        }
-        
-        cargarPagosDocentes();
-        
-         }//fin limpiar
+
+        cargarNuevosPagosDocentes();
+        RequestContext.getCurrentInstance().update("frmPri:dRegistrarPagosDocentes");
+        RequestContext.getCurrentInstance().update("frmPri:otProveedor");
+        RequestContext.getCurrentInstance().update("frmPri:pnComprobante");
+        RequestContext.getCurrentInstance().update("frmPri:pPriPagoDocente");
+        RequestContext.getCurrentInstance().update("frmPri:otDocente");
+        RequestContext.getCurrentInstance().update("frmPri:pnDetalle");
+        RequestContext.getCurrentInstance().update("frmPri:pnInformacion");
+        RequestContext.getCurrentInstance().update("frmPri:dtPagosDocente");
+        RequestContext.getCurrentInstance().execute("PF('dtPagosDocente').filter();");
+        RequestContext.getCurrentInstance().update("frmPri:growl");
+
+    }//fin limpiar
 
     private void cargarUltimoNumero() {
         int numeroOrdenPago = pagosDocenteRNLocal.findUltimoNumero();
@@ -955,6 +800,15 @@ public class PagosDocenteBean implements Serializable {
         numeroOrdenPago++;
         pagoDocente.setNumeroOrdenPago(numeroOrdenPago);
 
+    }
+
+    private boolean existeNumeroOrdenPago(Integer numero) {
+        try {
+            Integer numeroOrdenPago = pagosDocenteRNLocal.findUltimoNumero();
+            return numeroOrdenPago.equals(numero);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void postProcessXLS(Object document) {
@@ -986,26 +840,29 @@ public class PagosDocenteBean implements Serializable {
     }
 
     private void cargarLstRubroPresupuestario() {
-        lstRubroPresupuestario = new ArrayList<SelectItem>();
+        lstRubroPresupuestario = new ArrayList<>();
         for (RubroPresupuestario rp : RubroPresupuestario.values()) {
             lstRubroPresupuestario.add(new SelectItem(rp, rp.toString()));
         }
     }
 
-    private void cargarLstTipoEgresos() {
-        lstTipoEgreso = new ArrayList<SelectItem>();
-        for (TipoEgreso t : tipoEgresoFacadeLocal.findNoBorrados()) {
-            lstTipoEgreso.add(new SelectItem(t, t.getDescripcion()));
-        }
+    public void borrarDatosComprobante(PagosDocente pd) {
+        pd.setProveedor(null);
+        pd.setDocente(null);
+        pd.setTipoEgreso(null);
+        pd.setFechaComprobante(null);
+        pd.setRubroPresupuestario(null);
+        pd.setFechaComprobante(null);
+        pd.setNumeroComprobante(null);
+        pd.setImporteComprobante(BigDecimal.ZERO);
     }
 
     private void crearModificarOtroComprobante(PagosDocente pd, boolean crear) throws Exception {
-        if (pd.getFechaComprobante() != null && !pd.getNumeroComprobante().isEmpty()) {
+        if (pd.getFechaComprobante() != null && !pd.getNumeroComprobante().isEmpty() && !pd.getImporteComprobante().equals(BigDecimal.ZERO)) {
             pd.setNumeroOrdenPago(pagoDocente.getNumeroOrdenPago());
-            if (crear) {
-                pd.setFechaCreado(pagoDocente.getFechaCreado());
-                pd.setCreadoPor(pagoDocente.getCreadoPor());
-            } else {
+            pd.setFechaCreado(pagoDocente.getFechaCreado());
+            pd.setCreadoPor(pagoDocente.getCreadoPor());
+            if (!crear) {
                 pd.setModificadoPor(pagoDocente.getModificadoPor());
                 pd.setFechaModificado(pagoDocente.getFechaModificado());
             }
@@ -1015,12 +872,12 @@ public class PagosDocenteBean implements Serializable {
             pd.setFormapago(pagoDocente.getFormapago());
             pd.setCuenta(pagoDocente.getCuenta());
             pd.setRubroPresupuestario(pagoDocente.getRubroPresupuestario());
+            if (pagoDocente.getCarrera() != null) {
+                pd.setCarrera(pagoDocente.getCarrera());
+            }
             if (pd.getProveedor() == null) {
                 if (pagoDocente.getDocente() != null) {
                     pd.setDocente(pagoDocente.getDocente());
-                    if (pagoDocente.getCarrera() != null) {
-                        pd.setCarrera(pagoDocente.getCarrera());
-                    }
                 } else {
                     pd.setProveedor(pagoDocente.getProveedor());
                 }
@@ -1032,6 +889,8 @@ public class PagosDocenteBean implements Serializable {
             }
         } else if (pd.getId() != null) {
             try {
+                pd.setAnulado(false);
+                pd.setBorrado(false);
                 pagosDocenteRNLocal.removeTotal(pd);
             } catch (Exception exception) {
             }
@@ -1050,16 +909,14 @@ public class PagosDocenteBean implements Serializable {
         return pagosDocenteRNLocal.comprobanteDuplicado(docente, proveedor, numeroComprobante, fechaComprobante);
     }
 
-    private void cargarPagosDocentes() {
+    private void cargarNuevosPagosDocentes() {
         pagosDocentes = new ArrayList<>();
-
         pagoDocente = new PagosDocente();
         pagoDocente2 = new PagosDocente();
         pagoDocente3 = new PagosDocente();
         pagoDocente4 = new PagosDocente();
         pagoDocente5 = new PagosDocente();
         pagoDocente6 = new PagosDocente();
-
         pagosDocentes.add(pagoDocente);
         pagosDocentes.add(pagoDocente2);
         pagosDocentes.add(pagoDocente3);

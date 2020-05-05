@@ -30,24 +30,33 @@ public class ConversorGenerico implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent componente, Object valor) {
 
-        if (valor != null && !"".equals(valor)) {
+        try {
+            if (valor != null && !"".equals(valor)) {
 
-            String chavePk = null;
-            this.addAttribute(componente, valor);
-            //chavePk = ((List) valor).get(0).toString();	
-            chavePk = valor.toString();
+                String chavePk = null;
 
-            if (chavePk != null) {
-                return String.valueOf(chavePk);
+                this.addAttribute(componente, valor);
+
+                //chavePk = ((List) valor).get(0).toString();	
+                chavePk = valor.toString();
+
+                if (chavePk != null) {
+                    return String.valueOf(chavePk);
+                }
             }
+            return (String) valor;
+        } catch (Exception e) {
+            return null;
         }
-        return (String) valor;
     }
 
     protected void addAttribute(UIComponent component, Object obj) {
         //String key = ((List) obj).get(0).toString();
         String key = obj.toString();
-        this.getAttributesFrom(component).put(key, obj);
+        try {
+            this.getAttributesFrom(component).put(key, obj);
+        } catch (Exception e) {
+        }
     }
 
     protected Map<String, Object> getAttributesFrom(UIComponent component) {

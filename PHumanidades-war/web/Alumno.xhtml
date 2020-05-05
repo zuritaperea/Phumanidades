@@ -63,7 +63,7 @@
 
         <p:dialog id="dAlumno"
                   widgetVar="dlgAlumno"
-                  closable="true" position="top" maximizable="true" 
+                  closable="false" position="top" maximizable="true" modal="true"
                   >    
             <p:scrollPanel mode="native" style="max-height:600px">    
                 <h:inputHidden value="#{alumnoBean.alumno.id}" />
@@ -352,16 +352,14 @@
                      style="overflow-x: auto;"
                      paginator="true"
                      rows="20"
-                     binding="#{alumnoLstBean.tablaAlumno}" 
                      rowsPerPageTemplate="20,50,100,500"
                      filterEvent="enter">   
 
-            <p:column width="80">
+            <p:column width="150">
                 <p:commandButton id="cbEdit"
                                  title="Editar"
                                  icon="ui-icon-pencil" 
                                  update=":frmPri:dAlumno"
-                                 oncomplete="PF('dlgAlumno').show();"
                                  actionListener="#{alumnoBean.setBtnSelect}"
                                  process="@form">    
 
@@ -375,7 +373,6 @@
                                  icon="ui-icon-circle-close" 
                                  actionListener="#{alumnoBean.setBtnSelect}"
                                  update=":frmPri:dAlumno"
-                                 oncomplete="PF('dlgAlumno').show()"
                                  >
 
 

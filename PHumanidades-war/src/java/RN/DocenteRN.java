@@ -19,42 +19,42 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class DocenteRN implements DocenteRNLocal {
-
+    
     @EJB
     private DocenteFacadeLocal docentefacadelocal;
-
+    
     @Override
     public void create(Docente docente) throws Exception {
         //Agregar validaciones
         this.validar(docente);
         docentefacadelocal.create(docente);
     }
-
+    
     @Override
     public void edit(Docente docente) throws Exception {
         docentefacadelocal.edit(docente);
     }
-
+    
     @Override
     public void remove(Docente docente) throws Exception {
         docentefacadelocal.remove(docente);
     }
-
+    
     @Override
     public List<Docente> findAll() throws Exception {
         return docentefacadelocal.findAll();
     }
-
+    
     @Override
     public Docente buscarDocente(Docente docente) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return docentefacadelocal.find(docente.getId());
     }
-
+    
     @Override
     public List<Docente> buscarDocenteNombre(String cadena) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public List<Docente> findLikeNombreApellido(String cadena) throws Exception {
         return docentefacadelocal.findLikeNombreApellido(cadena);
@@ -63,7 +63,7 @@ public class DocenteRN implements DocenteRNLocal {
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     private void validar(Docente docente) throws Exception {
-
+        
         if (docente.getNombre().isEmpty()) {
             throw new Exception("No ingreso el nombre");
         }//fin if
@@ -119,7 +119,7 @@ public class DocenteRN implements DocenteRNLocal {
         }
         return flag;
     }
-
+    
     @Override
     public List<Docente> findByDocenteDni(String dni) {
         return docentefacadelocal.findByDocenteDni(dni);

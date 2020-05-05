@@ -98,10 +98,9 @@
                      paginator="true"
                      rows="20"
                      filterEvent="enter"
-                     binding="#{cohorteLstBean.tablaCohorte}"
                      rowsPerPageTemplate="20,50,100,500">      
 
-            <p:column width="50">
+            <p:column width="110">
                 <p:commandButton id="cbEdit"
                                  title="Editar"
                                  actionListener="#{cohorteBean.setBtnSelect}"
@@ -120,7 +119,7 @@
                     <f:setPropertyActionListener value="#{item}" target="#{cohorteBean.cohorte}"/> 
                 </p:commandButton>
             </p:column>
-            <p:column 
+            <p:column  width="100"
                 style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Id"/>

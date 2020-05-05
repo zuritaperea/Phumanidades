@@ -174,7 +174,6 @@ public class DomicilioBean implements Serializable {
     }
 
     public void cargarDepartamentos() {
-        System.out.println("paso por departamentos");
 
         try {
             listaDepartamentos = new ArrayList<SelectItem>();

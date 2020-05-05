@@ -1,16 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns="http://www.w3.org/1999/xhtml"
-                template="./Templates/adminTemplate.xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-
-    <ui:define name="top"> Datos Personales </ui:define>    
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="./Templates/adminTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"  >
 
     <ui:define name="content">
+        <f:event type="preRenderView" listener="#{pagosDocenteLstBean.cargarPagosDocente()}" />
 
         <ui:include src="ProveedorFindDlg.xhtml"/>
         <ui:include src="DocenteFindDlg.xhtml"/>
@@ -19,7 +17,7 @@
                   closable="true" position="top">
 
             <h3><h:outputText value="Egresos"/></h3>
-            <h:inputHidden value="#{pagosDocenteBean.pagoDocente.id }" />
+            <h:inputHidden value="#{pagosDocenteBean.pagoDocente.id}" />
 
             <p:scrollPanel mode="native" style="max-height:600px">    
 
@@ -34,8 +32,8 @@
                         </h:outputText>
                         <h:outputText value="&nbsp;&nbsp;&nbsp;Punto de Venta: " styleClass="headerTabla" />
                         <h:outputText value="#{pagosDocenteBean.pagoDocente.cuenta}" />
-                        <h:outputText value="&nbsp;&nbsp;&nbsp;Carrera: " styleClass="headerTabla"  rendered="#{pd.carrera!=null}" />
-                        <h:outputText value="#{pd.carrera}" rendered="#{pd.carrera!=null}" />
+                        <h:outputText value="&nbsp;&nbsp;&nbsp;Carrera: " styleClass="headerTabla"  rendered="#{pagosDocenteBean.pagoDocente.carrera!=null}" />
+                        <h:outputText value="#{pagosDocenteBean.pagoDocente.carrera}" rendered="#{pagosDocenteBean.pagoDocente.carrera!=null}" />
 
                     </h:panelGrid>
 
@@ -71,6 +69,22 @@
 
                         </h:column>
 
+                         <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ret IB" styleClass="headerTabla"   />
+                            </f:facet>
+                             <h:outputText value="#{pd.retencionIB}" rendered="#{pd.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ret Iva" styleClass="headerTabla"   />
+                            </f:facet>
+                            <h:outputText value="#{pd.iva}" rendered="#{pd.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+
+                        </h:column>
+                        
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Total" styleClass="headerTabla"   />
@@ -146,8 +160,8 @@
         <!--INICIO DIALOGO REGISTRAR PAGOS A DOCENTES-->
         <p:dialog id="dRegistrarPagosDocentes"
                   widgetVar="dlgPagosDocentes"
-                  closable="true" position="top" maximizable="true" >
-            <p:scrollPanel mode="native" style="max-height:680px">    
+                  closable="false" position="top" maximizable="true" >
+            <p:scrollPanel mode="native" style="max-height:680px;">    
                 <h:inputHidden value="#{pagosDocenteBean.pagoDocente.id}"/>
                 <h:inputHidden value="#{pagosDocenteLstBean.iTipoBoton}"/>
                 <h:inputHidden value="#{pagosDocenteBean.pagoDocente.anulado}"/>
@@ -163,7 +177,35 @@
                     <h:panelGrid columns="2">                   
                         <h:outputText value="Nro: "/><p:inputText value="#{pagosDocenteBean.pagoDocente.numeroOrdenPago}"/>
                     </h:panelGrid>
-                    <div style="padding: 5px 5px 5px 10px;">
+                    <p:panel rendered="#{pagosDocenteLstBean.iTipoBoton eq 1}">
+                        <h:inputHidden value="#{pagosDocenteBean.pagoDocente.creadoPor}" rendered="#{pagosDocenteBean.pagoDocente.creadoPor ne null}"/>
+                        <h:inputHidden value="#{pagosDocenteBean.pagoDocente.fechaCreado}" rendered="#{pagosDocenteBean.pagoDocente.fechaCreado ne null}"/>
+                        <h:panelGrid columns="2">                   
+
+                            <h:outputText value="Docente: "  />
+                            <p:selectOneMenu id="docente" value="#{pagosDocenteBean.pagoDocente.docente}" filter="true" filterMatchMode="contains"
+                                             converter="ConversorGenerico"  >
+                                <f:selectItem itemLabel="Seleccionar Docente"/>
+                                <f:selectItems value="#{docenteLstBean.lstSIDocente}"
+                                               />
+                            </p:selectOneMenu>
+                            <h:outputText value="Carreras: "  />
+                            <p:selectOneMenu id="carrera" value="#{pagosDocenteBean.pagoDocente.carrera}" filter="true" filterMatchMode="contains" 
+                                             converter="ConversorGenerico"   >
+                                <f:selectItem itemLabel="Seleccionar carrera"/>
+                                <f:selectItems value="#{carreraLstBean.lstSICarrera}"
+                                               />
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Proveedor: " />
+                            <p:selectOneMenu id="proveedor" value="#{pagosDocenteBean.pagoDocente.proveedor}" filter="true"  filterMatchMode="contains" 
+                                             converter="ConversorProveedor"  
+                                             >
+                                <f:selectItem noSelectionOption="true" itemLabel="Seleccionar Proveedor"/>
+                                <f:selectItems value="#{proveedorLstBean.lstProveedor}"
+                                               />
+                            </p:selectOneMenu></h:panelGrid></p:panel>
+                    <p:panel rendered="#{pagosDocenteLstBean.iTipoBoton eq 0}">
                         <h:outputText value="*Docente: "/>
                         <p:commandButton id="cbDocentePagos" 
                                          icon="ui-icon-search"
@@ -175,16 +217,10 @@
                         <h:outputText id="otDocente"
                                       value="#{docenteLstBean.docenteSeleccionado.dni} - #{docenteLstBean.docenteSeleccionado.apellido} - #{docenteLstBean.docenteSeleccionado.nombre}"/>
 
-                    </div>
+                        <p:scrollPanel mode="native" style="max-width: 800px; max-height: 140px;overflow: auto">    
+                            <p:panel id="pnCarreras"                    header="Carreras"                                 >
 
-                    <p:panel id="pnCarreras" 
-                             header="Carreras"
-                             style="height: 140px;width: 100%;overflow: auto">
-                        <div class="flotar">
 
-                            <h:panelGrid columns="2"
-                                         width="100%"
-                                         cellpadding="2px">
 
 
                                 <p:dataTable  id="dtCarrerasPagos"
@@ -193,10 +229,10 @@
                                               selection="#{carreraLstBean.carreraSeleccionada}"
                                               rowKey="#{carAsoc.id}"
                                               >
-                                    <p:column selectionMode="single"/>
+                                    <p:column width="50" selectionMode="single"/>
 
-                                    <p:column width="400"
-                                              style="word-wrap:break-word;">
+                                    <p:column 
+                                        style="word-wrap:break-word;">
                                         <f:facet name="header">
                                             <h:outputText value="Descripcion"/>
                                         </f:facet>
@@ -204,25 +240,21 @@
                                     </p:column>
                                 </p:dataTable>
 
+                            </p:panel>
+                        </p:scrollPanel>
+                        <h:panelGrid columns="3">
+                            <h:outputText value="Proveedor:"/>
+                            <p:commandButton id="cbProveedorPagosGenerales" 
+                                             icon="ui-icon-search"
+                                             actionListener="#{proveedorBean.abrirDlgFindProveedor}"
+                                             update="dFindProveedor"
+                                             process="@this"/>
 
 
-                            </h:panelGrid>
-                        </div>
+                            <h:outputText id="otProveedor"
+                                          value="#{proveedorLstBean.proveedorSelect.cuit} - #{proveedorLstBean.proveedorSelect.razonSocial}"/>
+                        </h:panelGrid>
                     </p:panel>
-                    <br></br>
-                    <h:panelGrid columns="3">
-                        <h:outputText value="Proveedor:"/>
-                        <p:commandButton id="cbProveedorPagosGenerales" 
-                                         icon="ui-icon-search"
-                                         actionListener="#{proveedorBean.abrirDlgFindProveedor}"
-                                         update="dFindProveedor"
-                                         process="@this"/>
-
-
-                        <h:outputText id="otProveedor"
-                                      value="#{proveedorLstBean.proveedorSelect.cuit} - #{proveedorLstBean.proveedorSelect.razonSocial}"/>
-                    </h:panelGrid>
-
                     <p:panel id="pnInformacion" 
                              header="Informacion Adicional"
 
@@ -279,7 +311,7 @@
                                              required="false">
                                 <f:converter binding="#{conversorTipoEgreso}"/>
                                 <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
+                                <f:selectItems value="#{tipoEgresoController.itemsNoBorradosSelectOne}"/>
                             </p:selectOneMenu>
 
 
@@ -316,232 +348,239 @@
 
 
                         </h:panelGrid>                        <div style="float:none;clear: both"></div>
+                        <p:scrollPanel mode="native" style="max-width: 800px">    
 
-                        <p:accordionPanel activeIndex="-1" id="masComprobantes">
+                            <p:accordionPanel activeIndex="-1" id="masComprobantes">
 
-                            <p:tab title="Más Comprobantes" >
-                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente2.id}" />
-                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente3.id}" />
-                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente4.id}" />
-                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente5.id}" />
-                                <h:inputHidden value="#{pagosDocenteBean.pagoDocente6.id}" />
-                                <h:panelGrid columns="7" cellpadding="2">
-                                    <h:outputText value="Tipo Egreso" />
-                                    <h:outputText value="Fecha"/>
-                                    <h:outputText value="Tipo"/>
-                                    <h:outputText value="Numero"/>
-                                    <h:outputText value="Importe"/>
-                                    <h:outputText value="Concepto"/>
-                                    <h:outputText value="Proveedor"/>
+                                <p:tab title="Más Comprobantes" >
+                                    <h:inputHidden value="#{pagosDocenteBean.pagoDocente2.id}" />
+                                    <h:inputHidden value="#{pagosDocenteBean.pagoDocente3.id}" />
+                                    <h:inputHidden value="#{pagosDocenteBean.pagoDocente4.id}" />
+                                    <h:inputHidden value="#{pagosDocenteBean.pagoDocente5.id}" />
+                                    <h:inputHidden value="#{pagosDocenteBean.pagoDocente6.id}" />
+                                    <h:panelGrid columns="8" cellpadding="2">
+                                        <h:outputText value="Tipo Egreso" />
+                                        <h:outputText value="Fecha"/>
+                                        <h:outputText value="Tipo"/>
+                                        <h:outputText value="Numero"/>
+                                        <h:outputText value="Importe"/>
+                                        <h:outputText value="Concepto"/>
+                                        <h:outputText value="Proveedor"/>
+                                        <h:outputText value=""/>
 
-                                    <p:selectOneMenu id="tipoEgreso2" 
-                                                     value="#{pagosDocenteBean.pagoDocente2.tipoEgreso}"
-                                                     required="false">
-                                        <f:converter binding="#{conversorTipoEgreso}"/>
-                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
-                                    </p:selectOneMenu>
-                                    <p:calendar id="fechaComp2"
-                                                value="#{pagosDocenteBean.pagoDocente2.fechaComprobante}"
-                                                pattern="dd/MM/yyyy" locale="es_ES">
-                                    </p:calendar>
-                                    <p:selectOneMenu id="tipoComprobante2" 
-                                                     value="#{pagosDocenteBean.pagoDocente2.tipocomprobante}"
-                                                     required="false">                               
-                                        <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+                                        <p:selectOneMenu id="tipoEgreso2" 
+                                                         value="#{pagosDocenteBean.pagoDocente2.tipoEgreso}"
+                                                         required="false">
+                                            <f:converter binding="#{conversorTipoEgreso}"/>
+                                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                            <f:selectItems value="#{tipoEgresoController.itemsNoBorradosSelectOne}"/>
+                                        </p:selectOneMenu>
+                                        <p:calendar id="fechaComp2"
+                                                    value="#{pagosDocenteBean.pagoDocente2.fechaComprobante}"
+                                                    pattern="dd/MM/yyyy" locale="es_ES">
+                                        </p:calendar>
+                                        <p:selectOneMenu id="tipoComprobante2" 
+                                                         value="#{pagosDocenteBean.pagoDocente2.tipocomprobante}" 
+                                                         required="false">                               
+                                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
-                                    </p:selectOneMenu>
+                                            <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
+                                        </p:selectOneMenu>
 
-                                    <p:inputText id="numeroComp2" size="12"
-                                                 placeholder="000123456789"
-                                                 maxlength="12"
-                                                 value="#{pagosDocenteBean.pagoDocente2.numeroComprobante}" style="width: 100px; " />
+                                        <p:inputText id="numeroComp2" size="12"
+                                                     placeholder="000123456789"
+                                                     maxlength="12"
+                                                     value="#{pagosDocenteBean.pagoDocente2.numeroComprobante}" style="width: 100px; " />
 
-                                    <p:inputText id="importeComprobante2" 
-                                                 value="#{pagosDocenteBean.pagoDocente2.importeComprobante}"
-                                                 onblur="calcularImporte();" style="width: 100px; "/>
+                                        <p:inputText id="importeComprobante2" 
+                                                     value="#{pagosDocenteBean.pagoDocente2.importeComprobante}"
+                                                     onblur="calcularImporte();" style="width: 100px; "/>
 
-                                    <p:inputText id="concepto2" 
-                                                 value="#{pagosDocenteBean.pagoDocente2.concepto}"
-                                                 style="width: 250px; "/>
+                                        <p:inputText id="concepto2" 
+                                                     value="#{pagosDocenteBean.pagoDocente2.concepto}"
+                                                     style="width: 250px; "/>
 
-                                    <p:autoComplete id="proveedor2" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente2.proveedor}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
+                                        <p:selectOneMenu id="proveedor2" value="#{pagosDocenteBean.pagoDocente2.proveedor}" filter="true"  filterMatchMode="contains" 
+                                                         converter="ConversorProveedor"  
+                                                         >
+                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccionar Proveedor"/>
+                                            <f:selectItems value="#{proveedorLstBean.lstProveedor}"
+                                                           />                                            
+                                        </p:selectOneMenu>
+                                        <p:commandButton id="btnAnularComprobante2" 
+                                                         actionListener="#{pagosDocenteBean.borrarDatosComprobante(pagosDocenteBean.pagoDocente2)}"                                 
+                                                         update=":frmPri:masComprobantes, @this"
+                                                         icon="ui-icon-close"
+                                                         title="Eliminar" oncomplete="calcularImporte()" />
+                                        <p:selectOneMenu id="tipoEgreso3" 
+                                                         value="#{pagosDocenteBean.pagoDocente3.tipoEgreso}"
+                                                         required="false">
+                                            <f:converter binding="#{conversorTipoEgreso}"/>
+                                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                            <f:selectItems value="#{tipoEgresoController.itemsNoBorradosSelectOne}"/>
+                                        </p:selectOneMenu>
+                                        <p:calendar id="fechaComp3"
+                                                    value="#{pagosDocenteBean.pagoDocente3.fechaComprobante}"
+                                                    pattern="dd/MM/yyyy" locale="es_ES">
+                                        </p:calendar>
+                                        <p:selectOneMenu id="tipoComprobante3" 
+                                                         value="#{pagosDocenteBean.pagoDocente3.tipocomprobante}"
+                                                         required="false">                               
+                                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                                    <p:selectOneMenu id="tipoEgreso3" 
-                                                     value="#{pagosDocenteBean.pagoDocente3.tipoEgreso}"
-                                                     required="false">
-                                        <f:converter binding="#{conversorTipoEgreso}"/>
-                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
-                                    </p:selectOneMenu>
-                                    <p:calendar id="fechaComp3"
-                                                value="#{pagosDocenteBean.pagoDocente3.fechaComprobante}"
-                                                pattern="dd/MM/yyyy" locale="es_ES">
-                                    </p:calendar>
-                                    <p:selectOneMenu id="tipoComprobante3" 
-                                                     value="#{pagosDocenteBean.pagoDocente3.tipocomprobante}"
-                                                     required="false">                               
-                                        <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+                                            <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
+                                        </p:selectOneMenu>
 
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
-                                    </p:selectOneMenu>
+                                        <p:inputText id="numeroComp3" size="12"
+                                                     placeholder="000123456789"
+                                                     maxlength="12"
+                                                     value="#{pagosDocenteBean.pagoDocente3.numeroComprobante}" style="width: 100px; " />
 
-                                    <p:inputText id="numeroComp3" size="12"
-                                                 placeholder="000123456789"
-                                                 maxlength="12"
-                                                 value="#{pagosDocenteBean.pagoDocente3.numeroComprobante}" style="width: 100px; " />
+                                        <p:inputText id="importeComprobante3" 
+                                                     value="#{pagosDocenteBean.pagoDocente3.importeComprobante}"
+                                                     onblur="calcularImporte();" style="width: 100px; "/>
+                                        <p:inputText id="concepto3" 
+                                                     value="#{pagosDocenteBean.pagoDocente3.concepto}"
+                                                     style="width: 250px; "/>
 
-                                    <p:inputText id="importeComprobante3" 
-                                                 value="#{pagosDocenteBean.pagoDocente3.importeComprobante}"
-                                                 onblur="calcularImporte();" style="width: 100px; "/>
-                                    <p:inputText id="concepto3" 
-                                                 value="#{pagosDocenteBean.pagoDocente3.concepto}"
-                                                 style="width: 250px; "/>
+                                        <p:selectOneMenu id="proveedor3" value="#{pagosDocenteBean.pagoDocente3.proveedor}" filter="true"  filterMatchMode="contains" 
+                                                         converter="ConversorProveedor"  
+                                                         >
+                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccionar Proveedor"/>
+                                            <f:selectItems value="#{proveedorLstBean.lstProveedor}"
+                                                           /></p:selectOneMenu>
+                                        <p:commandButton id="btnAnularComprobante3" 
+                                                         actionListener="#{pagosDocenteBean.borrarDatosComprobante(pagosDocenteBean.pagoDocente3)}"                                 
+                                                         update=":frmPri:masComprobantes, @this"
+                                                         icon="ui-icon-close"
+                                                         title="Eliminar" oncomplete="calcularImporte()"  />
+                                        <p:selectOneMenu id="tipoEgreso4" 
+                                                         value="#{pagosDocenteBean.pagoDocente4.tipoEgreso}"
+                                                         required="false">
+                                            <f:converter binding="#{conversorTipoEgreso}"/>
+                                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                            <f:selectItems value="#{tipoEgresoController.itemsNoBorradosSelectOne}"/>
+                                        </p:selectOneMenu>
+                                        <p:calendar id="fechaComp4"
+                                                    value="#{pagosDocenteBean.pagoDocente4.fechaComprobante}"
+                                                    pattern="dd/MM/yyyy" locale="es_ES">
+                                        </p:calendar>
 
-                                    <p:autoComplete id="proveedor3" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente3.proveedor}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
-                                    <p:selectOneMenu id="tipoEgreso4" 
-                                                     value="#{pagosDocenteBean.pagoDocente4.tipoEgreso}"
-                                                     required="false">
-                                        <f:converter binding="#{conversorTipoEgreso}"/>
-                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
-                                    </p:selectOneMenu>
-                                    <p:calendar id="fechaComp4"
-                                                value="#{pagosDocenteBean.pagoDocente4.fechaComprobante}"
-                                                pattern="dd/MM/yyyy" locale="es_ES">
-                                    </p:calendar>
+                                        <p:selectOneMenu id="tipoComprobante4" 
+                                                         value="#{pagosDocenteBean.pagoDocente4.tipocomprobante}"
+                                                         required="false">                               
+                                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                                    <p:selectOneMenu id="tipoComprobante4" 
-                                                     value="#{pagosDocenteBean.pagoDocente4.tipocomprobante}"
-                                                     required="false">                               
-                                        <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+                                            <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
+                                        </p:selectOneMenu>
+                                        <p:inputText id="numeroComp4" size="12"
+                                                     placeholder="000123456789"
+                                                     maxlength="12"
+                                                     value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}" style="width: 100px; " />
+                                        <p:inputText id="importeComprobante4" 
+                                                     value="#{pagosDocenteBean.pagoDocente4.importeComprobante}"
+                                                     onblur="calcularImporte();" style="width: 100px; "/>
+                                        <p:inputText id="concepto4" 
+                                                     value="#{pagosDocenteBean.pagoDocente4.concepto}"
+                                                     style="width: 250px; "/>
 
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
-                                    </p:selectOneMenu>
-                                    <p:inputText id="numeroComp4" size="12"
-                                                 placeholder="000123456789"
-                                                 maxlength="12"
-                                                 value="#{pagosDocenteBean.pagoDocente4.numeroComprobante}" style="width: 100px; " />
-                                    <p:inputText id="importeComprobante4" 
-                                                 value="#{pagosDocenteBean.pagoDocente4.importeComprobante}"
-                                                 onblur="calcularImporte();" style="width: 100px; "/>
-                                    <p:inputText id="concepto4" 
-                                                 value="#{pagosDocenteBean.pagoDocente4.concepto}"
-                                                 style="width: 250px; "/>
+                                        <p:selectOneMenu id="proveedor4" value="#{pagosDocenteBean.pagoDocente4.proveedor}" filter="true"  filterMatchMode="contains" 
+                                                         converter="ConversorProveedor"  
+                                                         >
+                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccionar Proveedor"/>
+                                            <f:selectItems value="#{proveedorLstBean.lstProveedor}"
+                                                           />
+                                        </p:selectOneMenu>
+                                        <p:commandButton id="btnAnularComprobante4" 
+                                                         actionListener="#{pagosDocenteBean.borrarDatosComprobante(pagosDocenteBean.pagoDocente4)}"                                 
+                                                         update=":frmPri:masComprobantes, @this"
+                                                         icon="ui-icon-close"
+                                                         title="Eliminar"  oncomplete="calcularImporte()" />
+                                        <p:selectOneMenu id="tipoEgreso5" 
+                                                         value="#{pagosDocenteBean.pagoDocente5.tipoEgreso}"
+                                                         required="false">
+                                            <f:converter binding="#{conversorTipoEgreso}"/>
+                                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                            <f:selectItems value="#{tipoEgresoController.itemsNoBorradosSelectOne}"/>
+                                        </p:selectOneMenu>
+                                        <p:calendar id="fechaComp5"
+                                                    value="#{pagosDocenteBean.pagoDocente5.fechaComprobante}"
+                                                    pattern="dd/MM/yyyy" locale="es_ES">
+                                        </p:calendar>
+                                        <p:selectOneMenu id="tipoComprobante5" 
+                                                         value="#{pagosDocenteBean.pagoDocente5.tipocomprobante}"
+                                                         required="false">                               
+                                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                                    <p:autoComplete id="proveedor4" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente4.proveedor}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
+                                            <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
+                                        </p:selectOneMenu>
 
-                                    <p:selectOneMenu id="tipoEgreso5" 
-                                                     value="#{pagosDocenteBean.pagoDocente5.tipoEgreso}"
-                                                     required="false">
-                                        <f:converter binding="#{conversorTipoEgreso}"/>
-                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
-                                    </p:selectOneMenu>
-                                    <p:calendar id="fechaComp5"
-                                                value="#{pagosDocenteBean.pagoDocente5.fechaComprobante}"
-                                                pattern="dd/MM/yyyy" locale="es_ES">
-                                    </p:calendar>
-                                    <p:selectOneMenu id="tipoComprobante5" 
-                                                     value="#{pagosDocenteBean.pagoDocente5.tipocomprobante}"
-                                                     required="false">                               
-                                        <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
+                                        <p:inputText id="numeroComp5" size="12"
+                                                     placeholder="000123456789"
+                                                     maxlength="12"
+                                                     value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}" style="width: 100px; " />
+                                        <p:inputText id="importeComprobante5" 
+                                                     value="#{pagosDocenteBean.pagoDocente5.importeComprobante}"
+                                                     onblur="calcularImporte();" style="width: 100px; "/>
+                                        <p:inputText id="concepto5" 
+                                                     value="#{pagosDocenteBean.pagoDocente5.concepto}"
+                                                     style="width: 250px; "/>
 
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
-                                    </p:selectOneMenu>
+                                        <p:selectOneMenu id="proveedor5" value="#{pagosDocenteBean.pagoDocente5.proveedor}" filter="true"  filterMatchMode="contains" 
+                                                         converter="ConversorProveedor"  
+                                                         >
+                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccionar Proveedor"/>
+                                            <f:selectItems value="#{proveedorLstBean.lstProveedor}"
+                                                           />
+                                        </p:selectOneMenu>
+                                        <p:commandButton id="btnAnularComprobante5" 
+                                                         actionListener="#{pagosDocenteBean.borrarDatosComprobante(pagosDocenteBean.pagoDocente5)}"                                 
+                                                         update=":frmPri:masComprobantes, @this"
+                                                         icon="ui-icon-close"
+                                                         title="Eliminar" oncomplete="calcularImporte()"  />
+                                        <p:selectOneMenu id="tipoEgreso6" 
+                                                         value="#{pagosDocenteBean.pagoDocente6.tipoEgreso}"
+                                                         required="false">
+                                            <f:converter binding="#{conversorTipoEgreso}"/>
+                                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                            <f:selectItems value="#{tipoEgresoController.itemsNoBorradosSelectOne}"/>
+                                        </p:selectOneMenu>
+                                        <p:calendar id="fechaComp6"
+                                                    value="#{pagosDocenteBean.pagoDocente6.fechaComprobante}"
+                                                    pattern="dd/MM/yyyy" locale="es_ES">
+                                        </p:calendar>
+                                        <p:selectOneMenu id="tipoComprobante6" 
+                                                         value="#{pagosDocenteBean.pagoDocente6.tipocomprobante}"
+                                                         required="false">                               
+                                            <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
 
-                                    <p:inputText id="numeroComp5" size="12"
-                                                 placeholder="000123456789"
-                                                 maxlength="12"
-                                                 value="#{pagosDocenteBean.pagoDocente5.numeroComprobante}" style="width: 100px; " />
-                                    <p:inputText id="importeComprobante5" 
-                                                 value="#{pagosDocenteBean.pagoDocente5.importeComprobante}"
-                                                 onblur="calcularImporte();" style="width: 100px; "/>
-                                    <p:inputText id="concepto5" 
-                                                 value="#{pagosDocenteBean.pagoDocente5.concepto}"
-                                                 style="width: 250px; "/>
+                                            <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
+                                        </p:selectOneMenu>
 
-                                    <p:autoComplete id="proveedor5" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente5.proveedor}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
-
-                                    <p:selectOneMenu id="tipoEgreso6" 
-                                                     value="#{pagosDocenteBean.pagoDocente6.tipoEgreso}"
-                                                     required="false">
-                                        <f:converter binding="#{conversorTipoEgreso}"/>
-                                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoEgreso}"/>
-                                    </p:selectOneMenu>
-                                    <p:calendar id="fechaComp6"
-                                                value="#{pagosDocenteBean.pagoDocente6.fechaComprobante}"
-                                                pattern="dd/MM/yyyy" locale="es_ES">
-                                    </p:calendar>
-                                    <p:selectOneMenu id="tipoComprobante6" 
-                                                     value="#{pagosDocenteBean.pagoDocente6.tipocomprobante}"
-                                                     required="false">                               
-                                        <f:selectItem itemLabel="Seleccionar"  noSelectionOption="true"/>
-
-                                        <f:selectItems value="#{pagosDocenteBean.lstTipoComprobante}"/>
-                                    </p:selectOneMenu>
-
-                                    <p:inputText id="numeroComp6" size="12"
-                                                 placeholder="000123456789"
-                                                 maxlength="12"
-                                                 value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}" style="width: 100px; " />
-                                    <p:inputText id="importeComprobante6" 
-                                                 value="#{pagosDocenteBean.pagoDocente6.importeComprobante}"
-                                                 onblur="calcularImporte();" style="width: 100px; "/>
-                                    <p:inputText id="concepto6" 
-                                                 value="#{pagosDocenteBean.pagoDocente6.concepto}"
-                                                 style="width: 250px; "/>
-                                    <p:autoComplete id="proveedor6" maxResults="5" 
-                                                    minQueryLength="3" 
-                                                    forceSelection="true"
-                                                    value="#{pagosDocenteBean.pagoDocente6.proveedor}"
-                                                    converter="ConversorProveedor"  
-                                                    completeMethod="#{pagosDocenteBean.completeText}" 
-                                                    var="proveedor"
-                                                    itemLabel="#{proveedor.razonSocial}"
-                                                    itemValue="#{proveedor.id}"
-                                                    effect="fade"  />
-                                </h:panelGrid>
-                            </p:tab>                        <div style="float:none;clear: both"></div>
-                        </p:accordionPanel>
+                                        <p:inputText id="numeroComp6" size="12"
+                                                     placeholder="000123456789"
+                                                     maxlength="12"
+                                                     value="#{pagosDocenteBean.pagoDocente6.numeroComprobante}" style="width: 100px; " />
+                                        <p:inputText id="importeComprobante6" 
+                                                     value="#{pagosDocenteBean.pagoDocente6.importeComprobante}"
+                                                     onblur="calcularImporte();" style="width: 100px; "/>
+                                        <p:inputText id="concepto6" 
+                                                     value="#{pagosDocenteBean.pagoDocente6.concepto}"
+                                                     style="width: 250px; "/>
+                                        <p:selectOneMenu id="proveedor6" value="#{pagosDocenteBean.pagoDocente6.proveedor}" filter="true"  filterMatchMode="contains" 
+                                                         converter="ConversorProveedor"  
+                                                         >
+                                            <f:selectItem noSelectionOption="true" itemLabel="Seleccionar Proveedor"/>
+                                            <f:selectItems value="#{proveedorLstBean.lstProveedor}"
+                                                           /></p:selectOneMenu>
+                                        <p:commandButton id="btnAnularComprobante6" 
+                                                         actionListener="#{pagosDocenteBean.borrarDatosComprobante(pagosDocenteBean.pagoDocente6)}"                                 
+                                                         update=":frmPri:masComprobantes, @this"
+                                                         icon="ui-icon-close"
+                                                         title="Eliminar"  oncomplete="calcularImporte()" />
+                                    </h:panelGrid>
+                                </p:tab>                        <div style="float:none;clear: both"></div>
+                            </p:accordionPanel></p:scrollPanel>
                         <div style="float:none;clear: both"></div>
                         <p:panel id="pnDetalle"
                                  header="Detalle del Pago"
@@ -623,8 +662,7 @@
         <p:messages autoUpdate="true"/>
 
         <p:dataTable id="dtPagosDocente"
-                     value="#{pagosDocenteLstBean.lstPagosDocente}" 
-                     binding="#{pagosDocenteLstBean.tablaPagoDocente}" 
+                     value="#{pagosDocenteLstBean.lstPagosDocente}"                      
                      widgetVar="dtPagosDocente"
                      var="item"
                      paginator="true"
@@ -634,22 +672,26 @@
                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} 
                      {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                      filterEvent="enter"
+                     reflow="true"
                      >
             <f:facet name="header">
                 Egresos
                 <p:commandButton id="toggler" type="button" value="Columnas" style="float:right" icon="ui-icon-calculator" />
-                <p:columnToggler datasource="dtPagosDocente" trigger="toggler" />
+                <p:columnToggler datasource="dtPagosDocente" trigger="toggler" id="cToggler"/>
             </f:facet>
             <!--INICIO BOTONES EDITAR, ELIMINAR RECUPERAR -->
             <p:column width="150" exportable="false">
-                <c:if test="#{usuarioLogerBean.isGrupo('superadmin')}" >
-                    <p:commandButton id="btnEdit"
-                                     action="/paginas/pagosDocente/List.xhtml?faces-redirect=true"
-                                     icon="ui-icon-pencil"
-                                     disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}" >
-                        <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
-                    </p:commandButton>                
-                </c:if>
+                <p:commandButton id="btnEdit"
+                                 actionListener="#{pagosDocenteBean.definirActionBoton}"                                 
+                                 update=":frmPri:dRegistrarPagosDocentes"
+                                 title="Editar"
+                                 icon="ui-icon-pencil"
+                                 disabled="#{item.borrado or item.fechaCierre!=null or item.anulado or item.monto eq 0 or item.monto eq null}" 
+                                 rendered="#{usuarioLogerBean.isGrupo('superadmin') or usuarioLogerBean.isGrupo('admin')}"
+                                 >
+                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />     
+                </p:commandButton>               
+
                 <p:commandButton id="btnDelete" 
                                  actionListener="#{pagosDocenteBean.definirActionBoton}"                                 
                                  update=":frmPri:dRegistrarPagosDocentes"
@@ -658,7 +700,7 @@
                                  title="Borrar"
                                  disabled="#{item.borrado or item.fechaCierre!=null or item.anulado}"
                                  >
-                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
+                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
 
                 </p:commandButton>
 
@@ -669,26 +711,26 @@
                                  oncomplete="PF('dlgPagosDocentes').show();"
                                  actionListener="#{pagosDocenteBean.definirActionBoton}"
                                  disabled="#{not item.borrado or item.fechaCierre!=null}">
-                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
-
+                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
                 </p:commandButton>
                 <p:commandButton id="btnAnularCA" 
-                                 action="#{pagosDocenteBean.anular(true)}"                     
+                                 actionListener="#{pagosDocenteBean.definirActionBoton}"                                 
                                  update=":frmPri:dRegistrarPagosDocentes, @this"
+                                 oncomplete="PF('dlgPagosDocentes').show();"
                                  icon="ui-icon-close"
                                  title="Anular"
                                  disabled="#{item.anulado or item.fechaCierre!=null or item.borrado}">
-                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
-
+                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
                 </p:commandButton>
 
                 <p:commandButton id="cbRecuperarAnuladoCA"
                                  title="Recuperar Anulado"
                                  icon="ui-icon-unlocked" 
+                                 oncomplete="PF('dlgPagosDocentes').show();"
                                  update=":frmPri:dRegistrarPagosDocentes, @this"
-                                 action="#{pagosDocenteBean.anular(false)}"                     
+                                 actionListener="#{pagosDocenteBean.definirActionBoton}"                                 
                                  disabled="#{not item.anulado or item.fechaCierre!=null}">
-                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" />  
+                    <f:setPropertyActionListener value="#{item}" target="#{pagosDocenteBean.pagoDocente}" /> 
 
                 </p:commandButton>
                 <p:commandButton id="cbRecibo"
@@ -705,7 +747,7 @@
             <!--FIN BOTONES EDITAR, ELIMINAR, RECUPERAR, ANULADO -->
             <p:column  width="80"
                        style="word-wrap:break-word;"
-                       filterBy="#{item.numeroOrdenPago}" >
+                       filterBy="#{item.numeroOrdenPago}" sortBy="#{item.numeroOrdenPago}" >
                 <f:facet name="header">
                     <h:outputText value="N°"/>
                 </f:facet>
@@ -882,14 +924,6 @@
                     <h:outputText value="Importe Comprobante"/>
                 </f:facet>
                 <h:outputText value="#{item.importeComprobante}"/>
-            </p:column>
-
-            <p:column visible="false"
-                      style="word-wrap:break-word;">
-                <f:facet name="header">
-                    <h:outputText value="Cuenta"/>
-                </f:facet>
-                <h:outputText value="#{item.cuenta}"/>
             </p:column>
 
             <p:column visible="false">

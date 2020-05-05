@@ -25,15 +25,15 @@ import org.primefaces.component.datatable.DataTable;
  */
 @ManagedBean
 @SessionScoped
-public class ProveedorLstBean  implements Serializable{
-
+public class ProveedorLstBean implements Serializable {
+    
     @EJB
     private ProveedorRNLocal proveedorRNLocal;//hacemos la referencia para poder utilizar el metodo findall
     private List<Proveedor> lstProveedor; //Cargamos la lista de Proveedores retornada po el metodo findAll del usuarioRNLocal
     private List<SelectItem> lstSIProveedor;//Aca se guarda el item seleccionado de la lista
 
     private DataTable tablaProveedor;
-
+    
     public Proveedor proveedorSelect;
 
     /**
@@ -41,52 +41,58 @@ public class ProveedorLstBean  implements Serializable{
      */
     public ProveedorLstBean() {
     }
-
+    
     @PostConstruct
     private void init() {
         this.cargarProveedor();
     }
-
+    
     public ProveedorRNLocal getProveedorRNLocal() {
         return proveedorRNLocal;
     }
-
+    
     public void setProveedorRNLocal(ProveedorRNLocal proveedorRNLocal) {
         this.proveedorRNLocal = proveedorRNLocal;
     }
-
+    
     public List<Proveedor> getLstProveedor() {
         return lstProveedor;
     }
-
+    
     public void setLstProveedor(List<Proveedor> lstProveedor) {
         this.lstProveedor = lstProveedor;
     }
-
+    
     public List<SelectItem> getLstSIProveedor() {
         return lstSIProveedor;
     }
-
+    
     public void setLstSIProveedor(List<SelectItem> lstSIProveedor) {
         this.lstSIProveedor = lstSIProveedor;
     }
-
+    
     public DataTable getTablaProveedor() {
         return tablaProveedor;
     }
-
+    
     public void setTablaProveedor(DataTable tablaProveedor) {
         this.tablaProveedor = tablaProveedor;
     }
-
+    
     public Proveedor getProveedorSelect() {
         return proveedorSelect;
     }
-
+    
     public void setProveedorSelect(Proveedor proveedorSelect) {
-        this.proveedorSelect = proveedorSelect;
+        if (proveedorSelect != null) {
+            this.proveedorSelect = proveedorSelect;
+        }
     }
-
+    
+    public void limpiarProveedorSelect() {
+        this.proveedorSelect = new Proveedor();
+    }
+    
     public void cargarProveedor() {
         try {
             this.setLstProveedor(this.proveedorRNLocal.findAll());
@@ -102,17 +108,21 @@ public class ProveedorLstBean  implements Serializable{
     public Proveedor getProveedorSeleccionado() {
         return (Proveedor) this.tablaProveedor.getRowData();
     }
-
+    
     public void findDocenteCuit(String cuit) {
         this.setLstProveedor(this.proveedorRNLocal.findByCuit(cuit));
     }
-
+    
     public void findDocenteRazonSocial(String razon) throws Exception {
-
+        
         this.setLstProveedor(this.proveedorRNLocal.buscarProveedorRazonSocial(razon));
     }
-
+    
     public void findAllProveedores() throws Exception {
         this.setLstProveedor(proveedorRNLocal.findAll());
+    }
+    
+    public void limpiarTablaProveedor() {
+        this.setTablaProveedor(new DataTable());
     }
 }
