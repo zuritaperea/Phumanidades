@@ -8,6 +8,7 @@ package Beans;
 import Entidades.Egresos.PagosDocente;
 import RN.PagosDocenteRNLocal;
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -70,7 +71,7 @@ public class PagosDocenteLstBean implements Serializable {
 
     @PostConstruct
     private void init() {
-        this.cargarPagosDocente();
+        this.cargarPagosDocenteAnioActual();
     }
 
     public PagosDocenteRNLocal getPagosDocenteRNLocal() {
@@ -124,9 +125,27 @@ public class PagosDocenteLstBean implements Serializable {
         }
     }//FIN CARGAR DOCENTES
 
+    public void initialize() {
+        if (!FacesContext.getCurrentInstance().isPostback()) {
+            cargarPagosDocenteAnioActual();
+        }
+    }
+
+    public void cargarPagosDocenteAnioActual() {
+        try {
+            int year = Calendar.getInstance().get(Calendar.YEAR);
+            this.setLstPagosDocente(this.pagosDocenteRNLocal.findAllDescAnio(year));
+            //this.setLstDocente(new ArrayList<Docente>());
+        } catch (Exception ex) {
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex, null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+        }
+    }//FIN CARGAR DOCENTES
     /*   public Docente getDocenteSeleccionadoDeTabla() {
      return (Docente) this.tablaDocente.getRowData();
      }*/
+
     /**
      * Buscar historial de operaciones entre dos fechas
      */

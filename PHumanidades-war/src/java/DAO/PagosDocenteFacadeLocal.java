@@ -79,4 +79,6 @@ public interface PagosDocenteFacadeLocal {
 
     public  List<PagosDocente>  findPagosByComprobante(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante);
 
+    public List<PagosDocente> findAllDescAnio(int year);
+
 }

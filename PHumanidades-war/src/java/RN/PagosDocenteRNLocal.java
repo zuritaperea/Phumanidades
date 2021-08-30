@@ -52,6 +52,8 @@ public interface PagosDocenteRNLocal {
     public int findUltimoNumero();
 
     public List<PagosDocente> findAllDesc() throws Exception;
+    
+    public List<PagosDocente> findAllDescAnio(int year) throws Exception;
 
     public List<PagosDocente> findByFechaCarreraDocente(Date fechaIni, Date fechaFin, Carrera carrera);
 

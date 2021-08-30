@@ -22,7 +22,7 @@
             <h:inputHidden value="#{cohorteBean.iActionBtnSelect}"/>
             <h:panelGrid id="prCohorte" columns="2">
                 <h:outputText value="Carrera"/>
-                <p:selectOneMenu id="service" value="#{cohorteBean.cohorte.carrera}" converter="ConversorGenerico" >  
+                <p:selectOneMenu id="service" value="#{cohorteBean.cohorte.carrera}" converter="ConversorGenerico" filter="true" filterMatchMode="contains" >  
                     <f:selectItem itemLabel="Seleccionar" noSelectionOption="true"/>
                     <f:selectItems value="#{carreraLstBean.lstCarrera}" />
                 </p:selectOneMenu>     

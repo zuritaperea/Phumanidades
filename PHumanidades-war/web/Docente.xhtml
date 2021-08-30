@@ -189,7 +189,6 @@
                                     <p:column>
                                         <p:commandButton value="Quitar"
                                                          action="#{carreraLstBean.quitarCarrera()}"
-                                                         oncomplete="PF('dlgMensaje').show();"
                                                          update=":frmPri:dtCarrerasAso">  
                                             <f:setPropertyActionListener value="#{carAsoc}" 
                                                                          target="#{carreraLstBean.carreraSelect}"/>  
@@ -200,7 +199,7 @@
                                 </p:dataTable>
 
                                 <p:commandButton id="btnCarrerasDoc"
-                                                 icon="ui-icon-search" 
+                                                 icon="ui-icon-plus" 
                                                  title="Buscar Carreras"
                                                  oncomplete="PF('dlgCarrerasSeleccion').show();"
                                                  update=":frmPri:dtCarrerasSeleccion"

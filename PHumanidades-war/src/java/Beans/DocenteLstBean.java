@@ -126,4 +126,8 @@ public class DocenteLstBean implements Serializable {
         return (Docente) this.tablaDocente.getRowData();
     }
 
+    public void limpiarDocente() {
+        this.setDocenteSeleccionado(new Docente());
+    }
+
 }

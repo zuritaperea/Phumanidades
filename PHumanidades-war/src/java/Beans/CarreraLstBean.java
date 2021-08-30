@@ -191,4 +191,7 @@ public class CarreraLstBean implements Serializable {
 
     }
 
+    public void limpiarCarrera() {
+        this.setCarreraSeleccionada(new Carrera());  
+    }
 }

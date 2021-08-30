@@ -298,11 +298,6 @@ public class AlumnoBean {
     //BOTON CREAR DOCENTE
     public void setBtnSelect(ActionEvent e) {
         CommandButton btnSelect = (CommandButton) e.getSource();
-
-        System.out.println("boton select: " + btnSelect.getId());
-
-        //activo el boton
-        System.out.println("Boton: " + btnSelect.getId().equals("cbCreate"));
         this.getCbAction().setDisabled(false);
         switch (btnSelect.getId()) {
             case "cbCreate":

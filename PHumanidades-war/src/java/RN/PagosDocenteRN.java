@@ -50,6 +50,11 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
     }
 
     @Override
+    public List<PagosDocente> findAllDescAnio(int year) throws Exception {
+        return pagosDocenteFacadeLocal.findAllDescAnio(year);
+    }
+
+    @Override
     public PagosDocente buscarPagosDocente(PagosDocente pagosDocente) {
         return pagosDocenteFacadeLocal.find(pagosDocente.getId());
     }
@@ -144,7 +149,7 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
 
     @Override
     public boolean comprobanteDuplicado(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante) {
-       return pagosDocenteFacadeLocal.comprobanteDuplicado(docente,proveedor,numeroComprobante,fechaComprobante);
+        return pagosDocenteFacadeLocal.comprobanteDuplicado(docente, proveedor, numeroComprobante, fechaComprobante);
     }
 
 }

@@ -65,6 +65,8 @@ import javax.persistence.Temporal;
             + " and g.fechaCierre IS NULL AND g.fechaRegistro <= :fechaCierre ORDER BY g.fechaRegistro DESC"),
     @NamedQuery(name = "PagosDocente.findAllDesc",
             query = "SELECT c FROM PagosDocente c ORDER BY c.id DESC"),
+    @NamedQuery(name = "PagosDocente.findAllDescAnio",
+            query = "SELECT p FROM PagosDocente p WHERE FUNC('DATE_PART','YEAR', p.fechaRegistro) =:anio ORDER BY p.id DESC"),
     @NamedQuery(name = "PagosDocente.findPagosByDni", query = "SELECT p FROM PagosDocente p WHERE p.docente.dni =:dni  "
             + "AND p.borrado=false and p.anulado=false ORDER BY p.fechaRegistro DESC"),
     @NamedQuery(name = "PagosDocente.findPagosByComprobante", query = "SELECT p FROM PagosDocente p WHERE p.numeroComprobante = :numeroComprobante AND "

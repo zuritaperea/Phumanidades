@@ -101,7 +101,7 @@ order by numero_recibo asc]]>
 	<field name="tipoingreso" class="java.lang.String"/>
 	<field name="cohorte" class="java.lang.String"/>
 	<field name="carerra" class="java.lang.String"/>
-	<sortField name="num_rec"/>
+	<sortField name="numero_recibo"/>
 	<variable name="Total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
 	</variable>
@@ -117,8 +117,7 @@ order by numero_recibo asc]]>
 	<variable name="importe_4" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{importe}]]></variableExpression>
 	</variable>
-	<filterExpression><![CDATA[($P{formaPago}!=null?new Boolean($F{formapago}.equals($P{formaPago})):Boolean.TRUE)
-]]></filterExpression>
+	<filterExpression><![CDATA[($P{formaPago}!=null?new Boolean($F{formapago}.equals($P{formaPago})):Boolean.TRUE)]]></filterExpression>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

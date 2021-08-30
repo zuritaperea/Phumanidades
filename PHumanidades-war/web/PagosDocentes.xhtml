@@ -8,8 +8,9 @@
                  xmlns:f="http://java.sun.com/jsf/core"  >
 
     <ui:define name="content">
-        <f:event type="preRenderView" listener="#{pagosDocenteLstBean.cargarPagosDocente()}" />
-
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{pagosDocenteLstBean.initialize()}" />
+        </f:metadata>
         <ui:include src="ProveedorFindDlg.xhtml"/>
         <ui:include src="DocenteFindDlg.xhtml"/>
         <p:dialog id="dReciboPagoDocente"
@@ -69,14 +70,14 @@
 
                         </h:column>
 
-                         <h:column>
+                        <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Ret IB" styleClass="headerTabla"   />
                             </f:facet>
-                             <h:outputText value="#{pd.retencionIB}" rendered="#{pd.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
+                            <h:outputText value="#{pd.retencionIB}" rendered="#{pd.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
 
                         </h:column>
-                        
+
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Ret Iva" styleClass="headerTabla"   />
@@ -84,7 +85,7 @@
                             <h:outputText value="#{pd.iva}" rendered="#{pd.id!=null}"><f:convertNumber currencySymbol="$" type="currency" /></h:outputText>
 
                         </h:column>
-                        
+
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="Total" styleClass="headerTabla"   />
@@ -216,7 +217,15 @@
 
                         <h:outputText id="otDocente"
                                       value="#{docenteLstBean.docenteSeleccionado.dni} - #{docenteLstBean.docenteSeleccionado.apellido} - #{docenteLstBean.docenteSeleccionado.nombre}"/>
+                        <p:commandButton id="btnAnularDocente" 
+                                         update=":frmPri:otDocente, :frmPri:dtCarrerasPagos, @this"
+                                         icon="ui-icon-close"
+                                         title="Eliminar" >
 
+                            <f:actionListener binding="#{docenteLstBean.limpiarDocente()}"/>            
+                            <f:actionListener binding="#{carreraLstBean.limpiarCarrera()}"/>            
+
+                        </p:commandButton>
                         <p:scrollPanel mode="native" style="max-width: 800px; max-height: 140px;overflow: auto">    
                             <p:panel id="pnCarreras"                    header="Carreras"                                 >
 
@@ -242,7 +251,7 @@
 
                             </p:panel>
                         </p:scrollPanel>
-                        <h:panelGrid columns="3">
+                        <h:panelGrid columns="4">
                             <h:outputText value="Proveedor:"/>
                             <p:commandButton id="cbProveedorPagosGenerales" 
                                              icon="ui-icon-search"
@@ -253,6 +262,11 @@
 
                             <h:outputText id="otProveedor"
                                           value="#{proveedorLstBean.proveedorSelect.cuit} - #{proveedorLstBean.proveedorSelect.razonSocial}"/>
+                            <p:commandButton id="btnAnularProveedor" 
+                                             actionListener="#{proveedorLstBean.limpiarProveedorSelect()}"                                 
+                                             update=":frmPri:otProveedor, @this"
+                                             icon="ui-icon-close"
+                                             title="Eliminar" />
                         </h:panelGrid>
                     </p:panel>
                     <p:panel id="pnInformacion" 
@@ -352,7 +366,7 @@
 
                             <p:accordionPanel activeIndex="-1" id="masComprobantes">
 
-                                <p:tab title="Más Comprobantes" >
+                                <p:tab title="Más Comprobantes" titletip="Debe rellenar al menos fecha, número e importe para que el comprobante se guarde">
                                     <h:inputHidden value="#{pagosDocenteBean.pagoDocente2.id}" />
                                     <h:inputHidden value="#{pagosDocenteBean.pagoDocente3.id}" />
                                     <h:inputHidden value="#{pagosDocenteBean.pagoDocente4.id}" />
@@ -658,6 +672,12 @@
         <p> <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
                 <p:printer target="dtPagosDocente" />
             </p:commandButton>
+            <p:commandButton id="cargarTodos"
+                             value="Cargar Años Anteriores" 
+                             icon="ui-icon-calendar" 
+                             style="float: right"
+                             actionListener="#{pagosDocenteLstBean.cargarPagosDocente()}" 
+                             update=":frmPri:dtPagosDocente"/>
         </p>
         <p:messages autoUpdate="true"/>
 

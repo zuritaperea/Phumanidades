@@ -60,6 +60,14 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
     }
 
     @Override
+    public List<PagosDocente> findAllDescAnio(int year) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.findAllDescAnio");
+        q.setParameter("anio", year);
+        return q.getResultList();
+    }
+
+    @Override
     public void updateBorrado(Boolean bEstado, Long id) throws Exception {
         Query q = em.createNamedQuery("PagosDocente.UpdateBorrado");
         q.setParameter("estado", bEstado);
