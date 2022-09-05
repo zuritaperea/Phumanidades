@@ -302,12 +302,20 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.navegarBean = navegarBean;
     }
 
+    public Boolean getTarjetaHabilitada() {
+        return tarjetaHabilitada;
+    }
+
+    public void setTarjetaHabilitada(Boolean tarjetaHabilitada) {
+        this.tarjetaHabilitada = tarjetaHabilitada;
+    }
+    
     public void nuevoCobroGeneral() {
         this.alumnoLstBean.setAlumnoSelect(new Alumno());
         this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
         this.setIngreso(new Ingreso());
     }
-
+  
     public void nuevoCobroCuota() {
         try {
             this.getCobroCuotasAlumnosLstBean().setFechaDeposito(null);

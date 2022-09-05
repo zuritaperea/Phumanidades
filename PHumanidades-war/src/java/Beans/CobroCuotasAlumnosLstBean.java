@@ -7,6 +7,7 @@ package Beans;
 
 import DAO.TipoIngresoFacadeLocal;
 import Entidades.Carreras.Cuenta;
+import Entidades.Egresos.FormaPago;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Ingresos.TipoIngreso;
 import RN.CuentaRNLocal;
@@ -53,6 +54,7 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
     private Date fechaPago;
     private Date fechaDeposito;
     private List<SelectItem> tipoIngresos;
+    private Boolean tarjetaHabilitada;
 
     /**
      * Creates a new instance of DocenteLstBean
@@ -133,6 +135,14 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
         this.tipoIngresos = tipoIngresos;
     }
 
+    public Boolean getTarjetaHabilitada() {
+        return tarjetaHabilitada;
+    }
+
+    public void setTarjetaHabilitada(Boolean tarjetaHabilitada) {
+        this.tarjetaHabilitada = tarjetaHabilitada;
+    }
+    
     @PostConstruct
     private void init() {
         ingreso = new Ingreso();
@@ -233,4 +243,12 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
     /*   public Docente getDocenteSeleccionadoDeTabla() {
      return (Docente) this.tablaDocente.getRowData();
      }*/
+        public void habilitarTarjetas(){
+        if(ingreso.getFormaPago().getName().contains(FormaPago.valueOf("TARJETA").toString())){
+            System.out.println("Entro seleccion tarjeta");
+            tarjetaHabilitada=true;
+        }
+    }
+    
+    
 }

@@ -59,12 +59,12 @@
                                          required="false" >
                             <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
                             <p:ajax listener="#{cobroCuotasAlumnosBean.habilitarTarjetas()}" 
-                                    update="itNumeroCuentaCobroGeneral"/>
+                                    update="somTarjeta"/>
                         </p:selectOneMenu>
                         <h:outputText id="oTarjeta"
                                       value="Tarjeta De Credito:" />
                         <p:selectOneMenu id="somTarjeta"
-                                         disabled=""   
+                                         disabled="#{!cobroCuotasAlumnosBean.tarjetaHabilitada}"   
                                          value="#{cobroCuotasAlumnosBean.ingreso.tarjetaDeCredito}"
                                          required="false">
                             <f:converter binding="#{conversorTarjetaDeCredito}"/>
