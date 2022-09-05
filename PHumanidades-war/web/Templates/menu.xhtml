@@ -31,7 +31,8 @@
                     <p:menuitem value="Ingreso desde Archivo RED LINK" action="#{navegarBean.frmIngresosArchivoCSV()}"></p:menuitem>
                     <p:menuitem value="025 - Carreras a Distancia" action="#{navegarBean.frmIngresos(025)}"></p:menuitem>  
                     <p:menuitem value="005 - Gastos Generales" action="#{navegarBean.frmIngresos(005)}"></p:menuitem>    
-                    <p:menuitem value="Tipos de Ingreso" ajax="false" action="/paginas/tipoIngreso/List.xhtml?faces-redirect=true"></p:menuitem>    
+                    <p:menuitem value="Tipos de Ingreso" ajax="false" action="/paginas/tipoIngreso/List.xhtml?faces-redirect=true"></p:menuitem>
+                    <p:menuitem value="Tarjetas de Credito" ajax="false" action="/paginas/tarjetaDeCredito/List.xhtml?faces-redirect=true"></p:menuitem> 
 
                 </p:submenu> 
                 <p:submenu label="Consultas" icon="ui-icon-search" rendered="#{!usuarioLogerBean.isGrupo('consulta')}">

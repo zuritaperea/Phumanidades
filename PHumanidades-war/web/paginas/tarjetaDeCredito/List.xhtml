@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 template="../../Templates/paginasTemplate.xhtml"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:b="http://bootsfaces.net/ui"
+                 >
+    <ui:define name="content">
+
+
+        <h3>
+            <h:outputText value="#{bundleTarjetaDeCredito.ListTarjetaDeCreditoTitle}"></h:outputText>
+        </h3>
+
+        
+            <h:form id="TarjetaDeCreditoListForm">
+                <p:panel header="#{bundleTarjetaDeCredito.ListTarjetaDeCreditoTitle}">
+                    <p:dataTable id="datalistTC" value="#{tarjetaDeCreditoController.items}" var="item"
+                                 selectionMode="single" selection="#{tarjetaDeCreditoController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleTarjetaDeCredito.ListTarjetaDeCreditoTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundleTarjetaDeCredito.ListTarjetaDeCreditoTitle_descripcion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundleTarjetaDeCredito.Create}" actionListener="#{tarjetaDeCreditoController.prepareCreate}" update=":TarjetaDeCreditoCreateForm" oncomplete="PF('TarjetaDeCreditoCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundleTarjetaDeCredito.View}" update=":TarjetaDeCreditoViewForm" oncomplete="PF('TarjetaDeCreditoViewDialog').show()" disabled="#{empty tarjetaDeCreditoController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundleTarjetaDeCredito.Edit}" update=":TarjetaDeCreditoEditForm" oncomplete="PF('TarjetaDeCreditoEditDialog').show()" disabled="#{empty tarjetaDeCreditoController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundleTarjetaDeCredito.Delete}" actionListener="#{tarjetaDeCreditoController.destroy}" update=":frmPri:growl,datalistTC" disabled="#{empty tarjetaDeCreditoController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>

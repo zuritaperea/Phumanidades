@@ -20,6 +20,14 @@
             <base-name>/BundlePagosDocentes</base-name>
             <var>bundlePagosDocentes</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleTarjetaDeCredito</base-name>
+            <var>bundleTarjetaDeCredito</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleTarjetaDeCredito</base-name>
+            <var>bundleTarjetaDeCredito</var>
+        </resource-bundle>
     </application>
     <application>
         <el-resolver>ManagedBeans.util.JsfCrudELResolver</el-resolver>

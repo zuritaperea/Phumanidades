@@ -31,6 +31,7 @@
     <class>Entidades.Egresos.TipoEgreso</class>
     <class>Entidades.Ingresos.TipoIngreso</class>
     <class>Entidades.Usuarios.Grupo</class>
+    <class>Entidades.Ingresos.TarjetaDeCredito</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.ddl-generation" value="create-tables"/>

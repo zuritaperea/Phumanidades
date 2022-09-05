@@ -146,6 +146,9 @@ public class Ingreso extends Base implements Serializable {
 
     @OneToOne
     private TipoIngreso tipoIngreso;
+    
+    @OneToOne
+    private TarjetaDeCredito tarjetaDeCredito;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaCierre;
@@ -166,6 +169,14 @@ public class Ingreso extends Base implements Serializable {
         this.tipoIngreso = tipoIngreso;
     }
 
+    public TarjetaDeCredito getTarjetaDeCredito() {
+        return tarjetaDeCredito;
+    }
+
+    public void setTarjetaDeCredito(TarjetaDeCredito tarjetaDeCredito) {
+        this.tarjetaDeCredito = tarjetaDeCredito;
+    }
+    
     public Long getId() {
         return id;
     }

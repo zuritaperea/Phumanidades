@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TarjetaDeCreditoEditDlg" widgetVar="TarjetaDeCreditoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoTitle}">
+            <h:form id="TarjetaDeCreditoEditForm">
+                <h:panelGroup id="displayTC">
+                    <p:panelGrid columns="2" rendered="#{tarjetaDeCreditoController.selected != null}">
+                        <p:outputLabel value="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoLabel_id}" for="id" />
+                        <p:inputText id="id" value="#{tarjetaDeCreditoController.selected.id}" title="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoTitle_id}" />
+                        <p:outputLabel value="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{tarjetaDeCreditoController.selected.descripcion}" title="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoTitle_descripcion}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tarjetaDeCreditoController.update}" value="#{bundleTarjetaDeCredito.Save}" update="displayTC,:TarjetaDeCreditoListForm:datalistTC,:frmPri:growl" oncomplete="handleSubmit(args, 'TarjetaDeCreditoEditDialog');"/>
+                    <p:commandButton value="#{bundleTarjetaDeCredito.Cancel}" onclick="TarjetaDeCreditoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

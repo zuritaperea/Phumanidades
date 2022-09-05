@@ -15,6 +15,7 @@
     <class>Entidades.Egresos.TipoEgreso</class>
     <class>Entidades.Ingresos.Ingreso</class>
     <class>Entidades.Ingresos.TipoIngreso</class>
+    <class>Entidades.Ingresos.TarjetaDeCredito</class>
     <class>Entidades.Localidades.Departamento</class>
     <class>Entidades.Localidades.Localidad</class>
     <class>Entidades.Localidades.Pais</class>
