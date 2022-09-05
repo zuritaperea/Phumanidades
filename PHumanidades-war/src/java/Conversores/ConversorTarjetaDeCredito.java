@@ -6,9 +6,7 @@
 package Conversores;
 
 import DAO.TarjetaDeCreditoFacadeLocal;
-import DAO.TipoIngresoFacadeLocal;
 import Entidades.Ingresos.TarjetaDeCredito;
-import Entidades.Ingresos.TipoIngreso;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -35,6 +33,8 @@ public class ConversorTarjetaDeCredito implements Converter{
         this.tarjetaDeCreditoFacadeLocal = tarjetaDeCreditoFacadeLocal;
     }
 
+
+
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
        
@@ -52,7 +52,7 @@ public class ConversorTarjetaDeCredito implements Converter{
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         try {
-            return String.valueOf(((TipoIngreso) value).getId());
+            return String.valueOf(((TarjetaDeCredito) value).getId());
         } catch (Exception e) {
             return "";
         }

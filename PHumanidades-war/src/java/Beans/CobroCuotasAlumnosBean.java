@@ -104,12 +104,14 @@ public class CobroCuotasAlumnosBean implements Serializable {
     @Enumerated(EnumType.STRING)
     private FormaPago formapago;
     private List<SelectItem> lstFormaPago;
+    private Boolean tarjetaHabilitada;
 
     /**
      * Creates a new instance of DocenteBean
      */
     @PostConstruct
     private void init() {
+        tarjetaHabilitada = false;
         ultimaCuota = 0;
         ingreso = new Ingreso();
         cbAction = new CommandButton();
@@ -1276,6 +1278,12 @@ public class CobroCuotasAlumnosBean implements Serializable {
         lstFormaPago = new ArrayList<SelectItem>();
         for (FormaPago fp : FormaPago.values()) {
             lstFormaPago.add(new SelectItem(fp, fp.toString()));
+        }
+    }
+    public void habilitarTarjetas(){
+        if(ingreso.getFormaPago().getName().contains(FormaPago.valueOf("TARJETA").toString())){
+            System.out.println("Entro seleccion tarjeta");
+            tarjetaHabilitada=true;
         }
     }
 }
