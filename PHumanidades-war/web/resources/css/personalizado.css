@@ -50,3 +50,7 @@ h3,h1 {margin-top:4px}
 .ui-datatable-reflow .ui-datatable-data td .ui-column-title {
     font-weight: 600 !important;
 }
+
+.display-none {
+    display: none;
+}

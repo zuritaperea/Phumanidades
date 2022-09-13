@@ -21,7 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean
+@ManagedBean(name = "tarjetaDeCreditoController")
 @SessionScoped
 public class TarjetaDeCreditoController implements Serializable {
 

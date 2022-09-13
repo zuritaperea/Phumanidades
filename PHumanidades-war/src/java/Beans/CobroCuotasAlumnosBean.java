@@ -89,9 +89,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
     @ManagedProperty(value = "#{numeroCuentaBean}")
     private NumeroCuentaBean numeroCuentaBean;
-    
-    @ManagedProperty(value = "#{tarjetaDeCreditoLstBean}")
-    private TarjetaDeCreditoLstBean tarjetaDeCreditoLstBean;
 
     private Ingreso ingreso;
     private int iActionBtnSelect;
@@ -109,14 +106,13 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private FormaPago formapago;
     private List<SelectItem> lstFormaPago;
     private Boolean tarjetaHabilitada;
-    private TarjetaDeCredito tarjetaDeCredito;
+
 
     /**
      * Creates a new instance of DocenteBean
      */
     @PostConstruct
     private void init() {
-        tarjetaDeCredito = new TarjetaDeCredito();
         tarjetaHabilitada = false;
         ultimaCuota = 0;
         ingreso = new Ingreso();
@@ -316,15 +312,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.tarjetaHabilitada = tarjetaHabilitada;
     }
 
-    public TarjetaDeCredito getTarjetaDeCredito() {
-        return tarjetaDeCredito;
-    }
-
-    public void setTarjetaDeCredito(TarjetaDeCredito tarjetaDeCredito) {
-        this.tarjetaDeCredito = tarjetaDeCredito;
-    }
-    
-    public void nuevoCobroGeneral() {
+     public void nuevoCobroGeneral() {
         this.alumnoLstBean.setAlumnoSelect(new Alumno());
         this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
         this.setIngreso(new Ingreso());
@@ -762,11 +750,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     if (ingreso.getFormaPago().equals(FormaPago.DEPOSITO)) {
                         ingreso.setFechaDeposito(this.cobroCuotasAlumnosLstBean.getFechaDeposito());
                     }
-//                    if(ingreso.getFormaPago().equals(FormaPago.TARJETA)){
-//                        ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoController.getSelected());
-//                    }
-                    System.out.println("tarjetaaa: "+this.tarjetaDeCreditoLstBean.getTarjetaDeCredito());
-                    ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoLstBean.getTarjetaDeCredito());
                     ingresoCuotaRNLocal.create(ingreso);
                     this.alumnoLstBean.setAlumnoSelect(new Alumno());
                     this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
