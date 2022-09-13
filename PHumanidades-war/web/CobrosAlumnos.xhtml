@@ -423,12 +423,19 @@
                 </f:facet>
                 <h:outputText value="#{item.tipoIngreso.descripcion}"/>
             </p:column>
-            <p:column visible="false"
+            <p:column visible="true"
                       style="word-wrap:break-word;">
                 <f:facet name="header">
                     <h:outputText value="Forma de Pago"/>
                 </f:facet>
                 <h:outputText value="#{item.formaPago}"/>
+            </p:column>
+            <p:column visible="true"
+                      style="word-wrap:break-word;">
+                <f:facet name="header">
+                    <h:outputText value="Nombre Tarjeta"/>
+                </f:facet>
+                <h:outputText value="#{item.tarjetaDeCredito.descripcion}"/>
             </p:column>
              <p:column visible="false">
                 <f:facet name="header">

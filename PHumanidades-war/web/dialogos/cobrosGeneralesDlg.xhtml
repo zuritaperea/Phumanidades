@@ -65,9 +65,10 @@
                                       value="Tarjeta De Credito:" />
                         <p:selectOneMenu id="somTarjeta"
                                          disabled="#{!cobroCuotasAlumnosBean.tarjetaHabilitada}"   
-                                         value="#{cobroCuotasAlumnosBean.ingreso.tarjetaDeCredito}"
+                                         value="#{tarjetaDeCreditoController.selected}"
+                                         converter="conversorTarjetaDeCredito"
                                          required="false">
-                            <f:converter binding="#{conversorTarjetaDeCredito}"/>
+                            
                             <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
                             <f:selectItems value="#{tarjetaDeCreditoController.itemsAvailableSelectOne}"/>
                         </p:selectOneMenu>

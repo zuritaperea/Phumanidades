@@ -13,13 +13,15 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
 
 /**
  *
  * @author ruben
  */
-@ManagedBean(name="conversorTarjetaDeCredito")
-@RequestScoped
+//@ManagedBean(name="conversorTarjetaDeCredito")
+//@RequestScoped
+@FacesConverter(value = "conversorTarjetaDeCredito")
 public class ConversorTarjetaDeCredito implements Converter{
     
     @EJB

@@ -9,6 +9,7 @@ import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.Cuenta;
 import Entidades.Egresos.FormaPago;
 import Entidades.Ingresos.Ingreso;
+import Entidades.Ingresos.TarjetaDeCredito;
 import Entidades.Persona.Alumno;
 import RN.IngresoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
@@ -88,6 +89,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
     @ManagedProperty(value = "#{numeroCuentaBean}")
     private NumeroCuentaBean numeroCuentaBean;
+    
+    @ManagedProperty(value = "#{tarjetaDeCreditoController}")
+    private TarjetaDeCreditoController tarjetaDeCreditoController;
 
     private Ingreso ingreso;
     private int iActionBtnSelect;
@@ -105,12 +109,14 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private FormaPago formapago;
     private List<SelectItem> lstFormaPago;
     private Boolean tarjetaHabilitada;
+    private TarjetaDeCredito tarjetaDeCredito;
 
     /**
      * Creates a new instance of DocenteBean
      */
     @PostConstruct
     private void init() {
+        tarjetaDeCredito = new TarjetaDeCredito();
         tarjetaHabilitada = false;
         ultimaCuota = 0;
         ingreso = new Ingreso();
@@ -309,6 +315,25 @@ public class CobroCuotasAlumnosBean implements Serializable {
     public void setTarjetaHabilitada(Boolean tarjetaHabilitada) {
         this.tarjetaHabilitada = tarjetaHabilitada;
     }
+
+    public TarjetaDeCredito getTarjetaDeCredito() {
+        return tarjetaDeCredito;
+    }
+
+    public void setTarjetaDeCredito(TarjetaDeCredito tarjetaDeCredito) {
+        this.tarjetaDeCredito = tarjetaDeCredito;
+    }
+
+    public TarjetaDeCreditoController getTarjetaDeCreditoController() {
+        return tarjetaDeCreditoController;
+    }
+
+    public void setTarjetaDeCreditoController(TarjetaDeCreditoController tarjetaDeCreditoController) {
+        this.tarjetaDeCreditoController = tarjetaDeCreditoController;
+    }
+    
+    
+    
     
     public void nuevoCobroGeneral() {
         this.alumnoLstBean.setAlumnoSelect(new Alumno());
@@ -748,6 +773,10 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     if (ingreso.getFormaPago().equals(FormaPago.DEPOSITO)) {
                         ingreso.setFechaDeposito(this.cobroCuotasAlumnosLstBean.getFechaDeposito());
                     }
+                    if(ingreso.getFormaPago().equals(FormaPago.TARJETA)){
+                        ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoController.getSelected());
+                    }
+                    System.out.println("tarjetaaa: "+this.tarjetaDeCreditoController.getSelected());
                     ingresoCuotaRNLocal.create(ingreso);
                     this.alumnoLstBean.setAlumnoSelect(new Alumno());
                     this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());

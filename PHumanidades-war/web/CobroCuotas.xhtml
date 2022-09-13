@@ -95,7 +95,7 @@
             </p:panel>
 
             <p:panel id="pnDatosCuota" 
-                     style="height: 125px;width: 800px; overflow: auto">
+                     style="height: 125px;width: 800px; overflow: auto;">
                 <h:panelGrid columns="6">
                     <h:outputText value="Importe (Total) $:"/>
 
@@ -110,18 +110,19 @@
                                      required="false"
                                      >
                         <f:selectItems  value="#{pagosDocenteBean.lstFormaPago}"/>
+                        <p:ajax listener="#{cobroCuotasAlumnosBean.habilitarTarjetas()}" 
+                                    update="somTarjeta"/>
                     </p:selectOneMenu>
-                    <br></br>
-                    <h:panelGroup  style="border-left: 5px"  id="input">
-                        <h:outputText  value="Fecha de Deposito: "/>
-                        <p:calendar value="#{cobroCuotasAlumnosLstBean.fechaDeposito}" 
-                                    mode="popup"
-                                    placeholder="Fecha de deposito"
-                                    navigator="true"
-                                    showOn="button"
-                                    />
-
-                    </h:panelGroup>
+                    
+                        <h:outputText  value="Tarjeta: "/>
+                        <p:selectOneMenu id="somTarjeta"
+                                         disabled="#{!cobroCuotasAlumnosBean.tarjetaHabilitada}"   
+                                         value="#{tarjetaDeCreditoController.selected}"
+                                         converter="conversorTarjetaDeCredito"
+                                         required="false">
+                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                            <f:selectItems value="#{tarjetaDeCreditoController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
 
                     <h:outputText value="Nro Cuota:"/>
 
@@ -152,20 +153,24 @@
                         <f:selectItem itemLabel="19" itemValue="19" />
                     </p:selectOneMenu>
 
-
-
-                    <h:outputText id="soCuentas"
-                                  value="Cuenta:"/>
-
-
-                    <h:outputText id="otCuenta"
-                                  value="#{cohorteLstBean.cohorteSeleccionada.carrera.cuenta}" style="font-weight: bold"/>
+                    <h:outputText  value="Fecha de Deposito: " style="flex-align: auto"/>
+                        <p:calendar value="#{cobroCuotasAlumnosLstBean.fechaDeposito}" 
+                                    mode="popup"
+                                    placeholder="Fecha de deposito"
+                                    navigator="true"
+                                    showOn="button"
+                                    />
+                    
                     <h:outputText id="soRecibo"
                                   value="Nro. Recibo:" />
 
                     <p:inputText id="itNumeroCuenta" 
                                  value="#{cohorteLstBean.numeroRecibo}"
                                  />
+                    <h:outputText id="soCuentas"
+                                  value="Cuenta:"/>
+                    <h:outputText id="otCuenta"
+                                  value="#{cohorteLstBean.cohorteSeleccionada.carrera.cuenta}" style="font-weight: bold"/>
 
 
 
