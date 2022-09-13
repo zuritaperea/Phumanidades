@@ -19,9 +19,8 @@ import javax.faces.convert.FacesConverter;
  *
  * @author ruben
  */
-//@ManagedBean(name="conversorTarjetaDeCredito")
-//@RequestScoped
-@FacesConverter(value = "conversorTarjetaDeCredito")
+@ManagedBean(name="conversorTarjetaDeCredito")
+@RequestScoped
 public class ConversorTarjetaDeCredito implements Converter{
     
     @EJB

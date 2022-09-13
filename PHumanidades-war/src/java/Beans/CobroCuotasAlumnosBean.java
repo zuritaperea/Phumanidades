@@ -773,10 +773,11 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     if (ingreso.getFormaPago().equals(FormaPago.DEPOSITO)) {
                         ingreso.setFechaDeposito(this.cobroCuotasAlumnosLstBean.getFechaDeposito());
                     }
-                    if(ingreso.getFormaPago().equals(FormaPago.TARJETA)){
-                        ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoController.getSelected());
-                    }
+//                    if(ingreso.getFormaPago().equals(FormaPago.TARJETA)){
+//                        ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoController.getSelected());
+//                    }
                     System.out.println("tarjetaaa: "+this.tarjetaDeCreditoController.getSelected());
+                    ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoController.getSelected());
                     ingresoCuotaRNLocal.create(ingreso);
                     this.alumnoLstBean.setAlumnoSelect(new Alumno());
                     this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());

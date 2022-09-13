@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.bean.SessionScoped;
@@ -20,7 +21,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-@ManagedBean(name="tarjetaDeCreditoController")
+@ManagedBean
 @SessionScoped
 public class TarjetaDeCreditoController implements Serializable {
 
@@ -55,7 +56,6 @@ public class TarjetaDeCreditoController implements Serializable {
         initializeEmbeddableKey();
         return selected;
     }
-
     public void create() {
         System.err.println("Entro Al Createeee");
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleTarjetaDeCredito").getString("TarjetaDeCreditoCreated"));
