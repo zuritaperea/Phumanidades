@@ -90,8 +90,8 @@ public class CobroCuotasAlumnosBean implements Serializable {
     @ManagedProperty(value = "#{numeroCuentaBean}")
     private NumeroCuentaBean numeroCuentaBean;
     
-    @ManagedProperty(value = "#{tarjetaDeCreditoController}")
-    private TarjetaDeCreditoController tarjetaDeCreditoController;
+    @ManagedProperty(value = "#{tarjetaDeCreditoLstBean}")
+    private TarjetaDeCreditoLstBean tarjetaDeCreditoLstBean;
 
     private Ingreso ingreso;
     private int iActionBtnSelect;
@@ -323,17 +323,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     public void setTarjetaDeCredito(TarjetaDeCredito tarjetaDeCredito) {
         this.tarjetaDeCredito = tarjetaDeCredito;
     }
-
-    public TarjetaDeCreditoController getTarjetaDeCreditoController() {
-        return tarjetaDeCreditoController;
-    }
-
-    public void setTarjetaDeCreditoController(TarjetaDeCreditoController tarjetaDeCreditoController) {
-        this.tarjetaDeCreditoController = tarjetaDeCreditoController;
-    }
-    
-    
-    
     
     public void nuevoCobroGeneral() {
         this.alumnoLstBean.setAlumnoSelect(new Alumno());
@@ -776,8 +765,8 @@ public class CobroCuotasAlumnosBean implements Serializable {
 //                    if(ingreso.getFormaPago().equals(FormaPago.TARJETA)){
 //                        ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoController.getSelected());
 //                    }
-                    System.out.println("tarjetaaa: "+this.tarjetaDeCreditoController.getSelected());
-                    ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoController.getSelected());
+                    System.out.println("tarjetaaa: "+this.tarjetaDeCreditoLstBean.getTarjetaDeCredito());
+                    ingreso.setTarjetaDeCredito(this.tarjetaDeCreditoLstBean.getTarjetaDeCredito());
                     ingresoCuotaRNLocal.create(ingreso);
                     this.alumnoLstBean.setAlumnoSelect(new Alumno());
                     this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());

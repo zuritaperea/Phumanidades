@@ -5,22 +5,73 @@
  */
 package Beans;
 
-import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+import DAO.TarjetaDeCreditoFacadeLocal;
+import Entidades.Ingresos.TarjetaDeCredito;
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author hugo
  */
-@Named(value = "tarjetaDeCreditoLstBean")
+@ManagedBean(name = "tarjetaDeCreditoLstBean")
 @SessionScoped
 public class TarjetaDeCreditoLstBean implements Serializable {
 
-    /**
-     * Creates a new instance of TarjetaDeCreditoLstBean
-     */
+    @EJB
+    private TarjetaDeCreditoFacadeLocal ejbFacade;
+    private List<TarjetaDeCredito> items = null;
+    private TarjetaDeCredito tarjetaDeCredito;
+
+    @PostConstruct
+    private void init() {
+        tarjetaDeCredito = new TarjetaDeCredito();
+    }
+
     public TarjetaDeCreditoLstBean() {
     }
-    
+
+    private TarjetaDeCreditoFacadeLocal getFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(TarjetaDeCreditoFacadeLocal ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public List<TarjetaDeCredito> getItems() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
+        return items;
+
+    }
+
+    public void setItems(List<TarjetaDeCredito> items) {
+        this.items = items;
+    }
+
+    public TarjetaDeCredito getTarjetaDeCredito() {
+        return tarjetaDeCredito;
+    }
+
+    public void setTarjetaDeCredito(TarjetaDeCredito tarjetaDeCredito) {
+        this.tarjetaDeCredito = tarjetaDeCredito;
+    }
+
+    public TarjetaDeCredito getTarjetaDeCredito(java.lang.Long id) {
+        return getFacade().find(id);
+    }
+
+    public List<TarjetaDeCredito> getItemsAvailableSelectMany() {
+        return getFacade().findAll();
+    }
+
+    public List<TarjetaDeCredito> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
+    }
 }

@@ -65,11 +65,11 @@
                                       value="Tarjeta De Credito:" />
                         <p:selectOneMenu id="somTarjeta"
                                          disabled="#{!cobroCuotasAlumnosBean.tarjetaHabilitada}"   
-                                         value="#{tarjetaDeCreditoController.selected}"
+                                         value="#{tarjetaDeCreditoLstBean.tarjetaDeCredito}"
                                          required="false">
                             <f:converter binding="#{conversorTarjetaDeCredito}"/>
                             <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
-                            <f:selectItems value="#{tarjetaDeCreditoController.itemsAvailableSelectOne}"/>
+                            <f:selectItems value="#{tarjetaDeCreditoLstBean.itemsAvailableSelectOne}"/>
                         </p:selectOneMenu>
 
                         <h:outputText  value="Fecha de Deposito: "/>
