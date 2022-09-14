@@ -60,40 +60,40 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @RequestScoped
 public class CobroCuotasAlumnosBean implements Serializable {
-
+    
     private final String huma = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "huma.png";
     private final String escudo2 = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "Imagenes" + File.separator + "logo2.jpg";
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
-
+    
     @ManagedProperty(value = "#{usuarioLogerBean}")
     private UsuarioLogerBean usuarioLogerBean;
-
+    
     @ManagedProperty(value = "#{navegarBean}")
     private NavegarBean navegarBean;
-
+    
     @EJB
     private InscripcionAlumnosRNLocal inscripcionAlumnosRNLocal;
-
+    
     @ManagedProperty(value = "#{cobroCuotasAlumnosLstBean}")
     private CobroCuotasAlumnosLstBean cobroCuotasAlumnosLstBean;
-
+    
     @ManagedProperty(value = "#{alumnoLstBean}")
     private AlumnoLstBean alumnoLstBean;
-
+    
     @ManagedProperty(value = "#{cohorteLstBean}")
     private CohorteLstBean cohorteLstBean;
-
+    
     @ManagedProperty(value = "#{cuentaLstBean}")
     private CuentaLstBean cuentaLstBean;
-
+    
     @ManagedProperty(value = "#{numeroCuentaBean}")
     private NumeroCuentaBean numeroCuentaBean;
-
+    
     private Ingreso ingreso;
     private int iActionBtnSelect;
     private CommandButton cbAction;
-
+    
     private Date fechaIni;
     private Date fechaFin;
     private Date feha_fin_real;
@@ -106,7 +106,6 @@ public class CobroCuotasAlumnosBean implements Serializable {
     private FormaPago formapago;
     private List<SelectItem> lstFormaPago;
     private Boolean tarjetaHabilitada;
-
 
     /**
      * Creates a new instance of DocenteBean
@@ -129,195 +128,195 @@ public class CobroCuotasAlumnosBean implements Serializable {
         } else {
             cobroCuotasAlumnosLstBean.cargarIngresos();
         }
-
+        
         ingresos = new ArrayList<>();
     }
-
+    
     public FormaPago getFormapago() {
         return formapago;
     }
-
+    
     public void setFormapago(FormaPago formapago) {
         this.formapago = formapago;
     }
-
+    
     public List<SelectItem> getLstFormaPago() {
         return lstFormaPago;
     }
-
+    
     public void setLstFormaPago(List<SelectItem> lstFormaPago) {
         this.lstFormaPago = lstFormaPago;
     }
-
+    
     public DataTable getTablaIngresos() {
         return tablaIngresos;
     }
-
+    
     public void setTablaIngresos(DataTable tablaIngresos) {
         this.tablaIngresos = tablaIngresos;
     }
-
+    
     public Date getFeha_fin_real() {
         return feha_fin_real;
     }
-
+    
     public void setFeha_fin_real(Date feha_fin_real) {
         this.feha_fin_real = feha_fin_real;
     }
-
+    
     public List<Ingreso> getIngresos() {
         return ingresos;
     }
-
+    
     public void setIngresos(List<Ingreso> ingresos) {
         this.ingresos = ingresos;
     }
-
+    
     public IngresoRNLocal getIngresoCuotaRNLocal() {
         return ingresoCuotaRNLocal;
     }
-
+    
     public void setIngresoCuotaRNLocal(IngresoRNLocal ingresoCuotaRNLocal) {
         this.ingresoCuotaRNLocal = ingresoCuotaRNLocal;
     }
-
+    
     public UsuarioLogerBean getUsuarioLogerBean() {
         return usuarioLogerBean;
     }
-
+    
     public void setUsuarioLogerBean(UsuarioLogerBean usuarioLogerBean) {
         this.usuarioLogerBean = usuarioLogerBean;
     }
-
+    
     public InscripcionAlumnosRNLocal getInscripcionAlumnosRNLocal() {
         return inscripcionAlumnosRNLocal;
     }
-
+    
     public void setInscripcionAlumnosRNLocal(InscripcionAlumnosRNLocal inscripcionAlumnosRNLocal) {
         this.inscripcionAlumnosRNLocal = inscripcionAlumnosRNLocal;
     }
-
+    
     public CobroCuotasAlumnosBean() {
     }
-
+    
     public CobroCuotasAlumnosLstBean getCobroCuotasAlumnosLstBean() {
         return cobroCuotasAlumnosLstBean;
     }
-
+    
     public void setCobroCuotasAlumnosLstBean(CobroCuotasAlumnosLstBean cobroCuotasAlumnosLstBean) {
         this.cobroCuotasAlumnosLstBean = cobroCuotasAlumnosLstBean;
     }
-
+    
     public int getUltimaCuota() {
         return ultimaCuota;
     }
-
+    
     public void setUltimaCuota(int ultimaCuota) {
         this.ultimaCuota = ultimaCuota;
     }
-
+    
     public Ingreso getIngreso() {
         return ingreso;
     }
-
+    
     public void setIngreso(Ingreso ingreso) {
         this.ingreso = ingreso;
     }
-
+    
     public Date getFechaIni() {
         return fechaIni;
     }
-
+    
     public void setFechaIni(Date fechaIni) {
         this.fechaIni = fechaIni;
     }
-
+    
     public Date getFechaFin() {
         return fechaFin;
     }
-
+    
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
-
+    
     public int getiActionBtnSelect() {
         return iActionBtnSelect;
     }
-
+    
     public void setiActionBtnSelect(int iActionBtnSelect) {
         this.iActionBtnSelect = iActionBtnSelect;
     }
-
+    
     public CommandButton getCbAction() {
         return cbAction;
     }
-
+    
     public void setCbAction(CommandButton cbAction) {
         this.cbAction = cbAction;
     }
-
+    
     public AlumnoLstBean getAlumnoLstBean() {
         return alumnoLstBean;
     }
-
+    
     public void setAlumnoLstBean(AlumnoLstBean alumnoLstBean) {
         this.alumnoLstBean = alumnoLstBean;
     }
-
+    
     public CohorteLstBean getCohorteLstBean() {
         return cohorteLstBean;
     }
-
+    
     public void setCohorteLstBean(CohorteLstBean cohorteLstBean) {
         this.cohorteLstBean = cohorteLstBean;
     }
-
+    
     public String getDni() {
         return dni;
     }
-
+    
     public void setDni(String dni) {
         this.dni = dni;
     }
-
+    
     public CuentaLstBean getCuentaLstBean() {
         return cuentaLstBean;
     }
-
+    
     public void setCuentaLstBean(CuentaLstBean cuentaLstBean) {
         this.cuentaLstBean = cuentaLstBean;
     }
-
+    
     public NumeroCuentaBean getNumeroCuentaBean() {
         return numeroCuentaBean;
     }
-
+    
     public void setNumeroCuentaBean(NumeroCuentaBean numeroCuentaBean) {
         this.numeroCuentaBean = numeroCuentaBean;
     }
-
+    
     public NavegarBean getNavegarBean() {
         return navegarBean;
     }
-
+    
     public void setNavegarBean(NavegarBean navegarBean) {
         this.navegarBean = navegarBean;
     }
-
+    
     public Boolean getTarjetaHabilitada() {
         return tarjetaHabilitada;
     }
-
+    
     public void setTarjetaHabilitada(Boolean tarjetaHabilitada) {
         this.tarjetaHabilitada = tarjetaHabilitada;
     }
-
-     public void nuevoCobroGeneral() {
+    
+    public void nuevoCobroGeneral() {
         this.alumnoLstBean.setAlumnoSelect(new Alumno());
         this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
         this.setIngreso(new Ingreso());
     }
-  
+    
     public void nuevoCobroCuota() {
         try {
             this.getCobroCuotasAlumnosLstBean().setFechaDeposito(null);
@@ -329,19 +328,19 @@ public class CobroCuotasAlumnosBean implements Serializable {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             String path = context.getRequestContextPath() + "/CobroCuotas.xhtml?faces-redirect=true";
             context.redirect(path);
-
+            
         } catch (Exception ex) {
             System.out.println("Error: " + ex);
         }
     }
-
+    
     public void cargarCohorte() {
         try {
             this.getCobroCuotasAlumnosLstBean().getIngreso().setCohorte(this.cohorteLstBean.getCohorteSeleccionada());
         } catch (Exception e) {
         }
         try {
-
+            
             this.getCobroCuotasAlumnosLstBean().getIngreso().setCuota(this.cohorteLstBean.getUltimaCuota());
         } catch (Exception e) {
         }
@@ -353,22 +352,22 @@ public class CobroCuotasAlumnosBean implements Serializable {
             this.getCobroCuotasAlumnosLstBean().getIngreso().setCuenta(this.getCobroCuotasAlumnosLstBean().getIngreso().getCohorte().getCarrera().getCuenta());
         } catch (Exception e) {
         }
-
+        
         RequestContext.getCurrentInstance().update("frmPri:otCuenta");
         RequestContext.getCurrentInstance().update("frmPri:itNumeroCuenta");
         RequestContext.getCurrentInstance().update("frmPri:itImporte");
         RequestContext.getCurrentInstance().update("frmPri:itCuota");
         RequestContext.getCurrentInstance().update("frmPri:itCuotaInicial");
     }
-
+    
     public void definirActionBoton(ActionEvent e) {
-
+        
         CommandButton btnSelect = null;
         try {
             btnSelect = (CommandButton) e.getSource();
-
+            
             this.getCbAction().setDisabled(false);
-
+            
             switch (btnSelect.getId()) {
                 case "btnEditCA":
                     this.getCbAction().setValue("Editar");
@@ -401,9 +400,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     break;
             }
         } catch (Exception ex) {
-
+            
         }
-
+        
     }// fin definirActionBoton
 
     public void actionBtn(ActionEvent e) {
@@ -448,31 +447,31 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.ingreso = i;
         modificar();
     }
-
+    
     public void modificarGeneral(Ingreso i) {
         this.ingreso = i;
         modificarGeneral();
     }
-
+    
     private void modificarGeneral() {
-
+        
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
-
+        
         try {
             if (ingreso.getFechaPago() != null) {
                 ingreso.setFechaModificado(new Date());
                 ingreso.setModificadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
                 ingreso.setCohorte(null);
                 ingresoCuotaRNLocal.edit(ingreso);
-
+                
                 cobroCuotasAlumnosLstBean.cargarIngresos();
-
+                
                 sMensaje = "Los Datos del Ingreso fueron modificados. Click Salir";
                 severity = FacesMessage.SEVERITY_INFO;
                 limpiar();
-
+                
                 RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
             } else {
                 sMensaje = "No se ha Seleccionado la fecha del pago";
@@ -484,39 +483,39 @@ public class CobroCuotasAlumnosBean implements Serializable {
             this.setIngreso(new Ingreso());
             this.cohorteLstBean.setCohorteSelect(new Cohorte());
             this.alumnoLstBean.setAlumnoSelect(new Alumno());
-
+            
             RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
             RequestContext.getCurrentInstance().update("frmPri:otProveedor");
-
+            
             cobroCuotasAlumnosLstBean.cargarIngresos();
-
+            
             this.getCbAction().setValue("Editar");
             this.getCbAction().setDisabled(true);
             RequestContext.getCurrentInstance().update(":frmPri:dtCobroCuotas");
             //RequestContext.getCurrentInstance().execute("PF('dlgCobroAlumnos').hide();");
 
         } catch (Exception ex) {
-
+            
             if (ex.getMessage().trim().toLowerCase().equals("transaction aborted")) {
                 sMensaje = "Error: No se puede modificar";
             } else {
                 sMensaje = "Error: " + ex.getMessage();
             }
-
+            
             severity = FacesMessage.SEVERITY_ERROR;
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
     }
-
+    
     private void modificar() {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
-
+        
         try {
             if (ingreso.getAlumno() != null) {
                 if (ingreso.getCohorte() != null && ingreso.getCohorte().getId() != null) {
@@ -525,9 +524,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
                         ingreso.setModificadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
                         ingreso.setNombre(null);
                         ingresoCuotaRNLocal.edit(ingreso);
-
+                        
                         cobroCuotasAlumnosLstBean.cargarIngresos();
-
+                        
                         sMensaje = "Los Datos del Ingreso fueron modificados";
                         severity = FacesMessage.SEVERITY_INFO;
                         limpiar();
@@ -552,11 +551,11 @@ public class CobroCuotasAlumnosBean implements Serializable {
             this.setIngreso(new Ingreso());
             this.cohorteLstBean.setCohorteSelect(new Cohorte());
             this.alumnoLstBean.setAlumnoSelect(new Alumno());
-
+            
             RequestContext.getCurrentInstance().update("frmPri:otAlumno2");
             RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
             RequestContext.getCurrentInstance().update("frmPri:otProveedor");
-
+            
             cobroCuotasAlumnosLstBean.cargarIngresos();
 
             //elimino y agrego  a la lista
@@ -566,24 +565,24 @@ public class CobroCuotasAlumnosBean implements Serializable {
             this.getCbAction().setValue("Editar");
             this.getCbAction().setDisabled(true);
             RequestContext.getCurrentInstance().update(":frmPri:dtCobroCuotas");
-
+            
         } catch (Exception ex) {
-
+            
             if (ex.getMessage().trim().toLowerCase().equals("transaction aborted")) {
                 sMensaje = "Error: No se puede modificar";
             } else {
                 sMensaje = "Error: " + ex.getMessage();
             }
-
+            
             severity = FacesMessage.SEVERITY_ERROR;
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
     }
-
+    
     public void alta() {
         String sMensaje = "";
         FacesMessage fm;
@@ -623,25 +622,24 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                 } else {
                                     ingresoCuotaRNLocal.create(ingreso, true);
                                 }
-
+                                
                                 cobroCuotasAlumnosLstBean.cargarIngresos();
                                 sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
                                 severity = FacesMessage.SEVERITY_INFO;
                                 cuota++;
-
-
+                                
                             } else {
                                 sMensaje = "Ya se ha abonado la totalidad de las cuotas";
                                 severity = FacesMessage.SEVERITY_ERROR;
                             }
                         }
                         
-                                RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
-                                RequestContext.getCurrentInstance().update("frmPri:growl");
-                                fm = new FacesMessage(severity, sMensaje, null);
-                                FacesContext fc = FacesContext.getCurrentInstance();
-                                fc.addMessage(null, fm);
-                                salir();
+                        RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
+                        RequestContext.getCurrentInstance().update("frmPri:growl");
+                        fm = new FacesMessage(severity, sMensaje, null);
+                        FacesContext fc = FacesContext.getCurrentInstance();
+                        fc.addMessage(null, fm);
+                        salir();
                     } else {
                         sMensaje = "No se ha Seleccionado la fecha del pago";
                         severity = FacesMessage.SEVERITY_ERROR;
@@ -654,7 +652,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 sMensaje = "No se ha Seleccionado un alumno";
                 severity = FacesMessage.SEVERITY_ERROR;
             }
-
+            
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
@@ -664,9 +662,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
-
+        
     }
-
+    
     public void borrar(Boolean b) {
         String sMensaje = "";
         FacesMessage fm;
@@ -683,24 +681,24 @@ public class CobroCuotasAlumnosBean implements Serializable {
             }
             cobroCuotasAlumnosLstBean.cargarIngresos();
             RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
-
+            
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
             System.out.println(sMensaje);
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
-
+            
         }
     }
-
+    
     public void anular() {
         this.ingresoCuotaRNLocal.anular(ingreso, this.usuarioLogerBean.getUsuario());
     }
-
+    
     public void anular(Boolean b) {
         String sMensaje = "";
         FacesMessage fm;
@@ -717,27 +715,27 @@ public class CobroCuotasAlumnosBean implements Serializable {
             }
             cobroCuotasAlumnosLstBean.cargarIngresos();
             RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
-
+            
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
             System.out.println(sMensaje);
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
-
+            
         }
     }
-
+    
     public void altaGeneral() {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
             if (ingreso.getImporte() != null) {
-
+                
                 if (this.ingreso.getFechaPago() != null) {
                     ingreso.setAlumno(this.getAlumnoLstBean().getAlumnoSelect());
                     ingreso.setBorrado(false);
@@ -753,16 +751,16 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     ingresoCuotaRNLocal.create(ingreso);
                     this.alumnoLstBean.setAlumnoSelect(new Alumno());
                     this.alumnoLstBean.setAlumnoSelectConsulta(new Alumno());
-
+                    
                     cobroCuotasAlumnosLstBean.cargarIngresos();
                     sMensaje = "El Cobro de Cuota al Alumno fue Registrado";
                     severity = FacesMessage.SEVERITY_INFO;
-
+                    
                     limpiar();
 
                     //RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
                     RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotas");
-
+                    
                 } else {
                     sMensaje = "No se ha Seleccionado la fecha del pago";
                     severity = FacesMessage.SEVERITY_ERROR;
@@ -771,20 +769,20 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 sMensaje = "Ingrese el importe";
                 severity = FacesMessage.SEVERITY_ERROR;
             }
-
+            
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
             System.out.println(sMensaje);
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
-
+        
     }
-
+    
     public void cuotasIniciales() {
         String sMensaje = "";
         FacesMessage fm;
@@ -815,7 +813,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                     sMensaje += "Ya se ha abonado la totalidad de las cuotas";
                                     severity = FacesMessage.SEVERITY_ERROR;
                                 }
-
+                                
                                 limpiar();
 
                                 //RequestContext.getCurrentInstance().update("frmPri:dCobroCuotasAlumnos");
@@ -838,33 +836,33 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 severity = FacesMessage.SEVERITY_ERROR;
             }
             cobroCuotasAlumnosLstBean.cargarIngresos();
-
+            
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error: " + ex.getMessage();
             System.out.println(sMensaje);
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
             fc.addMessage(null, fm);
         }
-
+        
     }
-
+    
     public void salir() {
         try {
             limpiar();
             String url = null;
-
+            
             try {
                 String codigo = cobroCuotasAlumnosLstBean.getCuenta().getCodigo();
                 int cuenta = Integer.parseInt(codigo);
-
+                
                 url = this.getNavegarBean().frmIngresos(cuenta);
             } catch (Exception e) {
                 url = this.getNavegarBean().frmIngresos();
-
+                
             }
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
             String path = context.getRequestContextPath() + url;
@@ -873,7 +871,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
             Logger.getLogger(CobroCuotasAlumnosBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void limpiar() {
         this.getAlumnoLstBean().setAlumnoSelect(new Alumno());
         this.getAlumnoLstBean().setAlumnoSelectConsulta(new Alumno());
@@ -883,7 +881,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         this.cuentaLstBean.setCuenta(new Cuenta());
         this.numeroCuentaBean.setNumero(0);
         this.cohorteLstBean.setNumeroRecibo(0);
-
+        
     }//fin limpiar
 
     public void cargarCobrosGeneralXFecha() {
@@ -901,15 +899,15 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 Logger.getLogger(CobroCuotasAlumnosBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        
     }
-
+    
     private void eliminar(Boolean bEstado) {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-
+            
             ingresoCuotaRNLocal.remove(ingreso, bEstado);//cambia el estado del pago segun el valor bEstado
 
             //obtiene la posicion en la lista
@@ -926,17 +924,17 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 ingreso.setBorrado(Boolean.FALSE);
                 sMensaje = "El dato fue recuperado, Click salir";
             }
-
+            
             this.getCobroCuotasAlumnosLstBean().getLstCobroCuotas().add(iPos, this.getIngreso());
             this.getCobroCuotasAlumnosLstBean().cargarIngresos();
             this.getCbAction().setValue("Eliminar");
             this.getCbAction().setDisabled(true);
-
+            
             severity = FacesMessage.SEVERITY_INFO;
         } catch (Exception ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error al eliminar el cobro: " + ex.getMessage();
-
+            
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -950,7 +948,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
             //System.out.println("dni Alumno: "+this.dni);
             if (!this.dni.equals("")) {
                 this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(ingresoCuotaRNLocal.findCobrosByDni(this.dni));
-
+                
                 if (this.getAlumnoLstBean().getLstAlunmo().isEmpty()) {
                     fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
                     FacesContext fc = FacesContext.getCurrentInstance();
@@ -959,9 +957,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
             } else {
                 this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(ingresoCuotaRNLocal.findAll());
-
+                
             }
-
+            
         } catch (Exception ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -969,14 +967,14 @@ public class CobroCuotasAlumnosBean implements Serializable {
         }//fin catch
 
     }
-
+    
     public void buscarCobroXDniOTexto() {
         FacesMessage fm;
         try {
             //System.out.println("dni Alumno: "+this.dni);
             if (!this.dni.equals("")) {
                 this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(ingresoCuotaRNLocal.findCobrosByDniOTexto(this.dni));
-
+                
                 if (this.getAlumnoLstBean().getLstAlunmo().isEmpty()) {
                     fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
                     FacesContext fc = FacesContext.getCurrentInstance();
@@ -985,9 +983,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
 
             } else {
                 this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(ingresoCuotaRNLocal.findAll());
-
+                
             }
-
+            
         } catch (Exception ex) {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -995,7 +993,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
         }//fin catch
 
     }
-
+    
     public void cargarIngresosRecibo(Ingreso i) {
         if (i.getNumeroRecibo() > 0) {
             Calendar c = Calendar.getInstance();
@@ -1005,7 +1003,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
             ingresos = findAllByNumeroRecibo;
         }
     }
-
+    
     public void generar() throws Exception {
         String sMensaje = "";
         FacesMessage fm;
@@ -1015,22 +1013,22 @@ public class CobroCuotasAlumnosBean implements Serializable {
             throw new Exception("Valores Nulos");
         }
         try {
-
+            
             String cue = "";
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             conect = dataSource.getConnection();
             String path;
-
+            
             try {
-
+                
                 if (this.cuentaLstBean.getCuenta().getId().intValue() == 1) {
                     cue = "025";
                 } else {
                     cue = "005";
                 }
                 HashMap parametros = new HashMap();
-
+                
                 if (this.fechaFin != null && this.fechaIni != null) {
                     Calendar c = Calendar.getInstance();
                     this.feha_fin_real = this.fechaFin;
@@ -1068,14 +1066,14 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
                 conect.close();
-
+                
             } catch (Exception ex) {
                 severity = FacesMessage.SEVERITY_ERROR;
                 sMensaje = "Error al crear: " + ex.getMessage();
                 RequestContext.getCurrentInstance().update(":frmPri:growl");
-
+                
             }
-
+            
         } catch (NamingException ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error al crear: " + ex.getMessage();
@@ -1087,9 +1085,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
             severity = FacesMessage.SEVERITY_ERROR;
             RequestContext.getCurrentInstance().update(":frmPri:growl");
         }
-
+        
     }
-
+    
     public void generarPdfIngresosTipo() throws Exception {
         String sMensaje = "";
         FacesMessage fm;
@@ -1099,7 +1097,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
             throw new Exception("Valores Nulos");
         }
         try {
-
+            
             String cue = "";
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
@@ -1109,9 +1107,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
             //System.out.println("cuenta" + cuentaLstBean.getCuenta() + "   " + cuentaLstBean.getCuenta().getId() );
             // System.out.println("funcionando" + " " + this.getCobroCuotasAlumnosLstBean().getFechaIni() + "  " + this.getCobroCuotasAlumnosLstBean().getFechaFin());
             try {
-
+                
                 if (this.cuentaLstBean.getCuenta() != null) {
-
+                    
                     if (this.cuentaLstBean.getCuenta().getId().intValue() == 1) {
                         cue = "025";
                     }
@@ -1120,11 +1118,11 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     }
                 } else {
                     cue = "025-005";
-
+                    
                 }
-
+                
                 HashMap parametros = new HashMap();
-
+                
                 if (this.fechaFin != null && this.fechaIni != null) {
                     Calendar c = Calendar.getInstance();
                     this.feha_fin_real = this.fechaFin;
@@ -1171,54 +1169,54 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
                 conect.close();
-
+                
             } catch (Exception ex) {
                 severity = FacesMessage.SEVERITY_ERROR;
                 sMensaje = "Error al crear: " + ex.getMessage();
                 RequestContext.getCurrentInstance().update(":frmPri:growl");
-
+                
             }
-
+            
         } catch (NamingException ex) {
             Logger.getLogger(CobroCuotasAlumnosBean.class.getName()).log(Level.SEVERE, null, ex);
-
+            
         } finally {
             if (conect != null) {
                 conect.close();
             }
         }
-
+        
     }
-
+    
     public void generarExcel() throws Exception {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         Connection conect = null;
-
+        
         if (this.fechaIni == null || this.fechaFin == null || this.cuentaLstBean.getCuenta() == null) {
             throw new Exception("Valores Nulos");
         }
         try {
-
+            
             String cue = "";
             InitialContext initialContext = new InitialContext();
             DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
             conect = dataSource.getConnection();
             String path;
-
+            
             System.out.println("conexion" + dataSource.getConnection());
             // System.out.println("funcionando" + " " + this.getCobroCuotasAlumnosLstBean().getFechaIni() + "  " + this.getCobroCuotasAlumnosLstBean().getFechaFin());
 
             try {
-
+                
                 if (this.cuentaLstBean.getCuenta().getId().intValue() == 1) {
                     cue = "025";
                 } else {
                     cue = "005";
                 }
                 HashMap parametros = new HashMap();
-
+                
                 if (this.fechaFin != null && this.fechaIni != null) {
                     Calendar c = Calendar.getInstance();
                     this.feha_fin_real = this.fechaFin;
@@ -1256,20 +1254,20 @@ public class CobroCuotasAlumnosBean implements Serializable {
                 net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter exporter = new net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter();
                 exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
                 exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
-
+                
                 exporter.exportReport();
                 outputStream.flush();
                 outputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
                 conect.close();
-
+                
             } catch (Exception ex) {
                 severity = FacesMessage.SEVERITY_ERROR;
                 sMensaje = "Error al crear: " + ex.getMessage();
                 RequestContext.getCurrentInstance().update(":frmPri:growl");
-
+                
             }
-
+            
         } catch (NamingException ex) {
             severity = FacesMessage.SEVERITY_ERROR;
             sMensaje = "Error al crear: " + ex.getMessage();
@@ -1281,19 +1279,20 @@ public class CobroCuotasAlumnosBean implements Serializable {
             severity = FacesMessage.SEVERITY_ERROR;
             RequestContext.getCurrentInstance().update(":frmPri:growl");
         }
-
+        
     }
-
+    
     public void cargarLstFormaPago() {
         lstFormaPago = new ArrayList<SelectItem>();
         for (FormaPago fp : FormaPago.values()) {
             lstFormaPago.add(new SelectItem(fp, fp.toString()));
         }
     }
-    public void habilitarTarjetas(){
-        if(ingreso.getFormaPago().getName().contains(FormaPago.valueOf("TARJETA").toString())){
-            System.out.println("Entro seleccion tarjeta");
-            tarjetaHabilitada=true;
+
+    public void habilitarTarjetas() {
+        if (ingreso.getFormaPago().getName().contains(FormaPago.valueOf("TARJETA").toString())) {
+            System.out.println("entro No tarjeta");
+            this.ingreso.setTarjetaDeCredito(new TarjetaDeCredito());
         }
     }
 }
