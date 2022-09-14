@@ -112,13 +112,24 @@
                                   value="Forma de Pago:" />
                     <p:selectOneMenu id="formaPago" 
                                      value="#{cobroCuotasAlumnosLstBean.ingreso.formaPago}"
-                                     required="false">
+                                     required="false"
+                                     >
                         <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
-                        <p:ajax update="input" /> 
+                        <p:ajax update="input" />
+                        <p:ajax listener="#{cobroCuotasAlumnosLstBean.habilitarTarjetas()}" 
+                                    update="somTarjeta"/>
 
                     </p:selectOneMenu>
-
-                    <br></br>
+                    <h:outputText  value="Tarjeta: "/>
+                    <p:selectOneMenu id="somTarjeta"
+                                     value="#{cobroCuotasAlumnosLstBean.ingreso.tarjetaDeCredito}"
+                                     disabled="#{!cobroCuotasAlumnosLstBean.tarjetaHabilitada}"
+                                     required="false">
+                        <f:converter binding="#{conversorTarjetaDeCredito}"/>
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItems value="#{tarjetaDeCreditoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
+                    <!--<br></br>-->
                     <h:panelGroup   id="input">
 
                         <h:outputText  value="Fecha de Deposito: " rendered="#{cobroCuotasAlumnosLstBean.ingreso.formaPago.name == 'Deposito'}"/>

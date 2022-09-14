@@ -58,8 +58,6 @@
                                          value="#{cobroCuotasAlumnosBean.ingreso.formaPago}"
                                          required="false" onchange="mostrarTarjetas()">
                             <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
-                            <!--<p:ajax listener="#{cobroCuotasAlumnosBean.habilitarTarjetas()}" 
-                                    update="somTarjeta"/>-->
                         </p:selectOneMenu>
                         <h:outputText id="oTarjeta"
                                       value="Tarjeta De Credito:" />

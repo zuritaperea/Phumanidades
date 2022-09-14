@@ -90,6 +90,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
     @ManagedProperty(value = "#{numeroCuentaBean}")
     private NumeroCuentaBean numeroCuentaBean;
     
+    @ManagedProperty(value = "#{tarjetaDeCreditoController}")
+    private TarjetaDeCreditoController tarjetaDeCreditoController;
+        
     private Ingreso ingreso;
     private int iActionBtnSelect;
     private CommandButton cbAction;
@@ -309,6 +312,14 @@ public class CobroCuotasAlumnosBean implements Serializable {
     
     public void setTarjetaHabilitada(Boolean tarjetaHabilitada) {
         this.tarjetaHabilitada = tarjetaHabilitada;
+    }
+
+    public TarjetaDeCreditoController getTarjetaDeCreditoController() {
+        return tarjetaDeCreditoController;
+    }
+
+    public void setTarjetaDeCreditoController(TarjetaDeCreditoController tarjetaDeCreditoController) {
+        this.tarjetaDeCreditoController = tarjetaDeCreditoController;
     }
     
     public void nuevoCobroGeneral() {
@@ -604,6 +615,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                 if (ingreso.getFormaPago().equals(FormaPago.DEPOSITO)) {
                                     ingreso.setFechaDeposito(this.cobroCuotasAlumnosLstBean.getFechaDeposito());
                                 }
+
                                 ingreso.setAlumno(alumno);
                                 ingreso.setBorrado(false);
                                 ingreso.setAnulado(false);
@@ -1290,9 +1302,9 @@ public class CobroCuotasAlumnosBean implements Serializable {
     }
 
     public void habilitarTarjetas() {
+        System.out.println("entro tarjeta");
         if (ingreso.getFormaPago().getName().contains(FormaPago.valueOf("TARJETA").toString())) {
-            System.out.println("entro No tarjeta");
-            this.ingreso.setTarjetaDeCredito(new TarjetaDeCredito());
+            tarjetaHabilitada = true;
         }
     }
 }

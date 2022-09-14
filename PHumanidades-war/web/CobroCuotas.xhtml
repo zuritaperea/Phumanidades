@@ -107,17 +107,15 @@
                                   value="Forma de Pago:" />
                     <p:selectOneMenu id="formaPago" 
                                      value="#{cobroCuotasAlumnosBean.ingreso.formaPago}"
-                                     required="false"
+                                     required="false" onchange="mostrarTarjetas()"
                                      >
                         <f:selectItems  value="#{pagosDocenteBean.lstFormaPago}"/>
-                        <p:ajax listener="#{cobroCuotasAlumnosBean.habilitarTarjetas()}" 
-                                    update="somTarjeta"/>
                     </p:selectOneMenu>
                     
                         <h:outputText  value="Tarjeta: "/>
                         <p:selectOneMenu id="somTarjeta"
-                                         disabled="#{!cobroCuotasAlumnosBean.tarjetaHabilitada}"   
-                                         value="#{tarjetaDeCreditoController.selected}"
+                                         value="#{cobroCuotasAlumnosBean.ingreso.tarjetaDeCredito}"
+                                         style="display: none"
                                          required="false">
                             <f:converter binding="#{conversorTarjetaDeCredito}"/>
                             <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
