@@ -1054,7 +1054,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     parametros.put("feha_fin_real", this.feha_fin_real);
                     parametros.put("cuenta", cue);
                     try {
-                        parametros.put("formaPago", formapago.name());
+                        parametros.put("formaPago", formapago.name());                        
                     } catch (Exception e) {
                     }
                     Locale locale = new Locale("es", "AR");

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="828" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="a7c1509d-f949-4eb2-be48-fb3c1c51872f">
 	<property name="ireport.zoom" value="1.3310000000000055"/>
-	<property name="ireport.x" value="57"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="fechaIni" class="java.util.Date">
 		<parameterDescription><![CDATA[]]></parameterDescription>
@@ -12,9 +12,6 @@
 	<parameter name="feha_fin_real" class="java.util.Date"/>
 	<parameter name="escudo1" class="java.lang.String"/>
 	<parameter name="formaPago" class="java.lang.String"/>
-	<parameter name="nombreTarjeta" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<queryString>
 		<![CDATA[SELECT
     char_length(trim(to_char(numero_recibo,'999999999'))) as cant,trim(to_char(numero_recibo,'999999999')) as num_rec,
@@ -29,7 +26,7 @@
      ingresos."alumno_id",
      ingresos."anulado",
      ingresos."formapago" ,
-     tarjetadecredito."descripcion" AS tarjeta,
+
      ingresos.cohorte_id,
      COALESCE (ingresos."concepto",'') as concepto_eventual,
       COALESCE (ingresos_tipo_ingreso.descripcion,'') as tipoingreso,
@@ -44,7 +41,6 @@ FROM
      left JOIN ingresos_tipo_ingreso ON ingresos."tipoingreso_id" = ingresos_tipo_ingreso."id"
      left join cohorte on ingresos.cohorte_id= cohorte.id
      left join carrera on cohorte.carrera_id=carrera.id
-     left join tarjetadecredito on ingresos.tarjetadecredito_id=tarjetadecredito.id
 WHERE
      ingresos.fechapago BETWEEN $P{fechaIni} and $P{fechaFin}
      and ingresos.borrado = false
@@ -65,7 +61,7 @@ SELECT
      ingresos."alumno_id",
      ingresos."anulado",
      ingresos."formapago" ,
-     tarjetadecredito."descripcion" as tarjeta,
+
      ingresos.cohorte_id,
      COALESCE (ingresos."concepto",'') as concepto_eventual,
       COALESCE (ingresos_tipo_ingreso.descripcion,'') as tipoingreso,
@@ -80,7 +76,6 @@ FROM
      left JOIN ingresos_tipo_ingreso ON ingresos."tipoingreso_id" = ingresos_tipo_ingreso."id"
      left join cohorte on ingresos.cohorte_id= cohorte.id
      left join carrera on cohorte.carrera_id=carrera.id
-     left join tarjetadecredito on ingresos.tarjetadecredito_id=tarjetadecredito.id
 WHERE
      ingresos.fechapago BETWEEN $P{fechaIni} and $P{fechaFin}
      and ingresos.borrado = false
@@ -101,7 +96,6 @@ order by numero_recibo asc]]>
 	<field name="alumno_id" class="java.lang.Long"/>
 	<field name="anulado" class="java.lang.Boolean"/>
 	<field name="formapago" class="java.lang.String"/>
-	<field name="tarjeta" class="java.lang.String"/>
 	<field name="cohorte_id" class="java.lang.Long"/>
 	<field name="concepto_eventual" class="java.lang.String"/>
 	<field name="tipoingreso" class="java.lang.String"/>
@@ -208,7 +202,7 @@ order by numero_recibo asc]]>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement x="718" y="1" width="60" height="20" uuid="38aa1428-5787-4f10-8050-78c44161136b"/>
+				<reportElement x="768" y="1" width="60" height="20" uuid="38aa1428-5787-4f10-8050-78c44161136b"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -236,7 +230,7 @@ order by numero_recibo asc]]>
 				<text><![CDATA[Titular]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="255" y="1" width="294" height="20" uuid="2c7e85a7-ec4e-4062-bed9-c9fbe7d72834"/>
+				<reportElement x="255" y="1" width="308" height="20" uuid="2c7e85a7-ec4e-4062-bed9-c9fbe7d72834"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -278,7 +272,7 @@ order by numero_recibo asc]]>
 				<text><![CDATA[Fecha Pago]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="666" y="1" width="52" height="20" uuid="d15f71d3-1def-44f5-a7f6-a7ab1f51bcae"/>
+				<reportElement x="716" y="1" width="52" height="20" uuid="d15f71d3-1def-44f5-a7f6-a7ab1f51bcae"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -292,7 +286,7 @@ order by numero_recibo asc]]>
 				<text><![CDATA[Importe]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="549" y="1" width="117" height="20" uuid="5150dba6-fd94-47ce-993b-2cbaeb574bfd"/>
+				<reportElement x="563" y="1" width="153" height="20" uuid="5150dba6-fd94-47ce-993b-2cbaeb574bfd"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -304,20 +298,6 @@ order by numero_recibo asc]]>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Rubro Principal Presupuestario]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="778" y="1" width="50" height="20" uuid="79a92461-8810-4197-be8e-5ad406439a0c"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tarjeta]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -338,7 +318,7 @@ order by numero_recibo asc]]>
 				<textFieldExpression><![CDATA[($F{anulado}== true?"ANULADO":$F{alumno_eventual} + $F{alumno})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
-				<reportElement stretchType="RelativeToTallestObject" x="255" y="0" width="294" height="23" uuid="6706c5dc-e3cf-41ef-a86d-87078a39d2ea"/>
+				<reportElement stretchType="RelativeToTallestObject" x="255" y="0" width="308" height="23" uuid="6706c5dc-e3cf-41ef-a86d-87078a39d2ea"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -381,7 +361,7 @@ order by numero_recibo asc]]>
 				<textFieldExpression><![CDATA[$F{fechapago}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="666" y="0" width="52" height="23" uuid="b0aec1ec-80e0-4a70-90fc-2f79067ea70a"/>
+				<reportElement stretchType="RelativeToTallestObject" x="716" y="0" width="52" height="23" uuid="b0aec1ec-80e0-4a70-90fc-2f79067ea70a"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -395,7 +375,7 @@ order by numero_recibo asc]]>
 				<textFieldExpression><![CDATA["$ "+($F{importe} == null? 0.0 :$F{importe})]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="718" y="0" width="60" height="23" uuid="4449c0df-c234-4767-8cba-1ee3faa3462e"/>
+				<reportElement stretchType="RelativeToTallestObject" x="768" y="0" width="60" height="23" uuid="4449c0df-c234-4767-8cba-1ee3faa3462e"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -409,7 +389,7 @@ order by numero_recibo asc]]>
 				<textFieldExpression><![CDATA[$F{formapago}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" x="549" y="0" width="117" height="23" uuid="afc4f87c-01c6-46b8-9e2b-c5487f5ccc17"/>
+				<reportElement stretchType="RelativeToTallestObject" x="563" y="0" width="153" height="23" uuid="afc4f87c-01c6-46b8-9e2b-c5487f5ccc17"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -422,20 +402,6 @@ order by numero_recibo asc]]>
 				</textElement>
 				<text><![CDATA[FUENTE 12- R PROPIOS]]></text>
 			</staticText>
-			<textField isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="778" y="0" width="50" height="23" uuid="faf4a66c-ed39-430a-93d1-43f66a7f6a78"/>
-				<box>
-					<pen lineWidth="0.5"/>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{tarjeta}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<columnFooter>
