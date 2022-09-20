@@ -13,7 +13,7 @@
                 <h:panelGroup id="displayTC">
                     <p:panelGrid columns="2" rendered="#{tarjetaDeCreditoController.selected != null}">
                         <p:outputLabel value="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{tarjetaDeCreditoController.selected.id}" title="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoTitle_id}" />
+                        <p:inputText id="id" value="#{tarjetaDeCreditoController.selected.id}" title="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoTitle_id}" disabled="true"/>
                         <p:outputLabel value="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoLabel_descripcion}" for="descripcion" />
                         <p:inputText id="descripcion" value="#{tarjetaDeCreditoController.selected.descripcion}" title="#{bundleTarjetaDeCredito.EditTarjetaDeCreditoTitle_descripcion}" />
                     </p:panelGrid>
