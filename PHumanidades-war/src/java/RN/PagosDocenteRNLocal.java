@@ -50,6 +50,8 @@ public interface PagosDocenteRNLocal {
     public List<PagosDocente> findPagosXFechaProveedorYCuenta(Date ini, Date fin, Cuenta cuenta);
 
     public int findUltimoNumero();
+    
+    public boolean existeNumeroComprobante(String numeroComprobante);
 
     public List<PagosDocente> findAllDesc() throws Exception;
     

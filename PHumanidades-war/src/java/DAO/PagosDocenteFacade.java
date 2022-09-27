@@ -271,4 +271,12 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
         return !q.getResultList().isEmpty();
     }
 
+    @Override
+    public boolean existeNumeroComprobante(String numeroComprobante) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.existeNumeroComprobante");
+        q.setParameter("numeroComprobante", numeroComprobante);
+        return !q.getResultList().isEmpty();
+    }
+
 }

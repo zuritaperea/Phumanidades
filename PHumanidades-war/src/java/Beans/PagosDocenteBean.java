@@ -511,7 +511,9 @@ public class PagosDocenteBean implements Serializable {
             if (existeNumeroOrdenPago(pagoDocente.getNumeroOrdenPago())) {
                 throw new Exception("Ya existe orden de pago " + pagoDocente.getNumeroOrdenPago());
             }
-
+            if (existeNumeroComprobante(pagoDocente.getNumeroComprobante())) {
+                throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante());
+            }
             if (docenteLstBean.getDocenteSeleccionado() != null) {
                 pagoDocente.setDocente(docenteLstBean.getDocenteSeleccionado());
             }
@@ -810,7 +812,13 @@ public class PagosDocenteBean implements Serializable {
             return false;
         }
     }
-
+    private boolean existeNumeroComprobante(String combrobante) {
+        try { 
+            return pagosDocenteRNLocal.existeNumeroComprobante(combrobante);
+        } catch (Exception e) {
+            return false;
+        }
+    }
     public void postProcessXLS(Object document) {
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet sheet = wb.getSheetAt(0);

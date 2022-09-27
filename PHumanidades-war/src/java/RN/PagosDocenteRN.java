@@ -152,4 +152,10 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
         return pagosDocenteFacadeLocal.comprobanteDuplicado(docente, proveedor, numeroComprobante, fechaComprobante);
     }
 
+    @Override
+    public boolean existeNumeroComprobante(String numeroComprobante) {
+        return pagosDocenteFacadeLocal.existeNumeroComprobante(numeroComprobante);
+
+    }
+
 }
