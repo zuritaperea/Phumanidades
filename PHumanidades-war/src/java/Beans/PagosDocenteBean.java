@@ -102,6 +102,7 @@ public class PagosDocenteBean implements Serializable {
     private List<SelectItem> lstRubroPresupuestario;
 
     private List<SelectItem> lstProveedor;
+    private PagosDocente pagoDocenteOriginal;
 
     public List<PagosDocente> getPagosDocentes() {
         return pagosDocentes;
@@ -414,7 +415,6 @@ public class PagosDocenteBean implements Serializable {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
-
             BigDecimal montoDesc = new BigDecimal(0);
             try {
                 montoDesc = montoDesc.add(pagoDocente.getMonto());
@@ -454,6 +454,13 @@ public class PagosDocenteBean implements Serializable {
             if (pagoDocente.getProveedor() != null) {
                 pagoDocente.setCarrera(null);
             }
+            pagoDocenteOriginal = pagosDocenteRNLocal.buscarPagosDocenteId(pagoDocente.getId());
+            if (!pagoDocenteOriginal.getNumeroComprobante().equals(pagoDocente.getNumeroComprobante())) {
+                if (existeNumeroComprobante(pagoDocente.getNumeroComprobante())) {
+                    throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante());
+                }
+            }
+
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaModificado(new Date());
             pagoDocente.setModificadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
@@ -812,13 +819,15 @@ public class PagosDocenteBean implements Serializable {
             return false;
         }
     }
+
     private boolean existeNumeroComprobante(String combrobante) {
-        try { 
+        try {
             return pagosDocenteRNLocal.existeNumeroComprobante(combrobante);
         } catch (Exception e) {
             return false;
         }
     }
+
     public void postProcessXLS(Object document) {
         HSSFWorkbook wb = (HSSFWorkbook) document;
         HSSFSheet sheet = wb.getSheetAt(0);
