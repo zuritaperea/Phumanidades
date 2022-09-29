@@ -55,6 +55,7 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
     private Date fechaDeposito;
     private List<SelectItem> tipoIngresos;
     private Boolean tarjetaHabilitada;
+    private String concepto;
 
     /**
      * Creates a new instance of DocenteLstBean
@@ -142,6 +143,15 @@ public class CobroCuotasAlumnosLstBean implements Serializable {
     public void setTarjetaHabilitada(Boolean tarjetaHabilitada) {
         this.tarjetaHabilitada = tarjetaHabilitada;
     }
+
+    public String getConcepto() {
+        return concepto;
+    }
+
+    public void setConcepto(String concepto) {
+        this.concepto = concepto;
+    }
+    
     
     @PostConstruct
     private void init() {

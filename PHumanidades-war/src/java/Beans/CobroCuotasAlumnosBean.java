@@ -629,6 +629,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                 ingreso.setNumeroRecibo(this.cohorteLstBean.getNumeroRecibo());
                                 ingreso.setFechaCreado(new Date());
                                 ingreso.setCreadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
+                                ingreso.setConcepto(this.cobroCuotasAlumnosLstBean.getConcepto());
                                 if (i == 0) {
                                     ingresoCuotaRNLocal.create(ingreso);
                                 } else {
