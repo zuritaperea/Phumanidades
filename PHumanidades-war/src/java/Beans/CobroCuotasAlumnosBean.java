@@ -630,6 +630,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                                 ingreso.setFechaCreado(new Date());
                                 ingreso.setCreadoPor(this.getUsuarioLogerBean().getUsuario().getUsuario());
                                 ingreso.setConcepto(this.cobroCuotasAlumnosLstBean.getConcepto());
+                                System.out.println("TIPO DE INGRESO: "+ingreso.getTipoIngreso().getDescripcion());
                                 if (i == 0) {
                                     ingresoCuotaRNLocal.create(ingreso);
                                 } else {

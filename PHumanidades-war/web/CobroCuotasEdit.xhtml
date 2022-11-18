@@ -117,7 +117,7 @@
                         <f:selectItems value="#{pagosDocenteBean.lstFormaPago}"/>
                         <p:ajax update="input" />
                         <p:ajax listener="#{cobroCuotasAlumnosLstBean.habilitarTarjetas()}" 
-                                    update="somTarjeta"/>
+                                update="somTarjeta"/>
 
                     </p:selectOneMenu>
                     <h:outputText  value="Tarjeta: "/>
@@ -169,13 +169,22 @@
 
             </p:panel>
 
-            <p:panel id="pnCohortesConceptoAlumno"   style="height: 90px;width: 800px; overflow: auto">                          
+            <p:panel id="pnCohortesConceptoAlumno"   style="height: 130px;width: 800px; overflow: auto">                          
                 <h:panelGrid columns="2"
                              width="100%">                          
                     <h:outputText value="Concepto"/>
                     <p:inputTextarea id="conceptoCobroAlumno" 
                                      value="#{cobroCuotasAlumnosLstBean.ingreso.concepto}"
                                      style="width: 500px; "/>
+                    <h:outputText id="soTipo"
+                                  value="Tipo de Ingreso:" />
+                    <p:selectOneMenu id="tipoIngreso"
+                                     value="#{cobroCuotasAlumnosLstBean.ingreso.tipoIngreso}"
+                                     required="false" style="width: 150px">
+                        <f:converter binding="#{conversorTipoIngreso}"/>
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
                 </h:panelGrid>
             </p:panel> 
             <!--FIN PANEL CUENTA-->

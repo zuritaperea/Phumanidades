@@ -95,7 +95,7 @@
             </p:panel>
 
             <p:panel id="pnDatosCuota" 
-                     style="height: 125px;width: 800px; overflow: auto;">
+                     style="height: 150px;width: 800px; overflow: auto;">
                 <h:panelGrid columns="6">
                     <h:outputText value="Importe (Total) $:"/>
 
@@ -169,12 +169,21 @@
                                   value="Cuenta:"/>
                     <h:outputText id="otCuenta"
                                   value="#{cohorteLstBean.cohorteSeleccionada.carrera.cuenta}" style="font-weight: bold"/>
-                    
+
                     <h:outputText id="otConcepto"
                                   value="Concepto:" />
                     <p:inputText id="itConcepto" 
                                  value="#{cobroCuotasAlumnosLstBean.concepto}"
                                  />
+                    <h:outputText id="soTipo"
+                                  value="Tipo de Ingreso:" />
+                    <p:selectOneMenu id="tipoIngreso"
+                                     value="#{cobroCuotasAlumnosBean.ingreso.tipoIngreso}"
+                                     required="false" style="width: 150px">
+                        <f:converter binding="#{conversorTipoIngreso}"/>
+                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                    </p:selectOneMenu>
 
                 </h:panelGrid>
 
