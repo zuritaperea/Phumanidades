@@ -51,7 +51,7 @@ public interface PagosDocenteRNLocal {
 
     public int findUltimoNumero();
     
-    public boolean existeNumeroComprobante(String numeroComprobante);
+    public boolean existeNumeroComprobante(Proveedor proveedor, String numeroComprobante);
 
     public List<PagosDocente> findAllDesc() throws Exception;
     

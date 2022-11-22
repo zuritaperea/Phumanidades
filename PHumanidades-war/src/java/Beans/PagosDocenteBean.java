@@ -456,7 +456,7 @@ public class PagosDocenteBean implements Serializable {
             }
             pagoDocenteOriginal = pagosDocenteRNLocal.buscarPagosDocenteId(pagoDocente.getId());
             if (!pagoDocenteOriginal.getNumeroComprobante().equals(pagoDocente.getNumeroComprobante())) {
-                if (existeNumeroComprobante(pagoDocente.getNumeroComprobante())) {
+                if (existeNumeroComprobante(pagoDocente.getProveedor(), pagoDocente.getNumeroComprobante())) {
                     throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante());
                 }
             }
@@ -518,7 +518,7 @@ public class PagosDocenteBean implements Serializable {
             if (existeNumeroOrdenPago(pagoDocente.getNumeroOrdenPago())) {
                 throw new Exception("Ya existe orden de pago " + pagoDocente.getNumeroOrdenPago());
             }
-            if (existeNumeroComprobante(pagoDocente.getNumeroComprobante())) {
+            if (existeNumeroComprobante(proveedorLstBean.getProveedorSelect(), pagoDocente.getNumeroComprobante())) {
                 throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante());
             }
             if (docenteLstBean.getDocenteSeleccionado() != null) {
@@ -820,9 +820,11 @@ public class PagosDocenteBean implements Serializable {
         }
     }
 
-    private boolean existeNumeroComprobante(String combrobante) {
+    private boolean existeNumeroComprobante(Proveedor proveedor, String combrobante) {
+        System.out.println("PROOOOOOVEEE DORRRRR: " + proveedor.getRazonSocial());
+        System.out.println("COMPROBAAAAANTEEEEE: " + combrobante);
         try {
-            return pagosDocenteRNLocal.existeNumeroComprobante(combrobante);
+            return pagosDocenteRNLocal.existeNumeroComprobante(proveedor, combrobante);
         } catch (Exception e) {
             return false;
         }

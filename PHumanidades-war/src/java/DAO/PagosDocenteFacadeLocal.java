@@ -81,6 +81,6 @@ public interface PagosDocenteFacadeLocal {
 
     public List<PagosDocente> findAllDescAnio(int year);
 
-    public boolean existeNumeroComprobante(String numeroComprobante);
+    public boolean existeNumeroComprobante(Proveedor proveedor, String numeroComprobante);
 
 }

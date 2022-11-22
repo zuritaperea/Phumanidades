@@ -153,8 +153,8 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
     }
 
     @Override
-    public boolean existeNumeroComprobante(String numeroComprobante) {
-        return pagosDocenteFacadeLocal.existeNumeroComprobante(numeroComprobante);
+    public boolean existeNumeroComprobante(Proveedor proveedor, String numeroComprobante) {
+        return pagosDocenteFacadeLocal.existeNumeroComprobante(proveedor, numeroComprobante);
 
     }
 

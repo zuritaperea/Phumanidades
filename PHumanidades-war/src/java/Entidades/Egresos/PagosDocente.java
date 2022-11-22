@@ -72,7 +72,8 @@ import javax.persistence.Temporal;
     @NamedQuery(name = "PagosDocente.findPagosByComprobante", query = "SELECT p FROM PagosDocente p WHERE p.numeroComprobante = :numeroComprobante AND "
             + "p.fechaComprobante=:fechaComprobante AND (p.docente=:docente or p.proveedor=:proveedor)  "
             + "AND p.borrado=false and p.anulado=false ORDER BY p.fechaRegistro DESC"),
-    @NamedQuery(name = "PagosDocente.existeNumeroComprobante", query = "SELECT p FROM PagosDocente p WHERE p.numeroComprobante = :numeroComprobante"),
+    @NamedQuery(name = "PagosDocente.existeNumeroComprobante", query = "SELECT p FROM PagosDocente p WHERE p.numeroComprobante = :numeroComprobante AND "
+            + " p.proveedor=:proveedor"),
     @NamedQuery(name = "PagosDocente.findPagosByTipoEgreso", query = "SELECT p FROM PagosDocente p WHERE p.tipoEgreso=:tipo "
             + "AND p.borrado=false and p.anulado=false ORDER BY p.fechaRegistro DESC"),
     @NamedQuery(name = "PagosDocente.findPagosDocentesId", query = "SELECT p FROM PagosDocente p WHERE p.id =:id  AND p.borrado=false"),
