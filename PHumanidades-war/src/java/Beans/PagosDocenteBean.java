@@ -457,16 +457,23 @@ public class PagosDocenteBean implements Serializable {
             }
             //System.out.println("docente: " + pagoDocente.getDocente().toString());
             pagoDocenteOriginal = pagosDocenteRNLocal.buscarPagosDocenteId(pagoDocente.getId());
+            System.out.println("pagoOriginal: " + pagoDocenteOriginal.getNumeroComprobante());
+            System.out.println("pagodelFormulario: " + pagoDocente.getNumeroComprobante());
+
             if (!pagoDocenteOriginal.getNumeroComprobante().equals(pagoDocente.getNumeroComprobante())) {
-                if (existeNumeroComprobante(pagoDocente.getProveedor(), pagoDocente.getNumeroComprobante())) {
-                    throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante() + " para el proveedor seleccionado");
+                if (pagoDocente.getProveedor() != null) {
+                    if (existeNumeroComprobante(pagoDocente.getProveedor(), pagoDocente.getNumeroComprobante())) {
+                        throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante() + " para el proveedor seleccionado");
+                    }
                 }
-
-            }
-            if (pagoDocente.getDocente() != null) {
-
-
-
+                if (pagoDocente.getDocente() != null) {
+                    System.out.println("Docente: " + pagoDocente.getDocente());
+                    if (existeNumeroComprobanteDocente(pagoDocente.getDocente(), pagoDocente.getNumeroComprobante())) {
+                        throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante() + " para el docente seleccionado");
+                    }
+                }
+            } else {
+                System.out.println("entro else");
             }
 
             pagoDocente.setMontoConDescuentos(montoDesc);
