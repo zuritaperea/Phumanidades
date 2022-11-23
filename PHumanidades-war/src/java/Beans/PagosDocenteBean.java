@@ -531,6 +531,10 @@ public class PagosDocenteBean implements Serializable {
             if (existeNumeroOrdenPago(pagoDocente.getNumeroOrdenPago())) {
                 throw new Exception("Ya existe orden de pago " + pagoDocente.getNumeroOrdenPago());
             }
+            //IF AGREGADO PARA OMITIR VALIDACION EN CASO DE VIATICOS Y COMPROBANTE INTERNO
+            if(pagoDocente.getTipoEgreso().getDescripcion().contains("VIATICO")&&pagoDocente.getTipocomprobante().getName().contains("Comprobante ")){
+                System.err.println("Es VIATICO Y COMPROBANTE INTERNO");
+            }
             if (existeNumeroComprobante(proveedorLstBean.getProveedorSelect(), pagoDocente.getNumeroComprobante())) {
                 throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante() + " para el proveedor seleccionado");
             }
