@@ -457,8 +457,8 @@ public class PagosDocenteBean implements Serializable {
             }
             //System.out.println("docente: " + pagoDocente.getDocente().toString());
             pagoDocenteOriginal = pagosDocenteRNLocal.buscarPagosDocenteId(pagoDocente.getId());
-            System.out.println("pagoOriginal: " + pagoDocenteOriginal.getNumeroComprobante());
-            System.out.println("pagodelFormulario: " + pagoDocente.getNumeroComprobante());
+//            System.out.println("pagoOriginal: " + pagoDocenteOriginal.getNumeroComprobante());
+//            System.out.println("pagodelFormulario: " + pagoDocente.getNumeroComprobante());
 
             if (!pagoDocenteOriginal.getNumeroComprobante().equals(pagoDocente.getNumeroComprobante())) {
                 if (pagoDocente.getProveedor() != null) {
@@ -467,14 +467,12 @@ public class PagosDocenteBean implements Serializable {
                     }
                 }
                 if (pagoDocente.getDocente() != null) {
-                    System.out.println("Docente: " + pagoDocente.getDocente());
+//                    System.out.println("Docente: " + pagoDocente.getDocente());
                     if (existeNumeroComprobanteDocente(pagoDocente.getDocente(), pagoDocente.getNumeroComprobante())) {
                         throw new Exception("Ya existe el nro de Comprobante: " + pagoDocente.getNumeroComprobante() + " para el docente seleccionado");
                     }
                 }
-            } else {
-                System.out.println("entro else");
-            }
+            } 
 
             pagoDocente.setMontoConDescuentos(montoDesc);
             pagoDocente.setFechaModificado(new Date());
@@ -843,8 +841,8 @@ public class PagosDocenteBean implements Serializable {
 
     private boolean existeNumeroComprobante(Proveedor proveedor, String combrobante) {
         //System.out.println("DOCEEEEEEEEENTEEEEEEE: " + docente.toString());
-        System.out.println("PROOOOOOVEEE DORRRRR: " + proveedor.getRazonSocial());
-        System.out.println("COMPROBAAAAANTEEEEE: " + combrobante);
+//        System.out.println("PROOOOOOVEEE DORRRRR: " + proveedor.getRazonSocial());
+//        System.out.println("COMPROBAAAAANTEEEEE: " + combrobante);
         try {
             return pagosDocenteRNLocal.existeNumeroComprobante(proveedor, combrobante);
         } catch (Exception e) {
@@ -967,8 +965,8 @@ public class PagosDocenteBean implements Serializable {
     }
 
     private boolean existeNumeroComprobanteDocente(Docente docente, String numeroComprobante) {
-        System.out.println("DOCENTEEEEeeeeee: " + docente.toString());
-        System.out.println("COMPROBAAAAANTEEEEE: " + numeroComprobante);
+//        System.out.println("DOCENTEEEEeeeeee: " + docente.toString());
+//        System.out.println("COMPROBAAAAANTEEEEE: " + numeroComprobante);
         try {
             return pagosDocenteRNLocal.existeNumeroComprobanteDocente(docente, numeroComprobante);
         } catch (Exception e) {
