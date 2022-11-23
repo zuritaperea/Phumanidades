@@ -83,4 +83,6 @@ public interface PagosDocenteFacadeLocal {
 
     public boolean existeNumeroComprobante(Proveedor proveedor, String numeroComprobante);
 
+    public boolean existeNumeroComprobanteDocente(Docente docente, String numeroComprobante);
+
 }

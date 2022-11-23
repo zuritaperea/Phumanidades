@@ -158,4 +158,9 @@ public class PagosDocenteRN implements PagosDocenteRNLocal {
 
     }
 
+    @Override
+    public boolean existeNumeroComprobanteDocente(Docente docente, String numeroComprobante) {
+       return pagosDocenteFacadeLocal.existeNumeroComprobanteDocente(docente, numeroComprobante); 
+    }
+
 }

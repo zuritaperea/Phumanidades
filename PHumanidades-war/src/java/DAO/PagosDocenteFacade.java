@@ -273,20 +273,22 @@ public class PagosDocenteFacade extends AbstractFacade<PagosDocente> implements 
 
     @Override
     public boolean existeNumeroComprobante(Proveedor proveedor, String numeroComprobante) {
-        System.out.println("comprobante: " + numeroComprobante);
-        System.out.println("proveedor: " + proveedor.getRazonSocial());
+
         Query q = null;
         q = em.createNamedQuery("PagosDocente.existeNumeroComprobante");
         q.setParameter("numeroComprobante", numeroComprobante);
         q.setParameter("proveedor", proveedor);
-        System.out.println("pago existente: ");
-        if(q.getResultList().isEmpty()){
-            System.out.println("ENTRO FALSE: ");
-            return false;
-        }else{
-            System.out.println("ENTRO true: ");
-            return true;
-        }
+        return !q.getResultList().isEmpty();
+    }
+
+    @Override
+    public boolean existeNumeroComprobanteDocente(Docente docente, String numeroComprobante) {
+        Query q = null;
+        q = em.createNamedQuery("PagosDocente.existeNumeroComprobanteDocente");
+        q.setParameter("numeroComprobante", numeroComprobante);
+        q.setParameter("docente", docente);
+        return !q.getResultList().isEmpty();
+
     }
 
 }

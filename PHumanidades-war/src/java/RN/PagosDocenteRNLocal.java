@@ -73,4 +73,6 @@ public interface PagosDocenteRNLocal {
 
     public boolean comprobanteDuplicado(Docente docente, Proveedor proveedor, String numeroComprobante, Date fechaComprobante);
 
+    public boolean existeNumeroComprobanteDocente(Docente docente, String numeroComprobante);
+
 }
