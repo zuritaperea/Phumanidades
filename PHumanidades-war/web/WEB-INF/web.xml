@@ -33,6 +33,14 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>bootstrap</param-value>
     </context-param>
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LdxXIgpAAAAALBFw_x2WqlnCEFvd6QfXFg2UQ0d</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LdxXIgpAAAAACMKdiEjyjR-uffv4BQXrrwqNDLU</param-value>
+    </context-param>
     <filter-mapping>
         <filter-name>FilterSystem</filter-name>
         <url-pattern>/Alumno.xhtml</url-pattern>

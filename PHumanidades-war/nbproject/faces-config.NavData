@@ -6,20 +6,22 @@
         <Node id="InscripcionAlumnos.xhtml" x="2150" y="150" zoom="true"/>
         <Node id="paginas/grupo/Create.xhtml" x="900" y="1200" zoom="true"/>
         <Node id="paginas/grupo/Edit.xhtml" x="400" y="1050" zoom="true"/>
+        <Node id="paginas/tarjetaDeCredito/Edit.xhtml" x="400" y="1650" zoom="true"/>
         <Node id="CobroCuotasEdit.xhtml" x="1900" y="300" zoom="true"/>
         <Node id="ConsultaCobrosAlumno.xhtml" x="150" y="750" zoom="true"/>
         <Node id="ConsultaIngresosEgresos.xhtml" x="400" y="1350" zoom="true"/>
         <Node id="Cohorte.xhtml" x="1150" y="450" zoom="true"/>
         <Node id="paginas/grupo/View.xhtml" x="400" y="1500" zoom="true"/>
-        <Node id="Templates/SoloConsultaTemplate.xhtml" x="900" y="150" zoom="true"/>
         <Node id="ConsultaAlumnosInterna.xhtml" x="400" y="900" zoom="true"/>
+        <Node id="Templates/SoloConsultaTemplate.xhtml" x="900" y="150" zoom="true"/>
         <Node id="permisoDenegado.xhtml" x="2400" y="450" zoom="true"/>
         <Node id="MateriasDlg.xhtml" x="650" y="600" zoom="true"/>
         <Node id="ConsultaAlumnos.xhtml" x="400" y="1200" zoom="true"/>
         <Node id="Proveedor.xhtml" x="650" y="750" zoom="true"/>
         <Node id="Templates/dialogosSesion.xhtml" x="900" y="600" zoom="true"/>
-        <Node id="CorreosElectronicosDlg.xhtml" x="1400" y="450" zoom="true"/>
+        <Node id="paginas/tarjetaDeCredito/Create.xhtml" x="3150" y="150" zoom="true"/>
         <Node id="usuario.xhtml" x="1650" y="900" zoom="true"/>
+        <Node id="CorreosElectronicosDlg.xhtml" x="1400" y="450" zoom="true"/>
         <Node id="sessionTimeOut.xhtml" x="1150" y="150" zoom="true"/>
         <Node id="paginas/tipoIngreso/View.xhtml" x="150" y="900" zoom="true"/>
         <Node id="AlumnoFindDlgModificarInscripcion.xhtml" x="1400" y="300" zoom="true"/>
@@ -35,45 +37,47 @@
         <Node id="Templates/cierre.xhtml" x="150" y="600" zoom="true"/>
         <Node id="paginas/pagosDocente/Edit.xhtml" x="2150" y="450" zoom="true"/>
         <Node id="DomicilioDlg.xhtml" x="1650" y="300" zoom="true"/>
-        <Node id="IngresosModificarGeneral.xhtml" x="2650" y="150" zoom="true"/>
         <Node id="Templates/loginTemplate.xhtml" x="900" y="1350" zoom="true"/>
+        <Node id="IngresosModificarGeneral.xhtml" x="2650" y="150" zoom="true"/>
         <Node id="ConsultaCobrosGenerales.xhtml" x="900" y="1050" zoom="true"/>
         <Node id="AlumnoFindDlgConsulta.xhtml" x="1900" y="600" zoom="true"/>
         <Node id="Templates/menuSoloConsulta.xhtml" x="1650" y="600" zoom="true"/>
-        <Node id="TipoCarrerasDlg.xhtml" x="900" y="900" zoom="true"/>
         <Node id="ReporteCobrosAlumnos.xhtml" x="1150" y="900" zoom="true"/>
+        <Node id="TipoCarrerasDlg.xhtml" x="900" y="900" zoom="true"/>
         <Node id="paginas/tipoEgreso/Create.xhtml" x="1650" y="150" zoom="true"/>
         <Node id="ImportarCsv.xhtml" x="1150" y="300" zoom="true"/>
         <Node id="dialogos/cobroCuotasDlg.xhtml" x="1150" y="1200" zoom="true"/>
-        <Node id="CohorteFindDlg.xhtml" x="150" y="1050" zoom="true"/>
         <Node id="ConsultaPagosGeneralesPorRubro.xhtml" x="2150" y="600" zoom="true"/>
+        <Node id="CohorteFindDlg.xhtml" x="150" y="1050" zoom="true"/>
         <Node id="Templates/paginasTemplate.xhtml" x="400" y="450" zoom="true"/>
         <Node id="CobrosAlumnos.xhtml" x="2400" y="300" zoom="true"/>
         <Node id="template.xhtml" x="150" y="1500" zoom="true"/>
         <Node id="CohorteEdit.xhtml" x="1400" y="600" zoom="true"/>
         <Node id="ConsultaPagosGenerales.xhtml" x="1400" y="1050" zoom="true"/>
-        <Node id="CobroCuotas.xhtml" x="400" y="150" zoom="true"/>
         <Node id="paginas/tipoEgreso/List.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="CobroCuotas.xhtml" x="400" y="150" zoom="true"/>
         <Node id="error.xhtml" x="1150" y="750" zoom="true"/>
         <Node id="PagosDocentes.xhtml" x="150" y="1350" zoom="true"/>
         <Node id="logout.xhtml" x="1900" y="150" zoom="true"/>
         <Node id="paginas/tipoEgreso/View.xhtml" x="1400" y="750" zoom="true"/>
+        <Node id="ConsultaAlumnosPorCohorte.xhtml" x="650" y="1200" zoom="true"/>
         <Node id="Docente.xhtml" x="150" y="150" zoom="true"/>
         <Node id="paginas/grupo/List.xhtml" x="1150" y="600" zoom="true"/>
-        <Node id="ConsultaAlumnosPorCohorte.xhtml" x="650" y="1200" zoom="true"/>
-        <Node id="CarreraFindDlg.xhtml" x="150" y="300" zoom="true"/>
-        <Node id="AlumnoFindDlg.xhtml" x="400" y="300" zoom="true"/>
         <Node id="CobroCuotasArchivo.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="AlumnoFindDlg.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="CarreraFindDlg.xhtml" x="150" y="300" zoom="true"/>
         <Node id="DocenteFindDlg.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="paginas/tarjetaDeCredito/View.xhtml" x="150" y="1800" zoom="true"/>
         <Node id="PagosDocentesEdit.xhtml" x="1150" y="1050" zoom="true"/>
         <Node id="Alumno.xhtml" x="2900" y="150" zoom="true"/>
         <Node id="TelefonosDlg.xhtml" x="1400" y="150" zoom="true"/>
         <Node id="paginas/tipoIngreso/Edit.xhtml" x="150" y="1200" zoom="true"/>
         <Node id="CuentasDlg.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="paginas/tarjetaDeCredito/List.xhtml" x="650" y="1500" zoom="true"/>
         <Node id="Templates/adminTemplate.xhtml" x="2650" y="300" zoom="true"/>
         <Node id="InscripcionAlumnosEdit.xhtml" x="1900" y="450" zoom="true"/>
-        <Node id="Carrera.xhtml" x="1650" y="750" zoom="true"/>
         <Node id="ConsultaUltimaCuota.xhtml" x="1400" y="900" zoom="true"/>
+        <Node id="Carrera.xhtml" x="1650" y="750" zoom="true"/>
         <Node id="Templates/menu.xhtml" x="150" y="1650" zoom="true"/>
         <Node id="paginas/pagosDocente/List.xhtml" x="400" y="750" zoom="true"/>
         <Node id="paginas/pagosDocente/View.xhtml" x="1900" y="750" zoom="true"/>
