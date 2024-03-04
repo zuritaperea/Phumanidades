@@ -19,16 +19,20 @@
 
 
                         <h:form id="login" styleClass="form-signin">
-                            <div class="g-recaptcha" data-sitekey="6LdxXIgpAAAAALBFw_x2WqlnCEFvd6QfXFg2UQ0d"></div>
-                            
-                        </h:form>                    <p:messages autoUpdate="true"  />
 
+                            <b:label text="DNI: "></b:label> 
+                            <b:inputText id="iDocumento" value="#{loginAlumnoBean.documento}" maxlength="8" type="number"/>
+                            <p:messages autoUpdate="true"/>
+                            <!--<p:messages showDetail="false"/>-->
+                            <div class="g-recaptcha" data-sitekey="6LdxXIgpAAAAALBFw_x2WqlnCEFvd6QfXFg2UQ0d" data-theme="transparent"></div><br/>
+                            <b:commandButton value="Ingresar" styleClass="btn btn-lg btn-primary btn-block" action="#{loginAlumnoBean.ingresar()}" ajax="false"/>
+                        </h:form> 
                     </div>
+
+
                 </div>
             </div>
         </div>
-
-
     </ui:define>
 </ui:composition>
 
