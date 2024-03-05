@@ -101,7 +101,7 @@ public class LoginAlumnoBean {
             if (alumno != null) {
                 System.out.println("imprimo alumno0");
                 System.out.println(alumno);
-                return "InformePagoAlumno.xhtml?faces-redirect=true";
+                return "/paginas/informePagoAlumno/List.xhtml?faces-redirect=true";
             } else {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alumno no encontrado", null);
                 FacesContext fc = FacesContext.getCurrentInstance();

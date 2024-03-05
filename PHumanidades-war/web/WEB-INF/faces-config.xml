@@ -28,6 +28,10 @@
             <base-name>/BundleTarjetaDeCredito</base-name>
             <var>bundleTarjetaDeCredito</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>/BundleInformePagoAlumno</base-name>
+            <var>bundleInformePagoAlumno</var>
+        </resource-bundle>
     </application>
     <application>
         <el-resolver>ManagedBeans.util.JsfCrudELResolver</el-resolver>
