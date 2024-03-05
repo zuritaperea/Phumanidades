@@ -22,11 +22,18 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @RequestScoped
 public class LoginAlumnoBean {
-    
+
     @EJB
     private AlumnoRNLocal alumnoRNLocal;
     private String documento;
     private Alumno alumno;
+    private String recaptchaResponse;
+
+    public LoginAlumnoBean() {
+        this.setDocumento(new String());
+        this.setRecaptchaResponse(new String());
+        this.setAlumno(new Alumno());
+    }
 
     public String getDocumento() {
         return documento;
@@ -34,6 +41,14 @@ public class LoginAlumnoBean {
 
     public void setDocumento(String documento) {
         this.documento = documento;
+    }
+
+    public String getRecaptchaResponse() {
+        return recaptchaResponse;
+    }
+
+    public void setRecaptchaResponse(String recaptchaResponse) {
+        this.recaptchaResponse = recaptchaResponse;
     }
 
     public Alumno getAlumno() {
@@ -51,31 +66,54 @@ public class LoginAlumnoBean {
     public void setAlumnoRNLocal(AlumnoRNLocal alumnoRNLocal) {
         this.alumnoRNLocal = alumnoRNLocal;
     }
-    
+
+//    public String ingresar() {
+//        System.err.println(this.getDocumento());
+//        System.out.println("entro ingresar");
+//        recaptchaResponse = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
+//        System.out.println(recaptchaResponse);
+//        if (this.getDocumento().isEmpty()) {
+//            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe ingresar un Dni", null);
+//            FacesContext fc = FacesContext.getCurrentInstance();
+//            fc.addMessage(null, fm);
+//        }
+//        if (recaptchaResponse.isEmpty()) {
+//            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validacion de Captcha Incorrecta", null);
+//            FacesContext fc = FacesContext.getCurrentInstance();
+//            fc.addMessage(null, fm);
+//        }
+//        //return "InformePagoAlumno.xhtml?faces-redirect=true";
+//        return "InformePagoAlumno.xhtml";
+//
+//    }
+
     public String ingresar() {
-        System.err.println(this.getDocumento());
-        System.out.println("entro ingresar");
-        String recaptchaResponse = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
-        System.out.println(recaptchaResponse);
-        if (recaptchaResponse.isEmpty()) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validacion de Captcha Incorrecta", null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, fm);
-        }
+            //recaptchaResponse="";
         try {
-            alumno=alumnoRNLocal.findByAlumnoDni(documento);
-        } catch (Exception ex) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alumno No encontrado", null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, fm);
+            recaptchaResponse = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
+            alumno = alumnoRNLocal.findByAlumnoDni(documento);
+            if(recaptchaResponse.isEmpty()){
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validacion de Captcha Incorrecta", null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
+                return "";
+            }
+            if (alumno != null) {
+                System.out.println("imprimo alumno0");
+                System.out.println(alumno);
+                return "InformePagoAlumno.xhtml?faces-redirect=true";
+            } else {
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alumno no encontrado", null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
+                return "";
+            }
+        } catch (Exception e) {
+                FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alumno no encontrado", null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage(null, fm);
         }
-        return "InformePagoAlumno.xhtml?faces-redirect=true";
-
-    }
-
-    public void submit() {
-        FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Correct", "Correct");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        return "";
     }
 
 }

@@ -21,14 +21,13 @@
                         <h:form id="login" styleClass="form-signin">
 
                             <b:label text="DNI: "></b:label> 
-                            <b:inputText id="iDocumento" value="#{loginAlumnoBean.documento}" maxlength="8" type="number"/>
-                            <p:messages autoUpdate="true"/>
-                            <!--<p:messages showDetail="false"/>-->
+                            <b:inputText id="iDocumento" value="#{loginAlumnoBean.documento}" maxlength="8" size="8" type="number" required="true" requiredMessage="El Nro de Dni es Requerido"/>
+                            
+                            <p:messages showSummary="true"/>
                             <div class="g-recaptcha" data-sitekey="6LdxXIgpAAAAALBFw_x2WqlnCEFvd6QfXFg2UQ0d" data-theme="transparent"></div><br/>
                             <b:commandButton value="Ingresar" styleClass="btn btn-lg btn-primary btn-block" action="#{loginAlumnoBean.ingresar()}" ajax="false"/>
                         </h:form> 
                     </div>
-
 
                 </div>
             </div>
