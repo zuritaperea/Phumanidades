@@ -5,6 +5,7 @@
 package Beans;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,18 @@ import javax.servlet.http.HttpSession;
 public class SessionControlerBean {
 
     private int iTimeSession;
+    @ManagedProperty(value = "#{usuarioLogerBean}")
+    private UsuarioLogerBean usuarioLogerBean;
+
+    public UsuarioLogerBean getUsuarioLogerBean() {
+        return usuarioLogerBean;
+    }
+
+    public void setUsuarioLogerBean(UsuarioLogerBean usuarioLogerBean) {
+        this.usuarioLogerBean = usuarioLogerBean;
+    }
+    
+    
 
     /**
      * Creates a new instance of SessionControlerBean
@@ -47,7 +60,14 @@ public class SessionControlerBean {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String url = request.getRequestURL().toString();
             String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
-            String loginURL = baseURL + "login.xhtml?faces-redirect=true";
+            String loginURL;
+            if(!usuarioLogerBean.isGrupo("alumno")){
+                loginURL = baseURL + "login.xhtml?faces-redirect=true";
+            }else{
+                loginURL = baseURL + "login_alumno.xhtml?faces-redirect=true";
+            }
+            
+            System.out.println(loginURL);
             return loginURL;
         }//fin if
 

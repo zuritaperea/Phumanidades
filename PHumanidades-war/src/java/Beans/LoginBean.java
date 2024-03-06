@@ -169,7 +169,13 @@ public class LoginBean {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         request.getSession().invalidate();
         //request.logout(); comentado
-        FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+        if(!usuarioLogerBean.isGrupo("alumno")){
+            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+            
+        }else{
+           FacesContext.getCurrentInstance().getExternalContext().redirect("login_alumno.xhtml"); 
+        }
+        
     } //fin logout
 
     /**
