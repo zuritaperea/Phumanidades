@@ -31,4 +31,6 @@ public interface UsuariosFacadeLocal {
 
     Usuarios findUserByNombreContrasena(String nombre, String contrasena);
 
+    public Usuarios buscarPorNombre(String nombre);
+
 }

@@ -49,7 +49,11 @@ public class UsuariosRN implements UsuariosRNLocal {
     public Usuarios findUserByNombreContrasena(String nombre, String contrasena) throws Exception {
         return usuarioFacadeLocal.findUserByNombreContrasena(nombre, contrasena);
     }
-
+    
+    @Override
+    public Usuarios buscarPorNombre(String nombre){
+        return usuarioFacadeLocal.buscarPorNombre(nombre);
+    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
     @Override

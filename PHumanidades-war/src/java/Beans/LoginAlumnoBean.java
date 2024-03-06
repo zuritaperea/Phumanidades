@@ -6,14 +6,16 @@
 package Beans;
 
 import Entidades.Persona.Alumno;
+import Entidades.Usuarios.Usuarios;
 import RN.AlumnoRNLocal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import RN.UsuariosRNLocal;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -28,12 +30,17 @@ public class LoginAlumnoBean {
     private String documento;
     private Alumno alumno;
     private String recaptchaResponse;
+    @EJB
+    private UsuariosRNLocal usuariosRNLocal;
+    private final String userAlumno = "alumno";
+    @ManagedProperty(value = "#{usuarioLogerBean}")
+    private UsuarioLogerBean usuarioLogerBean;
 
-    public LoginAlumnoBean() {
-        this.setDocumento(new String());
-        this.setRecaptchaResponse(new String());
-        this.setAlumno(new Alumno());
-    }
+//    public LoginAlumnoBean() {
+//        this.setDocumento(new String());
+//        this.setRecaptchaResponse(new String());
+//        this.setAlumno(new Alumno());
+//    }
 
     public String getDocumento() {
         return documento;
@@ -67,31 +74,21 @@ public class LoginAlumnoBean {
         this.alumnoRNLocal = alumnoRNLocal;
     }
 
-//    public String ingresar() {
-//        System.err.println(this.getDocumento());
-//        System.out.println("entro ingresar");
-//        recaptchaResponse = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
-//        System.out.println(recaptchaResponse);
-//        if (this.getDocumento().isEmpty()) {
-//            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe ingresar un Dni", null);
-//            FacesContext fc = FacesContext.getCurrentInstance();
-//            fc.addMessage(null, fm);
-//        }
-//        if (recaptchaResponse.isEmpty()) {
-//            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validacion de Captcha Incorrecta", null);
-//            FacesContext fc = FacesContext.getCurrentInstance();
-//            fc.addMessage(null, fm);
-//        }
-//        //return "InformePagoAlumno.xhtml?faces-redirect=true";
-//        return "InformePagoAlumno.xhtml";
-//
-//    }
+    public UsuarioLogerBean getUsuarioLogerBean() {
+        return usuarioLogerBean;
+    }
+
+    public void setUsuarioLogerBean(UsuarioLogerBean usuarioLogerBean) {
+        this.usuarioLogerBean = usuarioLogerBean;
+    }
 
     public String ingresar() {
-            //recaptchaResponse="";
+
         try {
             recaptchaResponse = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
             alumno = alumnoRNLocal.findByAlumnoDni(documento);
+            
+            Usuarios usuAlumno = usuariosRNLocal.buscarPorNombre(userAlumno);
             if(recaptchaResponse.isEmpty()){
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Validacion de Captcha Incorrecta", null);
                 FacesContext fc = FacesContext.getCurrentInstance();
@@ -101,6 +98,16 @@ public class LoginAlumnoBean {
             if (alumno != null) {
                 System.out.println("imprimo alumno0");
                 System.out.println(alumno);
+                //guardamos la sesion para el alumno
+                HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                session.setAttribute("userLogged", 1);
+                usuarioLogerBean.setUsuario(usuAlumno);
+                System.out.println("USUARIO ALUMNOOO");
+                System.out.println(usuAlumno.getUsuario());
+                System.out.println(usuAlumno.getGrupo());
+                //System.out.println(usuarioLogerBean.getUsuario().getGrupo().getDescripcion());
+                System.out.println("resultado: "+usuarioLogerBean.isGrupo("alumno"));
                 return "/paginas/informePagoAlumno/List.xhtml?faces-redirect=true";
             } else {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alumno no encontrado", null);

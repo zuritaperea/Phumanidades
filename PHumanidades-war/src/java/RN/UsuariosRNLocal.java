@@ -31,4 +31,6 @@ public interface UsuariosRNLocal {
 
     public void edit(Usuarios usuario);
 
+    public Usuarios buscarPorNombre(String userAlumno);
+
 }

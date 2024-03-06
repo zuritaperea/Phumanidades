@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
@@ -16,8 +17,11 @@ import javax.persistence.OneToOne;
  *
  * @author vouilloz
  */
-@NamedQuery(name = "Usuarios.findUserByNombreContrasena", query = "SELECT u FROM Usuarios u WHERE u.usuario =:usuario AND "
-        + "u.password = :contrasena ")
+
+@NamedQueries({
+    @NamedQuery(name = "Usuarios.findUserByNombreContrasena", query = "SELECT u FROM Usuarios u WHERE u.usuario =:usuario AND "
+            + "u.password = :contrasena "),
+    @NamedQuery(name = "Usuarios.buscarPorNombre", query = "SELECT u FROM Usuarios u WHERE u.usuario =:usuario ")})
 @Entity
 public class Usuarios implements Serializable {
 

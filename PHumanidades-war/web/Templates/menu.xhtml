@@ -6,7 +6,7 @@
     <b:navBar brandAlign="left" brand="Sistema de Gestión Económico Finaciero" brandHref="index.xhtml" inverse="true" >
         <b:navbarLinks >
             <p:menubar>
-                <p:submenu label="Gestiones" icon="ui-icon-plus" rendered="#{!usuarioLogerBean.isGrupo('consulta')}">
+                <p:submenu label="Gestiones" icon="ui-icon-plus" rendered="#{!usuarioLogerBean.isGrupo('consulta') and !usuarioLogerBean.isGrupo('alumno')}">
                     <p:menuitem value="Usuarios" action="#{navegarBean.frmUsuario()}" rendered="#{usuarioLogerBean.isGrupo('superadmin')}"></p:menuitem>
                     <p:menuitem value="Grupos" ajax="false" action="/paginas/grupo/List.xhtml?faces-redirect=true" rendered="#{usuarioLogerBean.isGrupo('superadmin')}"></p:menuitem>    
                     <p:menuitem value="Puntos de Venta" ajax="false" action="/paginas/cuenta/List.xhtml?faces-redirect=true" rendered="#{usuarioLogerBean.isGrupo('superadmin')}"></p:menuitem>    
@@ -20,12 +20,12 @@
                     <p:menuitem value="Realizar Cierre" update="frmPri:growl,frmPri:pCajaCierre" icon="ui-icon-circle-close" actionListener="#{cierreBean.calcularSaldo()}"></p:menuitem>
 
                 </p:submenu>
-                <p:submenu label="Egresos" icon="ui-icon-arrowreturnthick-1-n" rendered="#{!usuarioLogerBean.isGrupo('consulta')}">
+                <p:submenu label="Egresos" icon="ui-icon-arrowreturnthick-1-n" rendered="#{!usuarioLogerBean.isGrupo('consulta') and !usuarioLogerBean.isGrupo('alumno')}">
                     <p:menuitem value="Egresos"  action="#{navegarBean.frmPagosDocentes()}"></p:menuitem> 
                     <p:menuitem value="Tipos de Egreso" ajax="false" action="/paginas/tipoEgreso/List.xhtml?faces-redirect=true"></p:menuitem>    
                     <p:menuitem value="Modificar Egreso" ajax="false" action="/paginas/pagosDocente/List.xhtml?faces-redirect=true" rendered="#{usuarioLogerBean.isGrupo('superadmin')}"></p:menuitem>   
                 </p:submenu>
-                <p:submenu label="Ingresos" icon="ui-icon-arrowreturnthick-1-s" rendered="#{!usuarioLogerBean.isGrupo('consulta')}">
+                <p:submenu label="Ingresos" icon="ui-icon-arrowreturnthick-1-s" rendered="#{!usuarioLogerBean.isGrupo('consulta') and !usuarioLogerBean.isGrupo('alumno')}">
                     <p:menuitem value="Todos" action="#{navegarBean.frmIngresos()}"></p:menuitem>
                     <p:menuitem value="Ingreso desde Archivo RAPIPAGO" action="#{navegarBean.frmIngresosArchivo()}"></p:menuitem>
                     <p:menuitem value="Ingreso desde Archivo RED LINK" action="#{navegarBean.frmIngresosArchivoCSV()}"></p:menuitem>
@@ -35,7 +35,7 @@
                     <p:menuitem value="Tarjetas de Credito" ajax="false" action="/paginas/tarjetaDeCredito/List.xhtml?faces-redirect=true"></p:menuitem> 
 
                 </p:submenu> 
-                <p:submenu label="Consultas" icon="ui-icon-search" rendered="#{!usuarioLogerBean.isGrupo('consulta')}">
+                <p:submenu label="Consultas" icon="ui-icon-search" rendered="#{!usuarioLogerBean.isGrupo('consulta') and !usuarioLogerBean.isGrupo('alumno')}">
                     <p:menuitem value="Egresos" action="#{navegarBean.frmConsultaPagosGenerales()}"></p:menuitem>
                     <p:menuitem value="Ingresos por Cuotas Alumnos" action="#{navegarBean.frmConsultaCobrosAlumnos()}"></p:menuitem>
                     <p:menuitem value="Ingresos Generales" action="#{navegarBean.frmConsultaCobrosGenerales()}"></p:menuitem>

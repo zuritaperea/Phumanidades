@@ -5,6 +5,7 @@
 package DAO;
 
 import Entidades.Usuarios.Usuarios;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -35,6 +36,17 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
             Query q = em.createNamedQuery("Usuarios.findUserByNombreContrasena");
             q.setParameter("usuario", nombre);
             q.setParameter("contrasena", contrasena);
+            return (Usuarios) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Usuarios buscarPorNombre(String nombre) {
+         try {
+            Query q = em.createNamedQuery("Usuarios.buscarPorNombre");
+            q.setParameter("usuario", nombre);
             return (Usuarios) q.getSingleResult();
         } catch (Exception e) {
             return null;
