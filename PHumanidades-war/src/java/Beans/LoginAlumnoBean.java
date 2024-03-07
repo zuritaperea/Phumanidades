@@ -8,12 +8,14 @@ package Beans;
 import Entidades.Persona.Alumno;
 import Entidades.Usuarios.Usuarios;
 import RN.AlumnoRNLocal;
+import RN.InscripcionAlumnosRNLocal;
 import RN.UsuariosRNLocal;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -22,7 +24,7 @@ import javax.servlet.http.HttpSession;
  * @author victo
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class LoginAlumnoBean {
 
     @EJB
@@ -35,6 +37,10 @@ public class LoginAlumnoBean {
     private final String userAlumno = "alumno";
     @ManagedProperty(value = "#{usuarioLogerBean}")
     private UsuarioLogerBean usuarioLogerBean;
+    @ManagedProperty(value = "#{cohorteLstBean}")
+    private CohorteLstBean cohorteLstBean;
+    @EJB
+    private InscripcionAlumnosRNLocal inscripcionAlumnosRNLocal;
 
 //    public LoginAlumnoBean() {
 //        this.setDocumento(new String());
@@ -82,6 +88,14 @@ public class LoginAlumnoBean {
         this.usuarioLogerBean = usuarioLogerBean;
     }
 
+    public CohorteLstBean getCohorteLstBean() {
+        return cohorteLstBean;
+    }
+
+    public void setCohorteLstBean(CohorteLstBean cohorteLstBean) {
+        this.cohorteLstBean = cohorteLstBean;
+    }
+
     public String ingresar() {
 
         try {
@@ -106,6 +120,8 @@ public class LoginAlumnoBean {
                 System.out.println("USUARIO ALUMNOOO");
                 System.out.println(usuAlumno.getUsuario());
                 System.out.println(usuAlumno.getGrupo());
+                //LA POSTA JAJAJAJA
+                this.cohorteLstBean.setLstCohortesAlumnos(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(this.alumnoLstBean.getAlumnoSelect()));
                 //System.out.println(usuarioLogerBean.getUsuario().getGrupo().getDescripcion());
                 System.out.println("resultado: "+usuarioLogerBean.isGrupo("alumno"));
                 return "/paginas/informePagoAlumno/List.xhtml?faces-redirect=true";

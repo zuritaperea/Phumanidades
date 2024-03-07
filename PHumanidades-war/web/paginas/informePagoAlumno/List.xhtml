@@ -16,77 +16,118 @@
         </h3>
 
 
-            <h:form id="InformePagoAlumnoListForm">
-                <p:panel header="Informe de Pago - Alumnos">
-                    <p:dataTable id="datalist" value="#{informePagoAlumnoController.items}" var="item"
-                                 selectionMode="single" selection="#{informePagoAlumnoController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 >
-                        <!--ajax aqui abajo-->
+        <h:form id="InformePagoAlumnoListForm">
+            <p:panel header="Carga de Comprobantes">
+                <h:panelGrid columns="2" style="width: 50%" >
+                    <h:outputText value="Alumno: "></h:outputText>
+                    <h2><h:outputText value="#{loginAlumnoBean.alumno}"></h:outputText></h2>
+                </h:panelGrid>
+                
+                <p:panel id="pnCohortesConsulta" 
+                         >
 
-                        <p:ajax event="rowSelect"   update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
-                        <p:ajax event="rowUnselect" update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
+
+                    <p:dataTable  id="dtCortesCobros"
+                                  value="#{cohorteLstBean.lstCohortesAlumnosConsulta}"
+                                  var="cort"  
+                                  rowKey="#{cort.id}">
+                        <p:column width="10%">
+                            <p:commandButton id="btnBuscar"
+                                             actionListener="#{cohorteLstBean.obtenerDatosPagosCohorte(alumnoLstBean.alumnoSelectConsulta,cort)}"
+                                             icon="ui-icon-search"
+                                             styleClass="boton"/>
+
+                            <!--update=":frmPri:dCobroCuotasAlumnos, :frmPri:dtCobroCuotas"-->
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_alumno}"/>
+                                <h:outputText value="Carrera"/>
                             </f:facet>
-                            <h:outputText value="#{item.alumno}"/>
+                            <h:outputText value="#{cort.carrera.descripcion}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_cohorte}"/>
+                                <h:outputText value="Cohorte"/>
                             </f:facet>
-                            <h:outputText value="#{item.cohorte}"/>
+                            <h:outputText value="#{cort.descripcion}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_nroCuota}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.nroCuota}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_descripcion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.descripcion}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_fecha}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fecha}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_comprobantePago}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.comprobantePago}"/>
-                        </p:column>
-                        <f:facet name="footer">
- <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
-                            <p:commandButton id="viewButtonIPA"   icon="ui-icon-search" value="#{bundleInformePagoAlumno.View}" update=":InformePagoAlumnoViewForm" oncomplete="PF('InformePagoAlumnoViewDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
-                            <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="#{bundleInformePagoAlumno.Edit}" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
-                            <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{empty informePagoAlumnoController.selected}"/>
-                        </f:facet>
+
+
                     </p:dataTable>
-                </p:panel>
-            </h:form>
+                    <h:outputText value="Haga Click en la lupa para seleccionar Cohorte y cargar el detalle de la cuotas pagas - De lo contrario la operacion no se llevara a cabo"/>
 
-            <ui:include src="Create.xhtml"/>
-            <ui:include src="Edit.xhtml"/>
-            <ui:include src="View.xhtml"/>
-        </ui:define>
-    </ui:composition>
+
+                </p:panel>
+                <p:dataTable id="datalist" value="#{informePagoAlumnoController.items}" var="item"
+                             selectionMode="single" selection="#{informePagoAlumnoController.selected}"
+                             paginator="true"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             >
+                    <!--ajax aqui abajo-->
+
+                    <p:ajax event="rowSelect"   update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
+                    <p:ajax event="rowUnselect" update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_id}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_alumno}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.alumno}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_cohorte}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.cohorte}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_nroCuota}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.nroCuota}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_descripcion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcion}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_fecha}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fecha}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_comprobantePago}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.comprobantePago}"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
+                        <p:commandButton id="viewButtonIPA"   icon="ui-icon-search" value="#{bundleInformePagoAlumno.View}" update=":InformePagoAlumnoViewForm" oncomplete="PF('InformePagoAlumnoViewDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
+                        <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="#{bundleInformePagoAlumno.Edit}" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
+                        <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{empty informePagoAlumnoController.selected}"/>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+
+        <ui:include src="Create.xhtml"/>
+        <ui:include src="Edit.xhtml"/>
+        <ui:include src="View.xhtml"/>
+    </ui:define>
+</ui:composition>
 
