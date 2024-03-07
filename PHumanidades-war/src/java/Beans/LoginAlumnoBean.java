@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author victo
  */
-@ManagedBean
+@ManagedBean(name = "loginAlumnoBean")
 @SessionScoped
 public class LoginAlumnoBean {
 
@@ -121,9 +121,10 @@ public class LoginAlumnoBean {
                 System.out.println(usuAlumno.getUsuario());
                 System.out.println(usuAlumno.getGrupo());
                 //LA POSTA JAJAJAJA
-                this.cohorteLstBean.setLstCohortesAlumnos(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(this.alumnoLstBean.getAlumnoSelect()));
+                this.cohorteLstBean.setLstCohortesAlumnosConsulta(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
+                this.cohorteLstBean.setLstCohortesAlumnos(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
                 //System.out.println(usuarioLogerBean.getUsuario().getGrupo().getDescripcion());
-                System.out.println("resultado: "+usuarioLogerBean.isGrupo("alumno"));
+                System.out.println(cohorteLstBean.getLstCohortesAlumnos());
                 return "/paginas/informePagoAlumno/List.xhtml?faces-redirect=true";
             } else {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alumno no encontrado", null);

@@ -344,6 +344,7 @@ public class CohorteLstBean implements Serializable {
     public void obtenerDatosPagosCohorte(Alumno a, Cohorte cort) throws Exception {
         FacesMessage fm;
         if (cort != null) {
+            System.out.println("alumno cohorte: " +a);
             cohorteSeleccionada = cort;
             try {
 

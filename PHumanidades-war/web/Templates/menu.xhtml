@@ -60,8 +60,9 @@
             </p:menubar>                              
         </b:navbarLinks>
         <b:navbarLinks pull="right"> <b:dropMenu  value="Bienvenido #{usuarioLogerBean.usuario.nombre}" >  
-                <b:navLink  value="Cerrar Sesión" href="logout.xhtml"></b:navLink>     
-                <b:navLink  value="Ayuda" href="/resources/manual.pdf"></b:navLink>     
+                <b:navLink  value="Cerrar Sesión" href="logout.xhtml" rendered="#{!usuarioLogerBean.isGrupo('alumno')}"></b:navLink>     
+                <b:navLink  value="Ayuda" href="/resources/manual.pdf" rendered="#{!usuarioLogerBean.isGrupo('alumno')}"></b:navLink>  
+                <b:navLink  value="Salir" href="login_alumno.xhtml?faces-redirect=true" rendered="#{usuarioLogerBean.isGrupo('alumno')}"></b:navLink> 
 
             </b:dropMenu> 
         </b:navbarLinks>

@@ -26,15 +26,13 @@
                 <p:panel id="pnCohortesConsulta" 
                          >
 
-
-
                     <p:dataTable  id="dtCortesCobros"
                                   value="#{cohorteLstBean.lstCohortesAlumnosConsulta}"
                                   var="cort"  
                                   rowKey="#{cort.id}">
                         <p:column width="10%">
                             <p:commandButton id="btnBuscar"
-                                             actionListener="#{cohorteLstBean.obtenerDatosPagosCohorte(alumnoLstBean.alumnoSelectConsulta,cort)}"
+                                             actionListener="#{cohorteLstBean.obtenerDatosPagosCohorte(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"/>
 
