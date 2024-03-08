@@ -367,4 +367,30 @@ public class CohorteLstBean implements Serializable {
 
         }
     }
+    public void obtenerComprobantesAlumno(Alumno alumno, Cohorte cohorte) throws Exception{
+        FacesMessage fm;
+        if (cohorte != null) {
+            System.out.println("alumno cohorte: " +a);
+            cohorteSeleccionada = cohorte;
+            try {
+
+                this.setLstCuotasAlumnoConsulta(ingresoCuotaRNLocal.findCuotasAlumnoCohorte(a, cohorteSeleccionada));
+                this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
+                if (this.getLstCuotasAlumnoConsulta().isEmpty()) {
+                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                    FacesContext fc = FacesContext.getCurrentInstance();
+                    fc.addMessage(null, fm);
+                }//fin if
+
+            } catch (Exception ex) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
+            }//fin catch
+
+            RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsulta");
+            RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsultaGeneral");
+
+        }
+    }
 }

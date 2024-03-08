@@ -16,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -25,6 +27,10 @@ import javax.persistence.Temporal;
  * @author hugo
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "InformePagoAlumno.findCuotasAlumnoCohorte",
+            query = "SELECT c FROM Ingreso c WHERE c.alumno=:alumno and c.cohorte=:cohorte  "
+            + "AND c.borrado=false AND c.anulado=false ORDER BY c.id DESC")})
 @Table(name = "informe_pago_alumno")
 public class InformePagoAlumno implements Serializable {
 
@@ -108,7 +114,7 @@ public class InformePagoAlumno implements Serializable {
     public void setEstadoComprobanteAlumno(EstadoComprobanteAlumno estadoComprobanteAlumno) {
         this.estadoComprobanteAlumno = estadoComprobanteAlumno;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
