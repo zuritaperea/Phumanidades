@@ -142,7 +142,6 @@ public class LoginBean {
                 //PARA MOSTRAR USUARIO LOGUEADO 
                 usuarioLogerBean.setUsuario(usuAux);//Se guarda el usuario para poder ser mostrado como usuario logueado
 
-
                 return "index.xhtml?faces-redirect=true";
                 // }//fin if
             } else {
@@ -150,7 +149,6 @@ public class LoginBean {
                 FacesContext fc = FacesContext.getCurrentInstance();
                 fc.addMessage(null, fm);
             }//fin else
-
 
         } catch (Exception e) {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Por favor introduzca un nombre de usuario y una contraseña correctos. Tenga en cuenta que ambos campos son sensibles a mayúsculas/minúsculas.", null);
@@ -169,13 +167,8 @@ public class LoginBean {
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         request.getSession().invalidate();
         //request.logout(); comentado
-        if(!usuarioLogerBean.isGrupo("alumno")){
-            FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
-            
-        }else{
-           FacesContext.getCurrentInstance().getExternalContext().redirect("login_alumno.xhtml"); 
-        }
-        
+        FacesContext.getCurrentInstance().getExternalContext().redirect("login.xhtml");
+
     } //fin logout
 
     /**

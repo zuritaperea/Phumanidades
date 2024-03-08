@@ -10,6 +10,8 @@ import Entidades.Persona.Alumno;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,6 +42,8 @@ public class InformePagoAlumno implements Serializable {
     private Date fecha;
     @Lob
     private byte[] comprobantePago;
+    @Enumerated(EnumType.STRING)
+    private EstadoComprobanteAlumno estadoComprobanteAlumno;
 
     public Long getId() {
         return id;
@@ -97,6 +101,14 @@ public class InformePagoAlumno implements Serializable {
         this.comprobantePago = comprobantePago;
     }
 
+    public EstadoComprobanteAlumno getEstadoComprobanteAlumno() {
+        return estadoComprobanteAlumno;
+    }
+
+    public void setEstadoComprobanteAlumno(EstadoComprobanteAlumno estadoComprobanteAlumno) {
+        this.estadoComprobanteAlumno = estadoComprobanteAlumno;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

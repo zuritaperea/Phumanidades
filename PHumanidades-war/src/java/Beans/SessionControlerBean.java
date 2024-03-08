@@ -30,8 +30,6 @@ public class SessionControlerBean {
     public void setUsuarioLogerBean(UsuarioLogerBean usuarioLogerBean) {
         this.usuarioLogerBean = usuarioLogerBean;
     }
-    
-    
 
     /**
      * Creates a new instance of SessionControlerBean
@@ -60,14 +58,7 @@ public class SessionControlerBean {
             HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             String url = request.getRequestURL().toString();
             String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
-            String loginURL;
-            if(!usuarioLogerBean.isGrupo("alumno")){
-                loginURL = baseURL + "login.xhtml?faces-redirect=true";
-            }else{
-                loginURL = baseURL + "login_alumno.xhtml?faces-redirect=true";
-            }
-            
-            System.out.println(loginURL);
+            String loginURL = baseURL + "login.xhtml?faces-redirect=true";
             return loginURL;
         }//fin if
 
@@ -90,6 +81,7 @@ public class SessionControlerBean {
         String url = request.getRequestURL().toString();
         String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
         String loginURL = baseURL + "login.xhtml?faces-redirect=true";
-        return loginURL;    }//fin abrirSession
+        return loginURL;
+    }//fin abrirSession
 
 }
