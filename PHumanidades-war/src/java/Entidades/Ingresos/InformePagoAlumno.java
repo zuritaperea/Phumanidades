@@ -45,6 +45,7 @@ public class InformePagoAlumno implements Serializable {
     private String descripcion;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fecha;
+    private String nombreComprobantePago;
     @Lob
     private byte[] comprobantePago;
     @Enumerated(EnumType.STRING)
@@ -112,6 +113,14 @@ public class InformePagoAlumno implements Serializable {
 
     public void setEstadoComprobanteAlumno(EstadoComprobanteAlumno estadoComprobanteAlumno) {
         this.estadoComprobanteAlumno = estadoComprobanteAlumno;
+    }
+
+    public String getNombreComprobantePago() {
+        return nombreComprobantePago;
+    }
+
+    public void setNombreComprobantePago(String nombreComprobantePago) {
+        this.nombreComprobantePago = nombreComprobantePago;
     }
 
     @Override

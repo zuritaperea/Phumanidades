@@ -214,7 +214,7 @@ public class InformePagoAlumnoController implements Serializable {
     
     public void upload() {
         if (archivo != null) {
-            FacesMessage message = new FacesMessage("Successful", archivo.getFileName() + " is uploaded.");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, archivo.getFileName() + " se subio correctamente!",null);
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
@@ -225,8 +225,9 @@ public class InformePagoAlumnoController implements Serializable {
         System.out.println(archivo.getFileName());
         String fileName = archivo.getFileName();
         byte[] fileContent = archivo.getContents();
+        selected.setNombreComprobantePago(fileName);
         selected.setComprobantePago(fileContent);
-        FacesMessage message = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, fileName + " se subio correctamente!",null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 

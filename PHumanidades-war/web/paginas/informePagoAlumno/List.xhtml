@@ -109,7 +109,7 @@
                         <f:facet name="header">
                             <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_comprobantePago}"/>
                         </f:facet>
-                        <h:outputText value="#{item.comprobantePago}"/>
+                        <h:outputText value="#{item.nombreComprobantePago}"/>
                     </p:column>
                     <f:facet name="footer">
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
