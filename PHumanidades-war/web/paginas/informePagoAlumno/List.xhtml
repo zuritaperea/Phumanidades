@@ -14,15 +14,14 @@
         <h3>
             <h:outputText value="Informe de Pago - Alumnos"></h:outputText>
         </h3>
-
-
         <h:form id="InformePagoAlumnoListForm">
+
             <p:panel header="Carga de Comprobantes">
                 <h:panelGrid columns="2" style="width: 50%" >
                     <h:outputText value="Alumno: "></h:outputText>
                     <h2><h:outputText value="#{loginAlumnoBean.alumno}"></h:outputText></h2>
                 </h:panelGrid>
-                
+
                 <p:panel id="pnCohortesConsulta" 
                          >
 
@@ -32,11 +31,10 @@
                                   rowKey="#{cort.id}">
                         <p:column width="10%">
                             <p:commandButton id="btnBuscar"
-                                             actionListener="#{cohorteLstBean.obtenerDatosPagosCohorte(loginAlumnoBean.alumno,cort)}"
+                                             actionListener="#{cohorteLstBean.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"/>
 
-                            <!--update=":frmPri:dCobroCuotasAlumnos, :frmPri:dtCobroCuotas"-->
                         </p:column>
                         <p:column>
                             <f:facet name="header">

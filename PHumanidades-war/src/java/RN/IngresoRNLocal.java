@@ -56,7 +56,7 @@ public interface IngresoRNLocal {
     public List<Ingreso> findCobrosXFecha(Date fechaIni, Date fechaFin);
 
     public List<Ingreso> findCuotasAlumnoCohorte(Alumno alumno, Cohorte cohorte);
-
+    
     public int findUltimaCuotaAlumno(Alumno alumno);
 
     public int findUltimaCuotaAlumnoCohorte(Alumno alumno, Cohorte cohorte);

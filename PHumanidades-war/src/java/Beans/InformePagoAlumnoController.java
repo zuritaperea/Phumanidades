@@ -6,6 +6,8 @@ import Beans.util.JsfUtil.PersistAction;
 import DAO.InformePagoAlumnoFacade;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -13,22 +15,46 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
+//import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
-@Named("informePagoAlumnoController")
+
+//@Named("informePagoAlumnoController")
+//@SessionScoped
+@ManagedBean
 @SessionScoped
 public class InformePagoAlumnoController implements Serializable {
 
     @EJB
-    private DAO.InformePagoAlumnoFacade ejbFacade;
+    private InformePagoAlumnoFacade ejbFacade;
     private List<InformePagoAlumno> items = null;
     private InformePagoAlumno selected;
+    @ManagedProperty(value = "#{loginAlumnoBean}")
+    private LoginAlumnoBean loginAlumnoBean;
+    @ManagedProperty(value = "#{cohorteLstBean}")
+    private CohorteLstBean cohorteLstBean;
+    //para subir comprobante
+    private UploadedFile archivo;
+    private String dropZoneText = "Drop zone p:inputTextarea demo.";
 
     public InformePagoAlumnoController() {
+    }
+
+    public LoginAlumnoBean getLoginAlumnoBean() {
+        return loginAlumnoBean;
+    }
+
+    public void setLoginAlumnoBean(LoginAlumnoBean loginAlumnoBean) {
+        this.loginAlumnoBean = loginAlumnoBean;
     }
 
     public InformePagoAlumno getSelected() {
@@ -49,6 +75,22 @@ public class InformePagoAlumnoController implements Serializable {
         return ejbFacade;
     }
 
+    public UploadedFile getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(UploadedFile archivo) {
+        this.archivo = archivo;
+    }
+
+    public CohorteLstBean getCohorteLstBean() {
+        return cohorteLstBean;
+    }
+
+    public void setCohorteLstBean(CohorteLstBean cohorteLstBean) {
+        this.cohorteLstBean = cohorteLstBean;
+    }
+    
     public InformePagoAlumno prepareCreate() {
         selected = new InformePagoAlumno();
         initializeEmbeddableKey();
@@ -56,6 +98,12 @@ public class InformePagoAlumnoController implements Serializable {
     }
 
     public void create() {
+        System.out.println("ENTRO CREATE INFORMEPAAGOALUMNO");
+        System.out.println(this.getLoginAlumnoBean().getAlumno());
+        selected.setFecha(new Date());
+        selected.setAlumno(this.getLoginAlumnoBean().getAlumno());
+        selected.setCohorte(this.getCohorteLstBean().getCohorteSeleccionada());
+        selected.setComprobantePago(archivo.getContents());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -159,7 +207,29 @@ public class InformePagoAlumnoController implements Serializable {
                 return null;
             }
         }
-
+        
+        
     }
+    
+    public void upload() {
+        if (archivo != null) {
+            FacesMessage message = new FacesMessage("Successful", archivo.getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
+    }
+
+    public void handleFileUpload(FileUploadEvent event) {
+        FacesMessage message = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+
+    public String getDropZoneText() {
+        return dropZoneText;
+    }
+
+    public void setDropZoneText(String dropZoneText) {
+        this.dropZoneText = dropZoneText;
+    }
+
 
 }

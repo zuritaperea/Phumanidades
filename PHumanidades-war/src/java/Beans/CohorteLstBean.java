@@ -4,9 +4,11 @@
  */
 package Beans;
 
+import DAO.InformePagoAlumnoFacade;
 import Entidades.Carreras.Carrera;
 import Entidades.Carreras.Cohorte;
 import Entidades.Carreras.Cuenta;
+import Entidades.Ingresos.InformePagoAlumno;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
 import RN.CarrerasRNLocal;
@@ -77,9 +79,12 @@ public class CohorteLstBean implements Serializable {
     private List<Cohorte> lstCohortesAlumnosConsulta;
 
     private List<Ingreso> lstCuotasAlumnoConsulta;
+    private List<InformePagoAlumno> lstInformePagoAlumno;
     private List<Ingreso> lstCuotasAlumnoGeneral;
     private int cantidadCuotas;
     private int iTipoBoton;
+    @EJB
+    private InformePagoAlumnoFacade InformePagoAlumnoFacade;
 
     /**
      * Creates a new instance of UsuarioLstBean
@@ -272,6 +277,25 @@ public class CohorteLstBean implements Serializable {
         this.numeroRecibo = numeroRecibo;
     }
 
+    public InformePagoAlumnoFacade getInformePagoAlumnoFacade() {
+        return InformePagoAlumnoFacade;
+    }
+
+    public void setInformePagoAlumnoFacade(InformePagoAlumnoFacade InformePagoAlumnoFacade) {
+        this.InformePagoAlumnoFacade = InformePagoAlumnoFacade;
+    }
+
+
+
+    public List<InformePagoAlumno> getLstInformePagoAlumno() {
+        return lstInformePagoAlumno;
+    }
+
+    public void setLstInformePagoAlumno(List<InformePagoAlumno> lstInformePagoAlumno) {
+        this.lstInformePagoAlumno = lstInformePagoAlumno;
+    }
+    
+    
     public void cargarCohorte() {
         try {
             this.setLstCohorte(this.cohorteRNLocal.findCohortes());
@@ -370,13 +394,13 @@ public class CohorteLstBean implements Serializable {
     public void obtenerComprobantesAlumno(Alumno alumno, Cohorte cohorte) throws Exception{
         FacesMessage fm;
         if (cohorte != null) {
-            System.out.println("alumno cohorte: " +a);
+            System.out.println("alumno cohorte: " +alumno);
             cohorteSeleccionada = cohorte;
             try {
 
-                this.setLstCuotasAlumnoConsulta(ingresoCuotaRNLocal.findCuotasAlumnoCohorte(a, cohorteSeleccionada));
-                this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
-                if (this.getLstCuotasAlumnoConsulta().isEmpty()) {
+                this.setLstInformePagoAlumno(InformePagoAlumnoFacade.findCuotasAlumnoCohorte(alumno, cohorteSeleccionada));
+                //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
+                if (this.getLstInformePagoAlumno().isEmpty()) {
                     fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
                     FacesContext fc = FacesContext.getCurrentInstance();
                     fc.addMessage(null, fm);
@@ -388,8 +412,8 @@ public class CohorteLstBean implements Serializable {
                 fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
             }//fin catch
 
-            RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsulta");
-            RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsultaGeneral");
+            RequestContext.getCurrentInstance().update("frmPri:datalist");
+            //RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsultaGeneral");
 
         }
     }

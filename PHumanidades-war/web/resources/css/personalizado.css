@@ -54,3 +54,41 @@ h3,h1 {margin-top:4px}
 .ui-display-none {
     display: none;
 }
+
+/* reset on the showcase style*/
+body .ui-panelgrid .ui-panelgrid-cell {
+    background-color: transparent;
+}
+
+/* example use of styles for your form */
+.my-heading-row {
+    background-color: beige;
+    font-weight: bold;
+}
+
+.mi-dialogo {
+    background-color: #f8f8f8; /* Color de fondo */
+    color: #333; /* Color del texto */
+    border-color: #ccc; /* Color del borde */
+    width: 80%; /* Ancho del diálogo */
+    height: 80%; /* Altura del diálogo */
+}
+.mi-dialogo .ui-dialog-title {
+    font-size: 20px; 
+    font-weight: bold; 
+    color: #ff0000; 
+
+}
+
+
+.custom-file-upload .ui-fileupload-button {
+  background-color: #007bff; /* Cambiar el color de fondo del botón */
+  color: #fff; /* Cambiar el color del texto del botón */
+  padding: 10px 15px; /* Espaciado interno del botón */
+  border-radius: 5px; /* Borde redondeado */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+}
+
+.custom-file-upload .ui-fileupload-button:hover {
+  background-color: #0056b3; /* Cambiar el color de fondo al pasar el cursor */
+}

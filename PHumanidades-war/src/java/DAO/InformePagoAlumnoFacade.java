@@ -5,10 +5,14 @@
  */
 package DAO;
 
+import Entidades.Carreras.Cohorte;
 import Entidades.Ingresos.InformePagoAlumno;
+import Entidades.Persona.Alumno;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -16,6 +20,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class InformePagoAlumnoFacade extends AbstractFacade<InformePagoAlumno> {
+
     @PersistenceContext(unitName = "PHumanidades-ejbPU")
     private EntityManager em;
 
@@ -27,5 +32,18 @@ public class InformePagoAlumnoFacade extends AbstractFacade<InformePagoAlumno> {
     public InformePagoAlumnoFacade() {
         super(InformePagoAlumno.class);
     }
-    
+
+    public List<InformePagoAlumno> findCuotasAlumnoCohorte(Alumno alumno, Cohorte cohorte) {
+        try {
+            Query q = em.createNamedQuery("InformePagoAlumno.findCuotasAlumnoCohorte");
+            q.setParameter("alumno", alumno);
+            q.setParameter("cohorte", cohorte);
+            System.out.println("Entro consulta"+q.getResultList());
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.println("exception " + e);
+            return null;
+        }
+    }
+
 }

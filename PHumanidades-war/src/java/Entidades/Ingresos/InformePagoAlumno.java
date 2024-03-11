@@ -29,8 +29,7 @@ import javax.persistence.Temporal;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "InformePagoAlumno.findCuotasAlumnoCohorte",
-            query = "SELECT c FROM Ingreso c WHERE c.alumno=:alumno and c.cohorte=:cohorte  "
-            + "AND c.borrado=false AND c.anulado=false ORDER BY c.id DESC")})
+            query = "SELECT c FROM InformePagoAlumno c WHERE c.alumno=:alumno and c.cohorte=:cohorte")})
 @Table(name = "informe_pago_alumno")
 public class InformePagoAlumno implements Serializable {
 

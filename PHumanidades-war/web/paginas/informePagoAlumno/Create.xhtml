@@ -4,42 +4,43 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
-        <p:dialog id="InformePagoAlumnoCreateDlg" widgetVar="InformePagoAlumnoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle}">
+        <p:dialog id="InformePagoAlumnoCreateDlg" widgetVar="InformePagoAlumnoCreateDialog" 
+                  header="Agregar Nuevo Comprobante" 
+                  modal="true" resizable="false" appendTo="@(body)"
+                  position="top"
+                  width="50%" height="70%" style="background-color: #f8f8f8">
             <h:form id="InformePagoAlumnoCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{informePagoAlumnoController.selected != null}">
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{informePagoAlumnoController.selected.id}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_id}" />
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_alumno}" for="alumno" />
-                        <p:selectOneMenu id="alumno" value="#{informePagoAlumnoController.selected.alumno}" >
-                            <f:selectItems value="#{alumnoController.itemsAvailableSelectOne}"
-                                           var="alumnoItem"
-                                           itemValue="#{alumnoItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_cohorte}" for="cohorte" />
-                        <p:selectOneMenu id="cohorte" value="#{informePagoAlumnoController.selected.cohorte}" >
-                            <f:selectItems value="#{cohorteController.itemsAvailableSelectOne}"
-                                           var="cohorteItem"
-                                           itemValue="#{cohorteItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_nroCuota}" for="nroCuota" />
-                        <p:inputText id="nroCuota" value="#{informePagoAlumnoController.selected.nroCuota}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_nroCuota}" />
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{informePagoAlumnoController.selected.descripcion}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_descripcion}" />
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_fecha}" for="fecha" />
-                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{informePagoAlumnoController.selected.fecha}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_fecha}"  showOn="button"/>
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_comprobantePago}" for="comprobantePago" />
-                        <p:inputTextarea rows="4" cols="30" id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_comprobantePago}" />
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{informePagoAlumnoController.create}" value="#{bundleInformePagoAlumno.Save}" update="display,:InformePagoAlumnoListForm:datalist,:frmPri:growl" oncomplete="handleSubmit(args,'InformePagoAlumnoCreateDialog');"/>
+                    <div class="card" >
+                        <p:panelGrid columns="2"  
+                                     layout="grid"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     class="ui-panelgrid-blank ui-fluid"
+                                     style="border:0px none; background-color:transparent; height: 250px">
+
+                            <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_nroCuota}" for="nroCuota" />
+                            <p:inputText id="nroCuota" value="#{informePagoAlumnoController.selected.nroCuota}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_nroCuota}" />
+
+                            <p:outputLabel value="Subir Comprobante: " for="comprobantePago" />
+                            <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.archivo}" skinSimple="true" label="Elegir Archivo"/>
+
+                            <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_descripcion}" for="descripcion" />
+                            <p:inputText id="descripcion" value="#{informePagoAlumnoController.selected.descripcion}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_descripcion}" />
+
+                        </p:panelGrid>
+                    </div>
+                    <p:commandButton actionListener="#{informePagoAlumnoController.create}" value="#{bundleInformePagoAlumno.Save}" 
+                                     update="display,:InformePagoAlumnoListForm:datalist,:frmPri:growl" 
+                                     oncomplete="handleSubmit(args,'InformePagoAlumnoCreateDialog');"/>
                     <p:commandButton value="#{bundleInformePagoAlumno.Cancel}" onclick="InformePagoAlumnoCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
+
 
     </ui:composition>
 </html>
