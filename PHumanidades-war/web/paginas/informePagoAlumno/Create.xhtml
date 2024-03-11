@@ -13,7 +13,7 @@
                   modal="true" resizable="false" appendTo="@(body)"
                   position="top"
                   width="50%" height="70%" style="background-color: #f8f8f8">
-            <h:form id="InformePagoAlumnoCreateForm">
+            <h:form id="InformePagoAlumnoCreateForm" enctype="multipart/form-data">
                 <h:panelGroup id="display">
                     <div class="card" >
                         <p:panelGrid columns="2"  
@@ -26,7 +26,7 @@
                             <p:inputText id="nroCuota" value="#{informePagoAlumnoController.selected.nroCuota}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_nroCuota}" />
 
                             <p:outputLabel value="Subir Comprobante: " for="comprobantePago" />
-                            <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.archivo}" skinSimple="true" label="Elegir Archivo"/>
+                            <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" fileUploadListener="#{informePagoAlumnoController.handleFileUpload}" skinSimple="true" label="Elegir Archivo"/>
 
                             <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_descripcion}" for="descripcion" />
                             <p:inputText id="descripcion" value="#{informePagoAlumnoController.selected.descripcion}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_descripcion}" />

@@ -103,7 +103,8 @@ public class InformePagoAlumnoController implements Serializable {
         selected.setFecha(new Date());
         selected.setAlumno(this.getLoginAlumnoBean().getAlumno());
         selected.setCohorte(this.getCohorteLstBean().getCohorteSeleccionada());
-        selected.setComprobantePago(archivo.getContents());
+        System.out.println(selected.getComprobantePago());
+//        selected.setComprobantePago(archivo.getContents());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
@@ -219,6 +220,12 @@ public class InformePagoAlumnoController implements Serializable {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
+        System.out.println("ENTROO METODO handleFileUpload");
+        archivo = event.getFile();
+        System.out.println(archivo.getFileName());
+        String fileName = archivo.getFileName();
+        byte[] fileContent = archivo.getContents();
+        selected.setComprobantePago(fileContent);
         FacesMessage message = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
