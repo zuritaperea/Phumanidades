@@ -5,7 +5,10 @@ import Beans.util.JsfUtil;
 import Beans.util.JsfUtil.PersistAction;
 import DAO.InformePagoAlumnoFacade;
 import DAO.IngresoFacade;
+import DAO.IngresoFacadeLocal;
+import Entidades.Carreras.Cohorte;
 import Entidades.Ingresos.EstadoComprobanteAlumno;
+import Entidades.Persona.Alumno;
 import RN.IngresoRNLocal;
 
 import java.io.Serializable;
@@ -27,9 +30,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-
 
 //@Named("informePagoAlumnoController")
 //@SessionScoped
@@ -46,10 +49,13 @@ public class InformePagoAlumnoController implements Serializable {
     @ManagedProperty(value = "#{cohorteLstBean}")
     private CohorteLstBean cohorteLstBean;
     @EJB
-    private IngresoFacade ingresoFacade;
+    private IngresoFacadeLocal ingresoFacadeLocal;
     //para subir comprobante
     private UploadedFile archivo;
     private String dropZoneText = "Drop zone p:inputTextarea demo.";
+    @EJB
+    private InformePagoAlumnoFacade InformePagoAlumnoFacade;
+    private List<InformePagoAlumno> lstInformePagoAlumno;
 
     public InformePagoAlumnoController() {
     }
@@ -60,6 +66,22 @@ public class InformePagoAlumnoController implements Serializable {
 
     public void setLoginAlumnoBean(LoginAlumnoBean loginAlumnoBean) {
         this.loginAlumnoBean = loginAlumnoBean;
+    }
+
+    public InformePagoAlumnoFacade getInformePagoAlumnoFacade() {
+        return InformePagoAlumnoFacade;
+    }
+
+    public void setInformePagoAlumnoFacade(InformePagoAlumnoFacade InformePagoAlumnoFacade) {
+        this.InformePagoAlumnoFacade = InformePagoAlumnoFacade;
+    }
+
+    public List<InformePagoAlumno> getLstInformePagoAlumno() {
+        return lstInformePagoAlumno;
+    }
+
+    public void setLstInformePagoAlumno(List<InformePagoAlumno> lstInformePagoAlumno) {
+        this.lstInformePagoAlumno = lstInformePagoAlumno;
     }
 
     public InformePagoAlumno getSelected() {
@@ -96,17 +118,17 @@ public class InformePagoAlumnoController implements Serializable {
         this.cohorteLstBean = cohorteLstBean;
     }
 
-    public IngresoFacade getIngresoFacade() {
-        return ingresoFacade;
+    public IngresoFacadeLocal getIngresoFacadeLocal() {
+        return ingresoFacadeLocal;
     }
 
-    public void setIngresoFacade(IngresoFacade ingresoFacade) {
-        this.ingresoFacade = ingresoFacade;
+    public void setIngresoFacadeLocal(IngresoFacadeLocal ingresoFacadeLocal) {
+        this.ingresoFacadeLocal = ingresoFacadeLocal;
     }
-    
+
     public InformePagoAlumno prepareCreate() {
         selected = new InformePagoAlumno();
-        selected.setNroCuota(ingresoFacade.findUltimaCuotaAlumnoCohorte(null, null));
+        selected.setNroCuota(ingresoFacadeLocal.findUltimaCuotaAlumnoCohorte(this.getLoginAlumnoBean().getAlumno(), this.getCohorteLstBean().getCohorteSeleccionada()));
         initializeEmbeddableKey();
         return selected;
     }
@@ -144,6 +166,10 @@ public class InformePagoAlumnoController implements Serializable {
             items = getFacade().findAll();
         }
         return items;
+    }
+
+    public void setItems(List<InformePagoAlumno> lstInformePagoAlumnos) {
+        this.items = lstInformePagoAlumnos;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -224,13 +250,39 @@ public class InformePagoAlumnoController implements Serializable {
                 return null;
             }
         }
-        
-        
+
     }
-    
+
+    public void obtenerComprobantesAlumno(Alumno alumno, Cohorte cohorte) throws Exception {
+        FacesMessage fm;
+        if (cohorte != null) {
+            System.out.println("alumno cohorte: " + alumno);
+            //cohorteSeleccionada = cohorte;
+            //System.out.println("cohorte cohorte: " +cohorteSeleccionada);
+            try {
+                System.out.println("entro a setearlistade comprobantes");
+                this.setItems(InformePagoAlumnoFacade.findCuotasAlumnoCohorte(alumno, cohorte));
+                System.out.println(this.getLstInformePagoAlumno());
+                //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
+                if (this.getLstInformePagoAlumno().isEmpty()) {
+                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                    FacesContext fc = FacesContext.getCurrentInstance();
+                    fc.addMessage(null, fm);
+                }//fin if
+
+            } catch (Exception ex) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
+            }//fin catch
+
+            RequestContext.getCurrentInstance().update("frmPri:datalist");
+        }
+    }
+
     public void upload() {
         if (archivo != null) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, archivo.getFileName() + " se subio correctamente!",null);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, archivo.getFileName() + " se subio correctamente!", null);
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
@@ -246,7 +298,7 @@ public class InformePagoAlumnoController implements Serializable {
         selected.setNombreComprobantePago(fileName);
         //COMPROBANTE EN BYTE
         selected.setComprobantePago(fileContent);
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, fileName + " se subio correctamente!",null);
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, fileName + " se subio correctamente!", null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
@@ -257,6 +309,5 @@ public class InformePagoAlumnoController implements Serializable {
     public void setDropZoneText(String dropZoneText) {
         this.dropZoneText = dropZoneText;
     }
-
 
 }

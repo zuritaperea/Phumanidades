@@ -79,12 +79,12 @@ public class CohorteLstBean implements Serializable {
     private List<Cohorte> lstCohortesAlumnosConsulta;
 
     private List<Ingreso> lstCuotasAlumnoConsulta;
-    private List<InformePagoAlumno> lstInformePagoAlumno;
+    
     private List<Ingreso> lstCuotasAlumnoGeneral;
     private int cantidadCuotas;
     private int iTipoBoton;
-    @EJB
-    private InformePagoAlumnoFacade InformePagoAlumnoFacade;
+
+
 
     /**
      * Creates a new instance of UsuarioLstBean
@@ -277,23 +277,7 @@ public class CohorteLstBean implements Serializable {
         this.numeroRecibo = numeroRecibo;
     }
 
-    public InformePagoAlumnoFacade getInformePagoAlumnoFacade() {
-        return InformePagoAlumnoFacade;
-    }
 
-    public void setInformePagoAlumnoFacade(InformePagoAlumnoFacade InformePagoAlumnoFacade) {
-        this.InformePagoAlumnoFacade = InformePagoAlumnoFacade;
-    }
-
-
-
-    public List<InformePagoAlumno> getLstInformePagoAlumno() {
-        return lstInformePagoAlumno;
-    }
-
-    public void setLstInformePagoAlumno(List<InformePagoAlumno> lstInformePagoAlumno) {
-        this.lstInformePagoAlumno = lstInformePagoAlumno;
-    }
     
     
     public void cargarCohorte() {
@@ -391,30 +375,5 @@ public class CohorteLstBean implements Serializable {
 
         }
     }
-    public void obtenerComprobantesAlumno(Alumno alumno, Cohorte cohorte) throws Exception{
-        FacesMessage fm;
-        if (cohorte != null) {
-            System.out.println("alumno cohorte: " +alumno);
-            cohorteSeleccionada = cohorte;
-            try {
-
-                this.setLstInformePagoAlumno(InformePagoAlumnoFacade.findCuotasAlumnoCohorte(alumno, cohorteSeleccionada));
-                //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
-                if (this.getLstInformePagoAlumno().isEmpty()) {
-                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
-                    FacesContext fc = FacesContext.getCurrentInstance();
-                    fc.addMessage(null, fm);
-                }//fin if
-
-            } catch (Exception ex) {
-                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
-                FacesContext fc = FacesContext.getCurrentInstance();
-                fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
-            }//fin catch
-
-            RequestContext.getCurrentInstance().update("frmPri:datalist");
-            //RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsultaGeneral");
-
-        }
-    }
+  
 }

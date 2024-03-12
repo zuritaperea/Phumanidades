@@ -31,7 +31,7 @@
                                   rowKey="#{cort.id}">
                         <p:column width="10%">
                             <p:commandButton id="btnBuscar"
-                                             actionListener="#{cohorteLstBean.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
+                                             actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"/>
 
@@ -61,6 +61,7 @@
                              rowKey="#{item.id}"
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"
+                             filterEvent="enter"
                              >
                     <!--ajax aqui abajo-->
 
