@@ -21,15 +21,19 @@
                                      layout="grid"
                                      columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
                                      class="ui-panelgrid-blank ui-fluid"
-                                     style="border:0px none; background-color:transparent; height: 300px">
+                                     style="border:0px none; background-color:transparent; height: 200px">
 
                             <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_nroCuota}" for="nroCuota" />
                             <p:inputText id="nroCuota" value="#{informePagoAlumnoController.selected.nroCuota}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_nroCuota}" />
 
                             <p:outputLabel value="Comprobante: " />
-                            <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" 
+                            <!--<p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" 
                                           fileUploadListener="#{informePagoAlumnoController.handleFileUpload}" mode="advanced"
                                           skinSimple="false" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
+                                          update="mensaje"/>-->
+                            <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" 
+                                          fileUploadListener="#{informePagoAlumnoController.handleFileUpload}" mode="simple"
+                                          skinSimple="true" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
                                           update="mensaje"/>
                             <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_descripcion}" for="descripcion" />
                             <p:inputText id="descripcion" value="#{informePagoAlumnoController.selected.descripcion}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_descripcion}" />

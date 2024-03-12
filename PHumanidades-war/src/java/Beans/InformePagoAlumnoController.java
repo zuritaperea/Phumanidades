@@ -4,6 +4,9 @@ import Entidades.Ingresos.InformePagoAlumno;
 import Beans.util.JsfUtil;
 import Beans.util.JsfUtil.PersistAction;
 import DAO.InformePagoAlumnoFacade;
+import DAO.IngresoFacade;
+import Entidades.Ingresos.EstadoComprobanteAlumno;
+import RN.IngresoRNLocal;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -42,6 +45,8 @@ public class InformePagoAlumnoController implements Serializable {
     private LoginAlumnoBean loginAlumnoBean;
     @ManagedProperty(value = "#{cohorteLstBean}")
     private CohorteLstBean cohorteLstBean;
+    @EJB
+    private IngresoFacade ingresoFacade;
     //para subir comprobante
     private UploadedFile archivo;
     private String dropZoneText = "Drop zone p:inputTextarea demo.";
@@ -90,20 +95,31 @@ public class InformePagoAlumnoController implements Serializable {
     public void setCohorteLstBean(CohorteLstBean cohorteLstBean) {
         this.cohorteLstBean = cohorteLstBean;
     }
+
+    public IngresoFacade getIngresoFacade() {
+        return ingresoFacade;
+    }
+
+    public void setIngresoFacade(IngresoFacade ingresoFacade) {
+        this.ingresoFacade = ingresoFacade;
+    }
     
     public InformePagoAlumno prepareCreate() {
         selected = new InformePagoAlumno();
+        selected.setNroCuota(ingresoFacade.findUltimaCuotaAlumnoCohorte(null, null));
         initializeEmbeddableKey();
         return selected;
     }
 
     public void create() {
         System.out.println("ENTRO CREATE INFORMEPAAGOALUMNO");
+        //SETEAMOS VALORES PERSONALIZADOS
         System.out.println(this.getLoginAlumnoBean().getAlumno());
         selected.setFecha(new Date());
         selected.setAlumno(this.getLoginAlumnoBean().getAlumno());
         selected.setCohorte(this.getCohorteLstBean().getCohorteSeleccionada());
         System.out.println(selected.getComprobantePago());
+        selected.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
 //        selected.setComprobantePago(archivo.getContents());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -220,12 +236,15 @@ public class InformePagoAlumnoController implements Serializable {
     }
 
     public void handleFileUpload(FileUploadEvent event) {
+        //SETEAMOS VALORES DEL COMPROBANTE
         System.out.println("ENTROO METODO handleFileUpload");
         archivo = event.getFile();
         System.out.println(archivo.getFileName());
         String fileName = archivo.getFileName();
         byte[] fileContent = archivo.getContents();
+        //NOMBRE ARCHIVO
         selected.setNombreComprobantePago(fileName);
+        //COMPROBANTE EN BYTE
         selected.setComprobantePago(fileContent);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, fileName + " se subio correctamente!",null);
         FacesContext.getCurrentInstance().addMessage(null, message);
