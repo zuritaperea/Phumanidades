@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -61,14 +62,24 @@ public class InformePagoAlumnoController implements Serializable {
     private InformePagoAlumnoFacade InformePagoAlumnoFacade;
     private List<InformePagoAlumno> lstInformePagoAlumno;
     private Cohorte cohorteSeleccionada;
-
-    public InformePagoAlumnoController() {
-    }
-
+    private List<Cohorte> lstCohortesInformePagoAlumno;
     public LoginAlumnoBean getLoginAlumnoBean() {
         return loginAlumnoBean;
     }
+    @PostConstruct
+    private void init() {
+        this.items = null;
 
+    }
+
+    public List<Cohorte> getLstCohortesInformePagoAlumno() {
+        return lstCohortesInformePagoAlumno;
+    }
+
+    public void setLstCohortesInformePagoAlumno(List<Cohorte> lstCohortesInformePagoAlumno) {
+        this.lstCohortesInformePagoAlumno = lstCohortesInformePagoAlumno;
+    }
+    
     public void setLoginAlumnoBean(LoginAlumnoBean loginAlumnoBean) {
         this.loginAlumnoBean = loginAlumnoBean;
     }
@@ -96,7 +107,7 @@ public class InformePagoAlumnoController implements Serializable {
     public void setSelected(InformePagoAlumno selected) {
         this.selected = selected;
     }
-
+    
     protected void setEmbeddableKeys() {
     }
 
@@ -179,7 +190,8 @@ public class InformePagoAlumnoController implements Serializable {
 
     public List<InformePagoAlumno> getItems() {
         if (items == null) {
-            items = getFacade().findAll();
+            //items = getFacade().findAll();
+            items = lstInformePagoAlumno;
         }
         return items;
     }
@@ -274,10 +286,10 @@ public class InformePagoAlumnoController implements Serializable {
         if (cohorte != null) {
             System.out.println("alumno cohorte: " + alumno);
             cohorteSeleccionada = cohorte;
-            System.out.println("cohorte cohorte: " +cohorteSeleccionada);
+            System.out.println("cohorte cohorte: " + cohorteSeleccionada);
             try {
                 System.out.println("entro a setearlistade comprobantes");
-                this.setItems(InformePagoAlumnoFacade.findCuotasAlumnoCohorte(alumno, cohorte));
+                this.setItems(InformePagoAlumnoFacade.findCuotasAlumnoCohorte(alumno, cohorteSeleccionada));
                 System.out.println(this.getLstInformePagoAlumno());
                 //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
                 if (this.getLstInformePagoAlumno().isEmpty()) {

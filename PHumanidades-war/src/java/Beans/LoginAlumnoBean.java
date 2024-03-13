@@ -5,11 +5,13 @@
  */
 package Beans;
 
+import Entidades.Ingresos.InformePagoAlumno;
 import Entidades.Persona.Alumno;
 import Entidades.Usuarios.Usuarios;
 import RN.AlumnoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import RN.UsuariosRNLocal;
+import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -42,10 +44,12 @@ public class LoginAlumnoBean {
     @EJB
     private InscripcionAlumnosRNLocal inscripcionAlumnosRNLocal;
 
+
 //    public LoginAlumnoBean() {
 //        this.setDocumento(new String());
 //        this.setRecaptchaResponse(new String());
 //        this.setAlumno(new Alumno());
+//
 //    }
 
     public String getDocumento() {
@@ -96,6 +100,7 @@ public class LoginAlumnoBean {
         this.cohorteLstBean = cohorteLstBean;
     }
 
+
     public String ingresar() {
 
         try {
@@ -122,6 +127,7 @@ public class LoginAlumnoBean {
                 System.out.println(usuAlumno.getGrupo());
                 //LA POSTA JAJAJAJA
                 this.cohorteLstBean.setLstCohortesAlumnosConsulta(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
+                
                 //this.cohorteLstBean.setLstCohortesAlumnos(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
                 //System.out.println(usuarioLogerBean.getUsuario().getGrupo().getDescripcion());
                 return "/paginas/informePagoAlumno/List.xhtml?faces-redirect=true";

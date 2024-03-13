@@ -35,7 +35,11 @@ public class InformePagoAlumnoFacade extends AbstractFacade<InformePagoAlumno> {
 
     public List<InformePagoAlumno> findCuotasAlumnoCohorte(Alumno alumno, Cohorte cohorte) {
         try {
-            Query q = em.createNamedQuery("InformePagoAlumno.findCuotasAlumnoCohorte");
+            Query q = null;
+            System.out.println("Entro al informepagoalumnoFACXADE");
+            System.out.println(alumno);
+            System.out.println(cohorte);
+            q = em.createNamedQuery("InformePagoAlumno.findCuotasAlumnoCohorte");
             q.setParameter("alumno", alumno);
             q.setParameter("cohorte", cohorte);
             System.out.println("Entro consultaaaa"+q.getResultList());
