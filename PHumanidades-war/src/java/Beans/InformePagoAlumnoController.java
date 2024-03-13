@@ -10,6 +10,8 @@ import Entidades.Carreras.Cohorte;
 import Entidades.Ingresos.EstadoComprobanteAlumno;
 import Entidades.Persona.Alumno;
 import RN.IngresoRNLocal;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -32,6 +34,8 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 //@Named("informePagoAlumnoController")
@@ -56,6 +60,7 @@ public class InformePagoAlumnoController implements Serializable {
     @EJB
     private InformePagoAlumnoFacade InformePagoAlumnoFacade;
     private List<InformePagoAlumno> lstInformePagoAlumno;
+    private Cohorte cohorteSeleccionada;
 
     public InformePagoAlumnoController() {
     }
@@ -126,9 +131,20 @@ public class InformePagoAlumnoController implements Serializable {
         this.ingresoFacadeLocal = ingresoFacadeLocal;
     }
 
+    public Cohorte getCohorteSeleccionada() {
+        return cohorteSeleccionada;
+    }
+
+    public void setCohorteSeleccionada(Cohorte cohorteSeleccionada) {
+        this.cohorteSeleccionada = cohorteSeleccionada;
+    }
+    
     public InformePagoAlumno prepareCreate() {
         selected = new InformePagoAlumno();
-        selected.setNroCuota(ingresoFacadeLocal.findUltimaCuotaAlumnoCohorte(this.getLoginAlumnoBean().getAlumno(), this.getCohorteLstBean().getCohorteSeleccionada()));
+        System.out.println("ENTRO PREPARATE CREATEE");
+        System.out.println(this.getCohorteLstBean().getCohorteSeleccionada());
+        System.out.println(this.getLoginAlumnoBean().getAlumno());
+        selected.setNroCuota(ingresoFacadeLocal.findUltimaCuotaAlumnoCohorte(this.getLoginAlumnoBean().getAlumno(), this.getCohorteSeleccionada()));
         initializeEmbeddableKey();
         return selected;
     }
@@ -257,8 +273,8 @@ public class InformePagoAlumnoController implements Serializable {
         FacesMessage fm;
         if (cohorte != null) {
             System.out.println("alumno cohorte: " + alumno);
-            //cohorteSeleccionada = cohorte;
-            //System.out.println("cohorte cohorte: " +cohorteSeleccionada);
+            cohorteSeleccionada = cohorte;
+            System.out.println("cohorte cohorte: " +cohorteSeleccionada);
             try {
                 System.out.println("entro a setearlistade comprobantes");
                 this.setItems(InformePagoAlumnoFacade.findCuotasAlumnoCohorte(alumno, cohorte));
@@ -308,6 +324,26 @@ public class InformePagoAlumnoController implements Serializable {
 
     public void setDropZoneText(String dropZoneText) {
         this.dropZoneText = dropZoneText;
+    }
+
+    public StreamedContent descargarArchivo(InformePagoAlumno informePagoAlumno) {
+        InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
+        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
+        System.out.println("fileeee para descargar: ");
+        System.out.println(file);
+        return file;
+    }
+
+    private StreamedContent file;
+
+    public void FileDownloadView(InformePagoAlumno informePagoAlumno) {
+        InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
+        file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
+
+    }
+
+    public StreamedContent getFile() {
+        return file;
     }
 
 }

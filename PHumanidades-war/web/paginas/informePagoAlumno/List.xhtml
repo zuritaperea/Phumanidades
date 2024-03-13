@@ -118,6 +118,15 @@
                         </f:facet>
                         <h:outputText value="#{item.estadoComprobanteAlumno}"/>
                     </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Descargar"/>
+                        </f:facet>
+                        <b:commandButton value="Descargar" action="#{informePagoAlumnoController.FileDownloadView(item)}"
+                                         icon="pi pi-arrow-down" look="success" style="width:100px">
+                            <p:fileDownload value="#{informePagoAlumnoController.file}"/>
+                        </b:commandButton>
+                    </p:column>
                     <f:facet name="footer">
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
                         <p:commandButton id="viewButtonIPA"   icon="ui-icon-search" value="#{bundleInformePagoAlumno.View}" update=":InformePagoAlumnoViewForm" oncomplete="PF('InformePagoAlumnoViewDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
