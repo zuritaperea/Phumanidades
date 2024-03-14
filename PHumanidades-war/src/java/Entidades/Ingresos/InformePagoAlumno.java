@@ -27,8 +27,7 @@ import javax.persistence.Temporal;
  * @author hugo
  */
 @Entity
-@NamedQuery(name = "InformePagoAlumno.findCuotasAlumnoCohorte",
-            query = "SELECT c FROM InformePagoAlumno c WHERE c.alumno=:alumno AND c.cohorte=:cohorte")
+@NamedQuery(name = "InformePagoAlumno.findPagosAlumnoCohorte",query = "SELECT c FROM InformePagoAlumno c WHERE c.alumno=:alumno AND c.cohorte.id=:cohorte")
 @Table(name = "informe_pago_alumno")
 public class InformePagoAlumno implements Serializable {
 

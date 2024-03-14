@@ -127,7 +127,7 @@ public class LoginAlumnoBean {
                 System.out.println(usuAlumno.getGrupo());
                 //LA POSTA JAJAJAJA
                 this.cohorteLstBean.setLstCohortesAlumnosConsulta(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
-                
+                System.out.println(this.cohorteLstBean.getLstCohortesAlumnosConsulta());
                 //this.cohorteLstBean.setLstCohortesAlumnos(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
                 //System.out.println(usuarioLogerBean.getUsuario().getGrupo().getDescripcion());
                 return "/paginas/informePagoAlumno/List.xhtml?faces-redirect=true";

@@ -10,11 +10,13 @@ import Entidades.Carreras.Cohorte;
 import Entidades.Ingresos.EstadoComprobanteAlumno;
 import Entidades.Persona.Alumno;
 import RN.IngresoRNLocal;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -41,7 +43,7 @@ import org.primefaces.model.UploadedFile;
 
 //@Named("informePagoAlumnoController")
 //@SessionScoped
-@ManagedBean
+@ManagedBean(name = "informePagoAlumnoController")
 @SessionScoped
 public class InformePagoAlumnoController implements Serializable {
 
@@ -68,7 +70,7 @@ public class InformePagoAlumnoController implements Serializable {
     }
     @PostConstruct
     private void init() {
-        this.items = null;
+        this.setItems(new ArrayList<InformePagoAlumno>());
 
     }
 
@@ -189,10 +191,10 @@ public class InformePagoAlumnoController implements Serializable {
     }
 
     public List<InformePagoAlumno> getItems() {
-        if (items == null) {
-            //items = getFacade().findAll();
-            items = lstInformePagoAlumno;
-        }
+//        if (items == null) {
+//            //items = getFacade().findAll();
+//            items = lstInformePagoAlumno;
+//        }
         return items;
     }
 
@@ -289,7 +291,7 @@ public class InformePagoAlumnoController implements Serializable {
             System.out.println("cohorte cohorte: " + cohorteSeleccionada);
             try {
                 System.out.println("entro a setearlistade comprobantes");
-                this.setItems(InformePagoAlumnoFacade.findCuotasAlumnoCohorte(alumno, cohorteSeleccionada));
+                this.setItems(InformePagoAlumnoFacade.findPagosAlumnoCohorte(alumno, cohorteSeleccionada));
                 System.out.println(this.getLstInformePagoAlumno());
                 //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
                 if (this.getLstInformePagoAlumno().isEmpty()) {
@@ -304,7 +306,7 @@ public class InformePagoAlumnoController implements Serializable {
                 fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
             }//fin catch
 
-            RequestContext.getCurrentInstance().update("frmPri:datalist");
+            RequestContext.getCurrentInstance().update("datalist");
         }
     }
 
