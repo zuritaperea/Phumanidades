@@ -10,10 +10,14 @@ import Entidades.Persona.Alumno;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -23,6 +27,7 @@ import javax.persistence.Temporal;
  * @author hugo
  */
 @Entity
+@NamedQuery(name = "InformePagoAlumno.findCuotasAlumnoCohorte",query = "SELECT c FROM InformePagoAlumno c WHERE c.alumno=:alumno AND c.cohorte=:cohorte")
 @Table(name = "informe_pago_alumno")
 public class InformePagoAlumno implements Serializable {
 
@@ -38,8 +43,11 @@ public class InformePagoAlumno implements Serializable {
     private String descripcion;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fecha;
+    private String nombreComprobantePago;
     @Lob
     private byte[] comprobantePago;
+    @Enumerated(EnumType.STRING)
+    private EstadoComprobanteAlumno estadoComprobanteAlumno;
 
     public Long getId() {
         return id;
@@ -95,6 +103,22 @@ public class InformePagoAlumno implements Serializable {
 
     public void setComprobantePago(byte[] comprobantePago) {
         this.comprobantePago = comprobantePago;
+    }
+
+    public EstadoComprobanteAlumno getEstadoComprobanteAlumno() {
+        return estadoComprobanteAlumno;
+    }
+
+    public void setEstadoComprobanteAlumno(EstadoComprobanteAlumno estadoComprobanteAlumno) {
+        this.estadoComprobanteAlumno = estadoComprobanteAlumno;
+    }
+
+    public String getNombreComprobantePago() {
+        return nombreComprobantePago;
+    }
+
+    public void setNombreComprobantePago(String nombreComprobantePago) {
+        this.nombreComprobantePago = nombreComprobantePago;
     }
 
     @Override
