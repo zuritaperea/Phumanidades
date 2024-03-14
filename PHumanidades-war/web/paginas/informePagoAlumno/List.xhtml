@@ -14,7 +14,7 @@
         <h3>
             <h:outputText value="Informe de Pago - Alumnos"></h:outputText>
         </h3>
-        <h:form id="InformePagoAlumnoListForm">
+        <h:form id="informePagoAlumnoListForm">
 
             <p:panel header="Carga de Comprobantes">
                 <h:panelGrid columns="2" style="width: 50%" >
@@ -69,7 +69,7 @@
                     <p:ajax event="rowSelect"   update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
                     <p:ajax event="rowUnselect" update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
 
-                    <p:column>
+                    <p:column style="text-align: center;  width: 60">
                         <f:facet name="header">
                             <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_id}"/>
                         </f:facet>
@@ -81,13 +81,13 @@
                         </f:facet>
                         <h:outputText value="#{item.alumno}"/>
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_cohorte}"/>
                         </f:facet>
                         <h:outputText value="#{item.cohorte}"/>
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_nroCuota}"/>
                         </f:facet>
@@ -99,12 +99,12 @@
                         </f:facet>
                         <h:outputText value="#{item.descripcion}"/>
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_fecha}"/>
                         </f:facet>
                         <h:outputText value="#{item.fecha}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                         </h:outputText>
                     </p:column>
                     <p:column>
@@ -113,18 +113,18 @@
                         </f:facet>
                         <h:outputText value="#{item.nombreComprobantePago}"/>
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="Estado del Comprobante"/>
                         </f:facet>
-                        <h:outputText value="#{item.estadoComprobanteAlumno}"/>
+                        <h:outputText value="#{item.estadoComprobanteAlumno.name}"/>
                     </p:column>
-                    <p:column>
+                    <p:column style="text-align: center; width: 150">
                         <f:facet name="header">
                             <h:outputText value="Descargar"/>
                         </f:facet>
-                        <b:commandButton value="Descargar" action="#{informePagoAlumnoController.FileDownloadView(item)}"
-                                         icon="pi pi-arrow-down" look="success" style="width:100px">
+                        <b:commandButton iconAwesome="fa-thin fa-download" value="" action="#{informePagoAlumnoController.FileDownloadView(item)}"
+                                         look="success">
                             <p:fileDownload value="#{informePagoAlumnoController.file}"/>
                         </b:commandButton>
                     </p:column>

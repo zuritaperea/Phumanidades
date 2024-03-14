@@ -37,7 +37,7 @@
                         <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_comprobantePago}" for="comprobantePago" />
                         <p:inputTextarea rows="4" cols="30" id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_comprobantePago}" />
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{informePagoAlumnoController.update}" value="#{bundleInformePagoAlumno.Save}" update="display,:InformePagoAlumnoListForm:datalist,:frmPri:growl" oncomplete="handleSubmit(args, 'InformePagoAlumnoEditDialog');"/>
+                    <p:commandButton actionListener="#{informePagoAlumnoController.update}" value="#{bundleInformePagoAlumno.Save}" update="display,:informePagoAlumnoListForm:datalist,:frmPri:growl" oncomplete="handleSubmit(args, 'InformePagoAlumnoEditDialog');"/>
                     <p:commandButton value="#{bundleInformePagoAlumno.Cancel}" onclick="InformePagoAlumnoEditDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

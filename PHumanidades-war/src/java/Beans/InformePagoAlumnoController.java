@@ -35,6 +35,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.context.PrimeFacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -155,7 +156,7 @@ public class InformePagoAlumnoController implements Serializable {
     public InformePagoAlumno prepareCreate() {
         selected = new InformePagoAlumno();
         System.out.println("ENTRO PREPARATE CREATEE");
-        System.out.println(this.getCohorteLstBean().getCohorteSeleccionada());
+        System.out.println(this.getCohorteSeleccionada());
         System.out.println(this.getLoginAlumnoBean().getAlumno());
         selected.setNroCuota(ingresoFacadeLocal.findUltimaCuotaAlumnoCohorte(this.getLoginAlumnoBean().getAlumno(), this.getCohorteSeleccionada()));
         initializeEmbeddableKey();
@@ -168,13 +169,14 @@ public class InformePagoAlumnoController implements Serializable {
         System.out.println(this.getLoginAlumnoBean().getAlumno());
         selected.setFecha(new Date());
         selected.setAlumno(this.getLoginAlumnoBean().getAlumno());
-        selected.setCohorte(this.getCohorteLstBean().getCohorteSeleccionada());
+        selected.setCohorte(this.getCohorteSeleccionada());
         System.out.println(selected.getComprobantePago());
         selected.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
 //        selected.setComprobantePago(archivo.getContents());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            System.out.println("entrooooooo !JsfUtil.isValidationFailed()");
+            //items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
@@ -292,9 +294,9 @@ public class InformePagoAlumnoController implements Serializable {
             try {
                 System.out.println("entro a setearlistade comprobantes");
                 this.setItems(InformePagoAlumnoFacade.findPagosAlumnoCohorte(alumno, cohorteSeleccionada));
-                System.out.println(this.getLstInformePagoAlumno());
+                System.out.println(this.getItems());
                 //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
-                if (this.getLstInformePagoAlumno().isEmpty()) {
+                if (this.getItems().isEmpty()) {
                     fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
                     FacesContext fc = FacesContext.getCurrentInstance();
                     fc.addMessage(null, fm);
@@ -306,7 +308,7 @@ public class InformePagoAlumnoController implements Serializable {
                 fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
             }//fin catch
 
-            RequestContext.getCurrentInstance().update("datalist");
+            RequestContext.getCurrentInstance().update("informePagoAlumnoListForm:datalist");
         }
     }
 
@@ -359,5 +361,10 @@ public class InformePagoAlumnoController implements Serializable {
     public StreamedContent getFile() {
         return file;
     }
-
+    public void cargarLista(){
+        System.out.println("ENTRO CARGAR LISTAAAAAA");
+        RequestContext.getCurrentInstance().update(":informePagoAlumnoListForm:datalist");
+       //RequestContext.getCurrentInstance().execute("PF('informePagoAlumnoListForm:datalist').filter();");
+        
+    }
 }

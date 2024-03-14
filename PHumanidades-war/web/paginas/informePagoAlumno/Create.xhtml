@@ -38,8 +38,9 @@
                         </p:panelGrid>
                     </div>
                     <p:commandButton actionListener="#{informePagoAlumnoController.create}" value="#{bundleInformePagoAlumno.Save}" 
-                                     update="display,:InformePagoAlumnoListForm:datalist,:frmPri:growl" 
-                                     oncomplete="handleSubmit(args,'InformePagoAlumnoCreateDialog');"/>
+                                     update="display,:informePagoAlumnoListForm:datalist,:frmPri:growl" 
+                                     oncomplete="handleSubmit(args,'InformePagoAlumnoCreateDialog');#{informePagoAlumnoController.cargarLista()}"
+                                     />
                     <p:commandButton value="#{bundleInformePagoAlumno.Cancel}" onclick="InformePagoAlumnoCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
