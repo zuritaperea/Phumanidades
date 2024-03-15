@@ -66,9 +66,11 @@ public class InformePagoAlumnoController implements Serializable {
     private List<InformePagoAlumno> lstInformePagoAlumno;
     private Cohorte cohorteSeleccionada;
     private List<Cohorte> lstCohortesInformePagoAlumno;
+
     public LoginAlumnoBean getLoginAlumnoBean() {
         return loginAlumnoBean;
     }
+
     @PostConstruct
     private void init() {
         this.setItems(new ArrayList<InformePagoAlumno>());
@@ -82,7 +84,7 @@ public class InformePagoAlumnoController implements Serializable {
     public void setLstCohortesInformePagoAlumno(List<Cohorte> lstCohortesInformePagoAlumno) {
         this.lstCohortesInformePagoAlumno = lstCohortesInformePagoAlumno;
     }
-    
+
     public void setLoginAlumnoBean(LoginAlumnoBean loginAlumnoBean) {
         this.loginAlumnoBean = loginAlumnoBean;
     }
@@ -110,7 +112,7 @@ public class InformePagoAlumnoController implements Serializable {
     public void setSelected(InformePagoAlumno selected) {
         this.selected = selected;
     }
-    
+
     protected void setEmbeddableKeys() {
     }
 
@@ -152,7 +154,7 @@ public class InformePagoAlumnoController implements Serializable {
     public void setCohorteSeleccionada(Cohorte cohorteSeleccionada) {
         this.cohorteSeleccionada = cohorteSeleccionada;
     }
-    
+
     public InformePagoAlumno prepareCreate() {
         selected = new InformePagoAlumno();
         System.out.println("ENTRO PREPARATE CREATEE");
@@ -174,9 +176,14 @@ public class InformePagoAlumnoController implements Serializable {
         selected.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
 //        selected.setComprobantePago(archivo.getContents());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            System.out.println("entrooooooo !JsfUtil.isValidationFailed()");
-            //items = null;    // Invalidate list of items to trigger re-query.
+//        if (!JsfUtil.isValidationFailed()) {
+//            System.out.println("entrooooooo !JsfUtil.isValidationFailed()");
+//            //items = null;    // Invalidate list of items to trigger re-query.
+//        }
+        try {
+            this.obtenerComprobantesAlumno(this.getLoginAlumnoBean().getAlumno(), cohorteSeleccionada);
+        } catch (Exception ex) {
+            Logger.getLogger(InformePagoAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -186,9 +193,14 @@ public class InformePagoAlumnoController implements Serializable {
 
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+//        if (!JsfUtil.isValidationFailed()) {
+//            selected = null; // Remove selection
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
+        try {
+            this.obtenerComprobantesAlumno(this.getLoginAlumnoBean().getAlumno(), cohorteSeleccionada);
+        } catch (Exception ex) {
+            Logger.getLogger(InformePagoAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -361,10 +373,17 @@ public class InformePagoAlumnoController implements Serializable {
     public StreamedContent getFile() {
         return file;
     }
-    public void cargarLista(){
+
+    public void cargarLista() {
         System.out.println("ENTRO CARGAR LISTAAAAAA");
         RequestContext.getCurrentInstance().update(":informePagoAlumnoListForm:datalist");
        //RequestContext.getCurrentInstance().execute("PF('informePagoAlumnoListForm:datalist').filter();");
+
+    }
+    
+    public void limpiarCampos(){
+        this.setItems(null);
+        RequestContext.getCurrentInstance().update(":informePagoAlumnoListForm:datalist");
         
     }
 }

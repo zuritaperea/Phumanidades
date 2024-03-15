@@ -20,6 +20,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -102,7 +103,7 @@ public class LoginAlumnoBean {
 
 
     public String ingresar() {
-
+        
         try {
             recaptchaResponse = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("g-recaptcha-response");
             alumno = alumnoRNLocal.findByAlumnoDni(documento);
@@ -129,7 +130,8 @@ public class LoginAlumnoBean {
                 this.cohorteLstBean.setLstCohortesAlumnosConsulta(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
                 System.out.println(this.cohorteLstBean.getLstCohortesAlumnosConsulta());
                 //this.cohorteLstBean.setLstCohortesAlumnos(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(alumno));
-                //System.out.println(usuarioLogerBean.getUsuario().getGrupo().getDescripcion());
+                //System.out.println(usuarioLogerBean.getUsuario().getGrupo().getDescripcion())
+                RequestContext.getCurrentInstance().update("informePagoAlumnoListForm:datalist");
                 return "/paginas/informePagoAlumno/List.xhtml?faces-redirect=true";
             } else {
                 FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Alumno no encontrado", null);
