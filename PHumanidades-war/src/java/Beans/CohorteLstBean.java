@@ -48,6 +48,8 @@ public class CohorteLstBean implements Serializable {
 
     @EJB
     private IngresoRNLocal ingresoCuotaRNLocal;
+    @EJB
+    private InformePagoAlumnoFacade informePagoAlumnoFacade;
 
     @ManagedProperty(value = "#{alumnoLstBean}")
     private AlumnoLstBean alumnoLstBean;
@@ -79,12 +81,12 @@ public class CohorteLstBean implements Serializable {
     private List<Cohorte> lstCohortesAlumnosConsulta;
 
     private List<Ingreso> lstCuotasAlumnoConsulta;
-    
+
     private List<Ingreso> lstCuotasAlumnoGeneral;
     private int cantidadCuotas;
     private int iTipoBoton;
-
-
+    
+    private List<InformePagoAlumno> lstInformePagoAlumno;
 
     /**
      * Creates a new instance of UsuarioLstBean
@@ -277,7 +279,22 @@ public class CohorteLstBean implements Serializable {
         this.numeroRecibo = numeroRecibo;
     }
 
+    public InformePagoAlumnoFacade getInformePagoAlumnoFacade() {
+        return informePagoAlumnoFacade;
+    }
 
+    public void setInformePagoAlumnoFacade(InformePagoAlumnoFacade informePagoAlumnoFacade) {
+        this.informePagoAlumnoFacade = informePagoAlumnoFacade;
+    }
+
+    public List<InformePagoAlumno> getLstInformePagoAlumno() {
+        return lstInformePagoAlumno;
+    }
+
+    public void setLstInformePagoAlumno(List<InformePagoAlumno> lstInformePagoAlumno) {
+        this.lstInformePagoAlumno = lstInformePagoAlumno;
+    }
+    
     
     
     public void cargarCohorte() {
@@ -352,7 +369,7 @@ public class CohorteLstBean implements Serializable {
     public void obtenerDatosPagosCohorte(Alumno a, Cohorte cort) throws Exception {
         FacesMessage fm;
         if (cort != null) {
-            System.out.println("alumno cohorte: " +a);
+            System.out.println("alumno cohorte: " + a);
             cohorteSeleccionada = cort;
             try {
 
@@ -375,5 +392,32 @@ public class CohorteLstBean implements Serializable {
 
         }
     }
-  
+
+    public void obtenerComprobantePagoAlumno(Alumno a, Cohorte cort) throws Exception {
+        FacesMessage fm;
+        if (cort != null) {
+            System.out.println("alumno cohorte: " + a);
+            cohorteSeleccionada = cort;
+            try {
+
+                this.setLstInformePagoAlumno(informePagoAlumnoFacade.findPagosAlumnoCohorte(a, cohorteSeleccionada));
+                //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
+                if (this.getLstInformePagoAlumno().isEmpty()) {
+                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                    FacesContext fc = FacesContext.getCurrentInstance();
+                    fc.addMessage(null, fm);
+                }//fin if
+
+            } catch (Exception ex) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
+            }//fin catch
+
+            RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsulta");
+            //RequestContext.getCurrentInstance().update("frmPri:dtCobroCuotasConsultaGeneral");
+
+        }
+    }
+
 }
