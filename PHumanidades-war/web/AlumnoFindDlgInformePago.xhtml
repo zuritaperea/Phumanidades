@@ -1,0 +1,104 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <!--Inicio Dialogo buscar Docente-->
+    <p:dialog id="dFindAlumnoConsultaPago"  
+              widgetVar="dlgFindAlumnoPago" 
+              modal="true"
+              width="700" position="top" >
+
+
+
+
+        <div style="clear: both;"/>
+
+
+        <div class="camposTexto" style="width: 500px;">
+
+            <f:facet name="header">  
+                <h:outputText value="Busqueda de Alumnos"/>
+
+            </f:facet>  
+
+
+            <h:panelGrid columns="3"  cellpadding="5">
+                <h:outputText value="Dni"/>
+                <p:inputMask id="itBusquedaAlumno" 
+                             required="false"
+                             value="#{informePagoAlumnoBean.textoBusqueda}"
+                             mask="99999999"
+                             /> 
+
+
+                <p:commandButton id="btnDniAlumno" 
+                                 icon="ui-icon-search"
+                                 actionListener="#{informePagoAlumnoBean.buscarAlumnoDni()}"
+                                 update="dtBusquedaAlumnoConsulta"
+                                 process="@this, itBusquedaAlumno"/>
+            </h:panelGrid>
+            <div style=" float: left;">
+                <p:messages autoUpdate="true"/>
+            </div>
+
+            <div style="width: 650px">
+                <p:dataTable id="dtBusquedaAlumnoConsulta"
+                             value="#{alumnoLstBean.lstAlumnoConsulta}"
+                             var="te"
+                             paginator="true"
+                             rows="10"
+                             rowKey="#{te.id}"
+                             selection="#{alumnoLstBean.alumnoSelectConsulta}"
+                             selectionMode="single"
+                             >
+
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Dni"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.dni}"/>
+
+                    </p:column>
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Apellido"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.apellido}"/>
+
+                    </p:column>
+
+                    <p:column style="word-wrap:break-word;">
+                        <f:facet name="header">
+                            <h:outputText value="Nombre"/>
+                        </f:facet>
+
+                        <h:outputText value="#{te.nombre}"/>
+
+                    </p:column>
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="cbSelectAlumno"
+                                         value="Seleccionar"
+                                         action="#{alumnoBean.devolverAlumnoConsulta()}"
+                                         icon="ui-icon-search"  
+                                         process="dtBusquedaAlumnoConsulta,@this"
+                                         oncomplete="PF('dlgFindAlumnoConsulta').hide();"/>  
+                    </f:facet>
+
+
+                </p:dataTable> 
+
+            </div>
+
+
+        </div>
+
+    </p:dialog> 
+</ui:composition>

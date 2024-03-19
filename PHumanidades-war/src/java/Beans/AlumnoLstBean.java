@@ -35,10 +35,10 @@ public class AlumnoLstBean implements Serializable {
     private DataTable tablaAlumno;
 
     private Alumno alumnoSelect;
-    
+
     private List<Alumno> lstAlumnoConsulta;
     private Alumno alumnoSelectConsulta;
-    
+
     /**
      * Creates a new instance of AlumnoLstBean
      */
@@ -65,8 +65,6 @@ public class AlumnoLstBean implements Serializable {
     public void setLstAlumnoConsulta(List<Alumno> lstAlumnoConsulta) {
         this.lstAlumnoConsulta = lstAlumnoConsulta;
     }
-    
-    
 
     public List<Alumno> getFiltroAlumnos() {
         return filtroAlumnos;
@@ -123,8 +121,6 @@ public class AlumnoLstBean implements Serializable {
     public void setAlumnoSelectConsulta(Alumno alumnoSelectConsulta) {
         this.alumnoSelectConsulta = alumnoSelectConsulta;
     }
-    
-    
 
     public void cargarAlumnos() {
         try {
@@ -147,16 +143,18 @@ public class AlumnoLstBean implements Serializable {
     }
 
     public void findAlumnoDni(String dni) throws Exception {
-       
+
         this.setLstAlunmo(new ArrayList<Alumno>());
         this.lstAlumno.add(alumnoRNLocal.findByAlumnoDni(dni));
     }
 
-        public void findAlumnoDniConsulta(String dni) throws Exception {
-       
-            this.setLstAlumnoConsulta(new ArrayList<Alumno>());
-            this.lstAlumnoConsulta.add(alumnoRNLocal.findByAlumnoDni(dni));
+    public void findAlumnoDniConsulta(String dni) throws Exception {
+
+        this.setLstAlumnoConsulta(new ArrayList<Alumno>());
+        this.lstAlumnoConsulta.add(alumnoRNLocal.findByAlumnoDni(dni));
+        System.out.println(this.getLstAlumnoConsulta());
     }
+
     public void findDocenteApellido(String apellido) throws Exception {
 
         this.setLstAlunmo(alumnoRNLocal.findLikeNombreApellido(apellido));

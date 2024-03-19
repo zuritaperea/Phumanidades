@@ -526,13 +526,14 @@ public class AlumnoBean {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
+        System.out.println("entroo buscar dni consulta");
         try {
             if (busquedaConsulta.equals("")) {
-                //System.out.println("cadena vacia"+busquedaConsulta );
+                System.out.println("cadena vacia"+busquedaConsulta );
                 sMensaje = "Ingrese un numero de Documento ";
                 severity = FacesMessage.SEVERITY_INFO;
             } else {
-                //System.out.println("cpor el else "+busquedaConsulta );
+                System.out.println("cpor el else "+busquedaConsulta );
                 this.getAlumnoLstBean().findAlumnoDniConsulta(busquedaConsulta);
             }
 
@@ -795,4 +796,9 @@ public class AlumnoBean {
 
     }
 
+    
+    
+    
+    
+    
 }
