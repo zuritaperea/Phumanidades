@@ -15,9 +15,7 @@
             <h:outputText value="Comprobantes de Pago - Alumnos"></h:outputText>
         </h3>
         <h:form id="informePagoAlumnoListForm">
-
-            <p:panel header="Carga de Comprobantes">
-                <table>
+               <table>
                     <tr>
 
 
@@ -52,7 +50,7 @@
                                               rowKey="#{cort.id}">
                                     <p:column width="10%">
                                         <p:commandButton id="btnBuscar"
-                                                         actionListener="#{cohorteLstBean.obtenerDatosPagosCohorte(alumnoLstBean.alumnoSelectConsulta,cort)}"
+                                                         actionListener="#{cohorteLstBean.obtenerComprobantePagoAlumno(alumnoLstBean.alumnoSelectConsulta, cort)}"
                                                          icon="ui-icon-search"
                                                          styleClass="boton"/>
 
@@ -93,9 +91,9 @@
                              filterEvent="enter"
                              >
                     <!--ajax aqui abajo-->
-
+                    <!--
                     <p:ajax event="rowSelect"   update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
-                    <p:ajax event="rowUnselect" update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
+                    <p:ajax event="rowUnselect" update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>-->
 
                     <p:column style="text-align: center;  width: 60">
                         <f:facet name="header">
@@ -157,17 +155,14 @@
                         </b:commandButton>
                     </p:column>
                     <f:facet name="footer">
-                        <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
-                        <p:commandButton id="viewButtonIPA"   icon="ui-icon-search" value="#{bundleInformePagoAlumno.View}" update=":InformePagoAlumnoViewForm" oncomplete="PF('InformePagoAlumnoViewDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
-                        <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="#{bundleInformePagoAlumno.Edit}" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
-                        <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{empty informePagoAlumnoController.selected}"/>
+
                     </f:facet>
                 </p:dataTable>
-            </p:panel>
+
         </h:form>
 
-        <ui:include src="Create.xhtml"/>
+        <!--<ui:include src="Create.xhtml"/>
         <ui:include src="Edit.xhtml"/>
-        <ui:include src="View.xhtml"/>
+        <ui:include src="View.xhtml"/>-->
     </ui:define>
 </ui:composition>
