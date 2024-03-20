@@ -6,16 +6,21 @@
 package Beans;
 
 import DAO.InformePagoAlumnoFacade;
+import Entidades.Carreras.Cohorte;
 import Entidades.Ingresos.InformePagoAlumno;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
 import RN.AlumnoRNLocal;
+import RN.InscripcionAlumnosRNLocal;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import org.primefaces.context.RequestContext;
@@ -36,9 +41,14 @@ public class InformePagoAlumnoBean implements Serializable {
     private List<InformePagoAlumno> items = null;
     private InformePagoAlumno selected;
     private List<Alumno> lstAlumno;
+    private Alumno alumno;
     private String textoBusqueda;
     @EJB
     private AlumnoRNLocal alumnoRNLocal;
+    @EJB
+    private InscripcionAlumnosRNLocal inscripcionAlumnoRNLocal;
+    
+    private List<Cohorte> lstCohorteAlumnoPago;
 
     public InformePagoAlumnoBean() {
     }
@@ -83,10 +93,46 @@ public class InformePagoAlumnoBean implements Serializable {
         this.textoBusqueda = textoBusqueda;
     }
 
+    public Alumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
+    }
+
+    public AlumnoRNLocal getAlumnoRNLocal() {
+        return alumnoRNLocal;
+    }
+
+    public void setAlumnoRNLocal(AlumnoRNLocal alumnoRNLocal) {
+        this.alumnoRNLocal = alumnoRNLocal;
+    }
+
+    public InscripcionAlumnosRNLocal getInscripcionAlumnoRNLocal() {
+        return inscripcionAlumnoRNLocal;
+    }
+
+    public void setInscripcionAlumnoRNLocal(InscripcionAlumnosRNLocal inscripcionAlumnoRNLocal) {
+        this.inscripcionAlumnoRNLocal = inscripcionAlumnoRNLocal;
+    }
+
+    public List<Cohorte> getLstCohorteAlumnoPago() {
+        return lstCohorteAlumnoPago;
+    }
+
+    public void setLstCohorteAlumnoPago(List<Cohorte> lstCohorteAlumnoPago) {
+        this.lstCohorteAlumnoPago = lstCohorteAlumnoPago;
+    }
+    
+
     public void abrirDlgFindAlumnoConsulta() {
         // btnSelect = (CommandButton) e.getSource();
         this.setItems(new ArrayList<InformePagoAlumno>());
         this.setLstAlumno(new ArrayList<Alumno>());
+        //agregados para probar
+        this.setAlumno(new Alumno());
+        this.setTextoBusqueda(new String());
         RequestContext.getCurrentInstance().execute("PF('dlgFindAlumnoPago').show();");
     }
 
@@ -94,15 +140,15 @@ public class InformePagoAlumnoBean implements Serializable {
         String sMensaje = "";
         FacesMessage fm;
         FacesMessage.Severity severity = null;
-        System.out.println("entroo buscar dni consulta");
+        System.out.println("entroo buscar dni consulta: " + this.getTextoBusqueda());
         try {
-            if (textoBusqueda.equals("")) {
-                System.out.println("cadena vacia" + textoBusqueda);
+            if (this.getTextoBusqueda().equals("")) {
+                System.out.println("cadena vacia" + this.getTextoBusqueda());
                 sMensaje = "Ingrese un numero de Documento ";
                 severity = FacesMessage.SEVERITY_INFO;
             } else {
                 System.out.println("cpor el else " + textoBusqueda);
-                this.findAlumnoDniPago(textoBusqueda);
+                this.findAlumnoDniPago(this.getTextoBusqueda());
             }
 
         } catch (Exception e) {
@@ -113,13 +159,30 @@ public class InformePagoAlumnoBean implements Serializable {
             // RequestContext.getCurrentInstance().execute("dlgMensaje.show()");
         }
     }
-    
-    public void findAlumnoDniPago(String dni) throws Exception {
 
+    public void findAlumnoDniPago(String dni) throws Exception {
+        System.out.println("entroo FIND ALUMNO DNI PAGO");
         this.setLstAlumno(new ArrayList<Alumno>());
         this.lstAlumno.add(alumnoRNLocal.findByAlumnoDni(dni));
-        
+
     }
-    
-    
+
+    public void devolverAlumnoDialog() {
+        obtenerCohortesAlumnosPago();
+        RequestContext.getCurrentInstance().update("frmPri:pnAlumno");//outPutText Consulta Publica Alumnos
+
+    }
+
+    public void obtenerCohortesAlumnosPago() {
+        try {
+            //para obtener las cohorte del alumno seleccionado primero tengo que buscar las cohortes en las que se inncribi
+            //el alumno y en las que esta activo solamente
+            //System.out.println(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(this.alumnoLstBean.getAlumnoSelect()));
+            this.setLstCohorteAlumnoPago(this.inscripcionAlumnoRNLocal.alumnoFindCohortes(this.getAlumno()));
+            RequestContext.getCurrentInstance().update("frmPri:pnCohortesPago");
+
+        } catch (Exception ex) {
+            Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

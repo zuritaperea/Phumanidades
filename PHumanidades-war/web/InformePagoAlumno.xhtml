@@ -27,13 +27,17 @@
                                              icon="ui-icon-search"
                                              actionListener="#{informePagoAlumnoBean.abrirDlgFindAlumnoConsulta()}"
                                              update="dFindAlumnoConsultaPago"
-                                             process="@this"/>
+                                             />
 
 
-                            <h:outputText id="otAlumno4"
-                                          value="#{alumnoLstBean.alumnoSelectConsulta.dni} - #{alumnoLstBean.alumnoSelectConsulta.apellido} - #{alumnoLstBean.alumnoSelectConsulta.nombre}"/>
+                            <h:outputText id="otAlumnoPago"
+                                          value="#{informePagoAlumnoBean.alumno.dni} - #{informePagoAlumnoBean.alumno.apellido} - #{informePagoAlumnoBean.alumno.nombre}"/>
 
                         </h:panelGrid>
+                    </p:panel>
+                    <p:panel id="pnCohortesPago" 
+                             >
+                                 
                     </p:panel>
                 </td>
             </tr>

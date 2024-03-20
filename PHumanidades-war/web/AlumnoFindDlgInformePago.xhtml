@@ -27,31 +27,31 @@
 
             <h:panelGrid columns="3"  cellpadding="5">
                 <h:outputText value="Dni"/>
-                <p:inputMask id="itBusquedaAlumno" 
+                <p:inputMask id="itDocumento" 
                              required="false"
                              value="#{informePagoAlumnoBean.textoBusqueda}"
                              mask="99999999"
                              /> 
 
 
-                <p:commandButton id="btnDniAlumno" 
+                <p:commandButton id="btnDocumento" 
                                  icon="ui-icon-search"
                                  actionListener="#{informePagoAlumnoBean.buscarAlumnoDni()}"
-                                 update="dtBusquedaAlumnoConsulta"
-                                 process="@this, itBusquedaAlumno"/>
+                                 update="dtBusquedaAlumnoPago"
+                                 process="@this, itDocumento"/>
             </h:panelGrid>
             <div style=" float: left;">
                 <p:messages autoUpdate="true"/>
             </div>
 
             <div style="width: 650px">
-                <p:dataTable id="dtBusquedaAlumnoConsulta"
-                             value="#{alumnoLstBean.lstAlumnoConsulta}"
-                             var="te"
+                <p:dataTable id="dtBusquedaAlumnoPago"
+                             value="#{informePagoAlumnoBean.lstAlumno}"
+                             var="alumno"
                              paginator="true"
                              rows="10"
-                             rowKey="#{te.id}"
-                             selection="#{alumnoLstBean.alumnoSelectConsulta}"
+                             rowKey="#{alumno.id}"
+                             selection="#{informePagoAlumnoBean.alumno}"
                              selectionMode="single"
                              >
 
@@ -61,7 +61,7 @@
                             <h:outputText value="Dni"/>
                         </f:facet>
 
-                        <h:outputText value="#{te.dni}"/>
+                        <h:outputText value="#{alumno.dni}"/>
 
                     </p:column>
 
@@ -70,7 +70,7 @@
                             <h:outputText value="Apellido"/>
                         </f:facet>
 
-                        <h:outputText value="#{te.apellido}"/>
+                        <h:outputText value="#{alumno.apellido}"/>
 
                     </p:column>
 
@@ -79,17 +79,17 @@
                             <h:outputText value="Nombre"/>
                         </f:facet>
 
-                        <h:outputText value="#{te.nombre}"/>
+                        <h:outputText value="#{alumno.nombre}"/>
 
                     </p:column>
 
                     <f:facet name="footer">  
                         <p:commandButton id="cbSelectAlumno"
                                          value="Seleccionar"
-                                         action="#{alumnoBean.devolverAlumnoConsulta()}"
+                                         action="#{alumnoBean.devolverAlumnoDialog()}"
                                          icon="ui-icon-search"  
-                                         process="dtBusquedaAlumnoConsulta,@this"
-                                         oncomplete="PF('dlgFindAlumnoConsulta').hide();"/>  
+                                         process="dtBusquedaAlumnoPago,@this"
+                                         oncomplete="PF('dlgFindAlumnoPago').hide();"/>  
                     </f:facet>
 
 
