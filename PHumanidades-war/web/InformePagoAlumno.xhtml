@@ -11,6 +11,7 @@
     <ui:define name="content">
 
         <ui:include src="AlumnoFindDlgInformePago.xhtml"/>
+        <ui:include src="AlumnoFindDlgInformePago2.xhtml"/>
         <h3>
             <h:outputText value="Comprobantes de Pago - Alumnos"></h:outputText>
         </h3> 
@@ -26,7 +27,7 @@
                             <p:commandButton id="cbBuscarAlumnoCobro" 
                                              icon="ui-icon-search"
                                              actionListener="#{informePagoAlumnoBean.abrirDlgFindAlumnoConsulta()}"
-                                             update="dFindAlumnoConsultaPago"
+                                             update="dlgBuscarAlumno"
                                              process="@this"/>
 
 
@@ -37,7 +38,7 @@
                     </p:panel>
                     <p:panel id="pnCohortesPago" 
                              >
-                                 
+
                     </p:panel>
                 </td>
             </tr>

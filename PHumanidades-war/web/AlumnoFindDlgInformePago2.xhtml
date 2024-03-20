@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="dlgBuscarAlumno" widgetVar="dialogBuscarAlumno" 
+                  header="Buscar Alumno" 
+                  modal="true" resizable="false" appendTo="@(body)"
+                  position="top"
+                  width="50%" height="50%" style="background-color: #f8f8f8">
+            <h:form id="InformePagoAlumnoCreateForm" enctype="multipart/form-data">
+                <p:growl id="mensaje" life="6000"/>
+                <h:panelGroup id="display" style="height: 250px">
+                    <div class="card" >
+                        <p:panelGrid columns="3"  
+                                     layout="grid"
+                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                     class="ui-panelgrid-blank ui-fluid"
+                                     style="border:0px none; background-color:transparent; height: 200px">
+                            <p:outputLabel value="Documento: "/>
+                            <p:inputMask id="imputDocumento" value="#{informePagoAlumnoBean.textoBusqueda}" mask="99999999" />
+                            <p:commandButton id="botonBuscarAlumno" 
+                                             actionListener="#{informePagoAlumnoBean.buscarAlumnoDni()}"
+                                             update="dtBusquedaAlumnoPago"/>
+
+
+                        </p:panelGrid>
+
+                    </div>
+                    <p:dataTable id="dtBusquedaAlumnoPago"
+                                 value="#{informePagoAlumnoBean.lstAlumno}"
+                                 var="alumno"
+                                 paginator="true"
+                                 rows="10"
+                                 rowKey="#{alumno.id}"
+                                 selection="#{informePagoAlumnoBean.alumno}"
+                                 selectionMode="single"
+                                 >
+                        
+                        <p:column style="word-wrap:break-word;">
+                            <f:facet name="header">
+                                <h:outputText value="Dni"/>
+                            </f:facet>
+
+                            <h:outputText value="#{alumno.dni}"/>
+
+                        </p:column>
+
+                        <p:column style="word-wrap:break-word;">
+                            <f:facet name="header">
+                                <h:outputText value="Apellido"/>
+                            </f:facet>
+
+                            <h:outputText value="#{alumno.apellido}"/>
+
+                        </p:column>
+
+                    </p:dataTable>
+
+                </h:panelGroup>
+
+            </h:form>
+        </p:dialog>
+
+
+    </ui:composition>
+</html>

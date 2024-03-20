@@ -142,8 +142,9 @@ public class InformePagoAlumnoBean implements Serializable {
         this.setLstAlumno(new ArrayList<Alumno>());
         //agregados para probar
         this.setAlumno(new Alumno());
-        this.setTextoBusqueda("");
-        RequestContext.getCurrentInstance().execute("PF('dlgFindAlumnoPago').show();");
+        //this.setTextoBusqueda("");
+        //RequestContext.getCurrentInstance().execute("PF('dlgFindAlumnoPago').show();");
+        RequestContext.getCurrentInstance().execute("PF('dialogBuscarAlumno').show();");
     }
 
     public void buscarAlumnoDni() {
