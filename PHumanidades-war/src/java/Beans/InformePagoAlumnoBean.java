@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import org.primefaces.context.RequestContext;
 
@@ -29,8 +30,8 @@ import org.primefaces.context.RequestContext;
  *
  * @author hugo
  */
-@ManagedBean(name = "informePagoAlumnoBean")
-@SessionScoped
+@ManagedBean
+@RequestScoped
 public class InformePagoAlumnoBean implements Serializable {
 
     /**
@@ -43,6 +44,7 @@ public class InformePagoAlumnoBean implements Serializable {
     private List<Alumno> lstAlumno;
     private Alumno alumno;
     private String textoBusqueda;
+    private String documento;
     @EJB
     private AlumnoRNLocal alumnoRNLocal;
     @EJB
@@ -124,6 +126,14 @@ public class InformePagoAlumnoBean implements Serializable {
     public void setLstCohorteAlumnoPago(List<Cohorte> lstCohorteAlumnoPago) {
         this.lstCohorteAlumnoPago = lstCohorteAlumnoPago;
     }
+
+    public String getDocumento() {
+        return documento;
+    }
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
     
 
     public void abrirDlgFindAlumnoConsulta() {
@@ -132,7 +142,7 @@ public class InformePagoAlumnoBean implements Serializable {
         this.setLstAlumno(new ArrayList<Alumno>());
         //agregados para probar
         this.setAlumno(new Alumno());
-        this.setTextoBusqueda(new String());
+        this.setTextoBusqueda("");
         RequestContext.getCurrentInstance().execute("PF('dlgFindAlumnoPago').show();");
     }
 
@@ -142,7 +152,7 @@ public class InformePagoAlumnoBean implements Serializable {
         FacesMessage.Severity severity = null;
         System.out.println("entroo buscar dni consulta: " + this.getTextoBusqueda());
         try {
-            if (this.getTextoBusqueda().equals("")) {
+            if (this.getTextoBusqueda()==null) {
                 System.out.println("cadena vacia" + this.getTextoBusqueda());
                 sMensaje = "Ingrese un numero de Documento ";
                 severity = FacesMessage.SEVERITY_INFO;

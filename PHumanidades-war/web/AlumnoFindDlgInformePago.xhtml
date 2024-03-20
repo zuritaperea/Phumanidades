@@ -12,8 +12,6 @@
               width="700" position="top" >
 
 
-
-
         <div style="clear: both;"/>
 
 
@@ -24,11 +22,10 @@
 
             </f:facet>  
 
-
             <h:panelGrid columns="3"  cellpadding="5">
                 <h:outputText value="Dni"/>
                 <p:inputMask id="itDocumento" 
-                             required="false"
+                             required="true"
                              value="#{informePagoAlumnoBean.textoBusqueda}"
                              mask="99999999"
                              /> 
@@ -40,9 +37,9 @@
                                  update="dtBusquedaAlumnoPago"
                                  process="@this, itDocumento"/>
             </h:panelGrid>
-            <div style=" float: left;">
+            <!--<div style=" float: left;">
                 <p:messages autoUpdate="true"/>
-            </div>
+            </div>-->
 
             <div style="width: 650px">
                 <p:dataTable id="dtBusquedaAlumnoPago"
@@ -86,7 +83,7 @@
                     <f:facet name="footer">  
                         <p:commandButton id="cbSelectAlumno"
                                          value="Seleccionar"
-                                         action="#{alumnoBean.devolverAlumnoDialog()}"
+                                         action="#{informePagoAlumnoBean.devolverAlumnoDialog()}"
                                          icon="ui-icon-search"  
                                          process="dtBusquedaAlumnoPago,@this"
                                          oncomplete="PF('dlgFindAlumnoPago').hide();"/>  
