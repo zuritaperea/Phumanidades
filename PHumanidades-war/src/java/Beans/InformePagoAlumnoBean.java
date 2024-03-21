@@ -31,7 +31,7 @@ import org.primefaces.context.RequestContext;
  * @author hugo
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class InformePagoAlumnoBean implements Serializable {
 
     /**
@@ -180,7 +180,7 @@ public class InformePagoAlumnoBean implements Serializable {
 
     public void devolverAlumnoDialog() {
         obtenerCohortesAlumnosPago();
-        RequestContext.getCurrentInstance().update("frmPri:pnAlumno");//outPutText Consulta Publica Alumnos
+        RequestContext.getCurrentInstance().update("frmPri:pnAlumnoPago");//outPutText Consulta Publica Alumnos
 
     }
 
@@ -193,7 +193,7 @@ public class InformePagoAlumnoBean implements Serializable {
             this.setLstCohorteAlumnoPago(this.inscripcionAlumnoRNLocal.alumnoFindCohortes(this.getAlumno()));
             System.out.println("Imprimo lista de cohortes: "+this.getLstCohorteAlumnoPago());
             RequestContext.getCurrentInstance().update("frmPri:pnCohortesPagoAlumno");
-
+            //RequestContext.getCurrentInstance().update("frmPri:dtCohortesAlumno");
         } catch (Exception ex) {
             Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
         }

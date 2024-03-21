@@ -10,7 +10,6 @@
                  >
     <ui:define name="content">
 
-        <ui:include src="AlumnoFindDlgInformePago.xhtml"/>
         <ui:include src="AlumnoFindDlgInformePago2.xhtml"/>
         <h3>
             <h:outputText value="Comprobantes de Pago - Alumnos"></h:outputText>
@@ -19,7 +18,7 @@
         <table>
             <tr>
                 <td>
-                    <p:panel id="pnAlumno" 
+                    <p:panel id="pnAlumnoPago" 
                              header="Seleccionar Alumno"
                              >
                         <h:panelGrid columns="3" style="width: 100%">
@@ -28,8 +27,8 @@
                                              icon="ui-icon-search"
                                              actionListener="#{informePagoAlumnoBean.abrirDlgFindAlumnoConsulta()}"
                                              update="dlgBuscarAlumno"
-                                             process="@this"/>
-
+                                             process="@this"
+                                             />
 
                             <h:outputText id="otAlumnoPago"
                                           value="#{informePagoAlumnoBean.alumno.dni} - #{informePagoAlumnoBean.alumno.apellido} - #{informePagoAlumnoBean.alumno.nombre}"/>
@@ -72,9 +71,7 @@
                      filterEvent="enter"
                      >
             <!--ajax aqui abajo-->
-            <!--
-            <p:ajax event="rowSelect"   update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>
-            <p:ajax event="rowUnselect" update="createButtonIPA viewButtonIPA editButtonIPA deleteButtonIPA"/>-->
+
 
             <p:column style="text-align: center;  width: 60">
                 <f:facet name="header">
@@ -141,9 +138,5 @@
         </p:dataTable>
 
 
-
-        <!--<ui:include src="Create.xhtml"/>
-        <ui:include src="Edit.xhtml"/>
-        <ui:include src="View.xhtml"/>-->
     </ui:define>
 </ui:composition>

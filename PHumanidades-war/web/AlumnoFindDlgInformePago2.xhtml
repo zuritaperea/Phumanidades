@@ -13,20 +13,23 @@
                   modal="true" resizable="false" appendTo="@(body)"
                   position="top"
                   width="50%" height="50%" style="background-color: #f8f8f8">
-            <h:form id="InformePagoAlumnoCreateForm" enctype="multipart/form-data">
-                <p:growl id="mensaje" life="6000"/>
+            <h:form id="formDlgInformePago" enctype="multipart/form-data">
+                <div style=" float: left;">
+                    <p:messages autoUpdate="true"/>
+                </div>
                 <h:panelGroup id="display" style="height: 250px">
                     <div class="card" >
 
                         <p:outputLabel value="Documento: "/>&nbsp;
-                            <p:inputMask id="inputDocumento" value="#{informePagoAlumnoBean.textoBusqueda}" mask="99999999" />&nbsp;
-                            <p:commandButton id="botonBuscarAlumno"
-                                             icon="ui-icon-search" 
-                                             actionListener="#{informePagoAlumnoBean.buscarAlumnoDni()}"
-                                             update="dtBusquedaAlumnoPago"
-                                             process="@this, inputDocumento"/>
-
-
+                        <p:inputMask id="inputDocumento" value="#{informePagoAlumnoBean.textoBusqueda}"
+                                     required="false"
+                                     mask="99999999" />&nbsp;
+                        <p:commandButton id="botonBuscarAlumno"
+                                         icon="ui-icon-search" 
+                                         actionListener="#{informePagoAlumnoBean.buscarAlumnoDni()}"
+                                         update="dtBusquedaAlumnoPago"
+                                         process="@this, inputDocumento"
+                                         />
 
                         <p:dataTable id="dtBusquedaAlumnoPago"
                                      value="#{informePagoAlumnoBean.lstAlumno}"
@@ -67,10 +70,13 @@
                                 <p:commandButton id="seleccionarAlumno"
                                                  value="Seleccionar"
                                                  action="#{informePagoAlumnoBean.devolverAlumnoDialog()}"
-                                                 process="dtBusquedaAlumnoPago,@this"
                                                  icon="ui-icon-search"
                                                  oncomplete="PF('dialogBuscarAlumno').hide();"
+                                                 process="dtBusquedaAlumnoPago,@this"
+                                                 ajax="false"
                                                  />
+                                                 
+
                             </f:facet>
 
                         </p:dataTable>
