@@ -36,8 +36,26 @@
 
                         </h:panelGrid>
                     </p:panel>
-                    <p:panel id="pnCohortesPago" 
+                    <p:panel id="pnCohortesPagoAlumno" 
                              >
+                        <p:dataTable  id="dtCohortesAlumno"
+                                      value="#{informePagoAlumnoBean.lstCohorteAlumnoPago}"
+                                      var="cort"  
+                                      rowKey="#{cort.id}">
+
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Carrera"/>
+                                </f:facet>
+                                <h:outputText value="#{cort.carrera.descripcion}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cohorte"/>
+                                </f:facet>
+                                <h:outputText value="#{cort.descripcion}"/>
+                            </p:column>
+                        </p:dataTable>
 
                     </p:panel>
                 </td>

@@ -17,50 +17,65 @@
                 <p:growl id="mensaje" life="6000"/>
                 <h:panelGroup id="display" style="height: 250px">
                     <div class="card" >
-                        <p:panelGrid columns="3"  
-                                     layout="grid"
-                                     columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-                                     class="ui-panelgrid-blank ui-fluid"
-                                     style="border:0px none; background-color:transparent; height: 200px">
-                            <p:outputLabel value="Documento: "/>
-                            <p:inputMask id="imputDocumento" value="#{informePagoAlumnoBean.textoBusqueda}" mask="99999999" />
-                            <p:commandButton id="botonBuscarAlumno" 
+
+                        <p:outputLabel value="Documento: "/>&nbsp;
+                            <p:inputMask id="inputDocumento" value="#{informePagoAlumnoBean.textoBusqueda}" mask="99999999" />&nbsp;
+                            <p:commandButton id="botonBuscarAlumno"
+                                             icon="ui-icon-search" 
                                              actionListener="#{informePagoAlumnoBean.buscarAlumnoDni()}"
-                                             update="dtBusquedaAlumnoPago"/>
+                                             update="dtBusquedaAlumnoPago"
+                                             process="@this, inputDocumento"/>
 
 
-                        </p:panelGrid>
+
+                        <p:dataTable id="dtBusquedaAlumnoPago"
+                                     value="#{informePagoAlumnoBean.lstAlumno}"
+                                     var="alumno"
+                                     paginator="true"
+                                     rows="10"
+                                     rowKey="#{alumno.id}"
+                                     selection="#{informePagoAlumnoBean.alumno}"
+                                     selectionMode="single"
+                                     >
+
+                            <p:column style="word-wrap:break-word;">
+                                <f:facet name="header">
+                                    <h:outputText value="Dni"/>
+                                </f:facet>
+
+                                <h:outputText value="#{alumno.dni}"/>
+
+                            </p:column>
+
+                            <p:column style="word-wrap:break-word;">
+                                <f:facet name="header">
+                                    <h:outputText value="Apellido"/>
+                                </f:facet>
+
+                                <h:outputText value="#{alumno.apellido}"/>
+
+                            </p:column>
+                            <p:column style="word-wrap:break-word;">
+                                <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                                </f:facet>
+
+                                <h:outputText value="#{alumno.nombre}"/>
+
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton id="seleccionarAlumno"
+                                                 value="Seleccionar"
+                                                 action="#{informePagoAlumnoBean.devolverAlumnoDialog()}"
+                                                 process="dtBusquedaAlumnoPago,@this"
+                                                 icon="ui-icon-search"
+                                                 oncomplete="PF('dialogBuscarAlumno').hide();"
+                                                 />
+                            </f:facet>
+
+                        </p:dataTable>
 
                     </div>
-                    <p:dataTable id="dtBusquedaAlumnoPago"
-                                 value="#{informePagoAlumnoBean.lstAlumno}"
-                                 var="alumno"
-                                 paginator="true"
-                                 rows="10"
-                                 rowKey="#{alumno.id}"
-                                 selection="#{informePagoAlumnoBean.alumno}"
-                                 selectionMode="single"
-                                 >
-                        
-                        <p:column style="word-wrap:break-word;">
-                            <f:facet name="header">
-                                <h:outputText value="Dni"/>
-                            </f:facet>
-
-                            <h:outputText value="#{alumno.dni}"/>
-
-                        </p:column>
-
-                        <p:column style="word-wrap:break-word;">
-                            <f:facet name="header">
-                                <h:outputText value="Apellido"/>
-                            </f:facet>
-
-                            <h:outputText value="#{alumno.apellido}"/>
-
-                        </p:column>
-
-                    </p:dataTable>
 
                 </h:panelGroup>
 

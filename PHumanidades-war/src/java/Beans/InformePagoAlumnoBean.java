@@ -189,8 +189,10 @@ public class InformePagoAlumnoBean implements Serializable {
             //para obtener las cohorte del alumno seleccionado primero tengo que buscar las cohortes en las que se inncribi
             //el alumno y en las que esta activo solamente
             //System.out.println(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(this.alumnoLstBean.getAlumnoSelect()));
+            System.out.println("Imprimo alumno seleccionado: " + this.getAlumno());
             this.setLstCohorteAlumnoPago(this.inscripcionAlumnoRNLocal.alumnoFindCohortes(this.getAlumno()));
-            RequestContext.getCurrentInstance().update("frmPri:pnCohortesPago");
+            System.out.println("Imprimo lista de cohortes: "+this.getLstCohorteAlumnoPago());
+            RequestContext.getCurrentInstance().update("frmPri:pnCohortesPagoAlumno");
 
         } catch (Exception ex) {
             Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
