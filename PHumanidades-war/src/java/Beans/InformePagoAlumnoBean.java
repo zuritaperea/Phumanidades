@@ -278,6 +278,23 @@ public class InformePagoAlumnoBean implements Serializable {
         }
     }
 
+    public void modificar() {
+        System.out.println("entro modificar coso: " + selected);
+        System.out.println("entro modificar coso ESTADo:  " + selected.getEstadoComprobanteAlumno().name());
+        try {
+            System.out.println("entro modificar coso: " + selected);
+            System.out.println("entro modificar coso ESTADo:  " + selected.getEstadoComprobanteAlumno().name());
+            informePagoAlumnoFacade.edit(selected);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Modificacion Realizada", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } catch (Exception e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al intentar Modificar", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+
+        }
+
+    }
+
     //PARA MANEJAR ARCHIVO ADJUNTO
     public StreamedContent descargarArchivo(InformePagoAlumno informePagoAlumno) {
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());

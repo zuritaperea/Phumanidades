@@ -9,26 +9,43 @@
 
     <ui:composition>
 
-        <p:dialog id="ModificarEstadoDialog" widgetVar="modificarEstadoDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle}">
+        <p:dialog id="ModificarEstadoDialog" widgetVar="modificarEstadoDialog" modal="true"  resizable="false" appendTo="@(body)" header="Datos del Comprobante">
             <h:form id="ModificarEstadoDialogForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{informePagoAlumnoBean.selected != null}">
+                
+                <div class="card" > 
+
+                    <p:panelGrid columns="2" rendered="#{informePagoAlumnoBean.selected != null}"
+                                 columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
+                                 style="border:0px none; background-color:transparent; height: 200px">
 
                         <p:outputLabel value="Nro de Cuota: " for="nroCuota" />
-                        <p:inputText id="nroCuota" value="#{informePagoAlumnoBean.selected.nroCuota}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_nroCuota}" />
+                        <p:outputLabel id="nroCuota" value="#{informePagoAlumnoBean.selected.nroCuota}" 
+                                       title="Nro de Cuota" 
+                                       />
                         <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_descripcion}" for="descripcion" />
-                        <p:inputText id="descripcion" value="#{informePagoAlumnoBean.selected.descripcion}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_descripcion}" />
+                        <p:outputLabel id="descripcion" value="#{informePagoAlumnoBean.selected.descripcion}" 
+                                       title="Descripcion" />
                         <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_fecha}" for="fecha" />
-                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{informePagoAlumnoBean.selected.fecha}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_fecha}"  showOn="button"/>
+                        <p:outputLabel id="fecha" value="#{informePagoAlumnoBean.selected.fecha}" 
+                                       title="fecha" >
+                            <f:convertDateTime pattern="dd:MM:yyyy" />
+                        </p:outputLabel>
+
                         <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_comprobantePago}" for="comprobantePago" />
-                        <p:inputTextarea rows="4" cols="30" id="comprobantePago" value="#{informePagoAlumnoBean.selected.comprobantePago}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_comprobantePago}" />
-                        <p:outputLabel value="Estado Comprobante: " for="selectEstadoComprobante" />
+                        <p:outputLabel id="comprobantePago" value="#{informePagoAlumnoBean.selected.nombreComprobantePago}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_comprobantePago}" />
+                        <p:outputLabel value="Seleccionar: " for="selectEstadoComprobante" />
                         <b:selectOneMenu id="selectEstadoComprobante" value="#{informePagoAlumnoBean.selected.estadoComprobanteAlumno}">
                             <f:selectItems value="#{informePagoAlumnoBean.listEstadoComprobanteAlumno}" var="estado" />
                         </b:selectOneMenu>
                     </p:panelGrid>
-                    <!-- BOTONES -->
-                </h:panelGroup>
+
+                </div>
+                <!-- BOTONES -->
+                <p:commandButton actionListener="#{informePagoAlumnoBean.modificar}" value="Confirmar" 
+                                 update=":informePagoAlumnoListInterno:dtListaCoprobantesAlumnos,:mensajes" 
+                                 oncomplete="handleSubmit(args,'modificarEstadoDialog');"
+                                 />
+
             </h:form>
         </p:dialog>
 
