@@ -7,6 +7,7 @@ package Beans;
 
 import DAO.InformePagoAlumnoFacade;
 import Entidades.Carreras.Cohorte;
+import Entidades.Ingresos.EstadoComprobanteAlumno;
 import Entidades.Ingresos.InformePagoAlumno;
 import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
@@ -27,6 +28,9 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -57,11 +61,15 @@ public class InformePagoAlumnoBean implements Serializable {
     private InscripcionAlumnosRNLocal inscripcionAlumnoRNLocal;
 
     private List<Cohorte> lstCohorteAlumnoPago;
+    @Enumerated(EnumType.STRING)
+    private EstadoComprobanteAlumno estadoComprobanteAlumno;
+    private List<SelectItem> listEstadoComprobanteAlumno;
     //los de abajo son mara manejar los archivos del comprobante
     private UploadedFile archivo;
     private StreamedContent file;
 
     public InformePagoAlumnoBean() {
+        cargarLstEstadosComprobante();
     }
 
     public InformePagoAlumnoFacade getInformePagoAlumnoFacade() {
@@ -159,7 +167,22 @@ public class InformePagoAlumnoBean implements Serializable {
     public void setFile(StreamedContent file) {
         this.file = file;
     }
-    
+
+    public EstadoComprobanteAlumno getEstadoComprobanteAlumno() {
+        return estadoComprobanteAlumno;
+    }
+
+    public void setEstadoComprobanteAlumno(EstadoComprobanteAlumno estadoComprobanteAlumno) {
+        this.estadoComprobanteAlumno = estadoComprobanteAlumno;
+    }
+
+    public List<SelectItem> getListEstadoComprobanteAlumno() {
+        return listEstadoComprobanteAlumno;
+    }
+
+    public void setListEstadoComprobanteAlumno(List<SelectItem> listEstadoComprobanteAlumno) {
+        this.listEstadoComprobanteAlumno = listEstadoComprobanteAlumno;
+    }
 
     public void abrirDlgFindAlumnoConsulta() {
         // btnSelect = (CommandButton) e.getSource();
@@ -248,9 +271,14 @@ public class InformePagoAlumnoBean implements Serializable {
         }
     }
 
+    public void cargarLstEstadosComprobante() {
+        listEstadoComprobanteAlumno = new ArrayList<SelectItem>();
+        for (EstadoComprobanteAlumno estadoComprobanteAlumno : EstadoComprobanteAlumno.values()) {
+            listEstadoComprobanteAlumno.add(new SelectItem(estadoComprobanteAlumno, estadoComprobanteAlumno.toString()));
+        }
+    }
+
     //PARA MANEJAR ARCHIVO ADJUNTO
-
-
     public StreamedContent descargarArchivo(InformePagoAlumno informePagoAlumno) {
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
         StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
@@ -258,10 +286,10 @@ public class InformePagoAlumnoBean implements Serializable {
         System.out.println(file);
         return file;
     }
-    
+
     public void FileDownloadView(InformePagoAlumno informePagoAlumno) {
         System.out.println("entro descargar Archivo: ");
-        System.out.println("archivo a exportar"+informePagoAlumno.getComprobantePago());
+        System.out.println("archivo a exportar" + informePagoAlumno.getComprobantePago());
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
         file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
 
