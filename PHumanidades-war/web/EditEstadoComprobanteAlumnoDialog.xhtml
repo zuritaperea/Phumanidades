@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ModificarEstadoDialog" widgetVar="modificarEstadoDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle}">
+            <h:form id="ModificarEstadoDialogForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{informePagoAlumnoBean.selected != null}">
+
+                        <p:outputLabel value="Nro de Cuota: " for="nroCuota" />
+                        <p:inputText id="nroCuota" value="#{informePagoAlumnoBean.selected.nroCuota}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_nroCuota}" />
+                        <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_descripcion}" for="descripcion" />
+                        <p:inputText id="descripcion" value="#{informePagoAlumnoBean.selected.descripcion}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_descripcion}" />
+                        <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy HH:mm:ss" value="#{informePagoAlumnoBean.selected.fecha}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_fecha}"  showOn="button"/>
+                        <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_comprobantePago}" for="comprobantePago" />
+                        <p:inputTextarea rows="4" cols="30" id="comprobantePago" value="#{informePagoAlumnoBean.selected.comprobantePago}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_comprobantePago}" />
+                        <p:outputLabel value="Estado Comprobante: " for="estado" />
+                    </p:panelGrid>
+                    <!-- BOTONES -->
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

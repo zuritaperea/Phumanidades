@@ -12,6 +12,8 @@ import Entidades.Ingresos.Ingreso;
 import Entidades.Persona.Alumno;
 import RN.AlumnoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -24,7 +26,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -49,8 +55,11 @@ public class InformePagoAlumnoBean implements Serializable {
     private AlumnoRNLocal alumnoRNLocal;
     @EJB
     private InscripcionAlumnosRNLocal inscripcionAlumnoRNLocal;
-    
+
     private List<Cohorte> lstCohorteAlumnoPago;
+    //los de abajo son mara manejar los archivos del comprobante
+    private UploadedFile archivo;
+    private StreamedContent file;
 
     public InformePagoAlumnoBean() {
     }
@@ -134,6 +143,22 @@ public class InformePagoAlumnoBean implements Serializable {
     public void setDocumento(String documento) {
         this.documento = documento;
     }
+
+    public UploadedFile getArchivo() {
+        return archivo;
+    }
+
+    public void setArchivo(UploadedFile archivo) {
+        this.archivo = archivo;
+    }
+
+    public StreamedContent getFile() {
+        return file;
+    }
+
+    public void setFile(StreamedContent file) {
+        this.file = file;
+    }
     
 
     public void abrirDlgFindAlumnoConsulta() {
@@ -153,7 +178,7 @@ public class InformePagoAlumnoBean implements Serializable {
         FacesMessage.Severity severity = null;
         System.out.println("entroo buscar dni consulta: " + this.getTextoBusqueda());
         try {
-            if (this.getTextoBusqueda()==null) {
+            if (this.getTextoBusqueda() == null) {
                 System.out.println("cadena vacia" + this.getTextoBusqueda());
                 sMensaje = "Ingrese un numero de Documento ";
                 severity = FacesMessage.SEVERITY_INFO;
@@ -191,11 +216,54 @@ public class InformePagoAlumnoBean implements Serializable {
             //System.out.println(this.inscripcionAlumnosRNLocal.alumnoFindCohortes(this.alumnoLstBean.getAlumnoSelect()));
             System.out.println("Imprimo alumno seleccionado: " + this.getAlumno());
             this.setLstCohorteAlumnoPago(this.inscripcionAlumnoRNLocal.alumnoFindCohortes(this.getAlumno()));
-            System.out.println("Imprimo lista de cohortes: "+this.getLstCohorteAlumnoPago());
+            System.out.println("Imprimo lista de cohortes: " + this.getLstCohorteAlumnoPago());
             RequestContext.getCurrentInstance().update("frmPri:pnCohortesPagoAlumno");
             //RequestContext.getCurrentInstance().update("frmPri:dtCohortesAlumno");
         } catch (Exception ex) {
             Logger.getLogger(AlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void getComprobantesAlumno(Alumno alumno, Cohorte cohorte) throws Exception {
+        FacesMessage fm;
+        if (cohorte != null) {
+            System.out.println("alumno cohorte: " + alumno);
+
+            try {
+                System.out.println("entro a setearlistade comprobantes");
+                this.setItems(informePagoAlumnoFacade.findPagosAlumnoCohorte(alumno, cohorte));
+                System.out.println(this.getItems());
+                if (this.getItems().isEmpty()) {
+                    fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
+                    FacesContext fc = FacesContext.getCurrentInstance();
+                    fc.addMessage(null, fm);
+                }//fin if
+
+            } catch (Exception ex) {
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + ex.getMessage(), null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage("Error", fm);
+            }//fin catch
+            //RequestContext.getCurrentInstance().update("dtListaCoprobantesAlumnos");
+        }
+    }
+
+    //PARA MANEJAR ARCHIVO ADJUNTO
+
+
+    public StreamedContent descargarArchivo(InformePagoAlumno informePagoAlumno) {
+        InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
+        StreamedContent file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
+        System.out.println("fileeee para descargar: ");
+        System.out.println(file);
+        return file;
+    }
+    
+    public void FileDownloadView(InformePagoAlumno informePagoAlumno) {
+        System.out.println("entro descargar Archivo: ");
+        System.out.println("archivo a exportar"+informePagoAlumno.getComprobantePago());
+        InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
+        file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
+
     }
 }
