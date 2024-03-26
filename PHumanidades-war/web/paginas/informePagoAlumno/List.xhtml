@@ -131,7 +131,7 @@
                     <f:facet name="footer">
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
                         <p:commandButton id="viewButtonIPA"   icon="ui-icon-search" value="#{bundleInformePagoAlumno.View}" update=":InformePagoAlumnoViewForm" oncomplete="PF('InformePagoAlumnoViewDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
-                        <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="#{bundleInformePagoAlumno.Edit}" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{empty informePagoAlumnoController.selected}"/>
+                        <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="#{bundleInformePagoAlumno.Edit}" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{!informePagoAlumnoController.selected.estadoComprobanteAlumno.name=='Rechazado'}"/>
                         <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{empty informePagoAlumnoController.selected}"/>
                     </f:facet>
                 </p:dataTable>

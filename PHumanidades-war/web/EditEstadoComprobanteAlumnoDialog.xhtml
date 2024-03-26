@@ -17,7 +17,8 @@
                     <p:panelGrid columns="2" rendered="#{informePagoAlumnoBean.selected != null}"
                                  columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
                                  style="border:0px none; background-color:transparent; height: 200px">
-
+                        <p:outputLabel value="Cohorte: " for="cohorte" />
+                        <p:outputLabel id="cohorte" value="#{informePagoAlumnoBean.selected.cohorte}"/>
                         <p:outputLabel value="Nro de Cuota: " for="nroCuota" />
                         <p:outputLabel id="nroCuota" value="#{informePagoAlumnoBean.selected.nroCuota}" 
                                        title="Nro de Cuota" 
@@ -41,9 +42,11 @@
 
                 </div>
                 <!-- BOTONES -->
-                <p:commandButton actionListener="#{informePagoAlumnoBean.modificar}" value="Confirmar" 
+                <b:commandButton actionListener="#{informePagoAlumnoBean.modificar}" value="Confirmar" 
                                  update=":informePagoAlumnoListInterno:dtListaCoprobantesAlumnos,:mensajes" 
                                  oncomplete="handleSubmit(args,'modificarEstadoDialog');"
+                                 iconAwesome="fa-thin fa-check"
+                                 look="success"
                                  />
 
             </h:form>
