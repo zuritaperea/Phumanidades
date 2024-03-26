@@ -74,6 +74,7 @@ public class InformePagoAlumnoController implements Serializable {
     @PostConstruct
     private void init() {
         this.setItems(new ArrayList<InformePagoAlumno>());
+        
 
     }
 
@@ -174,6 +175,7 @@ public class InformePagoAlumnoController implements Serializable {
         selected.setCohorte(this.getCohorteSeleccionada());
         System.out.println(selected.getComprobantePago());
         selected.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
+        System.out.println("imprimiendoooooooo estado COMPROBANTE: " + selected.getEstadoComprobanteAlumno().name());
 //        selected.setComprobantePago(archivo.getContents());
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
 //        if (!JsfUtil.isValidationFailed()) {
@@ -365,6 +367,7 @@ public class InformePagoAlumnoController implements Serializable {
     private StreamedContent file;
 
     public void FileDownloadView(InformePagoAlumno informePagoAlumno) {
+        System.out.println("ESTADOOOOOOOOOO: " + selected.getEstadoComprobanteAlumno().name());
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
         file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
 
@@ -377,13 +380,22 @@ public class InformePagoAlumnoController implements Serializable {
     public void cargarLista() {
         System.out.println("ENTRO CARGAR LISTAAAAAA");
         RequestContext.getCurrentInstance().update(":informePagoAlumnoListForm:datalist");
-       //RequestContext.getCurrentInstance().execute("PF('informePagoAlumnoListForm:datalist').filter();");
+        //RequestContext.getCurrentInstance().execute("PF('informePagoAlumnoListForm:datalist').filter();");
 
     }
-    
-    public void limpiarCampos(){
+
+    public void limpiarCampos() {
         this.setItems(null);
         RequestContext.getCurrentInstance().update(":informePagoAlumnoListForm:datalist");
+
+    }
+
+    public boolean esAprobado() {
+        if(selected!=null){
+            return selected.getEstadoComprobanteAlumno().name().equals("APROBADO");
+        }else{
+            return false;
+        }
         
     }
 }
