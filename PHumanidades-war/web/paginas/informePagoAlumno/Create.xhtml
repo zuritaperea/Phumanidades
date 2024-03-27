@@ -29,8 +29,10 @@
                             <p:outputLabel value="Comprobante: " />
                             <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" 
                                           fileUploadListener="#{informePagoAlumnoController.handleFileUpload}" mode="advanced"
+                                          style="cursor: text"
                                           skinSimple="true" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
                                           update="mensaje"/>
+
 
                             <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_descripcion}" for="descripcion" />
                             <p:inputText id="descripcion" value="#{informePagoAlumnoController.selected.descripcion}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_descripcion}" />

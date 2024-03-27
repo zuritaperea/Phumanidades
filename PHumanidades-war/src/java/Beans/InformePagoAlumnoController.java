@@ -391,11 +391,10 @@ public class InformePagoAlumnoController implements Serializable {
     }
 
     public boolean esAprobado() {
-        if(selected!=null){
+        try {
             return selected.getEstadoComprobanteAlumno().name().equals("APROBADO");
-        }else{
+        } catch (Exception e) {
             return false;
-        }
-        
+        }      
     }
 }
