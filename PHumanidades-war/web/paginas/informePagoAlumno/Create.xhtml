@@ -15,13 +15,13 @@
                   width="50%" height="70%" style="background-color: #f8f8f8">
             <h:form id="InformePagoAlumnoCreateForm" enctype="multipart/form-data">
                 <p:growl id="mensaje" life="6000"/>
-                <h:panelGroup id="display" style="height: 300px">
+                <h:panelGroup id="display" style="height: 350px">
                     <div class="card" >
                         <p:panelGrid columns="2"  
                                      layout="grid"
                                      columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
                                      class="ui-panelgrid-blank ui-fluid"
-                                     style="border:0px none; background-color:transparent; height: 200px">
+                                     style="border:0px none; background-color:transparent; height: 350px">
 
                             <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_nroCuota}" for="nroCuota" />
                             <p:inputText id="nroCuota" value="#{informePagoAlumnoController.selected.nroCuota}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_nroCuota}" disabled="true"/>
@@ -33,10 +33,19 @@
                                           skinSimple="true" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
                                           update="mensaje"/>
 
-
+                            <p:outputLabel value="Concepto" for="tipoIngreso"/>
+                            <p:selectOneMenu id="tipoIngreso"
+                                             value="#{informePagoAlumnoController.selected.tipoIngreso}">
+                                <f:converter binding="#{conversorTipoIngreso}"/>
+                                <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                                <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                            </p:selectOneMenu>
                             <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_descripcion}" for="descripcion" />
                             <p:inputText id="descripcion" value="#{informePagoAlumnoController.selected.descripcion}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_descripcion}" />
-
+                            <p:outputLabel value="Mensaje: " for="mensajeAlumno"/>
+                            <p:inputTextarea id="mensajeAlumno"  rows="3" cols="100" value="#{informePagoAlumnoController.selected.mensajeAlumno}"/>
+                            <p:outputLabel value="Respuesta: " for="respuestaSistema"/>
+                            <p:inputTextarea id="respuestaSistema" rows="3" cols="100" value="#{informePagoAlumnoController.selected.respuestaSistema}" disabled="true"/>
                         </p:panelGrid>
                     </div>
                     <p:commandButton actionListener="#{informePagoAlumnoController.create}" value="#{bundleInformePagoAlumno.Save}" 

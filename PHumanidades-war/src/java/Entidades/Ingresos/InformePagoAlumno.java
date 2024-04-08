@@ -48,6 +48,12 @@ public class InformePagoAlumno implements Serializable {
     private byte[] comprobantePago;
     @Enumerated(EnumType.STRING)
     private EstadoComprobanteAlumno estadoComprobanteAlumno;
+    @OneToOne
+    private TipoIngreso tipoIngreso;
+    @Lob
+    private String mensajeAlumno;
+    @Lob
+    private String respuestaSistema;
 
     public Long getId() {
         return id;
@@ -121,6 +127,30 @@ public class InformePagoAlumno implements Serializable {
         this.nombreComprobantePago = nombreComprobantePago;
     }
 
+    public TipoIngreso getTipoIngreso() {
+        return tipoIngreso;
+    }
+
+    public void setTipoIngreso(TipoIngreso tipoIngreso) {
+        this.tipoIngreso = tipoIngreso;
+    }
+
+    public String getMensajeAlumno() {
+        return mensajeAlumno;
+    }
+
+    public void setMensajeAlumno(String mensajeAlumno) {
+        this.mensajeAlumno = mensajeAlumno;
+    }
+
+    public String getRespuestaSistema() {
+        return respuestaSistema;
+    }
+
+    public void setRespuestaSistema(String respuestaSistema) {
+        this.respuestaSistema = respuestaSistema;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
