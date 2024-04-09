@@ -34,16 +34,19 @@
                                           update="mensaje"/>
 
                             <p:outputLabel value="Concepto" for="tipoIngreso"/>
-                            <p:selectOneMenu id="tipoIngreso"
+                            <p:selectOneMenu id="tipoIngreso" style="width: 500px !important"
                                              value="#{informePagoAlumnoController.selected.tipoIngreso}">
-                                <f:converter binding="#{conversorTipoIngreso}"/>
+                                             <f:converter binding="#{conversorTipoIngreso}"/>
                                 <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
                                 <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
                             </p:selectOneMenu>
+                            
                             <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_descripcion}" for="descripcion" />
                             <p:inputText id="descripcion" value="#{informePagoAlumnoController.selected.descripcion}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_descripcion}" />
+                            
                             <p:outputLabel value="Mensaje: " for="mensajeAlumno"/>
                             <p:inputTextarea id="mensajeAlumno"  rows="3" cols="100" value="#{informePagoAlumnoController.selected.mensajeAlumno}"/>
+                            
                             <p:outputLabel value="Respuesta: " for="respuestaSistema"/>
                             <p:inputTextarea id="respuestaSistema" rows="3" cols="100" value="#{informePagoAlumnoController.selected.respuestaSistema}" disabled="true"/>
                         </p:panelGrid>
