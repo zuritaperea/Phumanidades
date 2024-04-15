@@ -74,7 +74,6 @@ public class InformePagoAlumnoController implements Serializable {
     @PostConstruct
     private void init() {
         this.setItems(new ArrayList<InformePagoAlumno>());
-        
 
     }
 
@@ -166,14 +165,24 @@ public class InformePagoAlumnoController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public void create() throws Exception{
         System.out.println("ENTRO CREATE INFORMEPAAGOALUMNO");
+        try {
+            System.out.println(selected.getComprobantePago());
+        } catch (Exception e) {
+            FacesMessage fm;
+            System.out.println("entro a comprobante vacio");
+            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe Cargar Comprobante", null);
+            FacesContext fc = FacesContext.getCurrentInstance();
+            fc.addMessage(null, fm);
+    
+        }
         //SETEAMOS VALORES PERSONALIZADOS
         System.out.println(this.getLoginAlumnoBean().getAlumno());
         selected.setFecha(new Date());
         selected.setAlumno(this.getLoginAlumnoBean().getAlumno());
         selected.setCohorte(this.getCohorteSeleccionada());
-        System.out.println(selected.getComprobantePago());
+        
         selected.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
         System.out.println("imprimiendoooooooo estado COMPROBANTE: " + selected.getEstadoComprobanteAlumno().name());
 //        selected.setComprobantePago(archivo.getContents());
@@ -395,7 +404,7 @@ public class InformePagoAlumnoController implements Serializable {
             return selected.getEstadoComprobanteAlumno().name().equals("APROBADO");
         } catch (Exception e) {
             return false;
-        }      
+        }
     }
-    
+
 }

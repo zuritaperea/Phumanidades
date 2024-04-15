@@ -20,9 +20,9 @@
                                  layout="grid"
                                  columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
                                  class="ui-panelgrid-blank ui-fluid"
-                                 style="border:0px none; background-color:transparent; height: 350px">
+                                 style="border:0px none; background-color:transparent; height: 380px">
 
-                        <p:outputLabel value="#{bundleInformePagoAlumno.CreateInformePagoAlumnoLabel_nroCuota}" for="nroCuota" />
+                        <p:outputLabel value="Nro de Cuota" for="nroCuota" />
                         <p:inputText id="nroCuota" value="#{informePagoAlumnoController.selected.nroCuota}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_nroCuota}" disabled="true"/>
 
                         <p:outputLabel value="Comprobante: " />
@@ -31,6 +31,29 @@
                                       style="cursor: text"
                                       skinSimple="true" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
                                       update="mensaje"/>
+                        
+                        <p:outputLabel value="Cantidad de Cuotas:"/>
+                            <p:selectOneMenu id="cantCuota" value="#{informePagoAlumnoController.selected.cantidadCuotas}" >
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem itemLabel="2" itemValue="2" />
+                                <f:selectItem itemLabel="3" itemValue="3" />
+                                <f:selectItem itemLabel="4" itemValue="4" />
+                                <f:selectItem itemLabel="5" itemValue="5" />
+                                <f:selectItem itemLabel="6" itemValue="6" />
+                                <f:selectItem itemLabel="7" itemValue="7" />
+                                <f:selectItem itemLabel="8" itemValue="8" />
+                                <f:selectItem itemLabel="9" itemValue="9" />
+                                <f:selectItem itemLabel="10" itemValue="10" />
+                                <f:selectItem itemLabel="11" itemValue="11" />
+                                <f:selectItem itemLabel="12" itemValue="12" />
+                                <f:selectItem itemLabel="13" itemValue="13" />
+                                <f:selectItem itemLabel="14" itemValue="14" />
+                                <f:selectItem itemLabel="15" itemValue="15" />
+                                <f:selectItem itemLabel="16" itemValue="16" />
+                                <f:selectItem itemLabel="17" itemValue="17" />
+                                <f:selectItem itemLabel="18" itemValue="18" />
+                                <f:selectItem itemLabel="19" itemValue="19" />
+                            </p:selectOneMenu>
 
                         <p:outputLabel value="Concepto" for="tipoIngreso"/>
                         <p:selectOneMenu id="tipoIngreso" style="width: 500px !important"

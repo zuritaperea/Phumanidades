@@ -42,6 +42,7 @@ public class InformePagoAlumno implements Serializable {
     @OneToOne
     private Cohorte cohorte;
     private Integer nroCuota;
+    private Integer cantidadCuotas;
     private String descripcion;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date fecha;
@@ -151,6 +152,14 @@ public class InformePagoAlumno implements Serializable {
 
     public void setRespuestaSistema(String respuestaSistema) {
         this.respuestaSistema = respuestaSistema;
+    }
+
+    public Integer getCantidadCuotas() {
+        return cantidadCuotas;
+    }
+
+    public void setCantidadCuotas(Integer cantidadCuotas) {
+        this.cantidadCuotas = cantidadCuotas;
     }
 
     @Override
