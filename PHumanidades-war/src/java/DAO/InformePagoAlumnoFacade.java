@@ -49,5 +49,16 @@ public class InformePagoAlumnoFacade extends AbstractFacade<InformePagoAlumno> {
             return null;
         }
     }
+    
+     public List<InformePagoAlumno> findPagosOrdenadosPorFecha() {
+        try {
+            Query q = null;
+            q = em.createNamedQuery("InformePagoAlumno.findPagosOrdenadosPorFecha");
+            return q.getResultList();
+        } catch (Exception e) {
+            System.out.println("exception " + e);
+            return null;
+        }
+    }
 
 }

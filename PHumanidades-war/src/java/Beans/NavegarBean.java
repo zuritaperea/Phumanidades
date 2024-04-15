@@ -68,6 +68,9 @@ public class NavegarBean {
     private NumeroCuentaBean numeroCuentaBean;
     @ManagedProperty(value = "#{listaRubroPresupuestario}")
     private ListaRubroPresupuestario listaRubroPresupuestario;
+    
+    @ManagedProperty(value = "#{informePagoAlumnoBean}")
+    private InformePagoAlumnoBean informePagoAlumnoBean;
 
     @EJB
     IngresoRNLocal ingresoCuotaRNLocal;
@@ -191,6 +194,18 @@ public class NavegarBean {
         this.numeroCuentaBean = numeroCuentaBean;
     }
 
+    public InformePagoAlumnoBean getInformePagoAlumnoBean() {
+        return informePagoAlumnoBean;
+    }
+
+    public void setInformePagoAlumnoBean(InformePagoAlumnoBean informePagoAlumnoBean) {
+        this.informePagoAlumnoBean = informePagoAlumnoBean;
+    }
+
+
+
+
+
     public String frmUsuario() {
         return "/usuario.xhtml?faces-redirect=true";
     }
@@ -276,8 +291,9 @@ public class NavegarBean {
         this.cohorteLstBean.setUltimaCuota(0);
         if (cuenta == 025) {
             this.cuentaLstBean.setCuenta_id(1);
+        } else {
+            this.cuentaLstBean.setCuenta_id(2);
         }
-        else{ this.cuentaLstBean.setCuenta_id(2);}
 
         getCobroCuotasAlumnosLstBean().cargarIngresos(cuenta);
         RequestContext.getCurrentInstance().update(":frmPri:dtCobroCuotas");
@@ -298,12 +314,14 @@ public class NavegarBean {
         cohorteLstBean.cargarCohorte();
         return "/ConsultaAlumnosPorCohorte.xhtml?faces-redirect=true";
     }
-     public String frmConsultaCuentas() {
+
+    public String frmConsultaCuentas() {
         cuentaLstBean.cargarCuentas();
         cuentaLstBean.cargar_SI_Cuenta();
         return "/ReporteCobrosAlumnos.xhtml?faces-redirect=true";
     }
-      public String frmConsultaIngresosPeriodo() {
+
+    public String frmConsultaIngresosPeriodo() {
         cuentaLstBean.cargarCuentas();
         cuentaLstBean.cargar_SI_Cuenta();
         return "/ReporteIngresosTipoPeriodo.xhtml?faces-redirect=true";
@@ -333,7 +351,7 @@ public class NavegarBean {
     public String frmIngresosArchivo() {
         return "/CobroCuotasArchivo.xhtml?faces-redirect=true";
     }
-    
+
     public String frmIngresosArchivoCSV() {
         return "/ImportarCsv.xhtml?faces-redirect=true";
     }
@@ -347,12 +365,18 @@ public class NavegarBean {
 
         return "/ConsultaPagosGenerales.xhtml?faces-redirect=true";
     }
-     public String frmConsultaPagosGeneralesRubro() {
-         
-         this.getListaRubroPresupuestario().setLstSIRubroType(null);
+
+    public String frmConsultaPagosGeneralesRubro() {
+
+        this.getListaRubroPresupuestario().setLstSIRubroType(null);
         this.getListaRubroPresupuestario().cargarIdentificationTypes();
-        
+
         return "/ConsultaPagosGeneralesPorRubro.xhtml?faces-redirect=true";
+    }
+
+    public String frmInformePagoAlumno() {
+        this.getInformePagoAlumnoBean().cargarTodos();
+        return "/InformePagoAlumno.xhtml?faces-redirect=true";
     }
 
 }

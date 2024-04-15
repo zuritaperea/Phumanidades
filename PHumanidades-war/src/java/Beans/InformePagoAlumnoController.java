@@ -397,4 +397,5 @@ public class InformePagoAlumnoController implements Serializable {
             return false;
         }      
     }
+    
 }

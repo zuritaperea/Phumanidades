@@ -8,8 +8,9 @@
                  xmlns:f="http://java.sun.com/jsf/core"
                  xmlns:b="http://bootsfaces.net/ui"
                  >
+
     <ui:define name="content">
-    <p:growl id="mensajes" life="3000"/>
+        <p:growl id="mensajes" life="3000"/>
         <ui:include src="AlumnoFindDlgInformePago2.xhtml"/>
         <h3>
             <h:outputText value="Comprobantes de Pago - Alumnos"></h:outputText>
@@ -68,7 +69,7 @@
         </table>
 
         <h:form id="informePagoAlumnoListInterno">
-            <p:dataTable id="dtListaCoprobantesAlumnos" value="#{informePagoAlumnoBean.items}" var="item"
+            <p:dataTable id="dtListaCoprobantesAlumnos" value="#{informePagoAlumnoBean.items}" var="item" widgetVar="dtListaCoprobantesAlumnos"
                          selectionMode="single" selection="#{informePagoAlumnoBean.selected}"
                          paginator="true"
                          rowKey="#{item.id}"
@@ -87,50 +88,93 @@
                     </f:facet>
                     <h:outputText value="#{item.id}"/>
                 </p:column>
+
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_alumno}"/>
                     </f:facet>
                     <h:outputText value="#{item.alumno}"/>
                 </p:column>
-                <p:column style="text-align: center">
+
+                <p:column style="text-align: center"
+                          filterBy="#{item.alumno.dni}">
+                    <f:facet name="header">
+                        <h:outputText value="Documento"/>
+                    </f:facet>
+                    <h:outputText value="#{item.alumno.dni}"/>
+                </p:column>
+
+                <p:column style="text-align: center"
+                          filterBy="#{item.cohorte.descripcion}">
                     <f:facet name="header">
                         <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_cohorte}"/>
                     </f:facet>
                     <h:outputText value="#{item.cohorte}"/>
                 </p:column>
+
                 <p:column style="text-align: center">
                     <f:facet name="header">
                         <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_nroCuota}"/>
                     </f:facet>
                     <h:outputText value="#{item.nroCuota}"/>
                 </p:column>
+
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_descripcion}"/>
                     </f:facet>
                     <h:outputText value="#{item.descripcion}"/>
                 </p:column>
-                <p:column style="text-align: center">
+
+                <p:column style="text-align: center" filterBy="#{item.fecha}" filterFunction="#{dateRangeFilter.filterByDate}">
+                    <f:facet name="filter">
+                        <h:inputHidden id="filter" />
+                    </f:facet>
                     <f:facet name="header">
-                        <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_fecha}"/>
+                        <h:outputText value="Fecha" />                  
+                    </f:facet>
+                    <f:facet name="header">
+                        <p:calendar id="from" pattern="dd/MM/yyyy">
+                            <p:ajax event="dateSelect" 
+                                    onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                    oncomplete="PF('dtListaCoprobantesAlumnos').filter()" />
+                        </p:calendar>
+                        <p:calendar id="to" pattern="dd/MM/yyyy">
+                            <p:ajax event="dateSelect" 
+                                    onstart="$(PrimeFaces.escapeClientId('#{p:component('filter')}'))[0].value = $(PrimeFaces.escapeClientId('#{p:component('from')}_input'))[0].value + '-' + $(PrimeFaces.escapeClientId('#{p:component('to')}_input'))[0].value" 
+                                    oncomplete="PF('dtListaCoprobantesAlumnos').filter()" />
+                        </p:calendar>
                     </f:facet>
                     <h:outputText value="#{item.fecha}">
                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                     </h:outputText>
                 </p:column>
+
                 <p:column>
                     <f:facet name="header">
                         <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_comprobantePago}"/>
                     </f:facet>
                     <h:outputText value="#{item.nombreComprobantePago}"/>
                 </p:column>
-                <p:column style="text-align: center">
-                    <f:facet name="header">
-                        <h:outputText value="Estado del Comprobante"/>
-                    </f:facet>
+
+                <p:column style="text-align: center" headerText="Estado" 
+                          filterMatchMode="contains" sortBy="#{item.estadoComprobanteAlumno}"
+                          filterBy="#{item.estadoComprobanteAlumno}">
+
                     <h:outputText value="#{item.estadoComprobanteAlumno.name}"/>
                 </p:column>
+
+                <p:column style="text-align: center">
+                    <f:facet name="header">
+                        <h:outputText value="Visualizar"/>
+                    </f:facet>
+                    <b:commandButton id="btnVerPdf"
+                                     iconAwesome="fa-thin fa-expand" value=""
+                                     look="success"
+                                     actionListener="#{informePagoAlumnoBean.verPdf(item)}"
+                                     ></b:commandButton>
+                </p:column>
+
                 <p:column style="text-align: center; width: 150">
                     <f:facet name="header">
                         <h:outputText value="Descargar"/>
@@ -150,7 +194,16 @@
                 </f:facet>
             </p:dataTable>
 
+
         </h:form>
+
+        <p:dialog id="dialogPDF" widgetVar="pdfDialog" modal="true" resizable="false" width="75%" height="75%">
+            <p:media rendered="#{not empty informePagoAlumnoBean.file}" value="#{informePagoAlumnoBean.file}" width="100%" height="600px" player="pdf" cache="false"/>
+        </p:dialog>
+
+        <p:dialog id="dialogJPG" widgetVar="jpgDialog" modal="true" resizable="true">
+            <p:graphicImage value="#{informePagoAlumnoBean.file}"/>
+        </p:dialog>
         <ui:include src="EditEstadoComprobanteAlumnoDialog.xhtml"/>
     </ui:define>
 </ui:composition>

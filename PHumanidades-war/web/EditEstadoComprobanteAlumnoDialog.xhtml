@@ -9,14 +9,19 @@
 
     <ui:composition>
 
-        <p:dialog id="ModificarEstadoDialog" widgetVar="modificarEstadoDialog" modal="true"  resizable="false" appendTo="@(body)" header="Datos del Comprobante">
+        <p:dialog id="ModificarEstadoDialog" widgetVar="modificarEstadoDialog" modal="true"  resizable="false" 
+                  appendTo="@(body)" header="Datos del Comprobante"
+                  position="top"
+                  width="50%" height="70%" style="background-color: #f8f8f8">
             <h:form id="ModificarEstadoDialogForm">
-                
+
                 <div class="card" > 
 
                     <p:panelGrid columns="2" rendered="#{informePagoAlumnoBean.selected != null}"
+                                 layout="grid"
                                  columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4"
-                                 style="border:0px none; background-color:transparent; height: 200px">
+                                 class="ui-panelgrid-blank ui-fluid"
+                                 style="border:0px none; background-color:transparent; height: 90%">
                         <p:outputLabel value="Cohorte: " for="cohorte" />
                         <p:outputLabel id="cohorte" value="#{informePagoAlumnoBean.selected.cohorte}"/>
                         <p:outputLabel value="Nro de Cuota: " for="nroCuota" />
@@ -34,10 +39,27 @@
 
                         <p:outputLabel value="#{bundleInformePagoAlumno.EditInformePagoAlumnoLabel_comprobantePago}" for="comprobantePago" />
                         <p:outputLabel id="comprobantePago" value="#{informePagoAlumnoBean.selected.nombreComprobantePago}" title="#{bundleInformePagoAlumno.EditInformePagoAlumnoTitle_comprobantePago}" />
-                        <p:outputLabel value="Seleccionar: " for="selectEstadoComprobante" />
-                        <b:selectOneMenu id="selectEstadoComprobante" value="#{informePagoAlumnoBean.selected.estadoComprobanteAlumno}">
+
+                        <p:outputLabel value="Concepto" for="tipoIngreso"/>
+                        <p:selectOneMenu id="tipoIngreso" style="width: 400px !important"
+                                         value="#{informePagoAlumnoBean.selected.tipoIngreso}">
+                            <f:converter binding="#{conversorTipoIngreso}"/>
+                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                            <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="Mensaje del Alumno:" for="mensajeAlumno"/>
+                        <p:inputTextarea id="mensajeAlumno"  rows="3" cols="80" value="#{informePagoAlumnoBean.selected.mensajeAlumno}" disabled="true"/>
+
+                        <p:outputLabel value="Responder: " for="respuestaSistema"/>
+                        <p:inputTextarea id="respuestaSistema" rows="3" cols="80" value="#{informePagoAlumnoBean.selected.respuestaSistema}"/>
+
+                        <p:outputLabel value="Seleccionar: "/>
+                        <p:selectOneMenu id="selectEstadoComprobante" value="#{informePagoAlumnoBean.selected.estadoComprobanteAlumno}" style="width: 200px">
                             <f:selectItems value="#{informePagoAlumnoBean.listEstadoComprobanteAlumno}" var="estado" />
-                        </b:selectOneMenu>
+                        </p:selectOneMenu>
+
+
                     </p:panelGrid>
 
                 </div>

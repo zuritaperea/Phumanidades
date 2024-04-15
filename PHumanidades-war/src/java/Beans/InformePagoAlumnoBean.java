@@ -285,10 +285,10 @@ public class InformePagoAlumnoBean implements Serializable {
             System.out.println("entro modificar coso: " + selected);
             System.out.println("entro modificar coso ESTADo:  " + selected.getEstadoComprobanteAlumno().name());
             informePagoAlumnoFacade.edit(selected);
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Modificacion Realizada", null);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Operacion Realizada", null);
             FacesContext.getCurrentInstance().addMessage(null, message);
         } catch (Exception e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al intentar Modificar", null);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar operacion", null);
             FacesContext.getCurrentInstance().addMessage(null, message);
 
         }
@@ -310,5 +310,23 @@ public class InformePagoAlumnoBean implements Serializable {
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
         file = new DefaultStreamedContent(stream, "application/octet-stream", informePagoAlumno.getNombreComprobantePago());
 
+    }
+
+    public void verPdf(InformePagoAlumno informePagoAlumno) {
+        System.out.println("Entrooo ver pdf");
+        InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
+        
+        if (informePagoAlumno.getNombreComprobantePago().contains(".pdf")) {
+            file = new DefaultStreamedContent(stream, "application/pdf", informePagoAlumno.getNombreComprobantePago());
+            RequestContext.getCurrentInstance().execute("PF('pdfDialog').show();");
+        }
+        if (informePagoAlumno.getNombreComprobantePago().contains(".jpeg") || informePagoAlumno.getNombreComprobantePago().contains(".jpg")) {
+            file = new DefaultStreamedContent(stream, "image/jpeg", informePagoAlumno.getNombreComprobantePago());
+            RequestContext.getCurrentInstance().execute("PF('jpgDialog').show();");
+        }
+
+    }
+    public void cargarTodos(){
+        this.setItems(informePagoAlumnoFacade.findPagosOrdenadosPorFecha());
     }
 }
