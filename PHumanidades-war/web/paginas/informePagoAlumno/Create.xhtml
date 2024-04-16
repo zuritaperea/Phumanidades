@@ -14,7 +14,7 @@
                   position="top"
                   width="50%" height="70%" style="background-color: #f8f8f8">
             <h:form id="InformePagoAlumnoCreateForm" enctype="multipart/form-data">
-                <p:growl id="mensaje" life="6000"/>
+                <p:growl id="mensaje" life="3000"/>
                 <h:panelGroup id="display" style="height: 350px">
                     <div class="card" >
                         <p:panelGrid columns="2"  
@@ -27,7 +27,7 @@
                             <p:inputText id="nroCuota" value="#{informePagoAlumnoController.selected.nroCuota}" title="#{bundleInformePagoAlumno.CreateInformePagoAlumnoTitle_nroCuota}" disabled="true"/>
 
                             <p:outputLabel value="Comprobante: " />
-                            <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" 
+                            <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}"
                                           fileUploadListener="#{informePagoAlumnoController.handleFileUpload}" mode="advanced"
                                           style="cursor: text" required="true" requiredMessage="Debe Cargar Comprobante"
                                           skinSimple="true" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
@@ -57,7 +57,7 @@
                             </p:selectOneMenu>
 
                             <p:outputLabel value="Concepto" for="tipoIngreso"/>
-                            <p:selectOneMenu id="tipoIngreso" style="width: 500px !important"
+                            <p:selectOneMenu id="tipoIngreso" style="width: 500px !important" required="true" requiredMessage="Debe seleccionar un Concepto"
                                              value="#{informePagoAlumnoController.selected.tipoIngreso}">
                                 <f:converter binding="#{conversorTipoIngreso}"/>
                                 <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>

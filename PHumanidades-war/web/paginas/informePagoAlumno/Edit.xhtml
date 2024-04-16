@@ -28,7 +28,7 @@
                         <p:outputLabel value="Comprobante: " />
                         <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}" 
                                       fileUploadListener="#{informePagoAlumnoController.handleFileUpload}" mode="advanced"
-                                      style="cursor: text"
+                                      style="cursor: text" required="true" requiredMessage="Debe seleccionar un Comprobante"
                                       skinSimple="true" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
                                       update="mensaje"/>
                         
@@ -56,7 +56,7 @@
                             </p:selectOneMenu>
 
                         <p:outputLabel value="Concepto" for="tipoIngreso"/>
-                        <p:selectOneMenu id="tipoIngreso" style="width: 500px !important"
+                        <p:selectOneMenu id="tipoIngreso" style="width: 500px !important" required="true" requiredMessage="Debe seleccionar un Concepto"
                                          value="#{informePagoAlumnoController.selected.tipoIngreso}">
                             <f:converter binding="#{conversorTipoIngreso}"/>
                             <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>

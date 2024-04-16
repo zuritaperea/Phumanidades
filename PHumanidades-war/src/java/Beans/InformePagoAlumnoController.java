@@ -165,41 +165,53 @@ public class InformePagoAlumnoController implements Serializable {
         return selected;
     }
 
-    public void create() throws Exception{
+    public void create() throws Exception {
         System.out.println("ENTRO CREATE INFORMEPAAGOALUMNO");
-        try {
-            System.out.println(selected.getComprobantePago());
-        } catch (Exception e) {
-            FacesMessage fm;
-            System.out.println("entro a comprobante vacio");
-            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe Cargar Comprobante", null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage(null, fm);
-    
-        }
         //SETEAMOS VALORES PERSONALIZADOS
-        System.out.println(this.getLoginAlumnoBean().getAlumno());
-        selected.setFecha(new Date());
-        selected.setAlumno(this.getLoginAlumnoBean().getAlumno());
-        selected.setCohorte(this.getCohorteSeleccionada());
-        
-        selected.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
-        System.out.println("imprimiendoooooooo estado COMPROBANTE: " + selected.getEstadoComprobanteAlumno().name());
-//        selected.setComprobantePago(archivo.getContents());
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
-//        if (!JsfUtil.isValidationFailed()) {
-//            System.out.println("entrooooooo !JsfUtil.isValidationFailed()");
-//            //items = null;    // Invalidate list of items to trigger re-query.
-//        }
         try {
-            this.obtenerComprobantesAlumno(this.getLoginAlumnoBean().getAlumno(), cohorteSeleccionada);
-        } catch (Exception ex) {
-            Logger.getLogger(InformePagoAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
+            validar();
+            System.out.println(this.getLoginAlumnoBean().getAlumno());
+            selected.setFecha(new Date());
+            selected.setAlumno(this.getLoginAlumnoBean().getAlumno());
+            selected.setCohorte(this.getCohorteSeleccionada());
+
+            selected.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
+            System.out.println("imprimiendoooooooo estado COMPROBANTE: " + selected.getEstadoComprobanteAlumno().name());
+
+            persist(PersistAction.CREATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoCreated"));
+            try {
+                this.obtenerComprobantesAlumno(this.getLoginAlumnoBean().getAlumno(), cohorteSeleccionada);
+            } catch (Exception ex) {
+                Logger.getLogger(InformePagoAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IllegalArgumentException e) {
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
         }
+
     }
 
-    public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoUpdated"));
+    private void validar() {
+        if (selected.getComprobantePago() == null) {
+            throw new IllegalArgumentException("Debe seleccionar un Comprobante");
+        }
+        if (selected.getTipoIngreso() == null) {
+            throw new IllegalArgumentException("Debe seleccionar un Concepto");
+        }
+        if (this.getCohorteSeleccionada() == null) {
+            throw new IllegalArgumentException("Debe seleccionar una Cohorte");
+        }
+
+    }
+
+    public void update() throws Exception {
+        try {
+            validar();
+            persist(PersistAction.UPDATE, ResourceBundle.getBundle("/BundleInformePagoAlumno").getString("InformePagoAlumnoUpdated"));
+        } catch (IllegalArgumentException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+        }
+        
     }
 
     public void destroy() {
