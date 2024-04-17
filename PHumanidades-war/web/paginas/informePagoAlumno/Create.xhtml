@@ -28,6 +28,7 @@
 
                             <p:outputLabel value="Comprobante: " />
                             <p:fileUpload id="comprobantePago" value="#{informePagoAlumnoController.selected.comprobantePago}"
+                                          fileLimit="1" allowTypes="/(\.|\/)(png|jpeg|pdf|jpg)$/" invalidFileMessage="Formato de archivo invalido, debe ser pdf, jpeg, jpg o png"
                                           fileUploadListener="#{informePagoAlumnoController.handleFileUpload}" mode="advanced"
                                           style="cursor: text" required="true" requiredMessage="Debe Cargar Comprobante"
                                           skinSimple="true" auto="true" label="Elegir Archivo" uploadLabel="Subir Archivo" cancelLabel="Cancelar"
@@ -71,7 +72,8 @@
                             <p:inputTextarea id="mensajeAlumno"  rows="3" cols="75" value="#{informePagoAlumnoController.selected.mensajeAlumno}"/>
 
                             <p:outputLabel value="Respuesta: " for="respuestaSistema"/>
-                            <p:inputTextarea id="respuestaSistema" rows="3" cols="75" value="#{informePagoAlumnoController.selected.respuestaSistema}" disabled="true"/>
+                            <p:inputTextarea id="respuestaSistema" rows="3" cols="75" readonly="true"
+                                             value="#{informePagoAlumnoController.selected.respuestaSistema}"/>
                         </p:panelGrid>
                     </div>
                     <p:commandButton actionListener="#{informePagoAlumnoController.create}" value="#{bundleInformePagoAlumno.Save}" 

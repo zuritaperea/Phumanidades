@@ -70,7 +70,8 @@
                         <p:inputTextarea id="mensajeAlumno"  rows="3" cols="80" value="#{informePagoAlumnoController.selected.mensajeAlumno}"/>
 
                         <p:outputLabel value="Respuesta: " for="respuestaSistema"/>
-                        <p:inputTextarea id="respuestaSistema" rows="3" cols="80" value="#{informePagoAlumnoController.selected.respuestaSistema}" disabled="true"/>
+                        <p:inputTextarea id="respuestaSistema" rows="3" cols="80" readonly="true"
+                                         value="#{informePagoAlumnoController.selected.respuestaSistema}"/>
 
                     </p:panelGrid>
                     <p:commandButton actionListener="#{informePagoAlumnoController.update}" value="#{bundleInformePagoAlumno.Save}" update="display,:informePagoAlumnoListForm:datalist,:frmPri:growl" oncomplete="handleSubmit(args, 'InformePagoAlumnoEditDialog');"/>

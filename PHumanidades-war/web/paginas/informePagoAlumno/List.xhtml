@@ -93,14 +93,14 @@
                         </f:facet>
                         <h:outputText value="#{item.nroCuota}"/>
                     </p:column>
-                    
+
                     <p:column style="text-align: center">
                         <f:facet name="header">
                             <h:outputText value="Cantidad de Cuotas"/>
                         </f:facet>
                         <h:outputText value="#{item.cantidadCuotas}"/>
                     </p:column>
-                    
+
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="#{bundleInformePagoAlumno.ListInformePagoAlumnoTitle_descripcion}"/>
@@ -126,6 +126,12 @@
                             <h:outputText value="Estado del Comprobante"/>
                         </f:facet>
                         <h:outputText value="#{item.estadoComprobanteAlumno.name}"/>
+                    </p:column>
+                    <p:column style="text-align: center">
+                        <f:facet name="header">
+                            <h:outputText value="Mensaje del Sistema"/>
+                        </f:facet>
+                        <h:outputText value="#{item.respuestaSistema}"/>
                     </p:column>
                     <p:column style="text-align: center; width: 150">
                         <f:facet name="header">
