@@ -11,6 +11,7 @@ import Entidades.Usuarios.Usuarios;
 import RN.AlumnoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import RN.UsuariosRNLocal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,7 @@ import org.primefaces.context.RequestContext;
  */
 @ManagedBean(name = "loginAlumnoBean")
 @SessionScoped
-public class LoginAlumnoBean {
+public class LoginAlumnoBean implements Serializable{
 
     @EJB
     private AlumnoRNLocal alumnoRNLocal;
