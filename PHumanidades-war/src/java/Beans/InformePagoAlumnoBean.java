@@ -67,6 +67,7 @@ public class InformePagoAlumnoBean implements Serializable {
     //los de abajo son mara manejar los archivos del comprobante
     private UploadedFile archivo;
     private StreamedContent file;
+    private StreamedContent vistaPrevia;
 
     public InformePagoAlumnoBean() {
         cargarLstEstadosComprobante();
@@ -182,6 +183,14 @@ public class InformePagoAlumnoBean implements Serializable {
 
     public void setListEstadoComprobanteAlumno(List<SelectItem> listEstadoComprobanteAlumno) {
         this.listEstadoComprobanteAlumno = listEstadoComprobanteAlumno;
+    }
+
+    public StreamedContent getVistaPrevia() {
+        return vistaPrevia;
+    }
+
+    public void setVistaPrevia(StreamedContent vistaPrevia) {
+        this.vistaPrevia = vistaPrevia;
     }
 
     public void abrirDlgFindAlumnoConsulta() {
@@ -313,16 +322,21 @@ public class InformePagoAlumnoBean implements Serializable {
     }
 
     public void verPdf(InformePagoAlumno informePagoAlumno) {
+        vistaPrevia=null;
         System.out.println("Entrooo ver pdf");
+        System.out.println("nombre archivo: "+informePagoAlumno.getNombreComprobantePago());
+        System.out.println("contenido archivo: "+informePagoAlumno.getComprobantePago());
         FacesMessage fm;
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
 
         if (informePagoAlumno.getNombreComprobantePago().contains(".pdf")) {
-            file = new DefaultStreamedContent(stream, "application/pdf", informePagoAlumno.getNombreComprobantePago());
+            vistaPrevia = new DefaultStreamedContent(stream, "application/pdf", informePagoAlumno.getNombreComprobantePago());
+            //RequestContext.getCurrentInstance().update("informePagoAlumnoListInterno:dialogPDF");
             RequestContext.getCurrentInstance().execute("PF('pdfDialog').show();");
         }
         if (informePagoAlumno.getNombreComprobantePago().contains(".jpeg") || informePagoAlumno.getNombreComprobantePago().contains(".jpg") || informePagoAlumno.getNombreComprobantePago().contains(".png")) {
-            file = new DefaultStreamedContent(stream, "image/jpeg", informePagoAlumno.getNombreComprobantePago());
+            vistaPrevia = new DefaultStreamedContent(stream, "image/jpeg", informePagoAlumno.getNombreComprobantePago());
+            //RequestContext.getCurrentInstance().update("informePagoAlumnoListInterno:dialogJPG");
             RequestContext.getCurrentInstance().execute("PF('jpgDialog').show();");
         } else {
             fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato no admitido", null);

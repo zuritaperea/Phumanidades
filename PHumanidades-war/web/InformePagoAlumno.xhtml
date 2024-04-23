@@ -177,7 +177,9 @@
                     <b:commandButton id="btnVerPdf"
                                      iconAwesome="fa-thin fa-expand" value=""
                                      look="success"
-                                     actionListener="#{informePagoAlumnoBean.verPdf(item)}"
+                                     action="#{informePagoAlumnoBean.verPdf(item)}"
+                                     update="dialogJPG, dialogPDF"
+                                     ajax="false"
                                      ></b:commandButton>
                 </p:column>
 
@@ -201,15 +203,16 @@
             </p:dataTable>
 
 
+
+
+            <p:dialog id="dialogPDF" widgetVar="pdfDialog" modal="true" resizable="false" width="75%" height="75%">
+                <p:media  id="vistaPDF" rendered="#{not empty informePagoAlumnoBean.vistaPrevia}" value="#{informePagoAlumnoBean.vistaPrevia}" width="100%" height="600px" player="pdf" cache="false"/>
+            </p:dialog>
+
+            <p:dialog id="dialogJPG" widgetVar="jpgDialog" modal="true" resizable="true">
+                <p:graphicImage id="vistaIMG" value="#{informePagoAlumnoBean.vistaPrevia}" cache="false"/>
+            </p:dialog>
         </h:form>
-
-        <p:dialog id="dialogPDF" widgetVar="pdfDialog" modal="true" resizable="false" width="75%" height="75%">
-            <p:media rendered="#{not empty informePagoAlumnoBean.file}" value="#{informePagoAlumnoBean.file}" width="100%" height="600px" player="pdf" cache="false"/>
-        </p:dialog>
-
-        <p:dialog id="dialogJPG" widgetVar="jpgDialog" modal="true" resizable="true">
-            <p:graphicImage value="#{informePagoAlumnoBean.file}"/>
-        </p:dialog>
         <ui:include src="EditEstadoComprobanteAlumnoDialog.xhtml"/>
     </ui:define>
 </ui:composition>
