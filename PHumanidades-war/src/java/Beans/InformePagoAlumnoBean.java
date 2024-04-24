@@ -21,6 +21,7 @@ import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -29,6 +30,12 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import org.primefaces.context.RequestContext;
@@ -289,7 +296,13 @@ public class InformePagoAlumnoBean implements Serializable {
 
     public void modificar() {
         System.out.println("entro modificar coso: " + selected);
-        System.out.println("entro modificar coso ESTADo:  " + selected.getEstadoComprobanteAlumno().name());
+
+        try {
+            enviarMail();
+        } catch (MessagingException ex) {
+            Logger.getLogger(InformePagoAlumnoBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         try {
             System.out.println("entro modificar coso: " + selected);
             System.out.println("entro modificar coso ESTADo:  " + selected.getEstadoComprobanteAlumno().name());
@@ -301,6 +314,41 @@ public class InformePagoAlumnoBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, message);
 
         }
+
+    }
+
+    private void enviarMail() throws MessagingException {
+
+        // Credenciales de acceso OAuth
+        final String usuario = "victornavelino@gmail.com";
+        final String tokenOAuth = "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";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.user", usuario);
+        // Desactivar verificación de certificado
+        props.put("mail.smtp.ssl.trust", "*");
+
+        Session session = Session.getDefaultInstance(props);
+        session.setDebug(true);
+//        try {
+//            MimeMessage message = new MimeMessage(session);
+//            // Quien envia el correo
+//            message.setFrom(new InternetAddress(usuario));
+//            // A quien va dirigido
+//            message.addRecipient(Message.RecipientType.TO, new InternetAddress("victornavelino@gmail.com"));
+//            message.setSubject("prueba");
+//            message.setText("prueba envio de mail");
+//            Transport t = session.getTransport("smtp");
+//            t.connect(usuario, tokenOAuth);
+//            t.sendMessage(message,message.getAllRecipients());
+//            System.out.println("MENSAJE ENVIADO");
+//            t.close();
+//        } catch (MessagingException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
@@ -322,10 +370,10 @@ public class InformePagoAlumnoBean implements Serializable {
     }
 
     public void verPdf(InformePagoAlumno informePagoAlumno) {
-        vistaPrevia=null;
+        vistaPrevia = null;
         System.out.println("Entrooo ver pdf");
-        System.out.println("nombre archivo: "+informePagoAlumno.getNombreComprobantePago());
-        System.out.println("contenido archivo: "+informePagoAlumno.getComprobantePago());
+        System.out.println("nombre archivo: " + informePagoAlumno.getNombreComprobantePago());
+        System.out.println("contenido archivo: " + informePagoAlumno.getComprobantePago());
         FacesMessage fm;
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
 
@@ -350,4 +398,5 @@ public class InformePagoAlumnoBean implements Serializable {
     public void cargarTodos() {
         this.setItems(informePagoAlumnoFacade.findPagosOrdenadosPorFecha());
     }
+
 }
