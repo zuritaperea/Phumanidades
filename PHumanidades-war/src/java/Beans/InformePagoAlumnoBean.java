@@ -14,6 +14,9 @@ import Entidades.Persona.Alumno;
 import RN.AlumnoRNLocal;
 import RN.InscripcionAlumnosRNLocal;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
@@ -30,8 +33,10 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -319,36 +324,35 @@ public class InformePagoAlumnoBean implements Serializable {
 
     private void enviarMail() throws MessagingException {
 
-        // Credenciales de acceso OAuth
-        final String usuario = "victornavelino@gmail.com";
-        final String tokenOAuth = "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";
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.user", usuario);
-        // Desactivar verificación de certificado
-        props.put("mail.smtp.ssl.trust", "*");
+        try {
+            // Cargar las credenciales de la cuenta de servicio
+            String filePath = "C:\\\\Users\\\\hugo\\\\Documents\\\\TRABAJO\\\\PERSONAL\\\\HUMANIDADES\\\\oauth\\\\client_secret.json"; // Reemplaza con la ruta real
+            final Properties props = new Properties();
+            props.load(new FileInputStream(new File(filePath)));
+            //props.put("mail.smtp.user", "victornavelino@gmail.com"); // Reemplaza con tu correo electrónico
+            //props.put("mail.smtp.password", "deutzo46"); // Reemplaza con tu contraseña
 
-        Session session = Session.getDefaultInstance(props);
-        session.setDebug(true);
-//        try {
-//            MimeMessage message = new MimeMessage(session);
-//            // Quien envia el correo
-//            message.setFrom(new InternetAddress(usuario));
-//            // A quien va dirigido
-//            message.addRecipient(Message.RecipientType.TO, new InternetAddress("victornavelino@gmail.com"));
-//            message.setSubject("prueba");
-//            message.setText("prueba envio de mail");
-//            Transport t = session.getTransport("smtp");
-//            t.connect(usuario, tokenOAuth);
-//            t.sendMessage(message,message.getAllRecipients());
-//            System.out.println("MENSAJE ENVIADO");
-//            t.close();
-//        } catch (MessagingException e) {
-//            throw new RuntimeException(e);
-//        }
+            // Configurar la sesión
+            Session session = Session.getDefaultInstance(props, new Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    //return new PasswordAuthentication(props.getProperty("mail.smtp.user"), props.getProperty("mail.smtp.password"));
+                    return new PasswordAuthentication("victornavelino@gmail.com", "deutzo46");
+                }
+            });
+
+            // ... (el resto del código para enviar el correo electrónico)
+            // Crear el mensaje
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("victornavelino@gmail.com"));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(props.getProperty("mail.smtp.user")));
+            message.setSubject("TESTTT");
+            message.setText("TEST");
+
+            // Enviar el correo electrónico
+            Transport.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
