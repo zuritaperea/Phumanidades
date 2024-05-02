@@ -323,10 +323,12 @@ public class InformePagoAlumnoBean implements Serializable {
     }
 
     private void enviarMail() throws MessagingException {
-
+        String filePath = "C:/Users/hugo/Documents/TRABAJO/PERSONAL/HUMANIDADES/oauth/client_secret.json"; // Reemplaza con la ruta real
+        System.out.println("IMPRIMO PATH");
+        System.out.println(filePath);
         try {
             // Cargar las credenciales de la cuenta de servicio
-            String filePath = "C:\\\\Users\\\\hugo\\\\Documents\\\\TRABAJO\\\\PERSONAL\\\\HUMANIDADES\\\\oauth\\\\client_secret.json"; // Reemplaza con la ruta real
+
             final Properties props = new Properties();
             props.load(new FileInputStream(new File(filePath)));
             //props.put("mail.smtp.user", "victornavelino@gmail.com"); // Reemplaza con tu correo electrónico
