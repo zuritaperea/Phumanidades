@@ -322,6 +322,19 @@ public class InformePagoAlumnoBean implements Serializable {
 
     }
 
+    public void eliminar() {
+        try {
+            informePagoAlumnoFacade.remove(selected);
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Eliminado", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            RequestContext.getCurrentInstance().update("dtListaCoprobantesAlumnos");
+        } catch (Exception e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar operacion", null);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+
+        }
+    }
+
     private void enviarMail() throws MessagingException {
         String filePath = "C:/Users/hugo/Documents/TRABAJO/PERSONAL/HUMANIDADES/oauth/client_secret.json"; // Reemplaza con la ruta real
         System.out.println("IMPRIMO PATH");
