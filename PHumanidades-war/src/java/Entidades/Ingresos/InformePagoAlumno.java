@@ -29,6 +29,8 @@ import javax.persistence.Temporal;
 @Entity
 @NamedQueries({
     @NamedQuery(name = "InformePagoAlumno.findPagosAlumnoCohorte", query = "SELECT c FROM InformePagoAlumno c WHERE c.alumno=:alumno AND c.cohorte.id=:cohorte"),
+    @NamedQuery(name = "InformePagoAlumno.findUltimaCuota",
+            query = "SELECT MAX(c.nroCuota) FROM InformePagoAlumno c WHERE c.alumno=:alumno and c.cohorte=:cohorte"),
     @NamedQuery(name = "InformePagoAlumno.findPagosOrdenadosPorFecha", query = "SELECT c FROM InformePagoAlumno c ORDER BY c.fecha DESC ")})
 @Table(name = "informe_pago_alumno")
 public class InformePagoAlumno implements Serializable {

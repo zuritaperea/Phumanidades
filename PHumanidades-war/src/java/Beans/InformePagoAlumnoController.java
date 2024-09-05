@@ -160,7 +160,8 @@ public class InformePagoAlumnoController implements Serializable {
         System.out.println("ENTRO PREPARATE CREATEE");
         System.out.println(this.getCohorteSeleccionada());
         System.out.println(this.getLoginAlumnoBean().getAlumno());
-        selected.setNroCuota(ingresoFacadeLocal.findUltimaCuotaAlumnoCohorte(this.getLoginAlumnoBean().getAlumno(), this.getCohorteSeleccionada()));
+        selected.setNroCuota(InformePagoAlumnoFacade.findUltimaCuota(this.getLoginAlumnoBean().getAlumno(),  this.getCohorteSeleccionada())+1);
+        //selected.setNroCuota(ingresoFacadeLocal.findUltimaCuotaAlumnoCohorte(this.getLoginAlumnoBean().getAlumno(), this.getCohorteSeleccionada()));
         initializeEmbeddableKey();
         return selected;
     }
@@ -225,6 +226,10 @@ public class InformePagoAlumnoController implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(InformePagoAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    public void eliminarRegistro(){
+        this.destroy();
     }
 
     public List<InformePagoAlumno> getItems() {

@@ -327,6 +327,7 @@ public class InformePagoAlumnoBean implements Serializable {
             informePagoAlumnoFacade.remove(selected);
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registro Eliminado", null);
             FacesContext.getCurrentInstance().addMessage(null, message);
+            
             RequestContext.getCurrentInstance().update("dtListaCoprobantesAlumnos");
         } catch (Exception e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al realizar operacion", null);

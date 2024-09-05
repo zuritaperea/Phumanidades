@@ -42,15 +42,15 @@ public class InformePagoAlumnoFacade extends AbstractFacade<InformePagoAlumno> {
             q = em.createNamedQuery("InformePagoAlumno.findPagosAlumnoCohorte");
             q.setParameter("alumno", alumno);
             q.setParameter("cohorte", cohorte.getId());
-            System.out.println("Entro consultaaaa"+q.getResultList());
+            System.out.println("Entro consultaaaa" + q.getResultList());
             return q.getResultList();
         } catch (Exception e) {
             System.out.println("exception " + e);
             return null;
         }
     }
-    
-     public List<InformePagoAlumno> findPagosOrdenadosPorFecha() {
+
+    public List<InformePagoAlumno> findPagosOrdenadosPorFecha() {
         try {
             Query q = null;
             q = em.createNamedQuery("InformePagoAlumno.findPagosOrdenadosPorFecha");
@@ -59,6 +59,18 @@ public class InformePagoAlumnoFacade extends AbstractFacade<InformePagoAlumno> {
             System.out.println("exception " + e);
             return null;
         }
+    }
+
+    public int findUltimaCuota(Alumno alumno, Cohorte cohorte) {
+        Query q = em.createNamedQuery("InformePagoAlumno.findUltimaCuota");
+        q.setParameter("alumno", alumno);
+        q.setParameter("cohorte", cohorte);
+        try {
+            return (int) q.getSingleResult();
+        } catch (Exception e) {
+            return 0;
+        }
+
     }
 
 }
