@@ -206,6 +206,7 @@
                     <p:commandButton id="modificarEstado"
                                      icon="ui-icon-pencil" value="Controlar" 
                                      update=":ModificarEstadoDialogForm" oncomplete="PF('modificarEstadoDialog').show()" disabled="#{empty informePagoAlumnoBean.selected}"/>
+                    <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="Eliminar" actionListener="#{informePagoAlumnoBean.eliminar}" 
                                      update=":mensajes,dtListaCoprobantesAlumnos" disabled="#{empty informePagoAlumnoBean.selected}"
                                      />
                 </f:facet>
@@ -214,12 +215,16 @@
 
 
 
-            <p:dialog id="dialogPDF" widgetVar="pdfDialog" modal="true" resizable="false" width="75%" height="75%">
-                <p:media  id="vistaPDF" rendered="#{not empty informePagoAlumnoBean.vistaPrevia}" value="#{informePagoAlumnoBean.vistaPrevia}" width="100%" height="600px" player="pdf" cache="false"/>
+            <p:dialog id="dialogPDF" widgetVar="pdfDialog" modal="true" resizable="false">
+                <div style="width: 750px; height: 500px; overflow: auto;">           
+                    <p:media  id="vistaPDF" rendered="#{not empty informePagoAlumnoBean.vistaPrevia}" value="#{informePagoAlumnoBean.vistaPrevia}" width="100%" height="600px" player="pdf" cache="false"/>
+                </div>
             </p:dialog>
 
-            <p:dialog id="dialogJPG" widgetVar="jpgDialog" modal="true" resizable="true">
-                <p:graphicImage id="vistaIMG" value="#{informePagoAlumnoBean.vistaPrevia}" cache="false"/>
+            <p:dialog id="dialogJPG" widgetVar="jpgDialog" modal="true" resizable="false">
+                <div style="width: 750px; height: 500px; overflow: auto;">
+                    <p:graphicImage id="vistaIMG" value="#{informePagoAlumnoBean.vistaPrevia}" cache="false" />
+                </div>
             </p:dialog>
         </h:form>
         <ui:include src="EditEstadoComprobanteAlumnoDialog.xhtml"/>
