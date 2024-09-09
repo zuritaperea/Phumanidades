@@ -216,9 +216,8 @@
 
 
             <p:dialog id="dialogPDF" widgetVar="pdfDialog" modal="true" resizable="false">
-                <div style="width: 750px; height: 500px; overflow: auto;">           
-                    <p:media  id="vistaPDF" rendered="#{not empty informePagoAlumnoBean.vistaPrevia}" value="#{informePagoAlumnoBean.vistaPrevia}" width="100%" height="600px" player="pdf" cache="false"/>
-                </div>
+                <p:media  id="vistaPDF" value="#{informePagoAlumnoBean.vistaPrevia}" width="500" height="500" player="pdf" cache="false">
+                </p:media>
             </p:dialog>
 
             <p:dialog id="dialogJPG" widgetVar="jpgDialog" modal="true" resizable="false">

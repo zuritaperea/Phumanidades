@@ -391,29 +391,29 @@ public class InformePagoAlumnoBean implements Serializable {
 
     public void verPdf(InformePagoAlumno informePagoAlumno) {
         vistaPrevia = null;
-        
+
         System.out.println("nombre archivo: " + informePagoAlumno.getNombreComprobantePago());
         System.out.println("contenido archivo: " + informePagoAlumno.getComprobantePago());
         FacesMessage fm;
         InputStream stream = new ByteArrayInputStream(informePagoAlumno.getComprobantePago());
 
         if (informePagoAlumno.getNombreComprobantePago().contains(".pdf")) {
-            System.out.println("Entrooo ver pdf IFFFFFFF");
             vistaPrevia = new DefaultStreamedContent(stream, "application/pdf", informePagoAlumno.getNombreComprobantePago());
-            //RequestContext.getCurrentInstance().update("informePagoAlumnoListInterno:dialogPDF");
             RequestContext.getCurrentInstance().execute("PF('pdfDialog').show();");
-        }
-        if (informePagoAlumno.getNombreComprobantePago().contains(".jpeg") || informePagoAlumno.getNombreComprobantePago().contains(".jpg") || informePagoAlumno.getNombreComprobantePago().contains(".png")) {
-            System.out.println("Entrooo ver JPG");
-            vistaPrevia = new DefaultStreamedContent(stream, "image/jpeg", informePagoAlumno.getNombreComprobantePago());
-            //RequestContext.getCurrentInstance().update("informePagoAlumnoListInterno:dialogJPG");
-            RequestContext.getCurrentInstance().execute("PF('jpgDialog').show();");
         } else {
-            System.out.println("Entrooo ERROR");
-            fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato no admitido", null);
-            FacesContext fc = FacesContext.getCurrentInstance();
-            fc.addMessage("Error", fm);
-            RequestContext.getCurrentInstance().update("frmPri:mensajes");
+            if (informePagoAlumno.getNombreComprobantePago().contains(".jpeg") || informePagoAlumno.getNombreComprobantePago().contains(".jpg") || informePagoAlumno.getNombreComprobantePago().contains(".png")) {
+                System.out.println("Entrooo ver JPG");
+                vistaPrevia = new DefaultStreamedContent(stream, "image/jpeg", informePagoAlumno.getNombreComprobantePago());
+                System.out.println("JPGE vistaPrevia: "+vistaPrevia);
+                //RequestContext.getCurrentInstance().update("informePagoAlumnoListInterno:dialogJPG");
+                RequestContext.getCurrentInstance().execute("PF('jpgDialog').show();");
+            } else {
+                System.out.println("Entrooo ERROR");
+                fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Formato no admitido", null);
+                FacesContext fc = FacesContext.getCurrentInstance();
+                fc.addMessage("Error", fm);
+                RequestContext.getCurrentInstance().update("frmPri:mensajes");
+            }
         }
 
     }
