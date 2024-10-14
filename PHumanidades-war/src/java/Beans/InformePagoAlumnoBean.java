@@ -47,6 +47,8 @@ import org.primefaces.context.RequestContext;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
+import java.math.BigDecimal;
+import javax.faces.bean.ManagedProperty;
 
 /**
  *
@@ -80,8 +82,11 @@ public class InformePagoAlumnoBean implements Serializable {
     private UploadedFile archivo;
     private StreamedContent file;
     private StreamedContent vistaPrevia;
+    //@ManagedProperty(value = "#{mercadoPagoBean}")
+    //private MercadoPagoBean mercadoPagoBean;
 
     public InformePagoAlumnoBean() {
+        //System.out.println("LLAMANDO MERCADO PAGO BEAN GET ID ==: "+mercadoPagoBean.getPreferenceId());
         cargarLstEstadosComprobante();
     }
 
@@ -404,7 +409,7 @@ public class InformePagoAlumnoBean implements Serializable {
             if (informePagoAlumno.getNombreComprobantePago().contains(".jpeg") || informePagoAlumno.getNombreComprobantePago().contains(".jpg") || informePagoAlumno.getNombreComprobantePago().contains(".png")) {
                 System.out.println("Entrooo ver JPG");
                 vistaPrevia = new DefaultStreamedContent(stream, "image/jpeg", informePagoAlumno.getNombreComprobantePago());
-                System.out.println("JPGE vistaPrevia: "+vistaPrevia);
+                System.out.println("JPGE vistaPrevia: " + vistaPrevia);
                 //RequestContext.getCurrentInstance().update("informePagoAlumnoListInterno:dialogJPG");
                 RequestContext.getCurrentInstance().execute("PF('jpgDialog').show();");
             } else {
@@ -421,5 +426,4 @@ public class InformePagoAlumnoBean implements Serializable {
     public void cargarTodos() {
         this.setItems(informePagoAlumnoFacade.findPagosOrdenadosPorFecha());
     }
-
 }

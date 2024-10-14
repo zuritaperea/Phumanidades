@@ -8,11 +8,15 @@
                  xmlns:f="http://java.sun.com/jsf/core"
                  xmlns:b="http://bootsfaces.net/ui"
                  >
+
+
+
     <ui:define name="content">
 
 
         <h3>
             <h:outputText value="Informe de Pago - Alumnos"></h:outputText>
+
         </h3>
         <h:form id="informePagoAlumnoListForm">
 
@@ -34,6 +38,7 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
+                                             process="informePagoAlumnoListForm:datalist,@this"
                                              />
 
                         </p:column>
@@ -48,6 +53,12 @@
                                 <h:outputText value="Cohorte"/>
                             </f:facet>
                             <h:outputText value="#{cort.descripcion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Mercado Pago"/>
+                            </f:facet>
+                            <div id="mercadopago-button-container"></div>
                         </p:column>
 
 
@@ -143,12 +154,47 @@
                         </b:commandButton>
                     </p:column>
                     <f:facet name="footer">
+                        <p:commandButton value="Pagar con Mercado Pago" onclick="payWithMercadoPago()" type="button" />
+
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
                         <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="Modificar Comprobante" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
                         <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
                     </f:facet>
                 </p:dataTable>
+
             </p:panel>
+            <script>
+
+
+
+                // Inicializar el SDK de Mercado Pago
+                const mp = new MercadoPago('APP_USR-3272c14f-a75f-4e4f-aebf-fd8b80bc984f', {
+                locale: 'es-AR' // Cambia según tu región
+                });
+                        // Crear el botón de pago en el contenedor designado
+                        mp.bricks().create('wallet', 'mercadopago-button-container', {
+                        initialization: {
+                                preferenceId: '#{mercadoPagoBean.preferenceId}',
+                                redirectMode: "blank",
+                        },
+                        callbacks: {
+                        onReady: () => {
+                                console.log('El botón se generó correctamente');
+                        },
+                        onSubmit: () => {
+                                console.log('El pago ha comenzado');
+                        },
+                        onError: (error) => {
+                                console.error('Error durante el pago:', error);
+                        }
+                        }
+                });
+
+
+            </script>
+
+
+
         </h:form>
 
         <ui:include src="Create.xhtml"/>

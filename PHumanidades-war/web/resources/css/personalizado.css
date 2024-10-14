@@ -82,13 +82,16 @@ body .ui-panelgrid .ui-panelgrid-cell {
 
 
 .custom-file-upload .ui-fileupload-button {
-  background-color: #007bff; /* Cambiar el color de fondo del botón */
-  color: #fff; /* Cambiar el color del texto del botón */
-  padding: 10px 15px; /* Espaciado interno del botón */
-  border-radius: 5px; /* Borde redondeado */
-  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+    background-color: #007bff; /* Cambiar el color de fondo del botón */
+    color: #fff; /* Cambiar el color del texto del botón */
+    padding: 10px 15px; /* Espaciado interno del botón */
+    border-radius: 5px; /* Borde redondeado */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
 }
 
 .custom-file-upload .ui-fileupload-button:hover {
-  background-color: #0056b3; /* Cambiar el color de fondo al pasar el cursor */
+    background-color: #0056b3; /* Cambiar el color de fondo al pasar el cursor */
 }
+
+
+
