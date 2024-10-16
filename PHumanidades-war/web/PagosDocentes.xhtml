@@ -706,6 +706,7 @@
                                  update=":frmPri:dRegistrarPagosDocentes"
                                  title="Editar"
                                  icon="ui-icon-pencil"
+                                 process="@this"
                                  disabled="#{item.borrado or item.fechaCierre!=null or item.anulado or item.monto eq 0 or item.monto eq null}" 
                                  rendered="#{usuarioLogerBean.isGrupo('superadmin') or usuarioLogerBean.isGrupo('admin')}"
                                  >

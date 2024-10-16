@@ -54,12 +54,12 @@
                             </f:facet>
                             <h:outputText value="#{cort.descripcion}"/>
                         </p:column>
-                        <p:column>
+                        <!--<p:column>
                             <f:facet name="header">
                                 <h:outputText value="Mercado Pago"/>
                             </f:facet>
                             <div id="mercadopago-button-container"></div>
-                        </p:column>
+                        </p:column>-->
 
 
                     </p:dataTable>
@@ -154,7 +154,7 @@
                         </b:commandButton>
                     </p:column>
                     <f:facet name="footer">
-                        <p:commandButton value="Pagar con Mercado Pago" onclick="payWithMercadoPago()" type="button" />
+                        <!--<p:commandButton value="Pagar con Mercado Pago" onclick="payWithMercadoPago()" type="button" />-->
 
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
                         <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="Modificar Comprobante" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
