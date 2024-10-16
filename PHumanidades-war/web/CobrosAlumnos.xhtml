@@ -258,7 +258,7 @@
                                  action="CobroCuotasEdit.xhtml"                                 
                                  icon="ui-icon-pencil"                            
                                  disabled="#{item.borrado or item.fechaCierre!=null}"
-                                 process="@this"    
+                                 ajax="false"    
                                  title="Modificar Ingreso Cuotas">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosLstBean.ingreso}" />  
                 </p:commandButton>
@@ -266,7 +266,7 @@
                                  action="IngresosModificarGeneral.xhtml"                                 
                                  icon="ui-icon-pencil"                            
                                  disabled="#{item.borrado or item.fechaCierre!=null}"
-                                 process="@this"
+                                 ajax="false"
                                  title="Modificar Ingreso General">
                     <f:setPropertyActionListener value="#{item}" target="#{cobroCuotasAlumnosLstBean.ingreso}" />  
                 </p:commandButton>

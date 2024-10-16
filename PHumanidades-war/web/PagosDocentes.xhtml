@@ -5,7 +5,8 @@
                  template="./Templates/adminTemplate.xhtml"
                  xmlns:p="http://primefaces.org/ui"
                  xmlns:h="http://java.sun.com/jsf/html"
-                 xmlns:f="http://java.sun.com/jsf/core"  >
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 xmlns:b="http://bootsfaces.net/ui">
 
     <ui:define name="content">
         <f:metadata>
@@ -665,8 +666,8 @@
 
         <p:commandButton id="btnNuevoPago"
                          value="Nuevo" 
-                         icon="ui-icon-circle-plus" 
-                         actionListener="#{pagosDocenteBean.definirActionBoton}" 
+                         icon="ui-icon-circle-plus"
+                         actionListener="#{pagosDocenteBean.definirActionBoton}"
                          update=":frmPri:dtPagosDocente,:frmPri:dRegistrarPagosDocentes"/>
 
         <p> <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
@@ -706,7 +707,7 @@
                                  update=":frmPri:dRegistrarPagosDocentes"
                                  title="Editar"
                                  icon="ui-icon-pencil"
-                                 process="@this"
+                                 ajax="false"
                                  disabled="#{item.borrado or item.fechaCierre!=null or item.anulado or item.monto eq 0 or item.monto eq null}" 
                                  rendered="#{usuarioLogerBean.isGrupo('superadmin') or usuarioLogerBean.isGrupo('admin')}"
                                  >
