@@ -38,6 +38,7 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
+                                             onclick="crearBotonMercadoPago()"
                                              process="informePagoAlumnoListForm:datalist,@this"
                                              />
 
@@ -54,12 +55,12 @@
                             </f:facet>
                             <h:outputText value="#{cort.descripcion}"/>
                         </p:column>
-                        <!--<p:column>
+                        <p:column>
                             <f:facet name="header">
-                                <h:outputText value="Mercado Pago"/>
+                                <h:outputText value="Pagar"/>
                             </f:facet>
                             <div id="mercadopago-button-container"></div>
-                        </p:column>-->
+                        </p:column>
 
 
                     </p:dataTable>
@@ -165,30 +166,34 @@
             </p:panel>
             <script>
 
-
-
+              function prueba(){
+                  console.log("entro prueba")
+              }
+              function crearBotonMercadoPago(){
                 // Inicializar el SDK de Mercado Pago
                 const mp = new MercadoPago('APP_USR-3272c14f-a75f-4e4f-aebf-fd8b80bc984f', {
                 locale: 'es-AR' // Cambia según tu región
                 });
+                        console.log("entroo boton")
                         // Crear el botón de pago en el contenedor designado
                         mp.bricks().create('wallet', 'mercadopago-button-container', {
-                        initialization: {
-                                preferenceId: '#{mercadoPagoBean.preferenceId}',
-                                redirectMode: "blank",
-                        },
+                initialization: {
+                preferenceId: '#{mercadoPagoBean.preferenceId}',
+                        redirectMode: "blank",
+                },
                         callbacks: {
                         onReady: () => {
-                                console.log('El botón se generó correctamente');
+                        console.log('El botón se generó correctamente');
                         },
-                        onSubmit: () => {
-                                console.log('El pago ha comenzado');
+                                onSubmit: () => {
+                        console.log('El pago ha comenzado');
                         },
-                        onError: (error) => {
-                                console.error('Error durante el pago:', error);
+                                onError: (error) => {
+                        console.error('Error durante el pago:', error);
                         }
                         }
                 });
+                }
 
 
             </script>
