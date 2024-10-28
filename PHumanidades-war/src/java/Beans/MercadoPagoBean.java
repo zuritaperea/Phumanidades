@@ -5,6 +5,7 @@
  */
 package Beans;
 
+import Entidades.Carreras.Cohorte;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
@@ -22,6 +23,7 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
@@ -65,10 +67,10 @@ public class MercadoPagoBean {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
             this.setPreferenceId("");
         }
-        
 
     }
 
+ 
     public String getPreferenceId() {
         return preferenceId;
     }
@@ -76,5 +78,4 @@ public class MercadoPagoBean {
     public void setPreferenceId(String preferenceId) {
         this.preferenceId = preferenceId;
     }
-
 }

@@ -28,7 +28,6 @@
 
                 <p:panel id="pnCohortesConsulta" 
                          >
-
                     <p:dataTable  id="dtCortesCobros"
                                   value="#{cohorteLstBean.lstCohortesAlumnosConsulta}"
                                   var="cort"  
@@ -38,7 +37,7 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
-                                             onclick="crearBotonMercadoPago()"
+                                             oncomplete="crearBotonMercadoPago()"
                                              process="informePagoAlumnoListForm:datalist,@this"
                                              />
 
@@ -58,6 +57,7 @@
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Pagar"/>
+                                <h:outputText value="#{informePagoAlumnoController.preferenceId}"/>
                             </f:facet>
                             <div id="mercadopago-button-container"></div>
                         </p:column>
@@ -155,8 +155,6 @@
                         </b:commandButton>
                     </p:column>
                     <f:facet name="footer">
-                        <!--<p:commandButton value="Pagar con Mercado Pago" onclick="payWithMercadoPago()" type="button" />-->
-
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
                         <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="Modificar Comprobante" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
                         <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
@@ -174,11 +172,12 @@
                 const mp = new MercadoPago('APP_USR-3272c14f-a75f-4e4f-aebf-fd8b80bc984f', {
                 locale: 'es-AR' // Cambia según tu región
                 });
-                        console.log("entroo boton")
+                        console.log("entroo boton");
+                        
                         // Crear el botón de pago en el contenedor designado
                         mp.bricks().create('wallet', 'mercadopago-button-container', {
                 initialization: {
-                preferenceId: '#{mercadoPagoBean.preferenceId}',
+                preferenceId: '#{informePagoAlumnoController.preferenceId}',
                         redirectMode: "blank",
                 },
                         callbacks: {
@@ -189,6 +188,12 @@
                         console.log('El pago ha comenzado');
                         },
                                 onError: (error) => {
+                        console.error('JAJAJAAJAJAJAJJAA');
+                        console.error('JAJAJAAJAJAJAJJAA');
+                        console.error('JAJAJAAJAJAJAJJAA');
+                        console.error('JAJAJAAJAJAJAJJAA');
+                        console.error('JAJAJAAJAJAJAJJAA');
+                        
                         console.error('Error durante el pago:', error);
                         }
                         }

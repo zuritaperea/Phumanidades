@@ -10,11 +10,19 @@ import Entidades.Carreras.Cohorte;
 import Entidades.Ingresos.EstadoComprobanteAlumno;
 import Entidades.Persona.Alumno;
 import RN.IngresoRNLocal;
+import com.mercadopago.MercadoPagoConfig;
+import com.mercadopago.client.preference.PreferenceClient;
+import com.mercadopago.client.preference.PreferenceItemRequest;
+import com.mercadopago.client.preference.PreferenceRequest;
+import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.preference.Preference;
 import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,6 +38,7 @@ import javax.inject.Named;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -45,7 +54,7 @@ import org.primefaces.model.UploadedFile;
 //@Named("informePagoAlumnoController")
 //@SessionScoped
 @ManagedBean(name = "informePagoAlumnoController")
-@SessionScoped
+@RequestScoped
 public class InformePagoAlumnoController implements Serializable {
 
     @EJB
@@ -66,7 +75,7 @@ public class InformePagoAlumnoController implements Serializable {
     private List<InformePagoAlumno> lstInformePagoAlumno;
     private Cohorte cohorteSeleccionada;
     private List<Cohorte> lstCohortesInformePagoAlumno;
-
+    private String preferenceId;
     public LoginAlumnoBean getLoginAlumnoBean() {
         return loginAlumnoBean;
     }
@@ -76,6 +85,15 @@ public class InformePagoAlumnoController implements Serializable {
         this.setItems(new ArrayList<InformePagoAlumno>());
 
     }
+
+    public String getPreferenceId() {
+        return preferenceId;
+    }
+
+    public void setPreferenceId(String preferenceId) {
+        this.preferenceId = preferenceId;
+    }
+
 
     public List<Cohorte> getLstCohortesInformePagoAlumno() {
         return lstCohortesInformePagoAlumno;
@@ -160,7 +178,7 @@ public class InformePagoAlumnoController implements Serializable {
         System.out.println("ENTRO PREPARATE CREATEE");
         System.out.println(this.getCohorteSeleccionada());
         System.out.println(this.getLoginAlumnoBean().getAlumno());
-        selected.setNroCuota(InformePagoAlumnoFacade.findUltimaCuota(this.getLoginAlumnoBean().getAlumno(),  this.getCohorteSeleccionada())+1);
+        selected.setNroCuota(InformePagoAlumnoFacade.findUltimaCuota(this.getLoginAlumnoBean().getAlumno(), this.getCohorteSeleccionada()) + 1);
         //selected.setNroCuota(ingresoFacadeLocal.findUltimaCuotaAlumnoCohorte(this.getLoginAlumnoBean().getAlumno(), this.getCohorteSeleccionada()));
         initializeEmbeddableKey();
         return selected;
@@ -212,7 +230,7 @@ public class InformePagoAlumnoController implements Serializable {
         } catch (IllegalArgumentException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
         }
-        
+
     }
 
     public void destroy() {
@@ -227,8 +245,8 @@ public class InformePagoAlumnoController implements Serializable {
             Logger.getLogger(InformePagoAlumnoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void eliminarRegistro(){
+
+    public void eliminarRegistro() {
         this.destroy();
     }
 
@@ -331,10 +349,11 @@ public class InformePagoAlumnoController implements Serializable {
             System.out.println("alumno cohorte: " + alumno);
             cohorteSeleccionada = cohorte;
             System.out.println("cohorte cohorte: " + cohorteSeleccionada);
+            System.out.println("COHORTE MONTO: " + cohorteSeleccionada.getImporteCuota());
+            cargarPreferencia(cohorteSeleccionada);
             try {
                 System.out.println("entro a setearlistade comprobantes");
                 this.setItems(InformePagoAlumnoFacade.findPagosAlumnoCohorte(alumno, cohorteSeleccionada));
-                System.out.println(this.getItems());
                 //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
                 if (this.getItems().isEmpty()) {
                     fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "No se encontraron registros", null);
@@ -422,6 +441,38 @@ public class InformePagoAlumnoController implements Serializable {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void cargarPreferencia(Cohorte cohorte) {
+        MercadoPagoConfig.setAccessToken("APP_USR-4894752058482135-100616-edcf471749fa8fe077079a7d0850474b-2022571850");
+        PreferenceItemRequest itemRequest
+                = PreferenceItemRequest.builder()
+                .id("1234")
+                .title("WDDDDDD")
+                .description("WDDWDWDWDWD")
+                .pictureUrl("http://picture.com/PS5")
+                .categoryId("Curso")
+                .quantity(1)
+                .currencyId("BRL")
+                .unitPrice(new BigDecimal("90000"))
+                .build();
+        List<PreferenceItemRequest> items = new ArrayList<>();
+        items.add(itemRequest);
+        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+                .items(items).build();
+        PreferenceClient client = new PreferenceClient();
+        try {
+            Preference preference = client.create(preferenceRequest);
+            this.setPreferenceId(preference.getId());
+            System.out.println("Cargo preferencia metodo cargarPreferencia;: "+this.getPreferenceId());
+        } catch (MPException ex) {
+            Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
+            this.setPreferenceId("");
+        } catch (MPApiException ex) {
+            Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
+            this.setPreferenceId("");
+        }
+
     }
 
 }
