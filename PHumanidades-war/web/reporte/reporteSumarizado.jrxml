@@ -140,7 +140,7 @@ group by numero_mes,mes,año order by año, numero_mes  asc]]>
 				<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="227" y="2" width="103" height="20" uuid="bde68517-8e8d-43cc-9a22-b1a27befca1b"/>
+				<reportElement x="211" y="2" width="136" height="20" uuid="bde68517-8e8d-43cc-9a22-b1a27befca1b"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
