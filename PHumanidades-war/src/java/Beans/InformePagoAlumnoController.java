@@ -54,7 +54,7 @@ import org.primefaces.model.UploadedFile;
 //@Named("informePagoAlumnoController")
 //@SessionScoped
 @ManagedBean(name = "informePagoAlumnoController")
-@RequestScoped
+@SessionScoped
 public class InformePagoAlumnoController implements Serializable {
 
     @EJB
