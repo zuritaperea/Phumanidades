@@ -38,6 +38,12 @@
                     </p:column>
                     <p:column>
                         <f:facet name="header">
+                            <h:outputText value="Año"/>
+                        </f:facet>
+                        <h:outputText value="#{item.anio}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
                             <h:outputText value="#{bundle.ListTipoIngresoTitle_descripcion}"/>
                         </f:facet>
                         <h:outputText value="#{item.descripcion}"/>

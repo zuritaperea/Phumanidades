@@ -37,9 +37,9 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
-                                             oncomplete="crearBotonMercadoPago()"
                                              process="informePagoAlumnoListForm:datalist,@this"
                                              />
+                                             <!--oncomplete="crearBotonMercadoPago()"-->
 
                         </p:column>
                         <p:column>
@@ -57,7 +57,7 @@
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Pagar"/>
-                                <h:outputText value="#{informePagoAlumnoController.preferenceId}"/>
+                                <!--<h:outputText value="#{informePagoAlumnoController.preferenceId}"/>-->
                             </f:facet>
                             <div id="mercadopago-button-container"></div>
                         </p:column>

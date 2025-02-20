@@ -179,7 +179,9 @@
                                   value="Tipo de Ingreso:" />
                     <p:selectOneMenu id="tipoIngreso"
                                      value="#{cobroCuotasAlumnosBean.ingreso.tipoIngreso}"
-                                     required="false" style="width: 150px">
+                                     required="false" style="width: 150px"
+                                     filter="true" 
+                                     filterMatchMode="startsWith">
                         <f:converter binding="#{conversorTipoIngreso}"/>
                         <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
                         <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>

@@ -5,6 +5,7 @@
  */
 package Entidades.Ingresos;
 
+import Entidades.Carreras.Anio;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -59,6 +61,17 @@ public class TipoIngreso implements Serializable {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    @OneToOne
+    private Anio anio;
+
+    public Anio getAnio() {
+        return anio;
+    }
+
+    public void setAnio(Anio anio) {
+        this.anio = anio;
+    }
 
     @Override
     public int hashCode() {
@@ -82,7 +95,7 @@ public class TipoIngreso implements Serializable {
 
     @Override
     public String toString() {
-        return descripcion;
+        return anio+" "+descripcion;
     }
 
 }
