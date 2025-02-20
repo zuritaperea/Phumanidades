@@ -56,10 +56,15 @@
                             </p:selectOneMenu>
 
                         <p:outputLabel value="Concepto" for="tipoIngreso"/>
-                        <p:selectOneMenu id="tipoIngreso" style="width: 500px !important" required="true" requiredMessage="Debe seleccionar un Concepto"
+                        <p:selectOneMenu id="tipoIngreso" 
+                                         style="width: 500px !important" 
+                                         required="true" 
+                                         requiredMessage="Debe seleccionar un Concepto"
+                                         filter="true"
+                                         filterMatchMode="startsWith"
                                          value="#{informePagoAlumnoController.selected.tipoIngreso}">
                             <f:converter binding="#{conversorTipoIngreso}"/>
-                            <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="(Buscar por Año)" itemValue="null" noSelectionOption="true"/>
                             <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
                         </p:selectOneMenu>
 

@@ -8,6 +8,7 @@
                  xmlns:b="http://bootsfaces.net/ui"
                  xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="content">
+        <link href="./resources/css/personalizado.css" rel="stylesheet" type="text/css" />
         <h:inputHidden value="#{cobroCuotasAlumnosBean.ingreso.id }" />
         <h:inputHidden value="#{cobroCuotasAlumnosLstBean.iTipoBoton}"/>
 
@@ -177,13 +178,15 @@
                                  />
                     <h:outputText id="soTipo"
                                   value="Tipo de Ingreso:" />
+                    
+                    
                     <p:selectOneMenu id="tipoIngreso"
-                                     value="#{cobroCuotasAlumnosBean.ingreso.tipoIngreso}"
+                                      value="#{cobroCuotasAlumnosBean.ingreso.tipoIngreso}"
                                      required="false" style="width: 150px"
                                      filter="true" 
                                      filterMatchMode="startsWith">
                         <f:converter binding="#{conversorTipoIngreso}"/>
-                        <f:selectItem itemLabel="Seleccionar" itemValue="null" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="(Buscar por Año)" itemValue="null" noSelectionOption="true"/>
                         <f:selectItems value="#{tipoIngresoController.itemsAvailableSelectOne}"/>
                     </p:selectOneMenu>
 
@@ -227,5 +230,6 @@
 
             <p:messages autoUpdate="true"/>
         </p:panel>
+
     </ui:define>
 </ui:composition>
