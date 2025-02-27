@@ -37,10 +37,9 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
+                                             oncomplete="prueba()"
                                              process="informePagoAlumnoListForm:datalist,@this"
-                                             oncomplete="crearBotonMercadoPago()"
                                              />
-                                             <!--oncomplete="crearBotonMercadoPago()"-->
 
                         </p:column>
                         <p:column>
@@ -58,7 +57,6 @@
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="Pagar"/>
-                                <!--<h:outputText value="#{informePagoAlumnoController.preferenceId}"/>-->
                             </f:facet>
                             <div id="mercadopago-button-container"></div>
                         </p:column>
@@ -165,16 +163,15 @@
             </p:panel>
             <script>
 
-              function prueba(){
-                  console.log("entro prueba")
-              }
-              function crearBotonMercadoPago(){
-                // Inicializar el SDK de Mercado Pago
-                const mp = new MercadoPago('APP_USR-3272c14f-a75f-4e4f-aebf-fd8b80bc984f', {
+                function prueba(){
+                console.log("entro prueba")
+                }
+                function crearBotonMercadoPago(){
+                // Inicializar el SDK de Mercado Pago  (PUBLIC KEY)
+                const mp = new MercadoPago('TEST-f6cbd094-4e69-49f3-b61e-ccf7c7f7ecd1', {
                 locale: 'es-AR' // Cambia según tu región
                 });
                         console.log("entroo boton");
-                        
                         // Crear el botón de pago en el contenedor designado
                         mp.bricks().create('wallet', 'mercadopago-button-container', {
                 initialization: {
@@ -185,23 +182,15 @@
                         onReady: () => {
                         console.log('El botón se generó correctamente');
                         },
-                                onSubmit: () => {
+                                onSubmit: () = > {
                         console.log('El pago ha comenzado');
                         },
-                                onError: (error) => {
-                        console.error('JAJAJAAJAJAJAJJAA');
-                        console.error('JAJAJAAJAJAJAJJAA');
-                        console.error('JAJAJAAJAJAJAJJAA');
-                        console.error('JAJAJAAJAJAJAJJAA');
-                        console.error('JAJAJAAJAJAJAJJAA');
-                        
-                        console.error('Error durante el pago:', error);
+                                onError: (error) = > {
+                                console.error('Error durante el pago:', error);
                         }
                         }
                 });
                 }
-
-
             </script>
 
 

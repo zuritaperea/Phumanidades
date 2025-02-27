@@ -444,7 +444,8 @@ public class InformePagoAlumnoController implements Serializable {
     }
 
     public void cargarPreferencia(Cohorte cohorte) {
-        MercadoPagoConfig.setAccessToken("APP_USR-4894752058482135-100616-edcf471749fa8fe077079a7d0850474b-2022571850");
+        //configuramos ACCESS TOKEN (PRIVATE KEY)
+        MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
         PreferenceItemRequest itemRequest
                 = PreferenceItemRequest.builder()
                 .id("1234")
