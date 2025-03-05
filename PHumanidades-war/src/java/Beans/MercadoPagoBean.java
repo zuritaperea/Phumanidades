@@ -23,34 +23,54 @@ import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
-import javax.faces.bean.SessionScoped;
+import javax.annotation.PostConstruct;
+//import javax.faces.bean.SessionScoped;
+import javax.inject.Named;
 
 /**
  *
  * @author victo
  */
-@ManagedBean
+@ManagedBean(name = "mercadoPagoBean")
 @RequestScoped
-public class MercadoPagoBean {
+public class MercadoPagoBean implements Serializable {
 
     /**
      * Creates a new instance of MercadoPagoBean
      */
     private String preferenceId;
 
-    public MercadoPagoBean() {
-        MercadoPagoConfig.setAccessToken("APP_USR-4894752058482135-100616-edcf471749fa8fe077079a7d0850474b-2022571850");
+    @PostConstruct
+    void init() {
+        MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
+    }
 
+    public MercadoPagoBean() {
+        MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
+    }
+
+    public String getPreferenceId() {
+        return preferenceId;
+    }
+
+    public void setPreferenceId(String preferenceId) {
+        this.preferenceId = preferenceId;
+    }
+
+    public void cargarPreferencia(Cohorte cohorte) {
+        System.out.print("Cohorte nombre = "+cohorte.getDescripcion());
+        //configuramos ACCESS TOKEN (PRIVATE KEY)
+        //MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
         PreferenceItemRequest itemRequest
                 = PreferenceItemRequest.builder()
                 .id("1234")
-                .title("Games")
-                .description("PS5")
+                .title(cohorte.getCarrera().getDescripcion())
+                .description(cohorte.getDescripcion())
                 .pictureUrl("http://picture.com/PS5")
-                .categoryId("games")
+                .categoryId(cohorte.getImporteCuota().toString())
                 .quantity(1)
-                .currencyId("BRL")
-                .unitPrice(new BigDecimal("4000"))
+                .currencyId("AR")
+                .unitPrice(cohorte.getImporteCuota())
                 .build();
         List<PreferenceItemRequest> items = new ArrayList<>();
         items.add(itemRequest);
@@ -60,6 +80,7 @@ public class MercadoPagoBean {
         try {
             Preference preference = client.create(preferenceRequest);
             this.setPreferenceId(preference.getId());
+            System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
         } catch (MPException ex) {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
             this.setPreferenceId("");
@@ -70,12 +91,4 @@ public class MercadoPagoBean {
 
     }
 
- 
-    public String getPreferenceId() {
-        return preferenceId;
-    }
-
-    public void setPreferenceId(String preferenceId) {
-        this.preferenceId = preferenceId;
-    }
 }

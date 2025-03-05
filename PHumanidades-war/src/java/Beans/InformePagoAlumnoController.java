@@ -44,6 +44,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
 import org.primefaces.context.PrimeFacesContext;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.FileUploadEvent;
@@ -75,7 +76,7 @@ public class InformePagoAlumnoController implements Serializable {
     private List<InformePagoAlumno> lstInformePagoAlumno;
     private Cohorte cohorteSeleccionada;
     private List<Cohorte> lstCohortesInformePagoAlumno;
-    private String preferenceId;
+
     public LoginAlumnoBean getLoginAlumnoBean() {
         return loginAlumnoBean;
     }
@@ -83,17 +84,8 @@ public class InformePagoAlumnoController implements Serializable {
     @PostConstruct
     private void init() {
         this.setItems(new ArrayList<InformePagoAlumno>());
-
+ 
     }
-
-    public String getPreferenceId() {
-        return preferenceId;
-    }
-
-    public void setPreferenceId(String preferenceId) {
-        this.preferenceId = preferenceId;
-    }
-
 
     public List<Cohorte> getLstCohortesInformePagoAlumno() {
         return lstCohortesInformePagoAlumno;
@@ -350,7 +342,7 @@ public class InformePagoAlumnoController implements Serializable {
             cohorteSeleccionada = cohorte;
             System.out.println("cohorte cohorte: " + cohorteSeleccionada);
             System.out.println("COHORTE MONTO: " + cohorteSeleccionada.getImporteCuota());
-            cargarPreferencia(cohorteSeleccionada);
+            //cargarPreferencia(cohorteSeleccionada);
             try {
                 System.out.println("entro a setearlistade comprobantes");
                 this.setItems(InformePagoAlumnoFacade.findPagosAlumnoCohorte(alumno, cohorteSeleccionada));
@@ -366,7 +358,6 @@ public class InformePagoAlumnoController implements Serializable {
                 FacesContext fc = FacesContext.getCurrentInstance();
                 fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
             }//fin catch
-
             RequestContext.getCurrentInstance().update("informePagoAlumnoListForm:datalist");
         }
     }
@@ -443,37 +434,38 @@ public class InformePagoAlumnoController implements Serializable {
         }
     }
 
-    public void cargarPreferencia(Cohorte cohorte) {
-        //configuramos ACCESS TOKEN (PRIVATE KEY)
-        MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
-        PreferenceItemRequest itemRequest
-                = PreferenceItemRequest.builder()
-                .id("1234")
-                .title("WDDDDDD")
-                .description("WDDWDWDWDWD")
-                .pictureUrl("http://picture.com/PS5")
-                .categoryId("Curso")
-                .quantity(1)
-                .currencyId("BRL")
-                .unitPrice(new BigDecimal("90000"))
-                .build();
-        List<PreferenceItemRequest> items = new ArrayList<>();
-        items.add(itemRequest);
-        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
-                .items(items).build();
-        PreferenceClient client = new PreferenceClient();
-        try {
-            Preference preference = client.create(preferenceRequest);
-            this.setPreferenceId(preference.getId());
-            System.out.println("Cargo preferencia metodo cargarPreferencia;: "+this.getPreferenceId());
-        } catch (MPException ex) {
-            Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
-            this.setPreferenceId("");
-        } catch (MPApiException ex) {
-            Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
-            this.setPreferenceId("");
-        }
+//    public void cargarPreferencia(Cohorte cohorte) {
+//        //configuramos ACCESS TOKEN (PRIVATE KEY)
+//        MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
+//        PreferenceItemRequest itemRequest
+//                = PreferenceItemRequest.builder()
+//                .id("1234")
+//                .title("WDDDDDD")
+//                .description("WDDWDWDWDWD")
+//                .pictureUrl("http://picture.com/PS5")
+//                .categoryId("Curso")
+//                .quantity(1)
+//                .currencyId("BRL")
+//                .unitPrice(new BigDecimal("90000"))
+//                .build();
+//        List<PreferenceItemRequest> items = new ArrayList<>();
+//        items.add(itemRequest);
+//        PreferenceRequest preferenceRequest = PreferenceRequest.builder()
+//                .items(items).build();
+//        PreferenceClient client = new PreferenceClient();
+//        try {
+//            Preference preference = client.create(preferenceRequest);
+//            this.setPreferenceId(preference.getId());
+//            System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
+//        } catch (MPException ex) {
+//            Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
+//            this.setPreferenceId("");
+//        } catch (MPApiException ex) {
+//            Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
+//            this.setPreferenceId("");
+//        }
+//
+//    }
 
-    }
 
 }

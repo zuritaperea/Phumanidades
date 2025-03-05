@@ -37,7 +37,8 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
-                                             oncomplete="prueba()"
+                                             oncomplete="#{mercadoPagoBean.cargarPreferencia(cort)}"
+                                             onclick="crearBotonMercadoPago(#{cort.id});"
                                              process="informePagoAlumnoListForm:datalist,@this"
                                              />
 
@@ -56,9 +57,15 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="Año"/>
+                            </f:facet>
+                            <h:outputText value="#{cort.anio}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="Pagar"/>
                             </f:facet>
-                            <div id="mercadopago-button-container"></div>
+                            <div id="wallet_container_#{cort.id}"></div>
                         </p:column>
 
 
@@ -154,6 +161,7 @@
                         </b:commandButton>
                     </p:column>
                     <f:facet name="footer">
+                        
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
                         <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="Modificar Comprobante" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
                         <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
@@ -163,34 +171,47 @@
             </p:panel>
             <script>
 
-                function prueba(){
-                console.log("entro prueba")
+                    
+
+               function eliminarBotonMercadoPago() {
+                    const container = document.getElementById("wallet_container");
+                    if (container) {
+                        container.innerHTML = ""; // Elimina el contenido del div
+                    }
                 }
-                function crearBotonMercadoPago(){
-                // Inicializar el SDK de Mercado Pago  (PUBLIC KEY)
-                const mp = new MercadoPago('TEST-f6cbd094-4e69-49f3-b61e-ccf7c7f7ecd1', {
-                locale: 'es-AR' // Cambia según tu región
-                });
-                        console.log("entroo boton");
-                        // Crear el botón de pago en el contenedor designado
-                        mp.bricks().create('wallet', 'mercadopago-button-container', {
-                initialization: {
-                preferenceId: '#{informePagoAlumnoController.preferenceId}',
-                        redirectMode: "blank",
-                },
-                        callbacks: {
-                        onReady: () => {
-                        console.log('El botón se generó correctamente');
+                
+                function crearBotonMercadoPago(cortId) {
+                    //BUSCAMOS Y ELIMINAMOS EL CONTENEDOR DEL BOTON DE MERCADO PAGO
+                    let containerId = "wallet_container_" + cortId; // ID único para la fila
+                    let container = document.getElementById(containerId);
+                    if (container) {
+                        // Limpia el contenedor antes de crear un nuevo botón
+                        container.innerHTML = "";
+                    }
+                    
+                    
+                    //CREAMOS EL NUEVO BOTON
+                    let mp;
+                    console.log("entro crearboton MP")
+                    console.log("preferenceId in  function = " + '#{mercadoPagoBean.preferenceId}')
+                    // Inicializar el SDK de Mercado Pago  (PUBLIC KEY)
+                    mp = new MercadoPago('TEST-f6cbd094-4e69-49f3-b61e-ccf7c7f7ecd1', {
+                        locale: 'es-AR'
+                    });
+                    // Crear el botón de pago en el contenedor designado
+                    mp.bricks().create("wallet", containerId, {
+                        initialization: {
+                            preferenceId: '#{mercadoPagoBean.preferenceId}',
+                            redirectMode: "blank",
                         },
-                                onSubmit: () = > {
-                        console.log('El pago ha comenzado');
+                        customization: {
+                            texts: {
+                                valueProp: 'smart_option',
+                            },
                         },
-                                onError: (error) = > {
-                                console.error('Error durante el pago:', error);
-                        }
-                        }
-                });
+                    });
                 }
+
             </script>
 
 
