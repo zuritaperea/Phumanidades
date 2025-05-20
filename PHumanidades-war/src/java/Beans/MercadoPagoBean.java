@@ -26,6 +26,7 @@ import com.mercadopago.resources.preference.Preference;
 import javax.annotation.PostConstruct;
 //import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -75,7 +76,7 @@ public class MercadoPagoBean implements Serializable {
         //MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
         PreferenceItemRequest itemRequest
                 = PreferenceItemRequest.builder()
-                .id("1234")
+                .id(cohorte.getId().toString())
                 .title(cohorte.getCarrera().getDescripcion())
                 .description(cohorte.getDescripcion())
                 .pictureUrl("http://picture.com/PS5")
@@ -94,6 +95,9 @@ public class MercadoPagoBean implements Serializable {
             this.setPreferenceId(preference.getId());
             this.setCohorteId(cohorte.getId());
             System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
+            System.out.println("lista de preferencias=== "+preferenceRequest.getItems());
+            
+            RequestContext.getCurrentInstance().execute("crearBotonMercadoPago("+cohorte.getId()+");");
         } catch (MPException ex) {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
             this.setPreferenceId("");
