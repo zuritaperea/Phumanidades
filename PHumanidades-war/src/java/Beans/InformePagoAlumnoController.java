@@ -338,13 +338,14 @@ public class InformePagoAlumnoController implements Serializable {
     public void obtenerComprobantesAlumno(Alumno alumno, Cohorte cohorte) throws Exception {
         FacesMessage fm;
         if (cohorte != null) {
-            System.out.println("alumno cohorte: " + alumno);
+            //System.out.println("alumno cohorte: " + alumno);
             cohorteSeleccionada = cohorte;
-            System.out.println("cohorte cohorte: " + cohorteSeleccionada);
-            System.out.println("COHORTE MONTO: " + cohorteSeleccionada.getImporteCuota());
+            //System.out.println("cohorte ID: " + cohorteSeleccionada.getId());
+            //System.out.println("cohorte cohorte: " + cohorteSeleccionada);
+            //System.out.println("COHORTE MONTO: " + cohorteSeleccionada.getImporteCuota());
             //cargarPreferencia(cohorteSeleccionada);
             try {
-                System.out.println("entro a setearlistade comprobantes");
+                //System.out.println("entro a setearlistade comprobantes");
                 this.setItems(InformePagoAlumnoFacade.findPagosAlumnoCohorte(alumno, cohorteSeleccionada));
                 //this.setLstCuotasAlumnoGeneral(ingresoCuotaRNLocal.findCuotasAlumnoGeneral(a));
                 if (this.getItems().isEmpty()) {

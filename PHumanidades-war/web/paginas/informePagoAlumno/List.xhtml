@@ -37,8 +37,8 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
-                                             oncomplete="#{mercadoPagoBean.cargarPreferencia(cort)}"
-                                             onclick="crearBotonMercadoPago(#{cort.id});"
+                                             action="#{mercadoPagoBean.cargarPreferencia(cort)}"
+                                             onclick="crearBotonMercadoPago()"
                                              process="informePagoAlumnoListForm:datalist,@this"
                                              />
 
@@ -180,9 +180,10 @@
                     }
                 }
                 
-                function crearBotonMercadoPago(cortId) {
+                function crearBotonMercadoPago() {
+                    console.log("entro crearBotonMercadoPago")
                     //BUSCAMOS Y ELIMINAMOS EL CONTENEDOR DEL BOTON DE MERCADO PAGO
-                    let containerId = "wallet_container_" + cortId; // ID único para la fila
+                    let containerId = "wallet_container_" + #{mercadoPagoBean.cohorteId}; // ID único para la fila
                     let container = document.getElementById(containerId);
                     if (container) {
                         // Limpia el contenedor antes de crear un nuevo botón
@@ -194,6 +195,7 @@
                     let mp;
                     console.log("entro crearboton MP")
                     console.log("preferenceId in  function = " + '#{mercadoPagoBean.preferenceId}')
+                    console.log("cohorteId= "+'#{mercadoPagoBean.cohorteId}')
                     // Inicializar el SDK de Mercado Pago  (PUBLIC KEY)
                     mp = new MercadoPago('TEST-f6cbd094-4e69-49f3-b61e-ccf7c7f7ecd1', {
                         locale: 'es-AR'

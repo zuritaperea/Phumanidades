@@ -39,6 +39,7 @@ public class MercadoPagoBean implements Serializable {
      * Creates a new instance of MercadoPagoBean
      */
     private String preferenceId;
+    private Long cohorteId;
 
     @PostConstruct
     void init() {
@@ -57,8 +58,19 @@ public class MercadoPagoBean implements Serializable {
         this.preferenceId = preferenceId;
     }
 
+    public Long getCohorteId() {
+        return cohorteId;
+    }
+
+    public void setCohorteId(Long cohorteId) {
+        this.cohorteId = cohorteId;
+    }
+    
+
     public void cargarPreferencia(Cohorte cohorte) {
+        System.out.println("Entro CargarPreferencia");
         System.out.print("Cohorte nombre = "+cohorte.getDescripcion());
+        System.out.println("CohorteID= "+cohorte.getId());
         //configuramos ACCESS TOKEN (PRIVATE KEY)
         //MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
         PreferenceItemRequest itemRequest
@@ -80,6 +92,7 @@ public class MercadoPagoBean implements Serializable {
         try {
             Preference preference = client.create(preferenceRequest);
             this.setPreferenceId(preference.getId());
+            this.setCohorteId(cohorte.getId());
             System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
         } catch (MPException ex) {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
