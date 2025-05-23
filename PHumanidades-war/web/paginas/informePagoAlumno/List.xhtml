@@ -37,7 +37,6 @@
                                              actionListener="#{informePagoAlumnoController.obtenerComprobantesAlumno(loginAlumnoBean.alumno,cort)}"
                                              icon="ui-icon-search"
                                              styleClass="boton"
-                                             oncomplete="#{mercadoPagoBean.cargarPreferencia(cort)}"
                                              process="informePagoAlumnoListForm:datalist, @this"
                                              />
 
@@ -64,7 +63,17 @@
                             <f:facet name="header">
                                 <h:outputText value="Pagar"/>
                             </f:facet>
-                            <div id="wallet_container_#{cort.id}"></div>
+                            <div align="center">
+                                <p:commandButton id="btnPagar" 
+                                                 icon="ui-icon-cart"
+                                                 action="#{mercadoPagoBean.cargarPreferencia(cort)}"
+                                                 styleClass="boton"
+                                                 oncomplete="crearBotonMercadoPago();"
+                                                 process="@this"
+                                                 />
+                                <div id="wallet_container"></div>
+                            </div>
+
                         </p:column>
 
 
@@ -160,7 +169,7 @@
                         </b:commandButton>
                     </p:column>
                     <f:facet name="footer">
-                        
+
                         <p:commandButton id="createButtonIPA" icon="ui-icon-plus"   value="#{bundleInformePagoAlumno.Create}" actionListener="#{informePagoAlumnoController.prepareCreate}" update=":InformePagoAlumnoCreateForm" oncomplete="PF('InformePagoAlumnoCreateDialog').show()"/>
                         <p:commandButton id="editButtonIPA"   icon="ui-icon-pencil" value="Modificar Comprobante" update=":InformePagoAlumnoEditForm" oncomplete="PF('InformePagoAlumnoEditDialog').show()" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
                         <p:commandButton id="deleteButtonIPA" icon="ui-icon-trash"  value="#{bundleInformePagoAlumno.Delete}" actionListener="#{informePagoAlumnoController.destroy}" update=":frmPri:growl,datalist" disabled="#{informePagoAlumnoController.esAprobado() || empty informePagoAlumnoController.selected}"/>
@@ -170,19 +179,22 @@
             </p:panel>
             <script>
 
-                    
 
-               function eliminarBotonMercadoPago() {
+
+                 function eliminarBotonMercadoPago(){
                     const container = document.getElementById("wallet_container");
-                    if (container) {
+                    if(container){
                         container.innerHTML = ""; // Elimina el contenido del div
                     }
                 }
-                
-                function crearBotonMercadoPago(cohorteId) {
+                function ura(){
+                    console.log("Hola ura");
+                }
+
+                function crearBotonMercadoPago() {
                     console.log("entro crearBotonMercadoPago")
                     //BUSCAMOS Y ELIMINAMOS EL CONTENEDOR DEL BOTON DE MERCADO PAGO
-                    let containerId = "wallet_container_" + cohorteId; // ID único para la fila
+                    let containerId = "wallet_container" // ID único para la fila
                     let container = document.getElementById(containerId);
                     if (container) {
                         // Limpia el contenedor antes de crear un nuevo botón
@@ -193,8 +205,8 @@
                     //CREAMOS EL NUEVO BOTON
                     let mp;
                     console.log("entro crearboton MP")
-                    console.log("preferenceId in  function = " + '#{mercadoPagoBean.preferenceId}')
-                    console.log("cohorteId= "+cohorteId)
+                    console.log("preferenceId in  function = " + "#{mercadoPagoBean.preferenceId}")
+                    //console.log("cohorteId= "+cohorteId)
                     // Inicializar el SDK de Mercado Pago  (PUBLIC KEY)
                     mp = new MercadoPago('TEST-f6cbd094-4e69-49f3-b61e-ccf7c7f7ecd1', {
                         locale: 'es-AR'

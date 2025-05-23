@@ -84,7 +84,7 @@ public class InformePagoAlumnoController implements Serializable {
     @PostConstruct
     private void init() {
         this.setItems(new ArrayList<InformePagoAlumno>());
- 
+
     }
 
     public List<Cohorte> getLstCohortesInformePagoAlumno() {
@@ -337,13 +337,12 @@ public class InformePagoAlumnoController implements Serializable {
 
     public void obtenerComprobantesAlumno(Alumno alumno, Cohorte cohorte) throws Exception {
         FacesMessage fm;
+        System.out.println("Entro obtenerComprobantesAlumno");
+        
         if (cohorte != null) {
-            //System.out.println("alumno cohorte: " + alumno);
+
             cohorteSeleccionada = cohorte;
-            //System.out.println("cohorte ID: " + cohorteSeleccionada.getId());
-            //System.out.println("cohorte cohorte: " + cohorteSeleccionada);
-            //System.out.println("COHORTE MONTO: " + cohorteSeleccionada.getImporteCuota());
-            //cargarPreferencia(cohorteSeleccionada);
+               //cargarPreferencia(cohorteSeleccionada);
             try {
                 //System.out.println("entro a setearlistade comprobantes");
                 this.setItems(InformePagoAlumnoFacade.findPagosAlumnoCohorte(alumno, cohorteSeleccionada));
@@ -360,6 +359,7 @@ public class InformePagoAlumnoController implements Serializable {
                 fc.addMessage("frmPri:cbBuscarAlumnoCobro", fm);
             }//fin catch
             RequestContext.getCurrentInstance().update("informePagoAlumnoListForm:datalist");
+            
         }
     }
 
@@ -467,6 +467,4 @@ public class InformePagoAlumnoController implements Serializable {
 //        }
 //
 //    }
-
-
 }
