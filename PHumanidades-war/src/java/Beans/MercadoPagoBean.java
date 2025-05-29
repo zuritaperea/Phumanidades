@@ -45,6 +45,7 @@ public class MercadoPagoBean implements Serializable {
     @PostConstruct
     void init() {
         MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
+        this.setPreferenceId(new String());
     }
 
     public MercadoPagoBean() {
@@ -97,6 +98,7 @@ public class MercadoPagoBean implements Serializable {
             this.setCohorteId(cohorte.getId());
             System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
             System.out.println("lista de preferencias=== " + preferenceRequest.getItems());
+            //RequestContext.getCurrentInstance().update(":informePagoAlumnoListForm:hiddenPreferenceId");
             //RequestContext.getCurrentInstance().execute("crearBotonMercadoPago(" + cohorte.getId() + ");");
 
         } catch (MPException ex) {
