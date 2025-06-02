@@ -98,8 +98,6 @@ public class MercadoPagoBean implements Serializable {
             this.setCohorteId(cohorte.getId());
             System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
             System.out.println("lista de preferencias=== " + preferenceRequest.getItems());
-            //RequestContext.getCurrentInstance().update(":informePagoAlumnoListForm:hiddenPreferenceId");
-            //RequestContext.getCurrentInstance().execute("crearBotonMercadoPago(" + cohorte.getId() + ");");
 
         } catch (MPException ex) {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
