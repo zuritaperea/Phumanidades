@@ -78,7 +78,7 @@ public class MercadoPagoBean implements Serializable {
         //MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
         PreferenceItemRequest itemRequest = null;
         itemRequest = PreferenceItemRequest.builder()
-                .id(cohorte.getId().toString())
+                .id("1234")
                 .title(cohorte.getCarrera().getDescripcion())
                 .description(cohorte.getDescripcion())
                 .pictureUrl("http://picture.com/PS5")

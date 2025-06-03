@@ -200,7 +200,7 @@
                     //let preferencia ="";
                     console.log("entro crearboton MP")
                     //preferencia = document.getElementById("hiddenPreferenceId").value;
-                    let preferencia = document.getElementById("idPreferencia").textContent;
+                    var preferencia = document.getElementById("idPreferencia").textContent;
                     console.log("preferencia in  constante = " + preferencia)
                     //console.log("cohorteId= "+cohorteId)
                     // Inicializar el SDK de Mercado Pago  (PUBLIC KEY)
@@ -208,6 +208,7 @@
                         locale: 'es-AR'
                     });
                     // Crear el botón de pago en el contenedor designado
+                    
                     mp.bricks().create("wallet", "wallet_container", {
                         initialization: {
                             preferenceId: preferencia,
@@ -219,6 +220,7 @@
                             },
                         },
                     });
+                    console.log("preferenciaaaaa = " + preferencia)
                 }
 
             </script>
