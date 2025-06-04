@@ -69,7 +69,7 @@
                                                  action="#{mercadoPagoBean.cargarPreferencia(cort)}"
                                                  styleClass="boton"
                                                  oncomplete="crearBotonMercadoPago();"
-                                                 update="idPreferencia, @this"
+                                                 update="idPreferencia"
                                                  />
                             </div>
 
@@ -77,7 +77,7 @@
 
                       
                     </p:dataTable>
-                    <div id="wallet_container"></div>
+                   
                     <h:outputText value="Haga Click en la lupa para seleccionar Cohorte y cargar el detalle de la cuotas pagas - De lo contrario la operacion no se llevara a cabo"/>
 
 
@@ -207,6 +207,7 @@
                     mp = new MercadoPago('TEST-f6cbd094-4e69-49f3-b61e-ccf7c7f7ecd1', {
                         locale: 'es-AR'
                     });
+                    console.log('Objeto MP:', Object.keys(mp));
                     // Crear el botón de pago en el contenedor designado
                     
                     mp.bricks().create("wallet", "wallet_container", {
@@ -219,6 +220,21 @@
                                 valueProp: 'smart_option',
                             },
                         },
+                         callbacks: {
+                                 onReady: function() {
+                                      console.log("Brick renderizado correctamente");
+                                 },
+                                onError: function(error) { // Callback síncrono para errores
+                                        console.error(" Error en Brick:", {
+                                         code: error.code,
+                                         message: error.message,
+                                          details: error
+                                 });
+                                     },
+                                onSubmit: function() {
+                                            console.log("Formulario enviado (sin redirección automática)");
+                                   }
+                            }
                     });
                     console.log("preferenciaaaaa = " + preferencia)
                 }
@@ -228,7 +244,7 @@
               
 
         </h:form>
-        
+         <div id="wallet_container"></div>
         <ui:include src="Create.xhtml"/>
         <ui:include src="Edit.xhtml"/>
         <ui:include src="View.xhtml"/>
