@@ -62,4 +62,12 @@ public class ProveedorFacade extends AbstractFacade<Proveedor> implements Provee
         return q.getResultList();
     }
 
+    @Override
+    public Proveedor findByCbuAlias(String cbuAlias) {
+        Query q = em.createNamedQuery("Proveedor.findByCbuAlias");
+        q.setParameter("cbuAlias", cbuAlias);
+        q.setMaxResults(1);
+        return (Proveedor) q.getSingleResult();
+    }
+
 }

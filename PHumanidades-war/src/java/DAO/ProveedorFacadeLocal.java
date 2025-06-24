@@ -36,6 +36,8 @@ public interface ProveedorFacadeLocal {
     public List<Proveedor> buscarProveedorRazonSocial(String razon);
 
     public Proveedor findByRazonSocial(String razonSocial);
+    
+    public Proveedor findByCbuAlias(String cbuAlias);
 
     public List<PagosDocente> buscarEgresosProveedor(Proveedor proveedor);
 

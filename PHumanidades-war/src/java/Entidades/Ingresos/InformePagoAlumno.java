@@ -59,6 +59,7 @@ public class InformePagoAlumno implements Serializable {
     private String mensajeAlumno;
     @Lob
     private String respuestaSistema;
+    private String estado;
 
     public Long getId() {
         return id;
@@ -163,6 +164,15 @@ public class InformePagoAlumno implements Serializable {
     public void setCantidadCuotas(Integer cantidadCuotas) {
         this.cantidadCuotas = cantidadCuotas;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
 
     @Override
     public int hashCode() {

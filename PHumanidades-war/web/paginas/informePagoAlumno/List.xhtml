@@ -16,7 +16,7 @@
 
         <h3>
             <h:outputText value="Informe de Pago - Alumnos"></h:outputText>
-            <h:outputText id="idPreferencia" style="display:none" value="#{mercadoPagoBean.preferenceId}" />
+            <h:outputText id="idPreferencia" value="#{mercadoPagoBean.preferenceId}" />
         </h3>
         <h:form id="informePagoAlumnoListForm">
              
@@ -64,13 +64,14 @@
                                 <h:outputText value="Pagar"/>
                             </f:facet>
                             <div align="center">
+                                <!-- COMENTAR ESTE BOTON MIENTRAS NO SE TERMINE LO DE MERCADO PAGO -->
                                 <p:commandButton id="btnPagar" 
                                                  icon="ui-icon-cart"
                                                  action="#{mercadoPagoBean.cargarPreferencia(cort)}"
                                                  styleClass="boton"
-                                                 oncomplete="crearBotonMercadoPago();"
+                                                 oncomplete="PF('MercadoPagoDialog').show()"
                                                  update="idPreferencia"
-                                                 />
+                                                 /> 
                             </div>
 
                         </p:column>
@@ -233,6 +234,8 @@
                                      },
                                 onSubmit: function() {
                                             console.log("Formulario enviado (sin redirección automática)");
+                                            PF('MercadoPagoDialog').hide();
+                                            return Promise.resolve(); // Permite la redirección
                                    }
                             }
                     });
@@ -244,7 +247,24 @@
               
 
         </h:form>
-         <div id="wallet_container"></div>
+        
+         <!--  <div id="wallet_container"></div>-->
+         <!-- Dialog de MP -->
+
+        <p:dialog widgetVar="MercadoPagoDialog" 
+          header="Completar Pago" 
+          modal="true" 
+          resizable="false"
+          width="20%" 
+          height="auto"
+          onShow="crearBotonMercadoPago()"> <!-- Inicializa el Brick al abrir -->
+    
+             <!-- Contenedor del Brick (DEBE estar visible al inicializarse) -->
+            <div id="wallet_container" style="min-height: 10px;"></div>
+    
+           
+           </p:dialog>
+         
         <ui:include src="Create.xhtml"/>
         <ui:include src="Edit.xhtml"/>
         <ui:include src="View.xhtml"/>

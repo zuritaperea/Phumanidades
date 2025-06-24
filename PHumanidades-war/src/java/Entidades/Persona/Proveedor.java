@@ -8,6 +8,7 @@ package Entidades.Persona;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -25,8 +27,11 @@ import javax.persistence.OneToOne;
 @NamedQueries({
     @NamedQuery(name = "Proveedor.findByCuit",
             query = "SELECT p FROM Proveedor p where p.cuit LIKE :cuit"),
-     @NamedQuery(name = "Proveedor.findByRazonSocial",
+
+    @NamedQuery(name = "Proveedor.findByRazonSocial",
             query = "SELECT p FROM Proveedor p where p.razonSocial=:razonSocial"),
+    @NamedQuery(name = "Proveedor.findByCbuAlias",
+            query = "SELECT p FROM Proveedor p where p.cbuAlias=:cbuAlias"),
     @NamedQuery(name = "Proveedor.buscarProveedorRazonSocial", query = "SELECT p FROM Proveedor p WHERE upper(p.razonSocial) LIKE upper(:razonSocial)")})
 public class Proveedor implements Serializable {
 
@@ -37,6 +42,8 @@ public class Proveedor implements Serializable {
 
     private String cuit;
     private String razonSocial;
+    @Column(unique = true)
+    private String cbuAlias;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Domicilio domicilio;
@@ -82,6 +89,14 @@ public class Proveedor implements Serializable {
 
     public void setTelefonos(List<Telefono> telefonos) {
         this.telefonos = telefonos;
+    }
+
+    public String getCbuAlias() {
+        return cbuAlias;
+    }
+
+    public void setCbuAlias(String cbuAlias) {
+        this.cbuAlias = cbuAlias;
     }
 
     @Override

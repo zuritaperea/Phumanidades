@@ -217,7 +217,7 @@
 
 
                         <h:outputText id="otDocente"
-                                      value="#{docenteLstBean.docenteSeleccionado.dni} - #{docenteLstBean.docenteSeleccionado.apellido} - #{docenteLstBean.docenteSeleccionado.nombre}"/>
+                                      value="#{docenteLstBean.docenteSeleccionado.dni} - #{docenteLstBean.docenteSeleccionado.apellido} - #{docenteLstBean.docenteSeleccionado.nombre} -Cbu/Alias: #{docenteLstBean.docenteSeleccionado.cbuAlias} "/>
                         <p:commandButton id="btnAnularDocente" 
                                          update=":frmPri:otDocente, :frmPri:dtCarrerasPagos, @this"
                                          icon="ui-icon-close"
@@ -262,7 +262,7 @@
 
 
                             <h:outputText id="otProveedor"
-                                          value="#{proveedorLstBean.proveedorSelect.cuit} - #{proveedorLstBean.proveedorSelect.razonSocial}"/>
+                                          value="#{proveedorLstBean.proveedorSelect.cuit} - #{proveedorLstBean.proveedorSelect.razonSocial} - Cbu/Alias: #{proveedorLstBean.proveedorSelect.cbuAlias} "/>
                             <p:commandButton id="btnAnularProveedor" 
                                              actionListener="#{proveedorLstBean.limpiarProveedorSelect()}"                                 
                                              update=":frmPri:otProveedor, @this"

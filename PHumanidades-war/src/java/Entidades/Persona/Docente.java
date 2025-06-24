@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,9 +42,10 @@ public class Docente implements Serializable {
     private String dni;
     private String nombre;
     private String apellido;
-
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaNacimiento;
+    @Column(unique = true)
+    private String cbuAlias;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Domicilio domicilio;
@@ -127,6 +129,14 @@ public class Docente implements Serializable {
 
     public void setCarreras(List<Carrera> carreras) {
         this.carreras = carreras;
+    }
+
+    public String getCbuAlias() {
+        return cbuAlias;
+    }
+
+    public void setCbuAlias(String cbuAlias) {
+        this.cbuAlias = cbuAlias;
     }
 
     @Override

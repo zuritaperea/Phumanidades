@@ -37,6 +37,8 @@ public interface ProveedorRNLocal {
     public List<Proveedor> buscarProveedorRazonSocial(String cadena) throws Exception;
 
     public Proveedor findByRazonSocial(String razonSocial);
+    
+    public Proveedor findByCbuAlias(String cbuAlias);
 
     public List<PagosDocente> buscarEgresosProveedor(Proveedor proveedor) throws Exception;
 

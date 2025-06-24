@@ -389,7 +389,7 @@ public class DocenteBean implements Serializable {
         } catch (Exception ex) {
             //Logger.getLogger(PersonaBean.class.getName()).log(Level.SEVERE, null, ex);
             severity = FacesMessage.SEVERITY_ERROR;
-            sMensaje = "Error al crear el Docente: " + ex.getMessage();
+            sMensaje = "Error al crear el Docente: " + ex.getCause();
         } finally {
             fm = new FacesMessage(severity, sMensaje, null);
             FacesContext fc = FacesContext.getCurrentInstance();
@@ -439,6 +439,7 @@ public class DocenteBean implements Serializable {
         FacesMessage fm;
         FacesMessage.Severity severity = null;
         try {
+            System.out.println("DOCENTE cbualias: =" +this.getDocente().getCbuAlias());
             this.getDocente().setDomicilio(this.getDomicilioBean().getDomicilio());
             this.getDocente().setTelefonos(this.getListadoTelefonosBean().getLstTelefonos());
             this.getDocente().setCorreosElectronicos(this.getListadoEmailBean().getLstCorreoElectronico());
