@@ -70,12 +70,17 @@ public class InformePagoAlumnoFacade extends AbstractFacade<InformePagoAlumno> {
     }
 
     // Método para buscar por referencia
-    public static InformePagoAlumno findByExternalRef(EntityManager em, String ref) {
-        return em.createQuery(
-            "SELECT i FROM InformePagoAlumno i WHERE i.externalReference = :ref", 
-            InformePagoAlumno.class)
-            .setParameter("ref", ref)
-            .getSingleResult();
+    public InformePagoAlumno findByExternalRef(String externalReference) {
+        System.out.println("Entro Facade findByExternalRef");
+        Query q = em.createQuery("SELECT i FROM InformePagoAlumno i WHERE i.externalReference = :externalReference");
+            q.setParameter("externalReference", externalReference);
+        try {
+            System.out.println("Entro Try en Facade");
+            return (InformePagoAlumno) q.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("Entro Catch en Facade");
+            return null;
+        }
     }
 
 }

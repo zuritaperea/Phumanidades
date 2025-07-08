@@ -5,8 +5,11 @@
  */
 package Beans;
 
+import DAO.InformePagoAlumnoFacade;
 import Entidades.Carreras.Cohorte;
+import Entidades.Ingresos.EstadoComprobanteAlumno;
 import Entidades.Ingresos.InformePagoAlumno;
+import Entidades.Persona.Alumno;
 import javax.inject.Named;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
@@ -27,6 +30,7 @@ import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import java.util.Date;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 //import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -44,6 +48,8 @@ public class MercadoPagoBean implements Serializable {
      */
     private String preferenceId;
     private Long cohorteId;
+    @EJB
+    private InformePagoAlumnoFacade informePagoAlumnoFacade;
 
     @PostConstruct
     void init() {
@@ -71,9 +77,11 @@ public class MercadoPagoBean implements Serializable {
         this.cohorteId = cohorteId;
     }
 
-    public void cargarPreferencia(Cohorte cohorte) {
+    public void cargarPreferencia(Cohorte cohorte, Alumno alumno) {
+        //seteamos datos iniciales para el Pago del alumno previo pago desde MP
         InformePagoAlumno informePagoAlumno= new InformePagoAlumno();
         informePagoAlumno.setFecha(new Date());
+        informePagoAlumno.setExternalReference("ALU-" + alumno.getDni() + "-T" +System.currentTimeMillis());
         //RequestContext.getCurrentInstance().execute("eliminarBotonMercadoPago();");
         this.setPreferenceId(new String());
         System.out.println("Entro CargarPreferencia");
@@ -103,6 +111,8 @@ public class MercadoPagoBean implements Serializable {
         items.add(itemRequest);
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .items(items)
+                .externalReference(informePagoAlumno.getExternalReference())
+                .notificationUrl("http://gestionhuma.com/api/webhooks/mercado-pago")
                 //.backUrls(backUrls)
                 //.autoReturn("approved") 
                 .build();
@@ -113,6 +123,13 @@ public class MercadoPagoBean implements Serializable {
             this.setCohorteId(cohorte.getId());
             System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
             System.out.println("lista de preferencias=== " + preferenceRequest.getItems());
+             // 3. Pre-guardar el registro
+            informePagoAlumno.setEstado("PENDIENTE"); // Agrega este campo a tu entidad
+            informePagoAlumno.setAlumno(alumno);
+            informePagoAlumno.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
+            informePagoAlumno.setDescripcion("Pago MercadoPago: "+cohorte.getDescripcion());
+            informePagoAlumno.setCantidadCuotas(1);
+            informePagoAlumnoFacade.create(informePagoAlumno);
 
         } catch (MPException ex) {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);

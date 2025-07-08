@@ -16,7 +16,7 @@
 
         <h3>
             <h:outputText value="Informe de Pago - Alumnos"></h:outputText>
-            <h:outputText id="idPreferencia" value="#{mercadoPagoBean.preferenceId}" />
+            <h:outputText id="idPreferencia" style="display:none" value="#{mercadoPagoBean.preferenceId}" />
         </h3>
         <h:form id="informePagoAlumnoListForm">
              
@@ -67,7 +67,7 @@
                                 <!-- COMENTAR ESTE BOTON MIENTRAS NO SE TERMINE LO DE MERCADO PAGO -->
                                 <p:commandButton id="btnPagar" 
                                                  icon="ui-icon-cart"
-                                                 action="#{mercadoPagoBean.cargarPreferencia(cort)}"
+                                                 action="#{mercadoPagoBean.cargarPreferencia(cort, loginAlumnoBean.alumno)}"
                                                  styleClass="boton"
                                                  oncomplete="PF('MercadoPagoDialog').show()"
                                                  update="idPreferencia"

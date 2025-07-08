@@ -9,7 +9,9 @@ import Entidades.Carreras.Cohorte;
 import Entidades.Persona.Alumno;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -60,6 +62,10 @@ public class InformePagoAlumno implements Serializable {
     @Lob
     private String respuestaSistema;
     private String estado;
+    
+    @Column(unique = true)
+    private String paymentId; 
+    private String externalReference; 
 
     public Long getId() {
         return id;
@@ -172,8 +178,24 @@ public class InformePagoAlumno implements Serializable {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
 
+    public String getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public String getExternalReference() {
+        return externalReference;
+    }
+
+    public void setExternalReference(String externalReference) {
+        this.externalReference = externalReference;
+    }
+    
+  
     @Override
     public int hashCode() {
         int hash = 0;

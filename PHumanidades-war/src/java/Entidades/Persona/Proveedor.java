@@ -30,8 +30,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
     @NamedQuery(name = "Proveedor.findByRazonSocial",
             query = "SELECT p FROM Proveedor p where p.razonSocial=:razonSocial"),
-    @NamedQuery(name = "Proveedor.findByCbuAlias",
-            query = "SELECT p FROM Proveedor p where p.cbuAlias=:cbuAlias"),
     @NamedQuery(name = "Proveedor.buscarProveedorRazonSocial", query = "SELECT p FROM Proveedor p WHERE upper(p.razonSocial) LIKE upper(:razonSocial)")})
 public class Proveedor implements Serializable {
 
@@ -42,7 +40,6 @@ public class Proveedor implements Serializable {
 
     private String cuit;
     private String razonSocial;
-    @Column(unique = true)
     private String cbuAlias;
 
     @OneToOne(cascade = CascadeType.ALL)

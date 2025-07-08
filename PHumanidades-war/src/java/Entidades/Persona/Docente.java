@@ -44,9 +44,8 @@ public class Docente implements Serializable {
     private String apellido;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaNacimiento;
-    @Column(unique = true)
     private String cbuAlias;
-
+ 
     @OneToOne(cascade = CascadeType.ALL)
     private Domicilio domicilio;
 

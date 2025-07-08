@@ -263,14 +263,6 @@ public class ProveedorBean implements Serializable {
         }
     }
 
-    private boolean existeCbuAlias(String cbuAlias) {
-        try {
-            return proveedorRNLocal.findByCbuAlias(cbuAlias) != null;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
     public void create() {
         String sMensaje = "";
         FacesMessage fm;
@@ -284,9 +276,6 @@ public class ProveedorBean implements Serializable {
                 severity = FacesMessage.SEVERITY_ERROR;
             } else if (existeCuit(this.getProveedor().getCuit())) {
                 sMensaje = "Ya existe un proveedor con el cuit: " + this.getProveedor().getCuit();
-                severity = FacesMessage.SEVERITY_ERROR;
-            } else if (existeCbuAlias(this.getProveedor().getCbuAlias())) {
-                sMensaje = "Cuidado: Ya existe un proveedor con el CBU /Alias: " + this.getProveedor().getCbuAlias();
                 severity = FacesMessage.SEVERITY_ERROR;
             } else if (existeRazonSocial(this.getProveedor().getRazonSocial())) {
                 sMensaje = "Cuidado: Ya existe un proveedor con la razón social: " + this.getProveedor().getCuit();
