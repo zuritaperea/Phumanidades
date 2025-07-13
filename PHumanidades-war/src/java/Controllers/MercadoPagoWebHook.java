@@ -5,8 +5,10 @@
  */
 package Controllers;
 
+import Recursos.GeneradorComprobanteMP;
 import DAO.InformePagoAlumnoFacade;
 import Entidades.Ingresos.InformePagoAlumno;
+import Recursos.GeneradorComprobanteMP;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.exceptions.MPApiException;
@@ -30,6 +32,7 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 
 /**
  *
@@ -47,6 +50,8 @@ public class MercadoPagoWebHook {
     private String externalReference;
     private String eventType;
     private String date_created;
+    private GeneradorComprobanteMP generadorComprobanteMP;
+    private ByteArrayOutputStream comprobante;
 
     @POST
     public Response handleWebhook(
@@ -106,18 +111,27 @@ public class MercadoPagoWebHook {
             // Buscar por referencia externa (ej: "ALU-123-C1")
             informePagoAlumno = informePagoAlumnoFacade.findByExternalRef(payment.getExternalReference());
             System.out.println("InformePagoAlumno encontrado EXTERNALREFFF = " + informePagoAlumno);
-            if (payment.getTransactionDetails() != null) {
-                String comprobanteUrl = payment.getTransactionDetails().getExternalResourceUrl();
-                if (comprobanteUrl != null) {
-                    System.out.println("Link al comprobante/ticket: " + comprobanteUrl);
-                }
+            try {
+                comprobante = generadorComprobanteMP.generarComprobante(payment);
+            } catch (Exception ex) {
+                comprobante = null;
             }
 
             if (informePagoAlumno != null) {
                 informePagoAlumno.setEstado("APROBADO");
                 informePagoAlumno.setPaymentId(paymentId);
-                //informePagoAlumno.setComprobantePago(downloadComprobante(paymentId));
-                //nformePagoAlumnoFacade.edit(informePagoAlumno);
+                informePagoAlumno.setNombreComprobantePago("MercadoPago_" + paymentId + ".pdf");
+                informePagoAlumno.setComprobantePago(comprobante.toByteArray());
+
+                informePagoAlumnoFacade.edit(informePagoAlumno);
+            }
+        }
+        if ("rejected".equals(payment.getStatus())) {
+            informePagoAlumno = informePagoAlumnoFacade.findByExternalRef(payment.getExternalReference());
+            if (informePagoAlumno != null) {
+                informePagoAlumno.setEstado("RECHAZADO");
+                informePagoAlumno.setPaymentId(paymentId);
+                informePagoAlumnoFacade.edit(informePagoAlumno);
             }
         }
     }

@@ -31,6 +31,7 @@ import com.mercadopago.resources.preference.Preference;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedProperty;
 //import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import org.primefaces.context.RequestContext;
@@ -88,11 +89,11 @@ public class MercadoPagoBean implements Serializable {
         System.out.print("Cohorte nombre = " + cohorte.getDescripcion());
         System.out.println("CohorteID= " + cohorte.getId());
         System.out.println("Token configurado: " + MercadoPagoConfig.getAccessToken());
-//        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-//                .success("http://localhost:8080/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-//                .pending("http://localhost:8080/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-//                .failure("http://localhost:8080/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-//                .build();
+        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
+                .success("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
+                .pending("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
+                .failure("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
+                .build();
         //configuramos ACCESS TOKEN (PRIVATE KEY)
         //MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
 
@@ -112,8 +113,8 @@ public class MercadoPagoBean implements Serializable {
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .items(items)
                 .externalReference(informePagoAlumno.getExternalReference())
-                .notificationUrl("http://gestionhuma.com/api/webhooks/mercado-pago")
-                //.backUrls(backUrls)
+                .notificationUrl("https://gestionhuma.com/api/webhooks/mercado-pago")
+                .backUrls(backUrls)
                 //.autoReturn("approved") 
                 .build();
         PreferenceClient client = new PreferenceClient();
@@ -126,6 +127,7 @@ public class MercadoPagoBean implements Serializable {
              // 3. Pre-guardar el registro
             informePagoAlumno.setEstado("PENDIENTE"); // Agrega este campo a tu entidad
             informePagoAlumno.setAlumno(alumno);
+            informePagoAlumno.setCohorte(cohorte);
             informePagoAlumno.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
             informePagoAlumno.setDescripcion("Pago MercadoPago: "+cohorte.getDescripcion());
             informePagoAlumno.setCantidadCuotas(1);
