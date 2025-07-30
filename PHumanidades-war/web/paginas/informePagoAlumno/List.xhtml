@@ -67,7 +67,7 @@
                                 <!-- COMENTAR ESTE BOTON MIENTRAS NO SE TERMINE LO DE MERCADO PAGO -->
                                 <p:commandButton id="btnPagar" 
                                                  icon="ui-icon-cart"
-                                                 action="#{mercadoPagoBean.cargarPreferencia(cort, loginAlumnoBean.alumno)}"
+                                                 action="#{mercadoPBean.cargarPreferenciaMP(cort, loginAlumnoBean.alumno)}"
                                                  styleClass="boton"
                                                  oncomplete="PF('MercadoPagoDialog').show()"
                                                  update="idPreferencia"

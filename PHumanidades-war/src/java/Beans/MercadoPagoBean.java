@@ -30,14 +30,13 @@ import com.mercadopago.resources.preference.Preference;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author victo
  */
 @ManagedBean(name = "mercadoPagoBean")
-@SessionScoped
+@RequestScoped
 public class MercadoPagoBean implements Serializable {
 
     /**
