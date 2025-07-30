@@ -16,7 +16,7 @@
 
         <h3>
             <h:outputText value="Informe de Pago - Alumnos"></h:outputText>
-            <h:outputText id="idPreferencia" style="display:none" value="#{mercadoPagoBean.preferenceId}" />
+            <h:outputText id="idPreferencia" value=" ID  =  #{mercadoPagoBean.preferenceId}" />
         </h3>
         <h:form id="informePagoAlumnoListForm">
              
@@ -184,9 +184,10 @@
                     console.log("Hola metodo");
                     console.log("Bean disponible?: ", #{mercadoPagoBean != null});
                     console.log("PreferenceId existe?: ", #{mercadoPagoBean.preferenceId != null});
+                    console.log("PreferenceId: ", #{mercadoPagoBean.preferenceId});
                     //let pref = document.getElementById("hiddenPreferenceId").value;
                     const preferenciaXD = document.getElementById("idPreferencia").textContent;
-                    console.log("preferencia=== ", valor); // Aquí debería aparecer el ID correctamente 
+                    console.log("preferencia=== ", preferenciaXD); // Aquí debería aparecer el ID correctamente 
                 }
                 
                 
@@ -214,7 +215,7 @@
                     mp.bricks().create("wallet", "wallet_container", {
                         initialization: {
                             preferenceId: preferencia,
-                            redirectMode: "self", //blank funca
+                            redirectMode: "blank", //blank funca   self nop jajaj
                         },
                         customization: {
                             texts: {
@@ -257,7 +258,7 @@
           resizable="false"
           width="20%" 
           height="auto"
-          onShow="crearBotonMercadoPago()"> <!-- Inicializa el Brick al abrir -->
+          onShow="metodo()"> <!-- Inicializa el Brick al abrir -->
     
              <!-- Contenedor del Brick (DEBE estar visible al inicializarse) -->
             <div id="wallet_container" style="min-height: 10px;"></div>

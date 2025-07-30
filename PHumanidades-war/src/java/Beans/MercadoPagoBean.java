@@ -10,7 +10,7 @@ import Entidades.Carreras.Cohorte;
 import Entidades.Ingresos.EstadoComprobanteAlumno;
 import Entidades.Ingresos.InformePagoAlumno;
 import Entidades.Persona.Alumno;
-import javax.inject.Named;
+import com.google.gson.Gson;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 import javax.faces.bean.RequestScoped;
 //MERCADO PAGO
 import com.mercadopago.MercadoPagoConfig;
-import com.mercadopago.client.preference.PreferenceBackUrlsRequest;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
@@ -31,17 +30,14 @@ import com.mercadopago.resources.preference.Preference;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.bean.ManagedProperty;
-//import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
-import org.primefaces.context.RequestContext;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author victo
  */
 @ManagedBean(name = "mercadoPagoBean")
-@RequestScoped
+@SessionScoped
 public class MercadoPagoBean implements Serializable {
 
     /**
@@ -80,65 +76,58 @@ public class MercadoPagoBean implements Serializable {
 
     public void cargarPreferencia(Cohorte cohorte, Alumno alumno) {
         //seteamos datos iniciales para el Pago del alumno previo pago desde MP
-        InformePagoAlumno informePagoAlumno= new InformePagoAlumno();
+        InformePagoAlumno informePagoAlumno = new InformePagoAlumno();
         informePagoAlumno.setFecha(new Date());
-        informePagoAlumno.setExternalReference("ALU-" + alumno.getDni() + "-T" +System.currentTimeMillis());
+        informePagoAlumno.setExternalReference("ALU-" + alumno.getDni() + "-T" + System.currentTimeMillis());
         //RequestContext.getCurrentInstance().execute("eliminarBotonMercadoPago();");
         this.setPreferenceId(new String());
         System.out.println("Entro CargarPreferencia");
         System.out.print("Cohorte nombre = " + cohorte.getDescripcion());
         System.out.println("CohorteID= " + cohorte.getId());
         System.out.println("Token configurado: " + MercadoPagoConfig.getAccessToken());
-        PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-                .pending("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-                .failure("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-                .build();
-        //configuramos ACCESS TOKEN (PRIVATE KEY)
-        //MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
 
-        PreferenceItemRequest itemRequest = null;
-        itemRequest = PreferenceItemRequest.builder()
-                .id("1234")
-                .title(cohorte.getCarrera().getDescripcion())
-                .description(cohorte.getDescripcion())
-                .pictureUrl("http://picture.com/PS5")
-                .categoryId(cohorte.getImporteCuota().toString())
+        PreferenceItemRequest item = PreferenceItemRequest.builder()
+                .title("Test producto")
                 .quantity(1)
-                .currencyId("AR")
-                .unitPrice(cohorte.getImporteCuota())
+                .unitPrice(new BigDecimal("1000.00"))
+                .currencyId("ARS")
                 .build();
+
         List<PreferenceItemRequest> items = new ArrayList<>();
-        items.add(itemRequest);
+        items.add(item);
+        System.out.println("items requesssstt: " + items.get(0).getUnitPrice());
+        System.out.println("External referenssssceet: " + informePagoAlumno.getExternalReference());
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .items(items)
-                .externalReference(informePagoAlumno.getExternalReference())
-                .notificationUrl("https://gestionhuma.com/api/webhooks/mercado-pago")
-                .backUrls(backUrls)
-                //.autoReturn("approved") 
+                .externalReference("TEST-1234")
+                .autoReturn("approved")
                 .build();
+        System.out.println("Preferencia a enviar: " + new Gson().toJson(preferenceRequest));
         PreferenceClient client = new PreferenceClient();
+        Preference pref;
         try {
-            Preference preference = client.create(preferenceRequest);
-            this.setPreferenceId(preference.getId());
+            pref = client.create(preferenceRequest);
+            this.setPreferenceId(pref.getId());
             this.setCohorteId(cohorte.getId());
             System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
             System.out.println("lista de preferencias=== " + preferenceRequest.getItems());
-             // 3. Pre-guardar el registro
+            // 3. Pre-guardar el registro
             informePagoAlumno.setEstado("PENDIENTE"); // Agrega este campo a tu entidad
             informePagoAlumno.setAlumno(alumno);
             informePagoAlumno.setCohorte(cohorte);
             informePagoAlumno.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
-            informePagoAlumno.setDescripcion("Pago MercadoPago: "+cohorte.getDescripcion());
+            informePagoAlumno.setDescripcion("Pago MercadoPago: " + cohorte.getDescripcion());
             informePagoAlumno.setCantidadCuotas(1);
             informePagoAlumnoFacade.create(informePagoAlumno);
-
         } catch (MPException ex) {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
-            this.setPreferenceId("");
         } catch (MPApiException ex) {
+            System.out.println("=== ERROR MercadoPago ===");
+            System.out.println("Status code: " + ex.getApiResponse().getStatusCode());
+            System.out.println("Contenido del error:");
+            System.out.println(ex.getApiResponse().getContent()); // ✅ Este es el JSON con el mensaje real
+            ex.printStackTrace(); // Opcional
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);
-            this.setPreferenceId("");
         }
 
     }
