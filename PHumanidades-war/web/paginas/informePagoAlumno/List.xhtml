@@ -70,7 +70,7 @@
                                                  action="#{mercadoPagoBean.cargarPreferencia(cort, loginAlumnoBean.alumno)}"
                                                  styleClass="boton"
                                                  oncomplete="PF('MercadoPagoDialog').show()"
-                                                 update="idPreferencia"
+                                                 update="idPreferencia, mpDialog"
                                                  /> 
                             </div>
 
@@ -214,7 +214,7 @@
                     mp.bricks().create("wallet", "wallet_container", {
                         initialization: {
                             preferenceId: preferencia,
-                            redirectMode: "self", //blank funca
+                            redirectMode: "blank",
                         },
                         customization: {
                             texts: {
@@ -243,22 +243,24 @@
                 }
 
             </script>
-
+   
+       
               
 
         </h:form>
         
-         <!--  <div id="wallet_container"></div>-->
-         <!-- Dialog de MP -->
+  <!-- Dialog de MP -->
 
         <p:dialog widgetVar="MercadoPagoDialog" 
-          header="Completar Pago" 
+                  id="mpDialog"        
           modal="true" 
           resizable="false"
-          width="20%" 
+          width="30%" 
           height="auto"
           onShow="crearBotonMercadoPago()"> <!-- Inicializa el Brick al abrir -->
-    
+            <h:outputText id="descripcionPago" value="Usted esta por pagar: #{mercadoPagoBean.cohorte.descripcion}"/>
+            <br/>
+            <h:outputText id="montoPago" value="Total: #{mercadoPagoBean.cohorte.importeCuota}"/>
              <!-- Contenedor del Brick (DEBE estar visible al inicializarse) -->
             <div id="wallet_container" style="min-height: 10px;"></div>
     

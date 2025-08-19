@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -195,7 +194,7 @@ public class InformePagoAlumno implements Serializable {
         this.externalReference = externalReference;
     }
     
-  
+
     @Override
     public int hashCode() {
         int hash = 0;

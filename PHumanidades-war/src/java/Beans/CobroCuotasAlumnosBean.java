@@ -1202,6 +1202,108 @@ public class CobroCuotasAlumnosBean implements Serializable {
         
     }
     
+    public void generarPdfIngresosEgresosTipo() throws Exception {
+        String sMensaje = "";
+        FacesMessage fm;
+        FacesMessage.Severity severity = null;
+        Connection conect = null;
+        if (this.fechaIni == null || this.fechaFin == null) {
+            throw new Exception("Valores Nulos");
+        }
+        try {
+            
+            String cue = "";
+            InitialContext initialContext = new InitialContext();
+            DataSource dataSource = (DataSource) initialContext.lookup("jdbc/Phumanidades");
+            conect = dataSource.getConnection();
+            String path = "";
+
+            //System.out.println("cuenta" + cuentaLstBean.getCuenta() + "   " + cuentaLstBean.getCuenta().getId() );
+            // System.out.println("funcionando" + " " + this.getCobroCuotasAlumnosLstBean().getFechaIni() + "  " + this.getCobroCuotasAlumnosLstBean().getFechaFin());
+            try {
+                
+                if (this.cuentaLstBean.getCuenta() != null) {
+                    
+                    if (this.cuentaLstBean.getCuenta().getId().intValue() == 1) {
+                        cue = "025";
+                    }
+                    if (this.cuentaLstBean.getCuenta().getId().intValue() == 2) {
+                        cue = "005";
+                    }
+                } else {
+                    cue = "025-005";
+                    
+                }
+                
+                HashMap parametros = new HashMap();
+                
+                if (this.fechaFin != null && this.fechaIni != null) {
+                    Calendar c = Calendar.getInstance();
+                    this.feha_fin_real = this.fechaFin;
+                    c.setTime(this.fechaFin);
+                    c.add(Calendar.DATE, 1);  // number of days to add
+                    this.fechaFin = c.getTime();  // fechaFin is now the new date
+
+                    //List<Ingreso> findCobrosXFecha = ingresoCuotaRNLocal.findCobrosXFecha(this.fechaIni, this.fechaFin);
+                    //this.getCobroCuotasAlumnosLstBean().setLstCobroCuotas(findCobrosXFecha);
+                }
+                Locale locale = new Locale("es", "AR");
+                parametros.put(JRParameter.REPORT_LOCALE, locale);
+                if (cuentaLstBean.getCuenta() != null) {
+                    parametros.put("fechaIni", this.fechaIni);
+                    parametros.put("fechaFin", this.fechaFin);
+                    parametros.put("cuenta_id", this.cuentaLstBean.getCuenta().getId().intValue());
+                    parametros.put("escudo1", huma);
+                    parametros.put("feha_fin_real", this.feha_fin_real);
+                    parametros.put("cuenta", cue);
+                    //System.out.println( "Patron actualizado: " +  );
+                    //parametros.put("escudo1",escudo1 );
+                    // parametros.put("escudo2",escudo2 );
+                    path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "reporte" + File.separator + "reporteSumarizadoTipoCuenta.jasper";
+//funcionando    
+                } else {
+                    parametros.put("fechaIni", this.fechaIni);
+                    parametros.put("fechaFin", this.fechaFin);
+                    //parametros.put("cuenta_id", this.cuentaLstBean.getCuenta().getId().intValue());
+                    parametros.put("escudo1", huma);
+                    parametros.put("feha_fin_real", this.feha_fin_real);
+                    parametros.put("cuenta", cue);
+                    //System.out.println( "Patron actualizado: " +  );
+                    //parametros.put("escudo1",escudo1 );
+                    // parametros.put("escudo2",escudo2 );
+                    path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "reporte" + File.separator + "reporteSumarizado.jasper";
+//funcionando    
+                }
+                JasperPrint jasperPrint = JasperFillManager.fillReport(path, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
+                HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+                httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                servletOutputStream.flush();
+                servletOutputStream.close();
+                FacesContext.getCurrentInstance().responseComplete();
+                conect.close();
+                
+            } catch (Exception ex) {
+                severity = FacesMessage.SEVERITY_ERROR;
+                sMensaje = "Error al crear: " + ex.getMessage();
+                RequestContext.getCurrentInstance().update(":frmPri:growl");
+                
+            }
+            
+        } catch (NamingException ex) {
+            Logger.getLogger(CobroCuotasAlumnosBean.class.getName()).log(Level.SEVERE, null, ex);
+            
+        } finally {
+            if (conect != null) {
+                conect.close();
+            }
+        }
+        
+    }
+    
+    
+    
     public void generarExcel() throws Exception {
         String sMensaje = "";
         FacesMessage fm;

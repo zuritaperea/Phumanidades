@@ -5,8 +5,22 @@
  */
 package Controllers;
 
+import Beans.InformePagoAlumnoController;
+import Beans.LoginAlumnoBean;
+import DAO.AlumnoFacade;
+import DAO.AlumnoFacadeLocal;
+import DAO.CohorteFacade;
+import DAO.CohorteFacadeLocal;
+import Recursos.GeneradorComprobanteMP;
 import DAO.InformePagoAlumnoFacade;
+import Entidades.Carreras.Cohorte;
+import Entidades.Ingresos.EstadoComprobanteAlumno;
 import Entidades.Ingresos.InformePagoAlumno;
+import Entidades.Persona.Alumno;
+import RN.AlumnoRN;
+import RN.AlumnoRNLocal;
+import RN.CohorteRNLocal;
+import Recursos.GeneradorComprobanteMP;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.exceptions.MPApiException;
@@ -28,8 +42,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.HttpURLConnection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.bean.ManagedProperty;
+import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 
 /**
  *
@@ -41,12 +58,37 @@ public class MercadoPagoWebHook {
 
     @EJB
     private InformePagoAlumnoFacade informePagoAlumnoFacade;
+    @EJB
+    private AlumnoFacadeLocal alumnoFacadeLocal;
+    @EJB
+    private CohorteFacadeLocal cohorteFacadeLocal;
+    private Alumno alumno;
+    private Cohorte cohorte;
+
     private InformePagoAlumno informePagoAlumno;
     private String paymentId;
     private String status;
     private String externalReference;
     private String eventType;
     private String date_created;
+    private GeneradorComprobanteMP generadorComprobanteMP;
+    private ByteArrayOutputStream comprobante;
+
+    public Alumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(Alumno alumno) {
+        this.alumno = alumno;
+    }
+
+    public Cohorte getCohorte() {
+        return cohorte;
+    }
+
+    public void setCohorte(Cohorte cohorte) {
+        this.cohorte = cohorte;
+    }
 
     @POST
     public Response handleWebhook(
@@ -60,6 +102,8 @@ public class MercadoPagoWebHook {
 
         // 2. Parsear JSON
         JsonObject json = Json.createReader(new StringReader(payload)).readObject();
+        //imprimir todo aqui
+        System.out.println("Webhook recibido: " + json.toString());
         eventType = json.getString("type"); // "payment" o "merchant_order"
         paymentId = json.getJsonObject("data").getString("id");
         //status = json.getJsonObject("data").getString("status");
@@ -103,21 +147,42 @@ public class MercadoPagoWebHook {
 
         if ("approved".equals(payment.getStatus())) {
             System.out.print("ENTRO IF Approved Metodo procesarPago con externalReference =" + externalReference);
-            // Buscar por referencia externa (ej: "ALU-123-C1")
-            informePagoAlumno = informePagoAlumnoFacade.findByExternalRef(payment.getExternalReference());
-            System.out.println("InformePagoAlumno encontrado EXTERNALREFFF = " + informePagoAlumno);
-            if (payment.getTransactionDetails() != null) {
-                String comprobanteUrl = payment.getTransactionDetails().getExternalResourceUrl();
-                if (comprobanteUrl != null) {
-                    System.out.println("Link al comprobante/ticket: " + comprobanteUrl);
-                }
+            informePagoAlumno = new InformePagoAlumno();
+            try {
+                comprobante = generadorComprobanteMP.generarComprobante(payment);
+            } catch (Exception ex) {
+                System.out.println("Error Comprobante!!! cathc");
+                comprobante = null;
             }
+            //OBTENEMOS ID DE ALUMNO Y COHORTE DESDE EXTERNALREFERENCE
+            String[] ids = payment.getExternalReference().split("\\-");
+            this.alumno = alumnoFacadeLocal.find(Long.parseLong(ids[0]));
+            this.cohorte = cohorteFacadeLocal.find(Long.parseLong(ids[1]));
 
+            //Seteamos valores
+            informePagoAlumno.setAlumno(alumno);
+            informePagoAlumno.setCohorte(cohorte);
+
+            informePagoAlumno.setEstado("APROBADO"); // Agrega este campo a tu entidad
+            informePagoAlumno.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
+            informePagoAlumno.setDescripcion("Pago MercadoPago: " + payment.getDescription());
+            informePagoAlumno.setCantidadCuotas(1);
+            informePagoAlumno.setFecha(new Date());
+            informePagoAlumno.setPaymentId(paymentId);
+            informePagoAlumno.setNombreComprobantePago("MercadoPago_" + paymentId + ".pdf");
+            informePagoAlumno.setComprobantePago(comprobante.toByteArray());
+            informePagoAlumno.setExternalReference("MP");
+
+            informePagoAlumnoFacade.create(informePagoAlumno);
+            System.out.println("Pago Realizado");
+
+        }
+        if ("rejected".equals(payment.getStatus())) {
+            informePagoAlumno = informePagoAlumnoFacade.findByExternalRef(payment.getExternalReference());
             if (informePagoAlumno != null) {
-                informePagoAlumno.setEstado("APROBADO");
+                informePagoAlumno.setEstado("RECHAZADO");
                 informePagoAlumno.setPaymentId(paymentId);
-                //informePagoAlumno.setComprobantePago(downloadComprobante(paymentId));
-                //nformePagoAlumnoFacade.edit(informePagoAlumno);
+                informePagoAlumnoFacade.edit(informePagoAlumno);
             }
         }
     }

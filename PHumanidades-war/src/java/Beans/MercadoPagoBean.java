@@ -34,6 +34,7 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedProperty;
 //import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
+import javax.persistence.Column;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -49,6 +50,9 @@ public class MercadoPagoBean implements Serializable {
      */
     private String preferenceId;
     private Long cohorteId;
+    @Column(scale = 2, precision = 10)
+    private BigDecimal monto;
+    private Cohorte cohorte;
     @EJB
     private InformePagoAlumnoFacade informePagoAlumnoFacade;
 
@@ -78,21 +82,36 @@ public class MercadoPagoBean implements Serializable {
         this.cohorteId = cohorteId;
     }
 
+    public BigDecimal getMonto() {
+        return monto;
+    }
+
+    public void setMonto(BigDecimal monto) {
+        this.monto = monto;
+    }
+
+    public Cohorte getCohorte() {
+        return cohorte;
+    }
+
+    public void setCohorte(Cohorte cohorte) {
+        this.cohorte = cohorte;
+    }
+    
     public void cargarPreferencia(Cohorte cohorte, Alumno alumno) {
         //seteamos datos iniciales para el Pago del alumno previo pago desde MP
         InformePagoAlumno informePagoAlumno= new InformePagoAlumno();
         informePagoAlumno.setFecha(new Date());
-        informePagoAlumno.setExternalReference("ALU-" + alumno.getDni() + "-T" +System.currentTimeMillis());
-        //RequestContext.getCurrentInstance().execute("eliminarBotonMercadoPago();");
+        informePagoAlumno.setExternalReference(alumno.getId() + "-" +cohorte.getId());
         this.setPreferenceId(new String());
         System.out.println("Entro CargarPreferencia");
         System.out.print("Cohorte nombre = " + cohorte.getDescripcion());
         System.out.println("CohorteID= " + cohorte.getId());
         System.out.println("Token configurado: " + MercadoPagoConfig.getAccessToken());
         PreferenceBackUrlsRequest backUrls = PreferenceBackUrlsRequest.builder()
-                .success("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-                .pending("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
-                .failure("https://a099b70499a8.ngrok-free.app/PHumanidades-war/paginas/informePagoAlumno/List.xhtml")
+                .success("https://dev-huma.unca.edu.ar/paginas/informePagoAlumno/List.xhtml?faces-redirect=true&update=true")
+                .pending("https://dev-huma.unca.edu.ar/paginas/informePagoAlumno/List.xhtml?faces-redirect=true&update=true")
+                .failure("https://dev-huma.unca.edu.ar/paginas/informePagoAlumno/List.xhtml?faces-redirect=true&update=true")
                 .build();
         //configuramos ACCESS TOKEN (PRIVATE KEY)
         //MercadoPagoConfig.setAccessToken("TEST-1576757908614312-022716-3193c51969313e661e2b166e757795a9-200964240");
@@ -105,7 +124,6 @@ public class MercadoPagoBean implements Serializable {
                 .pictureUrl("http://picture.com/PS5")
                 .categoryId(cohorte.getImporteCuota().toString())
                 .quantity(1)
-                .currencyId("AR")
                 .unitPrice(cohorte.getImporteCuota())
                 .build();
         List<PreferenceItemRequest> items = new ArrayList<>();
@@ -113,7 +131,7 @@ public class MercadoPagoBean implements Serializable {
         PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                 .items(items)
                 .externalReference(informePagoAlumno.getExternalReference())
-                .notificationUrl("https://gestionhuma.com/api/webhooks/mercado-pago")
+                .notificationUrl("https://dev-huma.unca.edu.ar/api/webhooks/mercado-pago")
                 .backUrls(backUrls)
                 //.autoReturn("approved") 
                 .build();
@@ -122,16 +140,18 @@ public class MercadoPagoBean implements Serializable {
             Preference preference = client.create(preferenceRequest);
             this.setPreferenceId(preference.getId());
             this.setCohorteId(cohorte.getId());
+            this.setCohorte(cohorte);
             System.out.println("Cargo preferencia metodo cargarPreferencia;: " + this.getPreferenceId());
             System.out.println("lista de preferencias=== " + preferenceRequest.getItems());
+            System.out.println("REFERENCIA EXTERNA=== " + informePagoAlumno.getExternalReference());
              // 3. Pre-guardar el registro
-            informePagoAlumno.setEstado("PENDIENTE"); // Agrega este campo a tu entidad
-            informePagoAlumno.setAlumno(alumno);
-            informePagoAlumno.setCohorte(cohorte);
-            informePagoAlumno.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
-            informePagoAlumno.setDescripcion("Pago MercadoPago: "+cohorte.getDescripcion());
-            informePagoAlumno.setCantidadCuotas(1);
-            informePagoAlumnoFacade.create(informePagoAlumno);
+//            informePagoAlumno.setEstado("PENDIENTE"); // Agrega este campo a tu entidad
+//            informePagoAlumno.setAlumno(alumno);
+//            informePagoAlumno.setCohorte(cohorte);
+//            informePagoAlumno.setEstadoComprobanteAlumno(EstadoComprobanteAlumno.PROCESANDO);
+//            informePagoAlumno.setDescripcion("Pago MercadoPago: "+cohorte.getDescripcion());
+//            informePagoAlumno.setCantidadCuotas(1);
+//            informePagoAlumnoFacade.create(informePagoAlumno);
 
         } catch (MPException ex) {
             Logger.getLogger(MercadoPagoBean.class.getName()).log(Level.SEVERE, null, ex);

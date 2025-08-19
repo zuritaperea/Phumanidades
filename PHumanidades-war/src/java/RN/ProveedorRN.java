@@ -77,4 +77,8 @@ public class ProveedorRN implements ProveedorRNLocal {
         return proveedorFacadeLocal.buscarEgresosProveedor(proveedor);
     }
 
+    @Override
+    public Proveedor findByCbuAlias(String cbuAlias) {
+        return proveedorFacadeLocal.findByCbuAlias(cbuAlias);
+    }
 }
