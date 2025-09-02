@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="828" leftMargin="7" rightMargin="7" topMargin="7" bottomMargin="7" uuid="a7c1509d-f949-4eb2-be48-fb3c1c51872f">
+	<property name="ireport.zoom" value="1.3310000000000055"/>
+	<property name="ireport.x" value="106"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaIni" class="java.util.Date">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="fechaFin" class="java.util.Date"/>
+	<parameter name="cuenta" class="java.lang.String"/>
+	<parameter name="feha_fin_real" class="java.util.Date"/>
+	<parameter name="escudo1" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    año,
+    numero_mes,
+    mes,
+    sum(total_ingresos) AS total_ingresos,
+    sum(total_egresos) AS total_egresos
+FROM (
+    SELECT
+        extract(year from fechapago) AS año,
+        extract(month from fechapago) AS numero_mes,
+        to_char(fechapago, 'TMMonth') AS mes,
+        sum(importe) AS total_ingresos,
+        0 AS total_egresos
+    FROM ingresos
+    WHERE fechapago BETWEEN $P{fechaIni} AND $P{fechaFin}
+      AND borrado = 'false'
+      AND anulado = 'false'
+    GROUP BY año, numero_mes, mes
+
+    UNION ALL
+
+    SELECT
+        extract(year from fecharegistro) AS año,
+        extract(month from fecharegistro) AS numero_mes,
+        to_char(fecharegistro, 'TMMonth') AS mes,
+        0 AS total_ingresos,
+        sum(montocondescuentos) AS total_egresos
+    FROM egresos
+    WHERE fecharegistro BETWEEN $P{fechaIni} AND $P{fechaFin}
+      AND borrado = 'false'
+      AND anulado = 'false'
+    GROUP BY año, numero_mes, mes
+) t
+GROUP BY año, numero_mes, mes
+ORDER BY año, numero_mes;]]>
+	</queryString>
+	<field name="año" class="java.lang.Double"/>
+	<field name="numero_mes" class="java.lang.Double"/>
+	<field name="mes" class="java.lang.String"/>
+	<field name="total_ingresos" class="java.math.BigDecimal"/>
+	<field name="total_egresos" class="java.math.BigDecimal"/>
+	<variable name="saldo_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_ingresos}.subtract($F{total_egresos})]]></variableExpression>
+	</variable>
+	<filterExpression><![CDATA[]]></filterExpression>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="104" splitType="Stretch">
+			<staticText>
+				<reportElement x="171" y="83" width="219" height="20" uuid="d31506a3-0eb3-45d0-9408-32d0fc76fa91"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ingresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="83" width="233" height="20" uuid="2c7e85a7-ec4e-4062-bed9-c9fbe7d72834"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egresos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="83" width="65" height="20" uuid="e11de084-6ca3-4b1f-8e2b-7eff9957d199"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="83" width="106" height="20" uuid="f838f3b2-2909-4d47-906b-46774ffd6618"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="623" y="83" width="198" height="20" uuid="5150dba6-fd94-47ce-993b-2cbaeb574bfd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldo]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="92" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="390" y="34" width="233" height="23" uuid="6706c5dc-e3cf-41ef-a86d-87078a39d2ea"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_egresos}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="65" height="23" uuid="64cf9308-d05b-4e47-90a6-af82708e52d4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{año}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToTallestObject" x="623" y="34" width="198" height="23" uuid="aabdc302-edcd-4daf-9b99-d97a37a9e3a1"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$ "+$F{total_ingresos}.subtract($F{total_egresos})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="171" y="34" width="219" height="23" uuid="29d22ebb-6ca3-4cd7-963d-ca6087205748"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_ingresos}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy">
+				<reportElement stretchType="RelativeToTallestObject" x="65" y="34" width="106" height="23" uuid="ded13cbc-abf3-49bc-8f69-f14c9017c967"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<lastPageFooter>
+		<band height="156">
+			<staticText>
+				<reportElement x="436" y="1" width="87" height="20" uuid="51a411fd-22ae-4e65-9f19-92ea7e684212"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL2]]></text>
+			</staticText>
+		</band>
+	</lastPageFooter>
+</jasperReport>

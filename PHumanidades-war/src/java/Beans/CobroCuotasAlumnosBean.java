@@ -1171,16 +1171,28 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     //System.out.println( "Patron actualizado: " +  );
                     //parametros.put("escudo1",escudo1 );
                     // parametros.put("escudo2",escudo2 );
-                    path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "reporte" + File.separator + "reporteSumarizado.jasper";
+                    path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "reporte" + File.separator + "IngresoEgresoSaldo.jasper";
 //funcionando    
                 }
                 JasperPrint jasperPrint = JasperFillManager.fillReport(path, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null
                 HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-                httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
-                ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
-                JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-                servletOutputStream.flush();
-                servletOutputStream.close();
+                //httpServletResponse.addHeader("Content-disposition", "filename=reporte.pdf");
+                
+                //agregado para reporte a excel
+                httpServletResponse.addHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                httpServletResponse.addHeader("Content-disposition", "attachment; filename=report.xlsx");
+                ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+                net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter exporter = new net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter();
+                exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, outputStream);
+                exporter.exportReport();
+                outputStream.flush();
+                outputStream.close();
+                //fin agregado para reporte excel
+                //ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
+                //JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
+                //servletOutputStream.flush();
+                //servletOutputStream.close();
                 FacesContext.getCurrentInstance().responseComplete();
                 conect.close();
                 
@@ -1271,7 +1283,7 @@ public class CobroCuotasAlumnosBean implements Serializable {
                     //System.out.println( "Patron actualizado: " +  );
                     //parametros.put("escudo1",escudo1 );
                     // parametros.put("escudo2",escudo2 );
-                    path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "reporte" + File.separator + "reporteSumarizado.jasper";
+                    path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("") + File.separator + "reporte" + File.separator + "reporteIngresosEgresoxls.jasper";
 //funcionando    
                 }
                 JasperPrint jasperPrint = JasperFillManager.fillReport(path, parametros, conect); //new JREmptyDataSource() si le pongo eso en vez de conect me devuelve null

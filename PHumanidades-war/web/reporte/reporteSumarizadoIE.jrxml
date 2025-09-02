@@ -9,50 +9,58 @@
 	<parameter name="escudo1" class="java.lang.String"/>
 	<parameter name="cuenta" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT 
-    to_char(i.fechapago, 'TMMonth') AS mes,
-    extract(month from i.fechapago) AS numero_mes,
-    extract(year from i.fechapago) AS año,
-    SUM(i.importe) AS total_ingresos,
-    (
-        SELECT COALESCE(SUM(e.montocondescuentos), 0)
-        FROM egresos e
-        WHERE extract(year from e.fecharegistro) = extract(year from i.fechapago)
-          AND extract(month from e.fecharegistro) = extract(month from i.fechapago)
-          AND e.fecharegistro BETWEEN $P{fechaIni} AND $P{fechaFin}
-          AND e.borrado = 'false'
-          AND e.anulado = 'false'
-    ) AS total_egresos,
-    SUM(i.importe) -
-    (
-        SELECT COALESCE(SUM(e.montocondescuentos), 0)
-        FROM egresos e
-        WHERE extract(year from e.fecharegistro) = extract(year from i.fechapago)
-          AND extract(month from e.fecharegistro) = extract(month from i.fechapago)
-          AND e.fecharegistro BETWEEN $P{fechaIni} AND $P{fechaFin}
-          AND e.borrado = 'false'
-          AND e.anulado = 'false'
-    ) AS saldo
-FROM ingresos i
-WHERE i.fechapago BETWEEN $P{fechaIni} AND $P{fechaFin}
-  AND i.borrado = 'false'
-  AND i.anulado = 'false'
+		<![CDATA[SELECT
+    año,
+    numero_mes,
+    mes,
+    sum(total_ingresos) AS total_ingresos,
+    sum(total_egresos) AS total_egresos
+FROM (
+    SELECT
+        extract(year from fechapago) AS año,
+        extract(month from fechapago) AS numero_mes,
+        to_char(fechapago, 'TMMonth') AS mes,
+        sum(importe) AS total_ingresos,
+        0 AS total_egresos
+    FROM ingresos
+    WHERE fechapago BETWEEN $P{fechaIni} AND $P{fechaFin}
+      AND borrado = 'false'
+      AND anulado = 'false'
+    GROUP BY año, numero_mes, mes
+
+    UNION ALL
+
+    SELECT
+        extract(year from fecharegistro) AS año,
+        extract(month from fecharegistro) AS numero_mes,
+        to_char(fecharegistro, 'TMMonth') AS mes,
+        0 AS total_ingresos,
+        sum(montocondescuentos) AS total_egresos
+    FROM egresos
+    WHERE fecharegistro BETWEEN $P{fechaIni} AND $P{fechaFin}
+      AND borrado = 'false'
+      AND anulado = 'false'
+    GROUP BY año, numero_mes, mes
+) t
 GROUP BY año, numero_mes, mes
-ORDER BY año, numero_mes ASC;
-]]>
+ORDER BY año, numero_mes;]]>
 	</queryString>
+	<field name="año" class="java.math.BigDecimal"/>
+	<field name="numero_mes" class="java.math.BigDecimal"/>
 	<field name="mes" class="java.lang.String"/>
-	<field name="numero_mes" class="java.lang.Double"/>
-	<field name="sum" class="java.math.BigDecimal"/>
-	<field name="año" class="java.lang.Double"/>
+	<field name="total_ingresos" class="java.math.BigDecimal"/>
+	<field name="total_egresos" class="java.math.BigDecimal"/>
 	<variable name="sum_1" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
-		<variableExpression><![CDATA[$F{sum}]]></variableExpression>
+		<variableExpression><![CDATA[$F{total_ingresos}]]></variableExpression>
+	</variable>
+	<variable name="saldo_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total_ingresos}.subtract($F{total_egresos})]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="126" splitType="Stretch">
+		<band height="84" splitType="Stretch">
 			<textField pattern="dd/MM/yy">
 				<reportElement x="308" y="41" width="57" height="20" uuid="53caf3dc-0767-4106-a24c-501181ef792c"/>
 				<textElement>
@@ -116,63 +124,84 @@ ORDER BY año, numero_mes ASC;
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="23" splitType="Stretch">
+		<band height="30" splitType="Stretch">
 			<staticText>
-				<reportElement x="95" y="2" width="100" height="20" uuid="a62e40e4-99ec-47d1-9f1b-7aa35f40f696"/>
+				<reportElement x="95" y="7" width="91" height="20" uuid="a62e40e4-99ec-47d1-9f1b-7aa35f40f696"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Mes]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="2" width="68" height="20" uuid="09a29527-3165-4a89-9f11-939a46b44713"/>
+				<reportElement x="1" y="7" width="68" height="20" uuid="09a29527-3165-4a89-9f11-939a46b44713"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Año]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="227" y="1" width="103" height="20" uuid="cbc46d32-654b-49bd-b56e-37d6ee274f51"/>
+				<reportElement x="208" y="8" width="103" height="20" uuid="cbc46d32-654b-49bd-b56e-37d6ee274f51"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Importe]]></text>
+				<text><![CDATA[Ingresos]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="1" width="359" height="1" uuid="6559a4e1-7486-4bcb-8acf-21bde6357ff5"/>
+				<reportElement x="0" y="8" width="570" height="1" uuid="6559a4e1-7486-4bcb-8acf-21bde6357ff5"/>
 			</line>
 			<line>
-				<reportElement x="358" y="2" width="1" height="20" uuid="014f39f0-2e06-45e2-93ff-d5d39bd555d5"/>
+				<reportElement x="323" y="9" width="1" height="20" uuid="014f39f0-2e06-45e2-93ff-d5d39bd555d5"/>
 			</line>
 			<line>
-				<reportElement x="0" y="22" width="359" height="1" uuid="0ab19c25-880d-4d0c-8947-518fbfef6058"/>
+				<reportElement x="0" y="29" width="570" height="1" uuid="0ab19c25-880d-4d0c-8947-518fbfef6058"/>
 			</line>
 			<line>
-				<reportElement x="-1" y="1" width="1" height="22" uuid="569e30b8-05ea-4ca2-8c81-82b42a81554d"/>
+				<reportElement x="-1" y="8" width="1" height="22" uuid="569e30b8-05ea-4ca2-8c81-82b42a81554d"/>
 			</line>
 			<line>
-				<reportElement x="81" y="2" width="1" height="20" uuid="a2f2d499-9048-4462-a212-42de0db787b0"/>
+				<reportElement x="81" y="9" width="1" height="20" uuid="a2f2d499-9048-4462-a212-42de0db787b0"/>
 			</line>
 			<line>
-				<reportElement x="210" y="2" width="1" height="20" uuid="25e2d2fa-b236-44c9-aa48-94327fa7b6f4"/>
+				<reportElement x="193" y="9" width="1" height="20" uuid="25e2d2fa-b236-44c9-aa48-94327fa7b6f4"/>
 			</line>
+			<staticText>
+				<reportElement x="335" y="8" width="103" height="20" uuid="55ed85a5-cb5f-4c7f-aab8-4631f9e2fef2"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Egresos]]></text>
+			</staticText>
+			<line>
+				<reportElement x="450" y="10" width="1" height="20" uuid="a835b077-3d28-46fd-8953-c9c5a43e3948"/>
+			</line>
+			<line>
+				<reportElement x="569" y="10" width="1" height="20" uuid="0a2bc412-ed92-45af-8c4d-56696edb2fb2"/>
+			</line>
+			<staticText>
+				<reportElement x="459" y="7" width="103" height="20" uuid="d675f302-5e71-42ef-91e5-093302424983"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Saldos]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="24" splitType="Stretch">
+			<printWhenExpression><![CDATA[new Boolean($F{total_ingresos}.doubleValue() != 0.0 || $F{total_egresos}.doubleValue() != 0.0)]]></printWhenExpression>
 			<textField>
-				<reportElement x="95" y="2" width="115" height="20" uuid="bd38c8ec-27e2-4b65-8e29-d6d368737b83"/>
+				<reportElement x="83" y="2" width="103" height="20" uuid="bd38c8ec-27e2-4b65-8e29-d6d368737b83"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{mes}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="211" y="2" width="136" height="20" uuid="bde68517-8e8d-43cc-9a22-b1a27befca1b"/>
+				<reportElement x="198" y="2" width="117" height="20" uuid="bde68517-8e8d-43cc-9a22-b1a27befca1b"/>
 				<textElement textAlignment="Center">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["$ "+$F{sum}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["$ "+$F{total_ingresos}]]></textFieldExpression>
 			</textField>
 			<textField pattern="###0" isBlankWhenNull="true">
 				<reportElement x="1" y="2" width="80" height="20" uuid="18983ad3-b9e4-45b1-a6cb-7cb798041847"/>
@@ -185,30 +214,50 @@ ORDER BY año, numero_mes ASC;
 				<reportElement x="81" y="0" width="1" height="24" uuid="5cf13c50-c60f-4f88-8542-a35990702977"/>
 			</line>
 			<line>
-				<reportElement x="358" y="0" width="1" height="24" uuid="6f206961-309d-4c04-a532-ba974d126eb4"/>
+				<reportElement x="323" y="0" width="1" height="24" uuid="6f206961-309d-4c04-a532-ba974d126eb4"/>
 			</line>
 			<line>
-				<reportElement x="210" y="0" width="1" height="24" uuid="61e1817b-1c9d-4bbc-950c-cccfb46291c0"/>
+				<reportElement x="193" y="0" width="1" height="24" uuid="61e1817b-1c9d-4bbc-950c-cccfb46291c0"/>
 			</line>
 			<line>
 				<reportElement x="-1" y="0" width="1" height="24" uuid="6f3b6bad-d4ec-47c5-8388-0edb20fcf12c"/>
 			</line>
 			<line>
-				<reportElement x="-1" y="23" width="360" height="1" uuid="83127c81-1b96-4d36-b538-0f191ba77694"/>
+				<reportElement x="-1" y="23" width="571" height="1" uuid="83127c81-1b96-4d36-b538-0f191ba77694"/>
 			</line>
+			<textField>
+				<reportElement x="333" y="2" width="110" height="20" uuid="ebe4a467-7d2d-4669-ba9a-777cf80a34df"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$ "+$F{total_egresos}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="450" y="0" width="1" height="24" uuid="b2ae66aa-998f-4941-af12-405f9415d9e4"/>
+			</line>
+			<line>
+				<reportElement x="569" y="0" width="1" height="24" uuid="cccd8f3b-7e8b-45f6-abfa-a8aab2ed40e0"/>
+			</line>
+			<textField>
+				<reportElement x="457" y="2" width="103" height="19" uuid="30d114c9-8879-47a6-a7d9-2c058f92005b"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["$ "+$F{total_ingresos}.subtract($F{total_egresos})]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<summary>
-		<band height="45" splitType="Stretch">
+		<band height="44" splitType="Stretch">
 			<textField>
 				<reportElement x="195" y="7" width="170" height="36" uuid="6244bd1a-7d9f-41f5-9b47-cf1e1bd696e7"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["$ "+$V{sum_1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["$ "+$V{saldo_total}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="41" y="7" width="145" height="36" uuid="39c58131-f6c2-40cc-a2c3-aaac598003d3"/>
+				<reportElement x="56" y="7" width="131" height="36" uuid="39c58131-f6c2-40cc-a2c3-aaac598003d3"/>
 				<textElement verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
