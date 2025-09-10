@@ -84,25 +84,32 @@ ORDER BY año, numero_mes;]]>
 	<pageHeader>
 		<band height="35" splitType="Stretch">
 			<textField pattern="dd/MM/yy">
-				<reportElement x="396" y="0" width="57" height="20" uuid="0fb3cbcc-dcfa-49b0-8efe-2026d0733d44"/>
+				<reportElement x="396" y="0" width="87" height="20" uuid="0fb3cbcc-dcfa-49b0-8efe-2026d0733d44"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fechaIni}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yy">
-				<reportElement x="469" y="0" width="67" height="20" uuid="911d884d-eccb-4aa0-8ddf-cab4a472c881"/>
+				<reportElement x="511" y="0" width="96" height="20" uuid="911d884d-eccb-4aa0-8ddf-cab4a472c881"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{feha_fin_real}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="246" y="0" width="150" height="20" uuid="ad3f8c33-f574-4e1f-9d25-6277fdae00c9"/>
+				<reportElement x="331" y="0" width="65" height="20" uuid="ad3f8c33-f574-4e1f-9d25-6277fdae00c9"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Período:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="0" width="15" height="20" uuid="157a2d9a-3db2-40c0-b6d9-a0a92615e0d9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[al]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

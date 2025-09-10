@@ -42,7 +42,6 @@ public class Proveedor implements Serializable {
 
     private String cuit;
     private String razonSocial;
-    @Column(unique = true)
     private String cbuAlias;
 
     @OneToOne(cascade = CascadeType.ALL)
